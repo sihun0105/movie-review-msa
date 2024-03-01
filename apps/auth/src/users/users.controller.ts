@@ -1,15 +1,16 @@
-import { Controller } from '@nestjs/common';
-import { UsersService } from './users.service';
 import {
-  UserServiceController,
+  AccessToken,
   CreateUserDto,
-  UpdateUserDto,
-  UserServiceControllerMethods,
   FindOneUserDto,
-  PaginationDto,
-  Users,
+  LoginUserDto,
+  RefreshTokenDto,
+  User,
+  UserServiceController,
+  UserServiceControllerMethods,
 } from '@app/common';
+import { Controller } from '@nestjs/common';
 import { Observable } from 'rxjs';
+import { UsersService } from './users.service';
 
 @Controller()
 @UserServiceControllerMethods()
@@ -28,15 +29,17 @@ export class UsersController implements UserServiceController {
     return this.usersService.findOne(findOneUserDto.id);
   }
 
-  updateUser(updateUserDto: UpdateUserDto) {
-    return this.usersService.update(updateUserDto.id, updateUserDto);
-  }
-
   removeUser(findOneUserDto: FindOneUserDto) {
     return this.usersService.remove(findOneUserDto.id);
   }
 
-  queryUser(request: Observable<PaginationDto>): Observable<Users> {
-    return this.usersService.queryUsers(request);
+  loginUser(request: LoginUserDto): User | Promise<User> | Observable<User> {
+    return this.usersService.login(request);
+  }
+
+  refreshToken(
+    request: RefreshTokenDto,
+  ): AccessToken | Promise<AccessToken> | Observable<AccessToken> {
+    return this.usersService.refreshToken(request);
   }
 }

@@ -1,36 +1,21 @@
-import {
-  User,
-  UpdateUserDto,
-  CreateUserDto,
-  Users,
-  PaginationDto,
-} from '@app/common';
-import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
+import { AccessToken, CreateUserDto, User, Users } from '@app/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { randomUUID } from 'crypto';
-import { Observable, Subject } from 'rxjs';
 
 @Injectable()
-export class UsersService implements OnModuleInit {
+export class UsersService {
   private readonly users: User[] = [];
 
-  onModuleInit() {
-    for (let i = 0; i < 100; i++) {
-      this.create({
-        username: randomUUID(),
-        password: randomUUID(),
-        age: Math.floor(Math.random() * 100),
-      });
-    }
-  }
   create(createUserDto: CreateUserDto): User {
-    const user: User = {
-      ...createUserDto,
-      subscribed: false,
-      email: 'tlgns14@nate.com',
+    return {
+      createdAt: new Date().toISOString(),
+      deletedAt: '',
+      email: createUserDto.email,
       id: randomUUID(),
+      nickname: createUserDto.nickname,
+      password: createUserDto.password,
+      updatedAt: new Date().toISOString(),
     };
-    this.users.push(user);
-    return user;
   }
 
   findAll(): Users {
@@ -41,14 +26,12 @@ export class UsersService implements OnModuleInit {
     return this.users.find((users) => users.id === id);
   }
 
-  update(id: string, updateUserDto: UpdateUserDto): User {
-    const userIndex = this.users.findIndex((users) => users.id === id);
-    if (userIndex !== -1) {
-      this.users[userIndex] = {
-        ...this.users[userIndex],
-        ...updateUserDto,
-      };
-      return this.users[userIndex];
+  login({ email, password }: { email: string; password: string }): User {
+    const user = this.users.find(
+      (users) => users.email === email && users.password === password,
+    );
+    if (user) {
+      return user;
     }
     throw new NotFoundException('User not found');
   }
@@ -61,21 +44,7 @@ export class UsersService implements OnModuleInit {
     throw new NotFoundException(`User not found ${id} `);
   }
 
-  queryUsers(
-    PaginationDtoStream: Observable<PaginationDto>,
-  ): Observable<Users> {
-    const subject = new Subject<Users>();
-    const onNext = (paginationDto: PaginationDto) => {
-      const start = paginationDto.page * paginationDto.skip;
-      subject.next({
-        users: this.users.slice(start, start + paginationDto.skip),
-      });
-    };
-    const complete = () => subject.complete();
-    PaginationDtoStream.subscribe({
-      next: onNext,
-      complete,
-    });
-    return subject.asObservable();
+  refreshToken({ refreshToken }: { refreshToken: string }): AccessToken {
+    if (refreshToken) return { accessToken: randomUUID() };
   }
 }
