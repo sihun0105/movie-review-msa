@@ -1,0 +1,51 @@
+version: '3.7'
+
+services:
+  database-service:
+    image: db-service
+    build:
+      context: ./apps/database
+      dockerfile: dockerfile
+    container_name: db-service
+    env_file:
+      - .env.production
+    networks:
+      - app-network
+    restart: 'no'
+
+  api-gateway:
+    image: api-gateway
+    build:
+      context: ./apps/api-gateway
+      dockerfile: dockerfile
+    container_name: api-gateway
+    ports:
+      - '3000:3000'
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - .env.production
+    networks:
+      - app-network
+    depends_on:
+      - database-service
+      - auth-service
+    restart: 'no'
+
+  auth-service:
+    image: auth-service
+    build:
+      context: ./apps/auth
+      dockerfile: dockerfile
+    container_name: auth-service
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - .env.production
+    networks:
+      - app-network
+    restart: 'no'
+
+networks:
+  app-network:
+    driver: bridge
