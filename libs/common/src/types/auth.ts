@@ -4,8 +4,30 @@ import { Observable } from 'rxjs';
 
 export const protobufPackage = 'auth';
 
-export interface UpdateUserDto {
+export interface Empty {}
+
+export interface User {
   id: string;
+  email: string;
+  nickname: string;
+  password: string;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string;
+}
+
+export interface AccessToken {
+  accessToken: string;
+}
+
+export interface Users {
+  users: User[];
+}
+
+export interface CreateUserDto {
+  email: string;
+  password: string;
+  nickname: string;
 }
 
 export interface RemoveUserDto {
@@ -16,29 +38,13 @@ export interface FindOneUserDto {
   id: string;
 }
 
-export interface Empty {}
-
-export interface Users {
-  users: User[];
-}
-
-export interface CreateUserDto {
-  username: string;
-  password: string;
-  age: number;
-}
-
-export interface User {
-  id: string;
+export interface LoginUserDto {
   email: string;
   password: string;
-  age: number;
-  subscribed: boolean;
 }
 
-export interface PaginationDto {
-  page: number;
-  skip: number;
+export interface RefreshTokenDto {
+  refreshToken: string;
 }
 
 export const AUTH_PACKAGE_NAME = 'auth';
@@ -50,11 +56,11 @@ export interface UserServiceClient {
 
   findOneUser(request: FindOneUserDto): Observable<User>;
 
-  updateUser(request: UpdateUserDto): Observable<User>;
-
   removeUser(request: RemoveUserDto): Observable<Empty>;
 
-  queryUser(request: Observable<PaginationDto>): Observable<Users>;
+  loginUser(request: LoginUserDto): Observable<User>;
+
+  refreshToken(request: RefreshTokenDto): Observable<AccessToken>;
 }
 
 export interface UserServiceController {
@@ -64,13 +70,15 @@ export interface UserServiceController {
 
   findOneUser(request: FindOneUserDto): Promise<User> | Observable<User> | User;
 
-  updateUser(request: UpdateUserDto): Promise<User> | Observable<User> | User;
-
   removeUser(
     request: RemoveUserDto,
   ): Promise<Empty> | Observable<Empty> | Empty;
 
-  queryUser(request: Observable<PaginationDto>): Observable<Users>;
+  loginUser(request: LoginUserDto): Promise<User> | Observable<User> | User;
+
+  refreshToken(
+    request: RefreshTokenDto,
+  ): Promise<AccessToken> | Observable<AccessToken> | AccessToken;
 }
 
 export function UserServiceControllerMethods() {
@@ -79,8 +87,9 @@ export function UserServiceControllerMethods() {
       'createUser',
       'findAllUsers',
       'findOneUser',
-      'updateUser',
       'removeUser',
+      'loginUser',
+      'refreshToken',
     ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(
@@ -93,7 +102,7 @@ export function UserServiceControllerMethods() {
         descriptor,
       );
     }
-    const grpcStreamMethods: string[] = ['queryUser'];
+    const grpcStreamMethods: string[] = [];
     for (const method of grpcStreamMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(
         constructor.prototype,

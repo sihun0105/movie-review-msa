@@ -6,13 +6,31 @@ service UserService {
     rpc CreateUser(CreateUserDto) returns (User) {}
     rpc FindAllUsers(Empty) returns (Users) {}
     rpc FindOneUser (FindOneUserDto) returns (User) {}
-    rpc UpdateUser (UpdateUserDto) returns (User) {}
     rpc RemoveUser (RemoveUserDto) returns (Empty) {}
-    rpc QueryUser (stream PaginationDto) returns (stream Users) {}
+    rpc LoginUser (LoginUserDto) returns (User) {}
+    rpc RefreshToken (RefreshTokenDto) returns (AccessToken) {}
 }
 
-message UpdateUserDto {
+message Empty {}
+
+message User {
     string id =1;
+    string email =2;
+    string nickname = 3;
+    string createdAt = 5;
+    string updatedAt = 6;
+    string deletedAt = 7;
+}
+message AccessToken {
+    string accessToken =1;
+}
+message Users {
+    repeated User users = 1;
+}
+message CreateUserDto {
+    string email =1;
+    string password = 2;
+    string nickname = 3;
 }
 message RemoveUserDto {
     string id =1;
@@ -20,26 +38,11 @@ message RemoveUserDto {
 message FindOneUserDto {
     string id =1;
 }
-message Empty {}
 
-message Users {
-    repeated User users = 1;
-}
-message CreateUserDto {
-    string username =1;
+message LoginUserDto {
+    string email =1;
     string password = 2;
-    int32 age = 3;
 }
-message User {
-    string id =1;
-    string email =2;
-    string password = 3;
-    int32 age = 4;
-    bool subscribed = 5;
+message RefreshTokenDto {
+    string refreshToken =1;
 }
-message PaginationDto {
-    int32 page = 1;
-    int32 skip = 2;
-}
-
-//protoc --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=. --ts_proto_opt=nestJs=true ./proto/auth.proto
