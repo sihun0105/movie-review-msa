@@ -1,9 +1,11 @@
 import { AccessToken, CreateUserDto, User, Users } from '@app/common';
+import { PrismaService } from '@app/prisma';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 
 @Injectable()
 export class UsersService {
+  constructor(private readonly prismaService: PrismaService) {}
   private readonly users: User[] = [];
 
   create(createUserDto: CreateUserDto): User {
@@ -18,7 +20,7 @@ export class UsersService {
     };
   }
 
-  findAll(): Users {
+  async findAll(): Promise<Users> {
     return { users: this.users };
   }
 
