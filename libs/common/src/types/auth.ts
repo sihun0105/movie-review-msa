@@ -1,19 +1,19 @@
 /* eslint-disable */
 import { GrpcMethod, GrpcStreamMethod } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
+import { Timestamp } from '../../../../google/protobuf/timestamp';
 
 export const protobufPackage = 'auth';
 
 export interface Empty {}
 
 export interface User {
-  id: string;
+  id: number;
   email: string;
   nickname: string;
-  password: string;
-  createdAt: string;
-  updatedAt: string;
-  deletedAt: string;
+  createdAt: Timestamp | undefined;
+  updatedAt: Timestamp | undefined;
+  deletedAt: Timestamp | undefined;
 }
 
 export interface AccessToken {
@@ -31,11 +31,11 @@ export interface CreateUserDto {
 }
 
 export interface RemoveUserDto {
-  id: string;
+  id: number;
 }
 
 export interface FindOneUserDto {
-  id: string;
+  id: number;
 }
 
 export interface LoginUserDto {
