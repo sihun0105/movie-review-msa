@@ -1,10 +1,4 @@
-import {
-  AccessToken,
-  CreateUserDto,
-  LoginUserDto,
-  User,
-  Users,
-} from '@app/common';
+import { AccessToken, CreateUserDto, User, Users } from '@app/common';
 import { PrismaService } from '@app/prisma';
 import { UtilsService } from '@app/utils';
 import {
@@ -12,19 +6,21 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { createHash, randomUUID } from 'crypto';
-
+import { JwtService } from '@nestjs/jwt';
+import { compare, hash } from 'bcryptjs';
+import { randomUUID } from 'crypto';
 @Injectable()
 export class UsersService {
   constructor(
     private readonly prismaService: PrismaService,
     private readonly utilsService: UtilsService,
+    private jwtService: JwtService,
   ) {}
   private readonly users: User[] = [];
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     const { email, password, nickname } = createUserDto;
-    const hashedPassword = createHash('sha256').update(password).digest('hex');
+    const hashedPassword = await hash(password, 10);
 
     const existedNickname = await this.prismaService.user.findFirst({
       where: { nickname },
@@ -64,13 +60,49 @@ export class UsersService {
   findOne(id: number): User {
     return this.users.find((users) => users.id === id);
   }
-
-  login(data: LoginUserDto): User {
-    const user = this.users.find((users) => users.email === data.email);
-    if (user) {
-      return user;
+  async validateUser(email: string, password: string) {
+    if (!email || !password)
+      throw new BadRequestException('email , password에 문제가 있습니다.');
+    const user = await this.prismaService.user.findUnique({ where: { email } });
+    if (!user) {
+      return null;
     }
-    throw new NotFoundException('User not found');
+
+    const isMatch = await compare(password, user.password);
+    if (isMatch) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { password, ...result } = user;
+      const createdAt = this.utilsService.dateToTimestamp(
+        user.createdAt as Date,
+      );
+      const updatedAt = this.utilsService.dateToTimestamp(
+        user.updatedAt as Date,
+      );
+      const deletedAt = user.deletedAt
+        ? this.utilsService.dateToTimestamp(user.deletedAt as Date)
+        : undefined;
+      return {
+        ...result,
+        createdAt,
+        updatedAt,
+        deletedAt,
+      };
+    }
+    return null;
+  }
+  async login(user: Omit<User, 'password'>) {
+    const payload = { username: user.email, userid: user.id };
+    const acc = this.jwtService.sign(payload, {
+      secret: process.env.JWT_ACCESS_SECRET,
+      expiresIn: process.env.ACCESS_TOKEN_EXPIRE_TIME,
+    });
+    const refreshPayload = { payload, acc };
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const ref = this.jwtService.sign(refreshPayload, {
+      secret: process.env.JWT_REFRESH_SECRET,
+      expiresIn: process.env.REFRESH_TOKEN_EXPIRE_TIME,
+    });
+    return user;
   }
 
   remove(id: number) {

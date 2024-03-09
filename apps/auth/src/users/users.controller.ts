@@ -8,7 +8,7 @@ import {
   UserServiceController,
   UserServiceControllerMethods,
 } from '@app/common';
-import { Controller } from '@nestjs/common';
+import { Controller, HttpException } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { UsersService } from './users.service';
 
@@ -33,8 +33,15 @@ export class UsersController implements UserServiceController {
     return this.usersService.remove(findOneUserDto.id);
   }
 
-  loginUser(request: LoginUserDto): User | Promise<User> | Observable<User> {
-    return this.usersService.login(request);
+  async loginUser(request: LoginUserDto): Promise<User> {
+    const user = await this.usersService.validateUser(
+      request.email,
+      request.password,
+    );
+    if (!user) {
+      throw new HttpException('아이디와 비밀번호를 확인해주세요.', 500);
+    }
+    return this.usersService.login(user);
   }
 
   refreshToken(

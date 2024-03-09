@@ -33,4 +33,7 @@ export class UsersService implements OnModuleInit {
   remove(id: number) {
     return this.userService.removeUser({ id });
   }
+  login(email: string, password: string) {
+    return this.userService.loginUser({ email, password });
+  }
 }

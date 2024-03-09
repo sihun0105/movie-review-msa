@@ -16,6 +16,11 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
+  @Post('login')
+  login(@Body() loginDto: { email: string; password: string }) {
+    return this.usersService.login(loginDto.email, loginDto.password);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: number) {
     return this.usersService.findOne(id);
