@@ -41,7 +41,8 @@ export class UsersController implements UserServiceController {
     if (!user) {
       throw new HttpException('아이디와 비밀번호를 확인해주세요.', 500);
     }
-    return this.usersService.login(user);
+    const result = this.usersService.login(user);
+    return result;
   }
 
   refreshToken(

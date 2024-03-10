@@ -72,20 +72,12 @@ export class UsersService {
     if (isMatch) {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...result } = user;
-      const createdAt = this.utilsService.dateToTimestamp(
-        user.createdAt as Date,
-      );
-      const updatedAt = this.utilsService.dateToTimestamp(
-        user.updatedAt as Date,
-      );
-      const deletedAt = user.deletedAt
-        ? this.utilsService.dateToTimestamp(user.deletedAt as Date)
-        : undefined;
+
       return {
         ...result,
-        createdAt,
-        updatedAt,
-        deletedAt,
+        createdAt: result.createdAt.toISOString(),
+        updatedAt: result.updatedAt.toISOString(),
+        deletedAt: result.deletedAt ? result.deletedAt.toISOString() : null,
       };
     }
     return null;
