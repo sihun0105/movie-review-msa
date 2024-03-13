@@ -25,6 +25,12 @@ export class UsersService {
     const existedNickname = await this.prismaService.user.findFirst({
       where: { nickname },
     });
+    const existedEmail = await this.prismaService.user.findFirst({
+      where: { email },
+    });
+    if (existedEmail) {
+      throw new BadRequestException('이미 존재하는 이메일입니다.');
+    }
     if (existedNickname) {
       throw new BadRequestException('이미 존재하는 닉네임입니다.');
     }
