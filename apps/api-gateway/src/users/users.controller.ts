@@ -1,8 +1,9 @@
 import { CreateUserDto } from '@app/common';
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
-import { UsersService } from './users.service';
+import { catchError, firstValueFrom, throwError } from 'rxjs';
 import { convertToUserEntity } from './users.entity';
-import { catchError, firstValueFrom } from 'rxjs';
+import { UsersService } from './users.service';
+import { RpcException } from '@nestjs/microservices';
 
 @Controller('auth')
 export class UsersController {
@@ -10,7 +11,19 @@ export class UsersController {
 
   @Post('join')
   create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+    const data = this.usersService.create(createUserDto).pipe(
+      catchError((error) =>
+        throwError(
+          () =>
+            new RpcException({
+              code: error.code,
+              message: error.details,
+            }),
+        ),
+      ),
+    );
+
+    return data;
   }
 
   @Get()

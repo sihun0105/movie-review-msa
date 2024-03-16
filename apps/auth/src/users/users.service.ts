@@ -1,4 +1,5 @@
 import { AccessToken, CreateUserDto, User, Users } from '@app/common';
+import { AlreadyExistsException } from '@app/common/grpcException/grpc-exception';
 import { PrismaService } from '@app/prisma';
 import { UtilsService } from '@app/utils';
 import {
@@ -29,10 +30,10 @@ export class UsersService {
       where: { email },
     });
     if (existedEmail) {
-      throw new BadRequestException('이미 존재하는 이메일입니다.');
+      throw new AlreadyExistsException('이미 존재하는 이메일입니다.');
     }
     if (existedNickname) {
-      throw new BadRequestException('이미 존재하는 닉네임입니다.');
+      throw new AlreadyExistsException('이미 존재하는 닉네임입니다.');
     }
     const user = await this.prismaService.user.create({
       data: {
