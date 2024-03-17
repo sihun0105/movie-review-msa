@@ -1,15 +1,14 @@
-import { Module } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { UsersController } from './users.controller';
-import { ClientsModule, Transport } from '@nestjs/microservices';
-import { AUTH_SERVICE } from './constansts';
 import { AUTH_PACKAGE_NAME } from '@app/common';
+import { Module } from '@nestjs/common';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 import { join } from 'path';
+import { AuthService } from './auth.service';
+import { AuthController } from './auth.controller';
 @Module({
   imports: [
     ClientsModule.register([
       {
-        name: AUTH_SERVICE,
+        name: AUTH_PACKAGE_NAME,
         transport: Transport.GRPC,
         options: {
           protoPath: join(__dirname, '../../../../proto/auth.proto'),
@@ -18,7 +17,7 @@ import { join } from 'path';
       },
     ]),
   ],
-  controllers: [UsersController],
-  providers: [UsersService],
+  controllers: [AuthController],
+  providers: [AuthService],
 })
-export class UsersModule {}
+export class AuthModule {}

@@ -1,49 +1,26 @@
-
 syntax = "proto3";
+
+import "user.proto";
 
 package auth;
 
-service UserService {
-    rpc CreateUser(CreateUserDto) returns (User) {}
-    rpc FindAllUsers(Empty) returns (Users) {}
-    rpc FindOneUser (FindOneUserDto) returns (User) {}
-    rpc RemoveUser (RemoveUserDto) returns (Empty) {}
-    rpc LoginUser (LoginUserDto) returns (User) {}
-    rpc RefreshToken (RefreshTokenDto) returns (AccessToken) {}
+option go_package = "auth";
+
+service AuthService {
+    rpc LoginUser (LoginUserDto) returns (user.User) {}
+    rpc RefreshToken (RefreshTokenDto) returns (AuthorizationDto) {}
 }
 
-message Empty {}
-
-message User {
-    int32 id =1;
-    string email =2;
-    string nickname = 3;
-    string createdAt = 4;
-    string updatedAt = 5;
-    string deletedAt = 6;
-}
-message AccessToken {
-    string accessToken =1;
-}
-message Users {
-    repeated User users = 1;
-}
-message CreateUserDto {
-    string email =1;
-    string password = 2;
-    string nickname = 3;
-}
-message RemoveUserDto {
-    int32 id =1;
-}
-message FindOneUserDto {
-    int32 id =1;
+message AuthorizationDto {
+    string accessToken = 1;
+    string refreshToken = 2;
 }
 
 message LoginUserDto {
-    string email =1;
+    string email = 1;
     string password = 2;
 }
+
 message RefreshTokenDto {
-    string refreshToken =1;
+    string refreshToken = 1;
 }

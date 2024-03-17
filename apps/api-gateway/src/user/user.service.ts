@@ -1,17 +1,17 @@
 import {
   CreateUserDto,
+  USER_PACKAGE_NAME,
   USER_SERVICE_NAME,
   UserServiceClient,
 } from '@app/common';
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
-import { AUTH_SERVICE } from './constansts';
 
 @Injectable()
-export class UsersService implements OnModuleInit {
+export class UserService implements OnModuleInit {
   private userService: UserServiceClient;
   constructor(
-    @Inject(AUTH_SERVICE)
+    @Inject(USER_PACKAGE_NAME)
     private client: ClientGrpc,
   ) {}
   onModuleInit() {
@@ -32,8 +32,5 @@ export class UsersService implements OnModuleInit {
 
   remove(id: number) {
     return this.userService.removeUser({ id });
-  }
-  login(email: string, password: string) {
-    return this.userService.loginUser({ email, password });
   }
 }
