@@ -10,7 +10,6 @@ export class AuthController {
 
   @Post('login')
   async login(@Body() loginDto: { email: string; password: string }) {
-    console.log(loginDto);
     try {
       const data = this.authService.login({ ...loginDto }).pipe(
         catchError((error) =>
