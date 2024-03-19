@@ -11,6 +11,7 @@ async function bootstrap() {
       options: {
         protoPath: join(__dirname, '../user.proto'),
         package: USER_PACKAGE_NAME,
+        url: 'localhost:50052',
       },
     },
   );

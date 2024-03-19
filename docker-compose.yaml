@@ -1,23 +1,29 @@
 version: '3.7'
 
 services:
-  database-service:
-    image: db-service
+  mysql:
     build:
-      context: ./apps/database
-      dockerfile: dockerfile
-    container_name: db-service
-    env_file:
-      - .env.production
+      context: ./mysql
+      dockerfile: Dockerfile
+      args:
+        - APP=mysql
+    container_name: mysql
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
     networks:
       - app-network
     restart: 'no'
 
   api-gateway:
-    image: api-gateway
     build:
-      context: ./apps/api-gateway
-      dockerfile: dockerfile
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - APP=api-gateway
     container_name: api-gateway
     ports:
       - '3000:3000'
@@ -27,25 +33,63 @@ services:
       - .env.production
     networks:
       - app-network
-    depends_on:
-      - database-service
-      - auth-service
     restart: 'no'
+    depends_on:
+      - mysql
 
   auth-service:
-    image: auth-service
     build:
-      context: ./apps/auth
-      dockerfile: dockerfile
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - APP=auth
     container_name: auth-service
+    ports:
+      - '5001:5000'
     environment:
       - NODE_ENV=production
     env_file:
       - .env.production
     networks:
       - app-network
+    depends_on:
+      - mysql
+      - api-gateway
     restart: 'no'
-
+    command:
+      - bash
+      - -c
+      - |
+        ./wait-for-it.sh mysql:3306 -s -t 100
+        node dist/apps/auth/src/main.js
+  user-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - APP=user
+    container_name: user-service
+    ports:
+      - '5002:5000'
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - .env.production
+    networks:
+      - app-network
+    depends_on:
+      - mysql
+      - api-gateway
+    restart: 'no'
+    command:
+      - bash
+      - -c
+      - |
+        ./wait-for-it.sh mysql:3306 -s -t 100
+        node dist/apps/user/src/main.js
 networks:
   app-network:
     driver: bridge
+
+volumes:
+  mysql-data:

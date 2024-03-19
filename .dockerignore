@@ -1,0 +1,21 @@
+# Ignore node_modules directory
+node_modules
+
+# Ignore build output
+dist
+
+# Ignore development files
+*.ts
+*.spec.ts
+*.test.ts
+
+# Ignore editor and IDE files
+.vscode
+.idea
+*.sublime-project
+*.sublime-workspace
+
+# Ignore logs and temporary files
+logs
+*.log
+*.swp
