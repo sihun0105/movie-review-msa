@@ -17,7 +17,6 @@ export class AuthController implements AuthServiceController {
   constructor(private readonly usersService: AuthService) {}
 
   async loginUser(request: LoginUserDto): Promise<User> {
-    console.log(request);
     const user = await this.usersService.validateUser(
       request.email,
       request.password,

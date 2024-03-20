@@ -15,7 +15,6 @@ export class UserService {
   async create(createUserDto: CreateUserDto): Promise<User> {
     const { email, password, nickname } = createUserDto;
     const hashedPassword = await hash(password, 10);
-
     const existedNickname = await this.prismaService.user.findFirst({
       where: { nickname },
     });

@@ -1,28 +1,25 @@
 import { CreateUserDto } from '@app/common';
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
-import { catchError, throwError } from 'rxjs';
 import { UserService } from './user.service';
+import { firstValueFrom } from 'rxjs';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Post('create')
-  create(@Body() createUserDto: CreateUserDto) {
-    const data = this.userService.create(createUserDto).pipe(
-      catchError((error) =>
-        throwError(
-          () =>
-            new RpcException({
-              code: error.code,
-              message: error.details,
-            }),
-        ),
-      ),
-    );
-
-    return data;
+  async create(@Body() createUserDto: CreateUserDto) {
+    try {
+      const createUserObservable = this.userService.create(createUserDto);
+      const data = await firstValueFrom(createUserObservable);
+      return data;
+    } catch (error) {
+      throw new RpcException({
+        code: error.code,
+        message: error.details,
+      });
+    }
   }
 
   @Get()
