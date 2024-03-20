@@ -13,7 +13,7 @@ import { AuthController } from './auth.controller';
         options: {
           protoPath: join(__dirname, '../../../../proto/auth.proto'),
           package: AUTH_PACKAGE_NAME,
-          url: '0.0.0.0:50051',
+          url: `0.0.0.0:${process.env.AUTH_SERVER_PORT}`,
         },
       },
     ]),

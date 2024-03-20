@@ -11,10 +11,11 @@ async function bootstrap() {
       options: {
         protoPath: join(__dirname, '../user.proto'),
         package: USER_PACKAGE_NAME,
-        url: 'localhost:50052',
+        url: `0.0.0.0:${process.env.USER_SERVER_PORT}`,
       },
     },
   );
   await app.listen();
+  console.log(`is running on:0.0.0.0:${process.env.USER_SERVER_PORT}`);
 }
 bootstrap();

@@ -22,8 +22,6 @@ export class AuthController {
           ),
         ),
       );
-
-      return data;
       const user = convertToUserEntity(data);
       return user;
     } catch (error) {
