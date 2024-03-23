@@ -26,7 +26,7 @@ services:
         - APP=api-gateway
     container_name: api-gateway
     ports:
-      - ${API_GATEWAY_PORT}:${API_GATEWAY_PORT}
+      - 3000:3000
     environment:
       - NODE_ENV=production
     env_file:
@@ -45,7 +45,7 @@ services:
         - APP=auth
     container_name: auth-service
     ports:
-      - ${AUTH_SERVER_PORT}:${AUTH_SERVER_PORT}
+      - 50051:50051
     environment:
       - NODE_ENV=production
     env_file:
@@ -71,7 +71,7 @@ services:
         - APP=user
     container_name: user-service
     ports:
-      - ${USER_SERVER_PORT}:${USER_SERVER_PORT}
+      - 50052:50052
     environment:
       - NODE_ENV=production
     env_file:

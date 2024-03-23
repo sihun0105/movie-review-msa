@@ -11,12 +11,12 @@ async function bootstrap() {
       options: {
         protoPath: join(__dirname, '../auth.proto'),
         package: AUTH_PACKAGE_NAME,
-        url: `0.0.0.0:${process.env.AUTH_SERVER_PORT}`,
+        url: `0.0.0.0:50051`,
       },
     },
   );
   await app.listen();
-  console.log(`is running on:0.0.0.0:${process.env.AUTH_SERVER_PORT}`);
+  console.log(`is running on:0.0.0.0:50051`);
 }
 
 bootstrap();
