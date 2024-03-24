@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package reply;
+
+option go_package = "reply";
+
+service ReplyService {
+    rpc GetReply (GetReplyDto) returns (Replys) {}
+    rpc CreateReply (CreateReplyDto) returns (Empty) {}
+    rpc UpdateReply (UpdateReplyDto) returns (Empty) {}
+    rpc DeleteReply (DeleteReplyDto) returns (Empty) {}
+}
+message Empty {}
+
+message Reply {
+    int32 replyId = 1;
+    int32 userId = 2;
+    string nickname = 3;
+    string email = 4;
+    string comment = 5;
+    string createdAt = 6;
+    string updatedAt = 7;
+}
+
+message Replys {
+    repeated Reply replys = 1;
+}
+
+message GetReplyDto {
+  int32 userId = 1;
+  int32 movieId = 2;
+}
+
+message CreateReplyDto {
+  int32 userId = 1;
+  int32 movieId = 2;
+  string comment = 3;
+}
+
+message UpdateReplyDto {
+  int32 userId = 1;
+  int32 commentId = 2;
+  string comment = 3;
+}
+
+message DeleteReplyDto {
+    int32 userId = 1;
+    int32 commentId = 2;
+}
