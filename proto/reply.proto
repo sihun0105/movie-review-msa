@@ -1,16 +1,17 @@
 syntax = "proto3";
 
+import "user.proto";
+
 package reply;
 
 option go_package = "reply";
 
 service ReplyService {
     rpc GetReply (GetReplyDto) returns (Replys) {}
-    rpc CreateReply (CreateReplyDto) returns (Empty) {}
-    rpc UpdateReply (UpdateReplyDto) returns (Empty) {}
-    rpc DeleteReply (DeleteReplyDto) returns (Empty) {}
+    rpc CreateReply (CreateReplyDto) returns (user.Empty) {}
+    rpc UpdateReply (UpdateReplyDto) returns (user.Empty) {}
+    rpc DeleteReply (DeleteReplyDto) returns (user.Empty) {}
 }
-message Empty {}
 
 message Reply {
     int32 replyId = 1;
