@@ -3,7 +3,6 @@ import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { join } from 'path';
 import { REPLY_PACKAGE_NAME } from '@app/common';
 import { ReplyModule } from './reply.module';
-//TODO: reply proto 만들기
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
     ReplyModule,
