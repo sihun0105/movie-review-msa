@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+import "user.proto";
+
+package movie;
+
+option go_package = "movie";
+
+service MovieService {
+  rpc FetchMovies(FetchMoviesRequest) returns (user.Empty) {}
+}
+
+message FetchMoviesRequest {
+  string fetchDate = 1;
+}
+
