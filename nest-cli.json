@@ -18,9 +18,7 @@
       "sourceRoot": "./",
       "compilerOptions": {
         "tsConfigPath": "apps/api-gateway/tsconfig.app.json",
-        "assets": [
-          "proto/*.proto"
-        ],
+        "assets": ["proto/*.proto"],
         "watchAssets": true
       }
     },
@@ -31,9 +29,7 @@
       "sourceRoot": "./",
       "compilerOptions": {
         "tsConfigPath": "apps/auth/tsconfig.app.json",
-        "assets": [
-          "proto/*.proto"
-        ],
+        "assets": ["proto/*.proto"],
         "watchAssets": true
       }
     },
@@ -44,9 +40,7 @@
       "sourceRoot": "./",
       "compilerOptions": {
         "tsConfigPath": "apps/user/tsconfig.app.json",
-        "assets": [
-          "proto/*.proto"
-        ],
+        "assets": ["proto/*.proto"],
         "watchAssets": true
       }
     },
@@ -84,28 +78,30 @@
       "sourceRoot": "./",
       "compilerOptions": {
         "tsConfigPath": "apps/reply/tsconfig.app.json",
-        "assets": [
-          "proto/*.proto"
-        ],
+        "assets": ["proto/*.proto"],
         "watchAssets": true
       }
     },
     "cron": {
       "type": "application",
       "root": "apps/cron",
-      "entryFile": "main",
-      "sourceRoot": "apps/cron/src",
+      "entryFile": "src/main",
+      "sourceRoot": "./",
       "compilerOptions": {
-        "tsConfigPath": "apps/cron/tsconfig.app.json"
+        "tsConfigPath": "apps/cron/tsconfig.app.json",
+        "assets": ["proto/*.proto"],
+        "watchAssets": true
       }
     },
     "movie": {
       "type": "application",
       "root": "apps/movie",
-      "entryFile": "main",
-      "sourceRoot": "apps/movie/src",
+      "entryFile": "src/main",
+      "sourceRoot": "./",
       "compilerOptions": {
-        "tsConfigPath": "apps/movie/tsconfig.app.json"
+        "tsConfigPath": "apps/movie/tsconfig.app.json",
+        "assets": ["proto/*.proto"],
+        "watchAssets": true
       }
     }
   }

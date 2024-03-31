@@ -1,12 +1,12 @@
-import { Controller, Get } from '@nestjs/common';
+import { FetchMoviesRequest, MovieServiceController } from '@app/common';
+import { Controller } from '@nestjs/common';
 import { MovieService } from './movie.service';
 
 @Controller()
-export class MovieController {
+export class MovieController implements MovieServiceController {
   constructor(private readonly movieService: MovieService) {}
 
-  @Get()
-  getHello(): string {
-    return this.movieService.getHello();
+  fetchMovies(request: FetchMoviesRequest) {
+    return this.movieService.fetchMovies(request.fetchDate);
   }
 }

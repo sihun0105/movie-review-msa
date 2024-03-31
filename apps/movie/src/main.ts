@@ -1,8 +1,19 @@
 import { NestFactory } from '@nestjs/core';
 import { MovieModule } from './movie.module';
+import { Transport } from '@nestjs/microservices';
+import { join } from 'path';
+import { MOVIE_PACKAGE_NAME } from '@app/common';
 
 async function bootstrap() {
-  const app = await NestFactory.create(MovieModule);
-  await app.listen(3000);
+  const app = await NestFactory.createMicroservice(MovieModule, {
+    transport: Transport.GRPC,
+    options: {
+      protoPath: join(__dirname, '../movie.proto'),
+      package: MOVIE_PACKAGE_NAME,
+      url: `0.0.0.0:50054`,
+    },
+  });
+  await app.listen();
+  console.log(`is running on:0.0.0.0:50054`);
 }
 bootstrap();
