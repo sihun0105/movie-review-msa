@@ -1,8 +1,8 @@
-import { CreateUserDto } from '@app/common';
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { CreateUserDto, UpdateUserDto } from '@app/common';
+import { Body, Controller, Delete, Param, Patch, Post } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
-import { UserService } from './user.service';
 import { firstValueFrom } from 'rxjs';
+import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
@@ -22,16 +22,10 @@ export class UserController {
     }
   }
 
-  @Get()
-  findAll() {
-    return this.userService.findAll();
+  @Patch(':id')
+  update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
+    return this.userService.update(id, updateUserDto);
   }
-
-  @Get(':id')
-  findOne(@Param('id') id: number) {
-    return this.userService.findOne(id);
-  }
-
   @Delete(':id')
   remove(@Param('id') id: number) {
     return this.userService.remove(id);

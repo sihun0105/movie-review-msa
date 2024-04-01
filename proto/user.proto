@@ -7,9 +7,7 @@ option go_package = "user";
 
 service UserService {
     rpc CreateUser(CreateUserDto) returns (User) {}
-    rpc FindAllUsers(Empty) returns (Users) {}
-    rpc FindOneUser (FindOneUserDto) returns (User) {}
-    rpc RemoveUser (RemoveUserDto) returns (Empty) {}
+    rpc RemoveUser (RemoveUserDto) returns (User) {}
     rpc UpdateUser (UpdateUserDto) returns (User) {}
 }
 
@@ -32,14 +30,11 @@ message CreateUserDto {
     string password = 2;
     string nickname = 3;
 }
-message RemoveUserDto {
-    int32 id =1;
-}
-message FindOneUserDto {
-    int32 id =1;
-}
 message UpdateUserDto {
     int32 id =1;
     string email =2;
     string nickname = 3;
+}
+message RemoveUserDto {
+    int32 id =1;
 }

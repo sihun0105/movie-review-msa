@@ -2,7 +2,7 @@
 import { GrpcMethod, GrpcStreamMethod } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
 
-export const userProtobufPackage = 'user';
+export const protobufPackage = 'user';
 
 export interface Empty {}
 
@@ -25,18 +25,14 @@ export interface CreateUserDto {
   nickname: string;
 }
 
-export interface RemoveUserDto {
-  id: number;
-}
-
-export interface FindOneUserDto {
-  id: number;
-}
-
 export interface UpdateUserDto {
   id: number;
   email: string;
   nickname: string;
+}
+
+export interface RemoveUserDto {
+  id: number;
 }
 
 export const USER_PACKAGE_NAME = 'user';
@@ -44,11 +40,7 @@ export const USER_PACKAGE_NAME = 'user';
 export interface UserServiceClient {
   createUser(request: CreateUserDto): Observable<User>;
 
-  findAllUsers(request: Empty): Observable<Users>;
-
-  findOneUser(request: FindOneUserDto): Observable<User>;
-
-  removeUser(request: RemoveUserDto): Observable<Empty>;
+  removeUser(request: RemoveUserDto): Observable<User>;
 
   updateUser(request: UpdateUserDto): Observable<User>;
 }
@@ -56,26 +48,14 @@ export interface UserServiceClient {
 export interface UserServiceController {
   createUser(request: CreateUserDto): Promise<User> | Observable<User> | User;
 
-  findAllUsers(request: Empty): Promise<Users> | Observable<Users> | Users;
-
-  findOneUser(request: FindOneUserDto): Promise<User> | Observable<User> | User;
-
-  removeUser(
-    request: RemoveUserDto,
-  ): Promise<Empty> | Observable<Empty> | Empty;
+  removeUser(request: RemoveUserDto): Promise<User> | Observable<User> | User;
 
   updateUser(request: UpdateUserDto): Promise<User> | Observable<User> | User;
 }
 
 export function UserServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = [
-      'createUser',
-      'findAllUsers',
-      'findOneUser',
-      'removeUser',
-      'updateUser',
-    ];
+    const grpcMethods: string[] = ['createUser', 'removeUser', 'updateUser'];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(
         constructor.prototype,

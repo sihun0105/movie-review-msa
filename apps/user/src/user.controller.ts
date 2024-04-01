@@ -1,13 +1,12 @@
 import {
   CreateUserDto,
-  FindOneUserDto,
+  RemoveUserDto,
   UpdateUserDto,
   User,
   UserServiceController,
   UserServiceControllerMethods,
 } from '@app/common';
 import { Controller } from '@nestjs/common';
-import { Observable } from 'rxjs';
 import { UserService } from './user.service';
 
 @Controller()
@@ -15,25 +14,15 @@ import { UserService } from './user.service';
 export class UserController implements UserServiceController {
   constructor(private readonly userService: UserService) {}
 
-  createUser(createUserDto: CreateUserDto) {
+  createUser(createUserDto: CreateUserDto): Promise<User> {
     return this.userService.create(createUserDto);
   }
 
-  findAllUsers() {
-    return this.userService.findAll();
-  }
-
-  findOneUser(findOneUserDto: FindOneUserDto) {
-    return this.userService.findOne(findOneUserDto.id);
-  }
-
-  removeUser(findOneUserDto: FindOneUserDto) {
+  removeUser(findOneUserDto: RemoveUserDto): Promise<User> {
     return this.userService.remove(findOneUserDto.id);
   }
 
-  updateUser(
-    updateUserDto: UpdateUserDto,
-  ): User | Promise<User> | Observable<User> {
+  updateUser(updateUserDto: UpdateUserDto): Promise<User> {
     return this.userService.updateUser(updateUserDto);
   }
 }

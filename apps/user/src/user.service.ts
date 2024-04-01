@@ -1,4 +1,4 @@
-import { CreateUserDto, UpdateUserDto, User, Users } from '@app/common';
+import { CreateUserDto, UpdateUserDto, User } from '@app/common';
 import { AlreadyExistsException } from '@app/common/grpcException/grpc-exception';
 import { PrismaService } from '@app/prisma';
 import { UtilsService } from '@app/utils';
@@ -10,7 +10,6 @@ export class UserService {
     private readonly prismaService: PrismaService,
     private readonly utilsService: UtilsService,
   ) {}
-  private readonly users: User[] = [];
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     const { email, password, nickname } = createUserDto;
@@ -38,7 +37,7 @@ export class UserService {
     const updatedAt = this.utilsService.dateToTimestamp(user.updatedAt as Date);
     const deletedAt = user.deletedAt
       ? this.utilsService.dateToTimestamp(user.deletedAt as Date)
-      : undefined;
+      : null;
 
     const userObject: User = {
       id: user.id,
@@ -51,34 +50,66 @@ export class UserService {
     return userObject;
   }
 
-  async findAll(): Promise<Users> {
-    return { users: this.users };
-  }
-
-  findOne(id: number): User {
-    return this.users.find((users) => users.id === id);
-  }
-
-  remove(id: number) {
-    const userIndex = this.users.findIndex((users) => users.id === id);
-    if (userIndex !== -1) {
-      return this.users.splice(userIndex)[0];
-    }
-    throw new NotFoundException(`User not found ${id} `);
-  }
-
-  updateUser(updateUserDto: UpdateUserDto) {
-    const { id, email, nickname } = updateUserDto;
-    const user = this.users.find((users) => users.id === id);
-    if (!user) {
+  async remove(id: number): Promise<User> {
+    const userData = await this.prismaService.user.findUnique({
+      where: { id },
+    });
+    if (!userData) {
       throw new NotFoundException(`User not found ${id} `);
     }
-    if (email) {
-      user.email = email;
+    const deletedUser = await this.prismaService.user.delete({
+      where: { id },
+    });
+    const createdAt = this.utilsService.dateToTimestamp(
+      deletedUser.createdAt as Date,
+    );
+    const updatedAt = this.utilsService.dateToTimestamp(
+      deletedUser.updatedAt as Date,
+    );
+    const deletedAt = deletedUser.deletedAt
+      ? this.utilsService.dateToTimestamp(deletedUser.deletedAt as Date)
+      : null;
+
+    const userObject: User = {
+      id: deletedUser.id,
+      email: deletedUser.email,
+      nickname: deletedUser.nickname,
+      createdAt,
+      updatedAt,
+      deletedAt,
+    };
+    return userObject;
+  }
+
+  async updateUser(updateUserDto: UpdateUserDto): Promise<User> {
+    const { id, email, nickname } = updateUserDto;
+    const userData = await this.prismaService.user.findUnique({
+      where: { id },
+    });
+    if (!userData) {
+      throw new NotFoundException(`User not found ${id}`);
     }
-    if (nickname) {
-      user.nickname = nickname;
-    }
-    return user;
+    const updatedUserData = await this.prismaService.user.update({
+      where: { id },
+      data: {
+        email,
+        nickname,
+      },
+    });
+    const createdAt = this.utilsService.dateToTimestamp(
+      updatedUserData.createdAt as Date,
+    );
+    const updatedAt = this.utilsService.dateToTimestamp(
+      updatedUserData.updatedAt as Date,
+    );
+    const deletedAt = updatedUserData.deletedAt
+      ? this.utilsService.dateToTimestamp(updatedUserData.deletedAt as Date)
+      : null;
+    return {
+      ...updatedUserData,
+      createdAt,
+      updatedAt,
+      deletedAt,
+    };
   }
 }

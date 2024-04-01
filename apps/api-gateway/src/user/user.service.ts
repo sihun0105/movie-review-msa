@@ -2,6 +2,7 @@ import {
   CreateUserDto,
   USER_PACKAGE_NAME,
   USER_SERVICE_NAME,
+  UpdateUserDto,
   UserServiceClient,
 } from '@app/common';
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
@@ -22,15 +23,11 @@ export class UserService implements OnModuleInit {
     return this.userService.createUser(createUserDto);
   }
 
-  findAll() {
-    return this.userService.findAllUsers({});
-  }
-
-  findOne(id: number) {
-    return this.userService.findOneUser({ id });
-  }
-
   remove(id: number) {
     return this.userService.removeUser({ id });
+  }
+
+  update(id: number, updateUserDto: UpdateUserDto) {
+    return this.userService.updateUser({ id, ...updateUserDto });
   }
 }
