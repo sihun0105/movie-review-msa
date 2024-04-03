@@ -3,7 +3,7 @@ import { GrpcMethod, GrpcStreamMethod } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
 import { Empty } from './user';
 
-export const protobufPackage = 'reply';
+export const replyProtobufPackage = 'reply';
 
 export interface Reply {
   replyId: number;

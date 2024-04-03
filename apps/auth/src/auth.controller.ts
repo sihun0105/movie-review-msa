@@ -8,7 +8,6 @@ import {
 } from '@app/common';
 import { OutOfRangeException } from '@app/common/grpcException/grpc-exception';
 import { Controller } from '@nestjs/common';
-import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 
 @Controller()
@@ -28,12 +27,7 @@ export class AuthController implements AuthServiceController {
     return result;
   }
 
-  refreshToken(
-    request: RefreshTokenDto,
-  ):
-    | AuthorizationDto
-    | Promise<AuthorizationDto>
-    | Observable<AuthorizationDto> {
+  refreshToken(request: RefreshTokenDto): AuthorizationDto {
     return this.usersService.refreshToken(request);
   }
 }
