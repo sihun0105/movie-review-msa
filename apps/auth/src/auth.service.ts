@@ -1,5 +1,5 @@
 import { AuthorizationDto, User } from '@app/common';
-import { OutOfRangeException } from '@app/common/grpcException/grpc-exception';
+import { OutOfRangeException } from '@app/common/filters/rpcexception/rpc-exception';
 import { PrismaService } from '@app/prisma';
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';

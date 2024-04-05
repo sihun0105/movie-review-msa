@@ -6,7 +6,7 @@ import {
   RefreshTokenDto,
   User,
 } from '@app/common';
-import { OutOfRangeException } from '@app/common/grpcException/grpc-exception';
+import { OutOfRangeException } from '@app/common/filters/rpcexception/rpc-exception';
 import { Controller } from '@nestjs/common';
 import { AuthService } from './auth.service';
 

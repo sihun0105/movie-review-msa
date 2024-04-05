@@ -1,4 +1,4 @@
-import { RpcExceptionCode, RpcExceptionData } from '../types';
+import { RpcExceptionCode, RpcExceptionData } from '../../types';
 
 export function assertRpcExceptionData(data: any): RpcExceptionData {
   if (!isRpcExceptionData(data)) {

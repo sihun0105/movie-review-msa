@@ -1,5 +1,5 @@
 import { CreateUserDto, UpdateUserDto, User } from '@app/common';
-import { AlreadyExistsException } from '@app/common/grpcException/grpc-exception';
+import { AlreadyExistsException } from '@app/common/filters/rpcexception/rpc-exception';
 import { PrismaService } from '@app/prisma';
 import { UtilsService } from '@app/utils';
 import { Injectable, NotFoundException } from '@nestjs/common';

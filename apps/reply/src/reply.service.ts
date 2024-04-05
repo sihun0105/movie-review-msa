@@ -1,5 +1,5 @@
 import { CreateReplyDto, Reply, Replys, UpdateReplyDto } from '@app/common';
-import { NotFoundException } from '@app/common/grpcException/grpc-exception';
+import { NotFoundException } from '@app/common/filters/rpcexception/rpc-exception';
 import { PrismaService } from '@app/prisma';
 import { UtilsService } from '@app/utils';
 import { Injectable } from '@nestjs/common';
