@@ -1,10 +1,21 @@
-import { Body, Controller, Get, Param, Patch, Post, Req } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import { ReplyService } from './reply.service';
 import { CreateReplyDto, UpdateReplyDto } from '@app/common';
+import { RateLimitGuard } from '@app/common/guards/rateLimit/rate-limit.guard';
 
 @Controller('reply')
+@UseGuards(RateLimitGuard)
 export class ReplyController {
   constructor(private readonly replyService: ReplyService) {}
 
