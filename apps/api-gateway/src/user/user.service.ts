@@ -23,11 +23,11 @@ export class UserService implements OnModuleInit {
     return this.userService.createUser(createUserDto);
   }
 
-  remove(id: number) {
-    return this.userService.removeUser({ id });
+  remove(deleteUserDto: { id: number }) {
+    return this.userService.removeUser({ ...deleteUserDto });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return this.userService.updateUser({ id, ...updateUserDto });
+  update(updateUserDto: UpdateUserDto) {
+    return this.userService.updateUser({ ...updateUserDto });
   }
 }

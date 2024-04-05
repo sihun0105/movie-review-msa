@@ -13,8 +13,10 @@ import { firstValueFrom } from 'rxjs';
 import { ReplyService } from './reply.service';
 import { CreateReplyDto, UpdateReplyDto } from '@app/common';
 import { RateLimitGuard } from '@app/common/guards/rateLimit/rate-limit.guard';
+import { JwtAuthGuard } from '@app/common/guards/jwtauth/jwtauth.guard';
 
 @Controller('reply')
+@UseGuards(JwtAuthGuard)
 @UseGuards(RateLimitGuard)
 export class ReplyController {
   constructor(private readonly replyService: ReplyService) {}
@@ -22,7 +24,6 @@ export class ReplyController {
   @Get()
   async get(@Req() req, @Param('movieId') movieId: number) {
     try {
-      //TODO: userNumber AuthGuard로 변경 필요 없는 데이터.
       const userNumber = req.user.id;
       const getRepliesObservable = this.replyService.getReplies({
         movieId: movieId,
@@ -39,9 +40,13 @@ export class ReplyController {
   }
 
   @Post()
-  async create(@Body() createReplyDto: CreateReplyDto) {
+  async create(@Req() req, @Body() createReplyDto: CreateReplyDto) {
     try {
-      const createReplyObservable = this.replyService.create(createReplyDto);
+      const userNumber = req.user.id;
+      const createReplyObservable = this.replyService.create({
+        ...createReplyDto,
+        userId: userNumber,
+      });
       const data = await firstValueFrom(createReplyObservable);
       return data;
     } catch (error) {
@@ -53,9 +58,13 @@ export class ReplyController {
   }
 
   @Patch()
-  async update(@Body() updateReplyDto: UpdateReplyDto) {
+  async update(@Req() req, @Body() updateReplyDto: UpdateReplyDto) {
     try {
-      const updateReplyObservable = this.replyService.update(updateReplyDto);
+      const userNumber = req.user.id;
+      const updateReplyObservable = this.replyService.update({
+        ...updateReplyDto,
+        userId: userNumber,
+      });
       const data = await firstValueFrom(updateReplyObservable);
       return data;
     } catch (error) {

@@ -1,23 +1,24 @@
 import { CreateUserDto, UpdateUserDto } from '@app/common';
+import { JwtAuthGuard } from '@app/common/guards/jwtauth/jwtauth.guard';
+import { RateLimitGuard } from '@app/common/guards/rateLimit/rate-limit.guard';
 import {
   Body,
   Controller,
   Delete,
-  Param,
   Patch,
   Post,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import { UserService } from './user.service';
-import { RateLimitGuard } from '@app/common/guards/rateLimit/rate-limit.guard';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post('create')
+  @Post('/')
   async create(@Body() createUserDto: CreateUserDto) {
     try {
       const createUserObservable = this.userService.create(createUserDto);
@@ -31,14 +32,18 @@ export class UserController {
     }
   }
 
-  @Patch(':id')
+  @Patch('/')
+  @UseGuards(JwtAuthGuard)
   @UseGuards(RateLimitGuard)
-  update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(id, updateUserDto);
+  update(@Req() req, @Body() updateUserDto: UpdateUserDto) {
+    const userNumber = req.user.id;
+    return this.userService.update({ ...updateUserDto, id: userNumber });
   }
-  @Delete(':id')
+  @Delete('/')
+  @UseGuards(JwtAuthGuard)
   @UseGuards(RateLimitGuard)
-  remove(@Param('id') id: number) {
-    return this.userService.remove(id);
+  remove(@Req() req) {
+    const userNumber = req.user.id;
+    return this.userService.remove({ id: userNumber });
   }
 }
