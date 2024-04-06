@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { ReplyModule } from './reply/reply.module';
 import { UserModule } from './user/user.module';
+import { MovieModule } from './movie/movie.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -17,6 +18,7 @@ import { UserModule } from './user/user.module';
     AuthModule,
     UserModule,
     ReplyModule,
+    MovieModule,
   ],
   controllers: [],
   providers: [],

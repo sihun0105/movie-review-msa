@@ -1,5 +1,7 @@
 import {
+  Empty,
   FetchMoviesRequest,
+  MovieDatas,
   MovieServiceController,
   MovieServiceControllerMethods,
 } from '@app/common';
@@ -13,5 +15,8 @@ export class MovieController implements MovieServiceController {
 
   async fetchMovies(request: FetchMoviesRequest) {
     return await this.movieService.fetchMovies(request.fetchDate);
+  }
+  async getMovieDatas(request: Empty): Promise<MovieDatas> {
+    return await this.movieService.getMovieDatas(request);
   }
 }

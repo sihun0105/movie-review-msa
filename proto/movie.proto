@@ -7,10 +7,23 @@ package movie;
 option go_package = "movie";
 
 service MovieService {
+  rpc GetMovieDatas(user.Empty) returns (MovieDatas) {}
   rpc FetchMovies(FetchMoviesRequest) returns (user.Empty) {}
 }
 
 message FetchMoviesRequest {
   string fetchDate = 1;
 }
+message MovieData {
+  int32 id = 1;
+  int32 movieCd = 2;
+  int32 audience = 3;
+  string title = 4;
+  int32 rank = 5;
+  string createdAt = 6;
+  string updatedAt = 7;
+}
 
+message MovieDatas {
+  repeated MovieData MovieData = 1;
+}
