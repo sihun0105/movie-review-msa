@@ -5,6 +5,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Patch,
   Post,
   Query,
@@ -23,7 +24,7 @@ export class ReplyController {
   @Get('/')
   async get(@Req() req, @Query('movieId') movieId: number) {
     try {
-      const userNumber = req.user.id;
+      const userNumber = req.user.userId;
       const getRepliesObservable = this.replyService.getReplies({
         movieId: movieId,
         userId: userNumber,
@@ -38,10 +39,10 @@ export class ReplyController {
     }
   }
 
-  @Post()
+  @Post('/')
   async create(@Req() req, @Body() createReplyDto: CreateReplyDto) {
     try {
-      const userNumber = req.user.id;
+      const userNumber = req.user.userId;
       const createReplyObservable = this.replyService.create({
         ...createReplyDto,
         userId: userNumber,
@@ -74,12 +75,13 @@ export class ReplyController {
     }
   }
 
-  @Post('delete')
-  async delete(@Req() req, @Body() deleteReplyDto: { replyId: number }) {
+  @Post('/:replyId')
+  async delete(@Req() req, @Param() replyId: { replyId: number }) {
     try {
       const userNumber = req.user.id;
+      const $replyId = replyId.replyId;
       const deleteReplyObservable = this.replyService.delete({
-        commentId: deleteReplyDto.replyId,
+        commentId: $replyId,
         userId: userNumber,
       });
       const data = await firstValueFrom(deleteReplyObservable);
