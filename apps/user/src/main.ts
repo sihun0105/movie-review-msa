@@ -16,6 +16,6 @@ async function bootstrap() {
     },
   );
   await app.listen();
-  console.log(`is running on:0.0.0.0:50052`);
+  console.log(`User is running on:0.0.0.0:50052`);
 }
 bootstrap();

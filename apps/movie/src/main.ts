@@ -17,6 +17,6 @@ async function bootstrap() {
     },
   );
   await app.listen();
-  console.log(`is running on:0.0.0.0:50054`);
+  console.log(`Movie is running on:0.0.0.0:50054`);
 }
 bootstrap();

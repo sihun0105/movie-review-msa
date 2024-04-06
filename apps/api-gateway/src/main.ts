@@ -4,7 +4,7 @@ import { RpcExceptionFilter } from '@app/common/filters/rpcexception/rpc-excepti
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalFilters(new RpcExceptionFilter());
-  await app.listen(3000);
-  console.log(`Application is running on: ${await app.getUrl()}`);
+  await app.listen(3030);
+  console.log(`Apigateway is running on: ${await app.getUrl()}`);
 }
 bootstrap();

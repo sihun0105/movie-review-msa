@@ -16,7 +16,7 @@ async function bootstrap() {
     },
   );
   await app.listen();
-  console.log(`is running on:0.0.0.0:50051`);
+  console.log(`Auth is running on:0.0.0.0:50051`);
 }
 
 bootstrap();

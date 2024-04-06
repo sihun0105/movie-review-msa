@@ -16,7 +16,7 @@ async function bootstrap() {
     },
   );
   await app.listen();
-  console.log(`is running on:0.0.0.0:50053`);
+  console.log(`Reply is running on:0.0.0.0:50053`);
 }
 
 bootstrap();
