@@ -102,18 +102,12 @@ export class ReplyService {
     if (!userData) {
       throw new NotFoundException('해당하는 유저가 존재하지 않습니다.');
     }
-    const createdAt = this.utilsService.dateToTimestamp(
-      reply.createdAt as Date,
-    );
-    const updatedAt = this.utilsService.dateToTimestamp(
-      reply.updatedAt as Date,
-    );
 
     const replyObject: Reply = {
       replyId: reply.id,
       comment: reply.comment,
-      createdAt: createdAt,
-      updatedAt: updatedAt,
+      createdAt: reply.createdAt.toISOString(),
+      updatedAt: reply.updatedAt.toISOString(),
       email: userData.email,
       nickname: userData.nickname,
       userId: userData.id,
@@ -129,21 +123,14 @@ export class ReplyService {
     });
     const replyObjects: Reply[] = [];
     for (const reply of replies) {
-      const createdAt = this.utilsService.dateToTimestamp(
-        reply.createdAt as Date,
-      );
-      const updatedAt = this.utilsService.dateToTimestamp(
-        reply.updatedAt as Date,
-      );
-
       const replyObject: Reply = {
         replyId: reply.id,
         comment: reply.comment,
-        createdAt: createdAt,
-        updatedAt: updatedAt,
         email: reply.User.email,
         nickname: reply.User.nickname,
         userId: reply.User.id,
+        createdAt: reply.createdAt.toISOString(),
+        updatedAt: reply.updatedAt.toISOString(),
       };
       replyObjects.push(replyObject);
     }

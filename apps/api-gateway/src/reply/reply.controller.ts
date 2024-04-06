@@ -1,29 +1,28 @@
+import { CreateReplyDto, UpdateReplyDto } from '@app/common';
+import { JwtAuthGuard } from '@app/common/guards/jwtauth/jwtauth.guard';
+import { RateLimitGuard } from '@app/common/guards/rateLimit/rate-limit.guard';
 import {
   Body,
   Controller,
   Get,
-  Param,
   Patch,
   Post,
+  Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import { ReplyService } from './reply.service';
-import { CreateReplyDto, UpdateReplyDto } from '@app/common';
-import { RateLimitGuard } from '@app/common/guards/rateLimit/rate-limit.guard';
-import { JwtAuthGuard } from '@app/common/guards/jwtauth/jwtauth.guard';
 
 @Controller('reply')
 @UseGuards(JwtAuthGuard, RateLimitGuard)
 export class ReplyController {
   constructor(private readonly replyService: ReplyService) {}
 
-  @Get()
-  async get(@Req() req, @Param('movieId') movieId: number) {
+  @Get('/')
+  async get(@Req() req, @Query('movieId') movieId: number) {
     try {
-      console.log(123);
       const userNumber = req.user.id;
       const getRepliesObservable = this.replyService.getReplies({
         movieId: movieId,
