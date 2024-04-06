@@ -33,15 +33,13 @@ export class UserController {
   }
 
   @Patch('/')
-  @UseGuards(JwtAuthGuard)
-  @UseGuards(RateLimitGuard)
+  @UseGuards(JwtAuthGuard, RateLimitGuard)
   update(@Req() req, @Body() updateUserDto: UpdateUserDto) {
     const userNumber = req.user.id;
     return this.userService.update({ ...updateUserDto, id: userNumber });
   }
   @Delete('/')
-  @UseGuards(JwtAuthGuard)
-  @UseGuards(RateLimitGuard)
+  @UseGuards(JwtAuthGuard, RateLimitGuard)
   remove(@Req() req) {
     const userNumber = req.user.id;
     return this.userService.remove({ id: userNumber });

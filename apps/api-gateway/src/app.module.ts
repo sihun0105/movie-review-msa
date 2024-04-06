@@ -4,6 +4,7 @@ import { AuthModule } from './auth/auth.module';
 import { ReplyModule } from './reply/reply.module';
 import { UserModule } from './user/user.module';
 import { MovieModule } from './movie/movie.module';
+import { JwtStrategy } from '@app/common/guards/jwtauth/jwt.strategy';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -21,6 +22,6 @@ import { MovieModule } from './movie/movie.module';
     MovieModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [JwtStrategy],
 })
 export class AppModule {}

@@ -16,14 +16,14 @@ import { RateLimitGuard } from '@app/common/guards/rateLimit/rate-limit.guard';
 import { JwtAuthGuard } from '@app/common/guards/jwtauth/jwtauth.guard';
 
 @Controller('reply')
-@UseGuards(JwtAuthGuard)
-@UseGuards(RateLimitGuard)
+@UseGuards(JwtAuthGuard, RateLimitGuard)
 export class ReplyController {
   constructor(private readonly replyService: ReplyService) {}
 
   @Get()
   async get(@Req() req, @Param('movieId') movieId: number) {
     try {
+      console.log(123);
       const userNumber = req.user.id;
       const getRepliesObservable = this.replyService.getReplies({
         movieId: movieId,

@@ -2,6 +2,7 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "declaration": false,
+    "esModuleInterop": true,
     "outDir": "../../dist/apps/api-gateway"
   },
   "include": ["src/**/*"],
