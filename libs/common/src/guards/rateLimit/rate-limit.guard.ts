@@ -19,7 +19,7 @@ export class RateLimitGuard implements CanActivate {
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest();
-    const id = request.user.id;
+    const id = request.user.userId;
     let bucket = this.buckets.get(id);
     const currentTime = Date.now();
 
