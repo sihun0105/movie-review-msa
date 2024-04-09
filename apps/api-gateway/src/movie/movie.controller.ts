@@ -5,12 +5,12 @@ import { MovieService } from './movie.service';
 
 @Controller('movie')
 export class MovieController {
-  constructor(private readonly replyService: MovieService) {}
+  constructor(private readonly movieService: MovieService) {}
 
   @Get('/')
   async get() {
     try {
-      const getRepliesObservable = await this.replyService.getMovieDatas();
+      const getRepliesObservable = await this.movieService.getMovieDatas();
       const data = await firstValueFrom(getRepliesObservable);
       return data;
     } catch (error) {
