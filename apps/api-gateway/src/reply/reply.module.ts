@@ -13,7 +13,7 @@ import { ReplyService } from './reply.service';
         options: {
           protoPath: join(__dirname, '../../../../proto/reply.proto'),
           package: REPLY_PACKAGE_NAME,
-          url: `0.0.0.0:50053`,
+          url: `host.docker.internal:50053`,
         },
       },
     ]),
