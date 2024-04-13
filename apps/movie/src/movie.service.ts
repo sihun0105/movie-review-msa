@@ -1,15 +1,21 @@
 import { MovieData, MovieDatas } from '@app/common';
 import { MovieResponse } from '@app/common/types/movie-response';
 import { PrismaService } from '@app/prisma';
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import axios from 'axios';
+import moment from 'moment';
 @Injectable()
-export class MovieService {
+export class MovieService implements OnModuleInit {
   private readonly apiKey = process.env.MOVIE_SECRET;
   private readonly baseUrl =
     'http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json';
 
   constructor(private readonly prismaService: PrismaService) {}
+
+  onModuleInit() {
+    const yesterday = moment().subtract(1, 'days').format('YYYYMMDD');
+    this.fetchMovies(yesterday);
+  }
   async fetchMovies(date: string): Promise<void> {
     const url = `${this.baseUrl}?key=${this.apiKey}&targetDt=${date}`;
     const response = await axios.get<MovieResponse>(url);
