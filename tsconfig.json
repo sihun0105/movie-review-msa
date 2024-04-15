@@ -37,6 +37,12 @@
       ],
       "@app/utils/*": [
         "libs/utils/src/*"
+      ],
+      "@app/crawling": [
+        "libs/crawling/src"
+      ],
+      "@app/crawling/*": [
+        "libs/crawling/src/*"
       ]
     }
   }
