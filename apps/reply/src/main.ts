@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { join } from 'path';
-import { REPLY_PACKAGE_NAME } from '@app/common';
+import { REPLY_PACKAGE_NAME } from '@app/common/protobuf';
 import { ReplyModule } from './reply.module';
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(

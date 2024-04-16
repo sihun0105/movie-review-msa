@@ -5,7 +5,7 @@ import {
   ReplyServiceController,
   ReplyServiceControllerMethods,
   UpdateReplyDto,
-} from '@app/common';
+} from '@app/common/protobuf';
 import { Controller } from '@nestjs/common';
 import { ReplyService } from './reply.service';
 

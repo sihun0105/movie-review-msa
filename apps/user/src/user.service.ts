@@ -1,4 +1,4 @@
-import { CreateUserDto, UpdateUserDto, User } from '@app/common';
+import { CreateUserDto, UpdateUserDto, User } from '@app/common/protobuf';
 import { AlreadyExistsException } from '@app/common/filters/rpcexception/rpc-exception';
 import { PrismaService } from '@app/prisma';
 import { UtilsService } from '@app/utils';

@@ -2,7 +2,7 @@ import {
   AuthServiceClient,
   AUTH_SERVICE_NAME,
   AUTH_PACKAGE_NAME,
-} from '@app/common';
+} from '@app/common/protobuf';
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 
