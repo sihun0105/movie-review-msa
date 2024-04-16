@@ -2,7 +2,7 @@ import {
   MOVIE_PACKAGE_NAME,
   MOVIE_SERVICE_NAME,
   MovieServiceClient,
-} from '@app/common';
+} from '@app/common/protobuf';
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import moment from 'moment';

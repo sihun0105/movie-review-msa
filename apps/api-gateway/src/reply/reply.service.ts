@@ -6,7 +6,7 @@ import {
   REPLY_SERVICE_NAME,
   ReplyServiceClient,
   UpdateReplyDto,
-} from '@app/common';
+} from '@app/common/protobuf';
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 

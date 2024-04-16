@@ -5,7 +5,7 @@ import {
   LoginUserDto,
   RefreshTokenDto,
   User,
-} from '@app/common';
+} from '@app/common/protobuf';
 import { OutOfRangeException } from '@app/common/filters/rpcexception/rpc-exception';
 import { Controller } from '@nestjs/common';
 import { AuthService } from './auth.service';

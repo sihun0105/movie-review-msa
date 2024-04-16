@@ -5,7 +5,7 @@ import {
   User,
   UserServiceController,
   UserServiceControllerMethods,
-} from '@app/common';
+} from '@app/common/protobuf';
 import { Controller } from '@nestjs/common';
 import { UserService } from './user.service';
 

@@ -1,4 +1,4 @@
-import { MovieData, MovieDatas } from '@app/common';
+import { MovieData, MovieDatas } from '@app/common/protobuf';
 import { MovieResponse } from '@app/common/types/movie-response';
 import { PrismaService } from '@app/prisma';
 import { Injectable, OnModuleInit } from '@nestjs/common';

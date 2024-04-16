@@ -1,4 +1,4 @@
-import { AuthorizationDto, User } from '@app/common';
+import { AuthorizationDto, User } from '@app/common/protobuf';
 import { OutOfRangeException } from '@app/common/filters/rpcexception/rpc-exception';
 import { PrismaService } from '@app/prisma';
 import { Injectable } from '@nestjs/common';

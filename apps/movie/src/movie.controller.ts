@@ -4,7 +4,7 @@ import {
   MovieDatas,
   MovieServiceController,
   MovieServiceControllerMethods,
-} from '@app/common';
+} from '@app/common/protobuf';
 import { Controller } from '@nestjs/common';
 import { MovieService } from './movie.service';
 

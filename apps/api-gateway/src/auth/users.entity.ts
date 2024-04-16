@@ -1,4 +1,4 @@
-import { User } from '@app/common';
+import { User } from '@app/common/protobuf';
 
 export function convertToUserEntity(arg: any) {
   const result = {
