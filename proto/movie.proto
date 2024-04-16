@@ -1,14 +1,14 @@
 syntax = "proto3";
 
-import "user.proto";
+import "common.proto";
 
 package movie;
 
 option go_package = "movie";
 
 service MovieService {
-  rpc GetMovieDatas(user.Empty) returns (MovieDatas) {}
-  rpc FetchMovies(FetchMoviesRequest) returns (user.Empty) {}
+  rpc GetMovieDatas(common.Empty) returns (MovieDatas) {}
+  rpc FetchMovies(FetchMoviesRequest) returns (common.Empty) {}
 }
 
 message FetchMoviesRequest {
