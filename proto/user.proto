@@ -11,8 +11,6 @@ service UserService {
     rpc UpdateUser (UpdateUserDto) returns (User) {}
 }
 
-message Empty {}
-
 message User {
     int32 id =1;
     string email =2;

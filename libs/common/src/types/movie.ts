@@ -1,7 +1,7 @@
 /* eslint-disable */
 import { GrpcMethod, GrpcStreamMethod } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
-import { Empty } from './user';
+import { Empty } from './common';
 
 export const movieProtobufPackage = 'movie';
 
