@@ -1,4 +1,4 @@
-import { CreateUserDto, UpdateUserDto } from '@app/common';
+import { CreateUserDto, UpdateUserDto } from '@app/common/protobuf';
 import { JwtAuthGuard } from '@app/common/guards/jwtauth/jwtauth.guard';
 import { RateLimitGuard } from '@app/common/guards/rateLimit/rate-limit.guard';
 import {

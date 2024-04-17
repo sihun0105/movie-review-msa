@@ -1,4 +1,4 @@
-import { USER_PACKAGE_NAME } from '@app/common';
+import { USER_PACKAGE_NAME } from '@app/common/protobuf';
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { join } from 'path';
