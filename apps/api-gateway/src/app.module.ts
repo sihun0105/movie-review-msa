@@ -12,7 +12,6 @@ import { JwtStrategy } from '@app/common/guards/jwtauth/jwt.strategy';
         process.env.NODE_ENV === 'production'
           ? '.env.production'
           : '.env.development',
-
       cache: true,
       isGlobal: true,
     }),

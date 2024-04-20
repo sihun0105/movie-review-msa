@@ -13,7 +13,10 @@ import { AuthController } from './auth.controller';
         options: {
           protoPath: join(__dirname, '../../../../proto/auth.proto'),
           package: AUTH_PACKAGE_NAME,
-          url: `host.docker.internal:50051`,
+          url:
+            process.env.NODE_ENV === 'production'
+              ? 'host.docker.internal:50051'
+              : '0.0.0.0:50051',
         },
       },
     ]),

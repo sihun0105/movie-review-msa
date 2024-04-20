@@ -13,7 +13,10 @@ import { UserController } from './user.controller';
         options: {
           protoPath: join(__dirname, '../../../../proto/user.proto'),
           package: USER_PACKAGE_NAME,
-          url: `host.docker.internal:50052`,
+          url:
+            process.env.NODE_ENV === 'production'
+              ? 'host.docker.internal:50052'
+              : '0.0.0.0:50052',
         },
       },
     ]),
