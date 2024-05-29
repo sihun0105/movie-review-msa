@@ -3,11 +3,13 @@ import { RpcException } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import { AuthService } from './auth.service';
 import { convertToUserEntity } from './users.entity';
+import { LoginSpecDecorator } from './decorator/login-spec-decorator';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @LoginSpecDecorator('로그인 API', '로그인API')
   @Post('login')
   async login(@Body() loginDto: { email: string; password: string }) {
     try {
