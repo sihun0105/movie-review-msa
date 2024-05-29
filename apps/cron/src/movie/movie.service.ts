@@ -21,7 +21,6 @@ export class MovieService implements OnModuleInit {
 
   async fetchMoviedata() {
     if (!this.movieService) {
-      console.log('Movie service is not initialized.');
       return;
     }
     const formattedDate = moment().subtract(1, 'days').format('YYYYMMDD');
