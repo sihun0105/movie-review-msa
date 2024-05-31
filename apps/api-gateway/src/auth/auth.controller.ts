@@ -1,9 +1,9 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
-import { AuthService } from './auth.service';
-import { convertToUserEntity } from './users.entity';
-import { LoginSpecDecorator } from './decorator/login-spec-decorator';
+import { AuthService } from '@app/api-gateway/src/auth/auth.service';
+import { convertToUserEntity } from '@app/common/entity';
+import { LoginSpecDecorator } from '@app/api-gateway/src/auth/decorator/login-spec-decorator';
 
 @Controller('auth')
 export class AuthController {
