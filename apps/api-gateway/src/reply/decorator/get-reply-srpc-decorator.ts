@@ -1,9 +1,15 @@
 import { applyDecorators } from '@nestjs/common';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiQuery, ApiResponse } from '@nestjs/swagger';
 
 export function GetReplySpecDecorator(summary: string, description: string) {
   return applyDecorators(
     ApiOperation({ summary, description }),
+    ApiQuery({
+      name: 'movieId',
+      required: true,
+      type: Number,
+      description: '영화 ID',
+    }),
     ApiResponse({
       status: 200,
       description: 'Success',

@@ -15,12 +15,13 @@ import {
 import { RpcException } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import { ReplyService } from './reply.service';
+import { GetReplySpecDecorator } from './decorator/get-reply-srpc-decorator';
 
 @Controller('reply')
 @UseGuards(JwtAuthGuard, RateLimitGuard)
 export class ReplyController {
   constructor(private readonly replyService: ReplyService) {}
-
+  @GetReplySpecDecorator('댓글 조회 API', '댓글 조회')
   @Get('/')
   async get(@Req() req, @Query('movieId') movieId: number) {
     try {
