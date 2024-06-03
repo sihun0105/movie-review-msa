@@ -13,11 +13,12 @@ import {
 import { RpcException } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import { UserService } from './user.service';
+import { CreateUserSpecDecorator } from './decorator/create-user-srpc-decorator';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
-
+  @CreateUserSpecDecorator('회원가입 API', '회원가입')
   @Post('/')
   async create(@Body() createUserDto: CreateUserDto) {
     try {
