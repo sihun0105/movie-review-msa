@@ -16,6 +16,7 @@ import { RpcException } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import { ReplyService } from './reply.service';
 import { GetReplySpecDecorator } from './decorator/get-reply-srpc-decorator';
+import { PostReplySpecDecorator } from './decorator/post-reply-srpc-decorator';
 
 @Controller('reply')
 @UseGuards(JwtAuthGuard, RateLimitGuard)
@@ -40,6 +41,7 @@ export class ReplyController {
     }
   }
 
+  @PostReplySpecDecorator('댓글 생성 API', '댓글 생성')
   @Post('/')
   async create(@Req() req, @Body() createReplyDto: CreateReplyDto) {
     try {
