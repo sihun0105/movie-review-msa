@@ -14,6 +14,7 @@ import { RpcException } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import { UserService } from './user.service';
 import { CreateUserSpecDecorator } from './decorator/create-user-srpc-decorator';
+import { UpdateUserSpecDecorator } from './decorator/patch-user-srpc-decorator';
 
 @Controller('user')
 export class UserController {
@@ -32,7 +33,7 @@ export class UserController {
       });
     }
   }
-
+  @UpdateUserSpecDecorator('회원정보 수정 API', '회원정보 수정')
   @Patch('/')
   @UseGuards(JwtAuthGuard, RateLimitGuard)
   update(@Req() req, @Body() updateUserDto: UpdateUserDto) {
