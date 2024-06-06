@@ -15,6 +15,7 @@ import { firstValueFrom } from 'rxjs';
 import { UserService } from './user.service';
 import { CreateUserSpecDecorator } from './decorator/create-user-srpc-decorator';
 import { UpdateUserSpecDecorator } from './decorator/patch-user-srpc-decorator';
+import { DeleteUserSpecDecorator } from './decorator/delete-user-srpc-decorator';
 
 @Controller('user')
 export class UserController {
@@ -40,6 +41,8 @@ export class UserController {
     const userNumber = req.user.id;
     return this.userService.update({ ...updateUserDto, id: userNumber });
   }
+
+  @DeleteUserSpecDecorator('회원탈퇴 API', '회원탈퇴')
   @Delete('/')
   @UseGuards(JwtAuthGuard, RateLimitGuard)
   remove(@Req() req) {
