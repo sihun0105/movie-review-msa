@@ -1,14 +1,22 @@
 import { applyDecorators } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiBody, ApiHeader, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 export function UpdateUserSpecDecorator(summary: string, description: string) {
   return applyDecorators(
     ApiOperation({ summary, description }),
+    ApiHeader({
+      name: 'Authorization',
+      description: 'Bearer access token',
+      required: true,
+      schema: {
+        type: 'string',
+        example: 'Bearer access token',
+      },
+    }),
     ApiBody({
       schema: {
         type: 'object',
         properties: {
-          id: { type: 'number', example: 1 },
           password: { type: 'string', example: 'test' },
           nickname: { type: 'string', example: 'test' },
         },
