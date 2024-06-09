@@ -17,6 +17,7 @@ import { firstValueFrom } from 'rxjs';
 import { ReplyService } from './reply.service';
 import { GetReplySpecDecorator } from './decorator/get-reply-srpc-decorator';
 import { PostReplySpecDecorator } from './decorator/post-reply-srpc-decorator';
+import { PatchReplySpecDecorator } from './decorator/patch-reply-srpc-decorator';
 
 @Controller('reply')
 @UseGuards(JwtAuthGuard, RateLimitGuard)
@@ -59,7 +60,7 @@ export class ReplyController {
       });
     }
   }
-
+  @PatchReplySpecDecorator('댓글 수정 API', '댓글 수정')
   @Patch()
   async update(@Req() req, @Body() updateReplyDto: UpdateReplyDto) {
     try {
