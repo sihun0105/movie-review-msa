@@ -18,6 +18,7 @@ import { ReplyService } from './reply.service';
 import { GetReplySpecDecorator } from './decorator/get-reply-srpc-decorator';
 import { PostReplySpecDecorator } from './decorator/post-reply-srpc-decorator';
 import { PatchReplySpecDecorator } from './decorator/patch-reply-srpc-decorator';
+import { DeleteReplySpecDecorator } from './decorator/delete-reply-srpc-decorator';
 
 @Controller('reply')
 @UseGuards(JwtAuthGuard, RateLimitGuard)
@@ -78,7 +79,7 @@ export class ReplyController {
       });
     }
   }
-
+  @DeleteReplySpecDecorator('댓글 삭제 API', '댓글 삭제')
   @Post('/:replyId')
   async delete(@Req() req, @Param() replyId: { replyId: number }) {
     try {
