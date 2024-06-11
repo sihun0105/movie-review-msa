@@ -13,9 +13,9 @@ import {
 import { RpcException } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import { UserService } from './user.service';
-import { CreateUserSpecDecorator } from './decorator/create-user-srpc-decorator';
-import { UpdateUserSpecDecorator } from './decorator/patch-user-srpc-decorator';
-import { DeleteUserSpecDecorator } from './decorator/delete-user-srpc-decorator';
+import { CreateUserSpecDecorator } from './decorator/create-user-spec-decorator';
+import { UpdateUserSpecDecorator } from './decorator/patch-user-spec-decorator';
+import { DeleteUserSpecDecorator } from './decorator/delete-user-spec-decorator';
 
 @Controller('user')
 export class UserController {
