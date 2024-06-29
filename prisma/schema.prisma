@@ -30,6 +30,7 @@ model Movie {
   rank      BigInt?
   createdAt DateTime  @default(now()) @db.DateTime(6)
   updatedAt DateTime  @default(now()) @db.DateTime(6)
+  poster    String?   @db.VarChar(1024)
   Comment   Comment[]
 
   @@index([movieCd], map: "movieId")
