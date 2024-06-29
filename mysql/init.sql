@@ -24,6 +24,7 @@ CREATE TABLE `Movie` (
   `rank` bigint DEFAULT NULL,
   `createdAt` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
   `updatedAt` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  `poster` varchar(1024) DEFALT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `Movie_movieCd_key` (`movieCd`),
   KEY `movieId` (`movieCd`)
