@@ -17,6 +17,7 @@ export interface MovieData {
   rank: number;
   createdAt: string;
   updatedAt: string;
+  poster: string;
 }
 
 export interface MovieDatas {
