@@ -9,6 +9,7 @@ option go_package = "auth";
 service AuthService {
     rpc LoginUser (LoginUserDto) returns (user.User) {}
     rpc RefreshToken (RefreshTokenDto) returns (AuthorizationDto) {}
+    rpc OauthLogin (OauthLoginDto) returns (user.User) {}
 }
 
 message AuthorizationDto {
@@ -23,4 +24,9 @@ message LoginUserDto {
 
 message RefreshTokenDto {
     string refreshToken = 1;
+}
+
+message OauthLoginDto {
+    string provider = 1;
+    string providerId = 2;
 }

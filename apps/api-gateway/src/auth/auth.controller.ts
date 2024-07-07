@@ -24,4 +24,21 @@ export class AuthController {
       });
     }
   }
+
+  @LoginSpecDecorator('Oauth2.0 API', 'Oauth2.0 API')
+  @Post('oauth')
+  async oauth(@Body() loginDto: any) {
+    // oauth 프로토 컴파일 하고 수정하기.
+    try {
+      const userDataObservable = this.authService.oAuth({ ...loginDto });
+      const data = await firstValueFrom(userDataObservable);
+      const user = convertToUserEntity(data);
+      return user;
+    } catch (error) {
+      throw new RpcException({
+        code: error.code,
+        message: error.details,
+      });
+    }
+  }
 }
