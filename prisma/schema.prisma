@@ -44,6 +44,7 @@ model User {
   createdAt        DateTime           @default(now()) @db.DateTime(6)
   updatedAt        DateTime           @default(now()) @db.DateTime(6)
   deletedAt        DateTime?          @db.DateTime(6)
+  provider         String             @default("credentials") @db.VarChar(45)
   Comment          Comment[]
   channelchats     channelchats[]
   channelmembers   channelmembers[]

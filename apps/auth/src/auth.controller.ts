@@ -1,12 +1,13 @@
+import { OutOfRangeException } from '@app/common/filters/rpcexception/rpc-exception';
 import {
   AuthServiceController,
   AuthServiceControllerMethods,
   AuthorizationDto,
   LoginUserDto,
+  OauthLoginDto,
   RefreshTokenDto,
   User,
 } from '@app/common/protobuf';
-import { OutOfRangeException } from '@app/common/filters/rpcexception/rpc-exception';
 import { Controller } from '@nestjs/common';
 import { AuthService } from './auth.service';
 
@@ -29,5 +30,13 @@ export class AuthController implements AuthServiceController {
 
   refreshToken(request: RefreshTokenDto): AuthorizationDto {
     return this.usersService.refreshToken(request);
+  }
+
+  async oauthLogin(request: OauthLoginDto): Promise<User> {
+    const user = await this.usersService.oauthLogin(request);
+    if (!user) {
+      throw new OutOfRangeException('Invalid credentials');
+    }
+    return user;
   }
 }

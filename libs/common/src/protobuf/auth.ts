@@ -19,12 +19,19 @@ export interface RefreshTokenDto {
   refreshToken: string;
 }
 
+export interface OauthLoginDto {
+  provider: string;
+  providerId: string;
+}
+
 export const AUTH_PACKAGE_NAME = 'auth';
 
 export interface AuthServiceClient {
   loginUser(request: LoginUserDto): Observable<User>;
 
   refreshToken(request: RefreshTokenDto): Observable<AuthorizationDto>;
+
+  oauthLogin(request: OauthLoginDto): Observable<User>;
 }
 
 export interface AuthServiceController {
@@ -36,11 +43,13 @@ export interface AuthServiceController {
     | Promise<AuthorizationDto>
     | Observable<AuthorizationDto>
     | AuthorizationDto;
+
+  oauthLogin(request: OauthLoginDto): Promise<User> | Observable<User> | User;
 }
 
 export function AuthServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ['loginUser', 'refreshToken'];
+    const grpcMethods: string[] = ['loginUser', 'refreshToken', 'oauthLogin'];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(
         constructor.prototype,

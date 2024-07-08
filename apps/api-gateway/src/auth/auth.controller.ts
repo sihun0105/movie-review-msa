@@ -27,10 +27,9 @@ export class AuthController {
 
   @LoginSpecDecorator('Oauth2.0 API', 'Oauth2.0 API')
   @Post('oauth')
-  async oauth(@Body() loginDto: any) {
-    // oauth 프로토 컴파일 하고 수정하기.
+  async oauth(@Body() loginDto: { provider: string; accessToken: string }) {
     try {
-      const userDataObservable = this.authService.oAuth({ ...loginDto });
+      const userDataObservable = this.authService.oAuthLogin({ ...loginDto });
       const data = await firstValueFrom(userDataObservable);
       const user = convertToUserEntity(data);
       return user;

@@ -5,10 +5,12 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcryptjs';
 import { randomUUID } from 'crypto';
+import { UtilsService } from '@app/utils';
 @Injectable()
 export class AuthService {
   constructor(
     private readonly prismaService: PrismaService,
+    private readonly utilsService: UtilsService,
     private jwtService: JwtService,
   ) {}
   private readonly users: User[] = [];
@@ -57,5 +59,47 @@ export class AuthService {
         accessToken: randomUUID(),
         refreshToken: randomUUID(),
       };
+  }
+
+  async oauthLogin({
+    providerId,
+    provider,
+  }: {
+    providerId: string;
+    provider: string;
+  }) {
+    const user = await this.prismaService.user.findUnique({
+      where: { email: providerId },
+    });
+    if (!user) {
+      const newUser = await this.prismaService.user.create({
+        data: { email: providerId, provider: provider },
+      });
+      const createdAt = this.utilsService.dateToTimestamp(
+        newUser.createdAt as Date,
+      );
+      const updatedAt = this.utilsService.dateToTimestamp(
+        newUser.updatedAt as Date,
+      );
+      const deletedAt = newUser.deletedAt
+        ? this.utilsService.dateToTimestamp(newUser.deletedAt as Date)
+        : null;
+
+      const userObject: User = {
+        id: newUser.id,
+        email: newUser.email,
+        nickname: newUser.nickname,
+        createdAt,
+        updatedAt,
+        deletedAt,
+      };
+      return userObject;
+    }
+    return {
+      ...user,
+      createdAt: user.createdAt.toISOString(),
+      updatedAt: user.updatedAt.toISOString(),
+      deletedAt: user.deletedAt ? user.deletedAt.toISOString() : null,
+    };
   }
 }

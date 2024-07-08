@@ -25,4 +25,20 @@ export class AuthService implements OnModuleInit {
     }
     return this.authService.loginUser({ email, password });
   }
+  oAuthLogin({
+    provider,
+    accessToken,
+  }: {
+    provider: string;
+    accessToken: string;
+  }) {
+    if (!this.authService) {
+      console.log('Auth service is not initialized.');
+      return;
+    }
+    return this.authService.oauthLogin({
+      provider: provider,
+      providerId: accessToken,
+    });
+  }
 }
