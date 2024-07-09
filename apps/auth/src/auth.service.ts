@@ -6,6 +6,7 @@ import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcryptjs';
 import { randomUUID } from 'crypto';
 import { UtilsService } from '@app/utils';
+import { hash } from 'bcryptjs';
 @Injectable()
 export class AuthService {
   constructor(
@@ -68,12 +69,18 @@ export class AuthService {
     providerId: string;
     provider: string;
   }) {
-    const user = await this.prismaService.user.findUnique({
+    const user = await this.prismaService.user.findFirst({
       where: { email: providerId },
     });
     if (!user) {
+      const hashedPassword = await hash('moview' + providerId, 10);
       const newUser = await this.prismaService.user.create({
-        data: { email: providerId, provider: provider },
+        data: {
+          email: providerId,
+          provider: provider,
+          password: hashedPassword,
+          nickname: Math.random().toString(36).substring(7),
+        },
       });
       const createdAt = this.utilsService.dateToTimestamp(
         newUser.createdAt as Date,
