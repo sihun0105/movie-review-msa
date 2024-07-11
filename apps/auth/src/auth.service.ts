@@ -1,12 +1,10 @@
-import { AuthorizationDto, User } from '@app/common/protobuf';
 import { OutOfRangeException } from '@app/common/filters/rpcexception/rpc-exception';
+import { User } from '@app/common/protobuf';
 import { PrismaService } from '@app/prisma';
+import { UtilsService } from '@app/utils';
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { compare } from 'bcryptjs';
-import { randomUUID } from 'crypto';
-import { UtilsService } from '@app/utils';
-import { hash } from 'bcryptjs';
+import { compare, hash } from 'bcryptjs';
 @Injectable()
 export class AuthService {
   constructor(
@@ -52,14 +50,6 @@ export class AuthService {
       expiresIn: process.env.REFRESH_TOKEN_EXPIRE_TIME,
     });
     return user;
-  }
-
-  refreshToken({ refreshToken }: { refreshToken: string }): AuthorizationDto {
-    if (refreshToken)
-      return {
-        accessToken: randomUUID(),
-        refreshToken: randomUUID(),
-      };
   }
 
   async oauthLogin({

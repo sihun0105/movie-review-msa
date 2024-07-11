@@ -2,10 +2,8 @@ import { OutOfRangeException } from '@app/common/filters/rpcexception/rpc-except
 import {
   AuthServiceController,
   AuthServiceControllerMethods,
-  AuthorizationDto,
   LoginUserDto,
   OauthLoginDto,
-  RefreshTokenDto,
   User,
 } from '@app/common/protobuf';
 import { Controller } from '@nestjs/common';
@@ -26,10 +24,6 @@ export class AuthController implements AuthServiceController {
     }
     const result = await this.usersService.login(user);
     return result;
-  }
-
-  refreshToken(request: RefreshTokenDto): AuthorizationDto {
-    return this.usersService.refreshToken(request);
   }
 
   async oauthLogin(request: OauthLoginDto): Promise<User> {

@@ -5,18 +5,9 @@ import { User } from './user';
 
 export const authProtobufPackage = 'auth';
 
-export interface AuthorizationDto {
-  accessToken: string;
-  refreshToken: string;
-}
-
 export interface LoginUserDto {
   email: string;
   password: string;
-}
-
-export interface RefreshTokenDto {
-  refreshToken: string;
 }
 
 export interface OauthLoginDto {
@@ -29,27 +20,18 @@ export const AUTH_PACKAGE_NAME = 'auth';
 export interface AuthServiceClient {
   loginUser(request: LoginUserDto): Observable<User>;
 
-  refreshToken(request: RefreshTokenDto): Observable<AuthorizationDto>;
-
   oauthLogin(request: OauthLoginDto): Observable<User>;
 }
 
 export interface AuthServiceController {
   loginUser(request: LoginUserDto): Promise<User> | Observable<User> | User;
 
-  refreshToken(
-    request: RefreshTokenDto,
-  ):
-    | Promise<AuthorizationDto>
-    | Observable<AuthorizationDto>
-    | AuthorizationDto;
-
   oauthLogin(request: OauthLoginDto): Promise<User> | Observable<User> | User;
 }
 
 export function AuthServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ['loginUser', 'refreshToken', 'oauthLogin'];
+    const grpcMethods: string[] = ['loginUser', 'oauthLogin'];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(
         constructor.prototype,
