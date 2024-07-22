@@ -18,7 +18,7 @@ export class ReplyService {
 
   async create(createReplyDto: CreateReplyDto): Promise<Reply> {
     const { comment, userId, movieId } = createReplyDto;
-    const userData = await this.prismaService.user.findUniqueOrThrow({
+    const userData = await this.prismaService.user.findUnique({
       where: { id: userId },
     });
     if (!userData) {
