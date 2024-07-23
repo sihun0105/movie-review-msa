@@ -104,11 +104,16 @@ export class ReplyService {
     return replyObject;
   }
 
-  async getReplies(getRepliesDto: { movieId: number }): Promise<Replys> {
-    const { movieId } = getRepliesDto;
+  async getReplies(getRepliesDto: {
+    movieId: number;
+    page: number;
+  }): Promise<Replys> {
+    const { movieId, page } = getRepliesDto;
     const replies = await this.prismaService.comment.findMany({
       where: { movieId: movieId, deletedAt: null },
       include: { User: true },
+      skip: (page - 1) * 10,
+      take: 10,
     });
     const replyObjects: Reply[] = [];
     for (const reply of replies) {

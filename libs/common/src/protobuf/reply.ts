@@ -22,6 +22,7 @@ export interface Replys {
 export interface GetReplyDto {
   userId: number;
   movieId: number;
+  page: number;
 }
 
 export interface CreateReplyDto {

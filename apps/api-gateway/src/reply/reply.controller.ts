@@ -26,12 +26,17 @@ export class ReplyController {
   constructor(private readonly replyService: ReplyService) {}
   @GetReplySpecDecorator('댓글 조회 API', '댓글 조회')
   @Get('/')
-  async get(@Req() req, @Query('movieId') movieId: number) {
+  async get(
+    @Req() req,
+    @Query('movieId') movieId: number,
+    @Query('page') page: number,
+  ) {
     try {
       const userNumber = req.user.userId;
       const getRepliesObservable = this.replyService.getReplies({
         movieId: movieId,
         userId: userNumber,
+        page: page,
       });
       const data = await firstValueFrom(getRepliesObservable);
       return data;

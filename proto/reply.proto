@@ -30,6 +30,7 @@ message Replys {
 message GetReplyDto {
   int32 userId = 1;
   int32 movieId = 2;
+  int32 page = 3;
 }
 
 message CreateReplyDto {
