@@ -72,12 +72,6 @@ export class MovieService implements OnModuleInit {
   async getMovieDatas({}): Promise<MovieDatas> {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    let lastWeekDay;
-    if (lastWeekDay.day() === 0) {
-      lastWeekDay.subtract(2, 'days');
-    } else if (lastWeekDay.day() === 6) {
-      lastWeekDay.subtract(1, 'days');
-    }
 
     const movieList = await this.prismaService.movie.findMany({
       where: {
@@ -90,24 +84,6 @@ export class MovieService implements OnModuleInit {
         rank: 'asc',
       },
     });
-    if (!movieList) {
-      const movieList = await this.prismaService.movie.findMany({
-        where: {
-          updatedAt: {
-            gte: lastWeekDay,
-          },
-        },
-        take: 10,
-        orderBy: {
-          rank: 'asc',
-        },
-      });
-      return {
-        MovieData: movieList.map((movieData) =>
-          this.convertMovieData(movieData),
-        ),
-      };
-    }
     const convertedMovieList = movieList.map((movieData) =>
       this.convertMovieData(movieData),
     );
