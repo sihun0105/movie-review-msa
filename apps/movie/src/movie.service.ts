@@ -72,11 +72,13 @@ export class MovieService implements OnModuleInit {
   async getMovieDatas({}): Promise<MovieDatas> {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
 
     const movieList = await this.prismaService.movie.findMany({
       where: {
         updatedAt: {
-          gte: today,
+          gte: yesterday,
         },
       },
       take: 10,
