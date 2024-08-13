@@ -80,9 +80,14 @@ export class MovieService implements OnModuleInit {
         },
       },
       take: 10,
-      orderBy: {
-        rank: 'asc',
-      },
+      orderBy: [
+        {
+          updatedAt: 'asc',
+        },
+        {
+          rank: 'asc',
+        },
+      ],
     });
     const convertedMovieList = movieList.map((movieData) =>
       this.convertMovieData(movieData),
