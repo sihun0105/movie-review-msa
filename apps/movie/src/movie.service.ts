@@ -84,9 +84,6 @@ export class MovieService implements OnModuleInit {
       take: 10,
       orderBy: [
         {
-          updatedAt: 'asc',
-        },
-        {
           rank: 'asc',
         },
       ],

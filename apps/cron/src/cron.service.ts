@@ -8,7 +8,7 @@ export class CronService {
     this.movieService.fetchMoviedata();
   }
 
-  @Cron('0 0 0 * * *')
+  @Cron('* * 9 * * *')
   handleCron() {
     this.movieService.fetchMoviedata();
   }
