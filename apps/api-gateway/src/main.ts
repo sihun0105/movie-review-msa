@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { RpcExceptionFilter } from '@app/common/filters/rpcexception/rpc-exception.filter';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import './utils/instrument';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.useGlobalFilters(new RpcExceptionFilter());
@@ -13,7 +14,6 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
-
   /**CORS 설정 */
   app.enableCors({
     origin: '*',

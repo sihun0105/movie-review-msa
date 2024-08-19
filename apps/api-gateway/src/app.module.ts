@@ -5,6 +5,7 @@ import { AuthModule } from './auth/auth.module';
 import { MovieModule } from './movie/movie.module';
 import { ReplyModule } from './reply/reply.module';
 import { UserModule } from './user/user.module';
+import { SentryModule } from '@sentry/nestjs/setup';
 
 @Module({
   imports: [
@@ -16,7 +17,7 @@ import { UserModule } from './user/user.module';
       cache: true,
       isGlobal: true,
     }),
-
+    SentryModule.forRoot(),
     AuthModule,
     UserModule,
     ReplyModule,
