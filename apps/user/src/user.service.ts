@@ -17,14 +17,14 @@ export class UserService {
     const existedNickname = await this.prismaService.user.findFirst({
       where: { nickname },
     });
+    if (existedNickname) {
+      throw new AlreadyExistsException('이미 존재하는 닉네임입니다.');
+    }
     const existedEmail = await this.prismaService.user.findFirst({
       where: { email },
     });
     if (existedEmail) {
       throw new AlreadyExistsException('이미 존재하는 이메일입니다.');
-    }
-    if (existedNickname) {
-      throw new AlreadyExistsException('이미 존재하는 닉네임입니다.');
     }
     const user = await this.prismaService.user.create({
       data: {
@@ -88,6 +88,18 @@ export class UserService {
     });
     if (!userData) {
       throw new NotFoundException(`User not found ${id}`);
+    }
+    const existedNickname = await this.prismaService.user.findFirst({
+      where: { nickname },
+    });
+    if (existedNickname) {
+      throw new AlreadyExistsException('이미 존재하는 닉네임입니다.');
+    }
+    const existedEmail = await this.prismaService.user.findFirst({
+      where: { email },
+    });
+    if (existedEmail) {
+      throw new AlreadyExistsException('이미 존재하는 이메일입니다.');
     }
     const updatedUserData = await this.prismaService.user.update({
       where: { id },
