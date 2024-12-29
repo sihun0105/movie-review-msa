@@ -9,3 +9,23 @@ Nest를 사용한 영화평론 프로젝트입니다.
 <p align=center>
 <img src='https://github.com/sihun0105/movie-review/assets/80196373/f9bcfc11-c038-47b6-88cc-032d96bce51e'>
 </p>
+
+## Getting Started
+
+First, run the development server:
+
+```bash
+pnpm dev api-gateway
+pnpm dev auth
+pnpm dev movie
+pnpm dev reply
+pnpm dev user
+pnpm dev movie
+```
+
+### generate proto
+
+```
+
+make generate_grpc_code
+```
