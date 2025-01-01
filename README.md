@@ -23,9 +23,16 @@ pnpm dev user
 pnpm dev movie
 ```
 
-### generate proto
+### generate protobuf
 
 ```
 
 make generate_grpc_code
+```
+
+### generate prisma
+
+```
+pnpm prisma generate --schema=/prisma/mysql.schema.prisma
+pnpm prisma generate --schema=/prisma/postgres.schema.prisma
 ```

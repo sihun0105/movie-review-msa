@@ -1,6 +1,6 @@
 import { MovieData, MovieDatas } from '@app/common/protobuf';
 import { MovieResponse } from '@app/common/types/movie-response';
-import { PrismaService } from '@app/prisma';
+import { MySQLPrismaService } from '@app/prisma';
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import axios from 'axios';
 import moment from 'moment';
@@ -13,7 +13,7 @@ export class MovieService implements OnModuleInit {
     'http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp';
   private readonly kmdbKey = process.env.KMDB_API_KEY;
 
-  constructor(private readonly prismaService: PrismaService) {}
+  constructor(private readonly mysqlPrismaService: MySQLPrismaService) {}
 
   onModuleInit() {
     const yesterday = moment().subtract(1, 'days').format('YYYYMMDD');
@@ -35,7 +35,7 @@ export class MovieService implements OnModuleInit {
         const upsertMovies = movieList.map(async (movieData) => {
           try {
             const posterData = await this.fetchKmdbData(movieData.movieNm);
-            await this.prismaService.movie.upsert({
+            await this.mysqlPrismaService.movie.upsert({
               where: { movieCd: +movieData.movieCd },
               update: {
                 title: movieData.movieNm,
@@ -75,7 +75,7 @@ export class MovieService implements OnModuleInit {
     const yesterday = new Date(today);
     yesterday.setDate(yesterday.getDate() - 1);
 
-    const movieList = await this.prismaService.movie.findMany({
+    const movieList = await this.mysqlPrismaService.movie.findMany({
       where: {
         updatedAt: {
           gte: yesterday,

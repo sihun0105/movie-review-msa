@@ -1,6 +1,6 @@
 import { OutOfRangeException } from '@app/common/filters/rpcexception/rpc-exception';
 import { User } from '@app/common/protobuf';
-import { PrismaService } from '@app/prisma';
+import { MySQLPrismaService } from '@app/prisma';
 import { UtilsService } from '@app/utils';
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
@@ -8,7 +8,7 @@ import { compare, hash } from 'bcryptjs';
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly prismaService: PrismaService,
+    private readonly mysqlPrismaService: MySQLPrismaService,
     private readonly utilsService: UtilsService,
     private jwtService: JwtService,
   ) {}
@@ -17,7 +17,9 @@ export class AuthService {
   async validateUser(email: string, password: string) {
     if (!email || !password)
       throw new OutOfRangeException('아이디와 비밀번호를 확인해주세요.');
-    const user = await this.prismaService.user.findUnique({ where: { email } });
+    const user = await this.mysqlPrismaService.user.findUnique({
+      where: { email },
+    });
     if (!user) {
       return null;
     }
@@ -59,12 +61,12 @@ export class AuthService {
     providerId: string;
     provider: string;
   }) {
-    const user = await this.prismaService.user.findFirst({
+    const user = await this.mysqlPrismaService.user.findFirst({
       where: { email: providerId },
     });
     if (!user) {
       const hashedPassword = await hash('moview' + providerId, 10);
-      const newUser = await this.prismaService.user.create({
+      const newUser = await this.mysqlPrismaService.user.create({
         data: {
           email: providerId,
           provider: provider,

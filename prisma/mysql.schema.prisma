@@ -1,0 +1,116 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/mysql"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Comment {
+  id        Int       @id @default(autoincrement())
+  movieId   Int
+  createdAt DateTime  @default(now()) @db.DateTime(6)
+  updatedAt DateTime  @default(now()) @db.DateTime(6)
+  deletedAt DateTime? @db.DateTime(6)
+  userno    Int
+  comment   String?   @db.LongText
+  Movie     Movie     @relation(fields: [movieId], references: [movieCd], onDelete: Cascade)
+  User      User      @relation(fields: [userno], references: [id], onDelete: Cascade)
+
+  @@index([movieId], map: "movieId_idx")
+  @@index([userno], map: "user_no_idx")
+}
+
+model Movie {
+  id        Int       @id @default(autoincrement())
+  audience  BigInt?
+  movieCd   Int       @unique
+  title     String?   @db.LongText
+  rank      BigInt?
+  createdAt DateTime  @default(now()) @db.DateTime(6)
+  updatedAt DateTime  @default(now()) @db.DateTime(6)
+  poster    String?   @db.VarChar(1024)
+  Comment   Comment[]
+
+  @@index([movieCd], map: "movieId")
+}
+
+model User {
+  id               Int                @id @default(autoincrement())
+  email            String             @unique(map: "uni_User_email")
+  nickname         String?            @db.LongText
+  password         String?            @db.LongText
+  createdAt        DateTime           @default(now()) @db.DateTime(6)
+  updatedAt        DateTime           @default(now()) @db.DateTime(6)
+  deletedAt        DateTime?          @db.DateTime(6)
+  provider         String             @default("credentials") @db.VarChar(45)
+  Comment          Comment[]
+  channelchats     channelchats[]
+  channelmembers   channelmembers[]
+  workspace        workspace[]
+  workspacemembers workspacemembers[]
+}
+
+model channelchats {
+  id        Int       @id @default(autoincrement())
+  content   String    @db.Text
+  createdAt DateTime  @default(now()) @db.DateTime(6)
+  updatedAt DateTime  @default(now()) @db.DateTime(6)
+  UserId    Int?
+  ChannelId Int?
+  channels  channels? @relation(fields: [ChannelId], references: [id], map: "FK_channelchats_channles")
+  User      User?     @relation(fields: [UserId], references: [id], map: "FK_channelchats_user")
+
+  @@index([UserId], map: "FK_8494e7d49237c46d648fbab8cf4_idx")
+  @@index([ChannelId], map: "FK_8494e7d49237c46d648fbab8cf4_idx1")
+}
+
+model channelmembers {
+  ChannelId Int
+  UserId    Int
+  createdAt DateTime @default(now()) @db.DateTime(6)
+  updatedAt DateTime @default(now()) @db.DateTime(6)
+  User      User     @relation(fields: [UserId], references: [id], onDelete: Cascade, map: "FK_channelmembers_user")
+
+  @@id([UserId, ChannelId])
+}
+
+model channels {
+  id           Int            @id @default(autoincrement())
+  name         String         @db.VarChar(30)
+  private      Boolean?       @default(false)
+  createdAt    DateTime       @default(now()) @db.DateTime(6)
+  updatedAt    DateTime       @default(now()) @db.DateTime(6)
+  WorkspaceId  Int?
+  channelchats channelchats[]
+  workspace    workspace?     @relation(fields: [WorkspaceId], references: [id], map: "FK_channels_workspaces")
+
+  @@index([WorkspaceId], map: "FK_channels_workspaces_idx")
+}
+
+model workspace {
+  id        Int        @id @default(autoincrement())
+  name      String     @db.VarChar(30)
+  url       String     @db.VarChar(30)
+  createdAt DateTime   @default(now()) @db.DateTime(6)
+  updatedAt DateTime   @default(now()) @db.DateTime(6)
+  deletedAt DateTime?  @db.DateTime(6)
+  OwnerId   Int?
+  channels  channels[]
+  User      User?      @relation(fields: [OwnerId], references: [id], map: "FK_workspace_user")
+
+  @@index([OwnerId], map: "FK_workspace_user_idx")
+}
+
+model workspacemembers {
+  WorkspaceId Int
+  UserId      Int
+  createdAt   DateTime  @default(now()) @db.DateTime(6)
+  updatedAt   DateTime  @default(now()) @db.DateTime(6)
+  loggedInAt  DateTime? @db.DateTime(0)
+  User        User      @relation(fields: [UserId], references: [id], onDelete: Cascade, map: "FK_workspacemembers_user")
+
+  @@id([UserId, WorkspaceId])
+}

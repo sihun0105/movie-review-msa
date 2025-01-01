@@ -1,8 +1,17 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated/postgres"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL_POSTGRES")
 }
 
-generator client {
-  provider = "prisma-client-js"
+model MovieVector {
+  id        Int       @id @default(autoincrement())
+  movieCd   Int       @unique
+  vector    Float[]
+  createdAt DateTime  @default(now()) @db.Timestamp(6)
+  updatedAt DateTime  @default(now()) @db.Timestamp(6)
 }

@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
-import { PrismaService } from './prisma.service';
+import { MySQLPrismaService } from './mysql-prisma.service';
+import { PostgresPrismaService } from './postgres-prisma.service';
 
 @Module({
-  providers: [PrismaService],
-  exports: [PrismaService],
+  providers: [MySQLPrismaService, PostgresPrismaService],
+  exports: [MySQLPrismaService, PostgresPrismaService],
 })
 export class PrismaModule {}
