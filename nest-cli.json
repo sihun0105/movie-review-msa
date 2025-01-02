@@ -124,6 +124,15 @@
       "compilerOptions": {
         "tsConfigPath": "libs/crawling/tsconfig.lib.json"
       }
+    },
+    "embedding": {
+      "type": "application",
+      "root": "apps/embedding",
+      "entryFile": "main",
+      "sourceRoot": "apps/embedding/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/embedding/tsconfig.app.json"
+      }
     }
   }
 }

@@ -1,6 +1,7 @@
 import { MovieData, MovieDatas } from '@app/common/protobuf';
 import { MovieResponse } from '@app/common/types/movie-response';
 import { MySQLPrismaService } from '@app/prisma';
+import { UtilsService } from '@app/utils';
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import axios from 'axios';
 import moment from 'moment';
@@ -13,7 +14,10 @@ export class MovieService implements OnModuleInit {
     'http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp';
   private readonly kmdbKey = process.env.KMDB_API_KEY;
 
-  constructor(private readonly mysqlPrismaService: MySQLPrismaService) {}
+  constructor(
+    private readonly mysqlPrismaService: MySQLPrismaService,
+    private readonly utilsService: UtilsService,
+  ) {}
 
   onModuleInit() {
     const yesterday = moment().subtract(1, 'days').format('YYYYMMDD');
@@ -24,11 +28,11 @@ export class MovieService implements OnModuleInit {
     const response = await axios.get(url);
     return response.data?.Data?.[0]?.Result?.[0]?.posters?.split('|')[0] || '';
   }
+
   async fetchMovies(date: string): Promise<void> {
     try {
       const url = `${this.koficUrl}?key=${this.koficKey}&targetDt=${date}`;
       const response = await axios.get<MovieResponse>(url);
-
       if (response.data?.boxOfficeResult?.dailyBoxOfficeList) {
         const movieList = response.data.boxOfficeResult.dailyBoxOfficeList;
 
