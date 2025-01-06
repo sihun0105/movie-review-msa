@@ -8,6 +8,7 @@ export class UtilsService {
 
   constructor() {
     this.hf = new HfInference(process.env.HF_API_KEY);
+    console.log(this.hf);
   }
 
   dateToTimestamp(date: Date): Timestamp {
@@ -16,15 +17,12 @@ export class UtilsService {
     timestamp.setNanos((date.getTime() % 1000) * 1000000);
     return timestamp;
   }
-
-  async generateEmbedding(
-    description: string,
-  ): Promise<number | number[] | number[][]> {
-    const response = await this.hf.featureExtraction({
-      model: 'bert-base-uncased',
+  async generateEmbedding(description: string): Promise<any> {
+    const model = 'sentence-transformers/all-MiniLM-L6-v2';
+    const embeddings = await this.hf.featureExtraction({
+      model,
       inputs: description,
     });
-
-    return response[0];
+    return embeddings;
   }
 }

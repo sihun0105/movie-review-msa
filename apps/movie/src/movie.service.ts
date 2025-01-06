@@ -1,6 +1,7 @@
 import { MovieData, MovieDatas } from '@app/common/protobuf';
 import { MovieResponse } from '@app/common/types/movie-response';
 import { MySQLPrismaService } from '@app/prisma';
+import { PostgresPrismaService } from '@app/prisma/postgres-prisma.service';
 import { UtilsService } from '@app/utils';
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import axios from 'axios';
@@ -16,6 +17,7 @@ export class MovieService implements OnModuleInit {
 
   constructor(
     private readonly mysqlPrismaService: MySQLPrismaService,
+    private readonly postgresPrismaService: PostgresPrismaService,
     private readonly utilsService: UtilsService,
   ) {}
 
@@ -23,10 +25,16 @@ export class MovieService implements OnModuleInit {
     const yesterday = moment().subtract(1, 'days').format('YYYYMMDD');
     this.fetchMovies(yesterday);
   }
-  async fetchKmdbData(title: string): Promise<string> {
+  async fetchKmdbData(title: string): Promise<{
+    poster: string;
+    plot: string;
+  }> {
     const url = `${this.kmdbUrl}?collection=kmdb_new2&ServiceKey=${this.kmdbKey}&detail=Y&query=${title}`;
     const response = await axios.get(url);
-    return response.data?.Data?.[0]?.Result?.[0]?.posters?.split('|')[0] || '';
+    const poster =
+      response.data?.Data?.[0]?.Result?.[0]?.posters?.split('|')[0];
+    const plot = response.data?.Data?.[0]?.Result?.[0]?.plots.plot[0].plotText;
+    return { poster, plot };
   }
 
   async fetchMovies(date: string): Promise<void> {
@@ -38,7 +46,9 @@ export class MovieService implements OnModuleInit {
 
         const upsertMovies = movieList.map(async (movieData) => {
           try {
-            const posterData = await this.fetchKmdbData(movieData.movieNm);
+            const { plot, poster } = await this.fetchKmdbData(
+              movieData.movieNm,
+            );
             await this.mysqlPrismaService.movie.upsert({
               where: { movieCd: +movieData.movieCd },
               update: {
@@ -46,14 +56,25 @@ export class MovieService implements OnModuleInit {
                 audience: +movieData.audiAcc,
                 rank: +movieData.rank,
                 updatedAt: new Date(),
-                poster: posterData ?? '',
+                poster: poster ?? '',
               },
               create: {
                 title: movieData.movieNm,
                 movieCd: +movieData.movieCd,
                 audience: +movieData.audiAcc,
                 rank: +movieData.rank,
-                poster: posterData ?? '',
+                poster: poster ?? '',
+              },
+            });
+            await this.postgresPrismaService.movieVector.upsert({
+              where: { movieCd: +movieData.movieCd },
+              update: {
+                vector: await this.utilsService.generateEmbedding(plot),
+                updatedAt: new Date(),
+              },
+              create: {
+                movieCd: +movieData.movieCd,
+                vector: await this.utilsService.generateEmbedding(plot),
               },
             });
           } catch (error) {
