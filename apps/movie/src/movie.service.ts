@@ -38,6 +38,9 @@ export class MovieService implements OnModuleInit {
   }
 
   async fetchMovies(date: string): Promise<void> {
+    console.log('getMovieDatas');
+    const result = await this.recommendMovies(20248465);
+    console.log(result);
     try {
       const url = `${this.koficUrl}?key=${this.koficKey}&targetDt=${date}`;
       const response = await axios.get<MovieResponse>(url);
@@ -49,6 +52,7 @@ export class MovieService implements OnModuleInit {
             const { plot, poster } = await this.fetchKmdbData(
               movieData.movieNm,
             );
+            const vector = await this.utilsService.generateEmbedding(plot);
             await this.mysqlPrismaService.movie.upsert({
               where: { movieCd: +movieData.movieCd },
               update: {
@@ -63,18 +67,19 @@ export class MovieService implements OnModuleInit {
                 movieCd: +movieData.movieCd,
                 audience: +movieData.audiAcc,
                 rank: +movieData.rank,
+                vector: vector,
                 poster: poster ?? '',
               },
             });
             await this.postgresPrismaService.movieVector.upsert({
               where: { movieCd: +movieData.movieCd },
               update: {
-                vector: await this.utilsService.generateEmbedding(plot),
+                vector: vector,
                 updatedAt: new Date(),
               },
               create: {
                 movieCd: +movieData.movieCd,
-                vector: await this.utilsService.generateEmbedding(plot),
+                vector: vector,
               },
             });
           } catch (error) {
@@ -132,5 +137,36 @@ export class MovieService implements OnModuleInit {
       movieCd: Number(unknown.movieCd),
       poster: unknown.poster,
     };
+  }
+  private async recommendMovies(movieCd: number): Promise<any> {
+    const movie = await this.mysqlPrismaService.movie.findUnique({
+      where: { movieCd },
+    });
+    if (!movie) {
+      throw new Error(`Movie with movieCd ${movieCd} not found`);
+    }
+    const vector = movie.vector;
+
+    const similarMovies: { movieCd: number; similarity: number }[] = await this
+      .postgresPrismaService.$queryRaw`SELECT "movieCd", 
+    (SELECT SUM(a * b) 
+     FROM unnest("vector") AS a, unnest(ARRAY[${vector}]) AS b) AS similarity 
+      FROM public."MovieVector" 
+      WHERE "movieCd" != ${movieCd} 
+      ORDER BY similarity DESC 
+      LIMIT 10;`;
+    if (!similarMovies) {
+      throw new Error('No similar movies found');
+    }
+
+    const recommendedMovies = await this.mysqlPrismaService.movie.findMany({
+      where: {
+        movieCd: {
+          in: similarMovies.map((movie) => movie.movieCd),
+        },
+      },
+    });
+    console.log(recommendedMovies);
+    return recommendedMovies;
   }
 }
