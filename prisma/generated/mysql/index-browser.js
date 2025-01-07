@@ -125,7 +125,8 @@ exports.Prisma.MovieScalarFieldEnum = {
   rank: 'rank',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  poster: 'poster'
+  poster: 'poster',
+  vector: 'vector'
 };
 
 exports.Prisma.UserScalarFieldEnum = {
@@ -187,9 +188,20 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
 };
 
 

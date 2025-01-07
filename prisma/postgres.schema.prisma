@@ -11,7 +11,14 @@ datasource db {
 model MovieVector {
   id        Int       @id @default(autoincrement())
   movieCd   Int       @unique
-  vector    Float[]
+  vector    Json      
   createdAt DateTime  @default(now()) @db.Timestamp(6)
   updatedAt DateTime  @default(now()) @db.Timestamp(6)
 }
+// .postgresPrismaService.$queryRaw`SELECT "movieCd", 
+//       (SELECT SUM(a * b) 
+//        FROM unnest("vector") AS a, unnest(ARRAY[${vector}]) AS b) AS similarity 
+//         FROM public."MovieVector" 
+//         WHERE "movieCd" != ${movieCd} 
+//         ORDER BY similarity DESC 
+//         LIMIT 10;`;

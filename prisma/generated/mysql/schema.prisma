@@ -32,6 +32,7 @@ model Movie {
   createdAt DateTime  @default(now()) @db.DateTime(6)
   updatedAt DateTime  @default(now()) @db.DateTime(6)
   poster    String?   @db.VarChar(1024)
+  vector    Json?     // 벡터 데이터를 저장할 필드 추가
   Comment   Comment[]
 
   @@index([movieCd], map: "movieId")
