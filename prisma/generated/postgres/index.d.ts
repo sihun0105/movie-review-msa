@@ -881,11 +881,13 @@ export namespace Prisma {
   export type MovieVectorAvgAggregateOutputType = {
     id: number | null
     movieCd: number | null
+    vector: number | null
   }
 
   export type MovieVectorSumAggregateOutputType = {
     id: number | null
     movieCd: number | null
+    vector: number[]
   }
 
   export type MovieVectorMinAggregateOutputType = {
@@ -915,11 +917,13 @@ export namespace Prisma {
   export type MovieVectorAvgAggregateInputType = {
     id?: true
     movieCd?: true
+    vector?: true
   }
 
   export type MovieVectorSumAggregateInputType = {
     id?: true
     movieCd?: true
+    vector?: true
   }
 
   export type MovieVectorMinAggregateInputType = {
@@ -1034,7 +1038,7 @@ export namespace Prisma {
   export type MovieVectorGroupByOutputType = {
     id: number
     movieCd: number
-    vector: JsonValue
+    vector: number[]
     createdAt: Date
     updatedAt: Date
     _count: MovieVectorCountAggregateOutputType | null
@@ -1081,7 +1085,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       movieCd: number
-      vector: Prisma.JsonValue
+      vector: number[]
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["movieVector"]>
@@ -1480,7 +1484,7 @@ export namespace Prisma {
   interface MovieVectorFieldRefs {
     readonly id: FieldRef<"MovieVector", 'Int'>
     readonly movieCd: FieldRef<"MovieVector", 'Int'>
-    readonly vector: FieldRef<"MovieVector", 'Json'>
+    readonly vector: FieldRef<"MovieVector", 'Float[]'>
     readonly createdAt: FieldRef<"MovieVector", 'DateTime'>
     readonly updatedAt: FieldRef<"MovieVector", 'DateTime'>
   }
@@ -1803,22 +1807,6 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-  export const JsonNullValueInput: {
-    JsonNull: typeof JsonNull
-  };
-
-  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
-
-
-  export const JsonNullValueFilter: {
-    DbNull: typeof DbNull,
-    JsonNull: typeof JsonNull,
-    AnyNull: typeof AnyNull
-  };
-
-  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
-
-
   /**
    * Field references 
    */
@@ -1839,16 +1827,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Json'
+   * Reference to a field of type 'Float[]'
    */
-  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
 
 
   /**
-   * Reference to a field of type 'String'
+   * Reference to a field of type 'Float'
    */
-  export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String'>
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
     
 
 
@@ -1864,20 +1852,6 @@ export namespace Prisma {
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
     
-
-
-  /**
-   * Reference to a field of type 'Float'
-   */
-  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-    
-
-
-  /**
-   * Reference to a field of type 'Float[]'
-   */
-  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
-    
   /**
    * Deep Input Types
    */
@@ -1889,7 +1863,7 @@ export namespace Prisma {
     NOT?: MovieVectorWhereInput | MovieVectorWhereInput[]
     id?: IntFilter<"MovieVector"> | number
     movieCd?: IntFilter<"MovieVector"> | number
-    vector?: JsonFilter<"MovieVector">
+    vector?: FloatNullableListFilter<"MovieVector">
     createdAt?: DateTimeFilter<"MovieVector"> | Date | string
     updatedAt?: DateTimeFilter<"MovieVector"> | Date | string
   }
@@ -1908,7 +1882,7 @@ export namespace Prisma {
     AND?: MovieVectorWhereInput | MovieVectorWhereInput[]
     OR?: MovieVectorWhereInput[]
     NOT?: MovieVectorWhereInput | MovieVectorWhereInput[]
-    vector?: JsonFilter<"MovieVector">
+    vector?: FloatNullableListFilter<"MovieVector">
     createdAt?: DateTimeFilter<"MovieVector"> | Date | string
     updatedAt?: DateTimeFilter<"MovieVector"> | Date | string
   }, "id" | "movieCd">
@@ -1932,14 +1906,14 @@ export namespace Prisma {
     NOT?: MovieVectorScalarWhereWithAggregatesInput | MovieVectorScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"MovieVector"> | number
     movieCd?: IntWithAggregatesFilter<"MovieVector"> | number
-    vector?: JsonWithAggregatesFilter<"MovieVector">
+    vector?: FloatNullableListFilter<"MovieVector">
     createdAt?: DateTimeWithAggregatesFilter<"MovieVector"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"MovieVector"> | Date | string
   }
 
   export type MovieVectorCreateInput = {
     movieCd: number
-    vector: JsonNullValueInput | InputJsonValue
+    vector?: MovieVectorCreatevectorInput | number[]
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -1947,14 +1921,14 @@ export namespace Prisma {
   export type MovieVectorUncheckedCreateInput = {
     id?: number
     movieCd: number
-    vector: JsonNullValueInput | InputJsonValue
+    vector?: MovieVectorCreatevectorInput | number[]
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type MovieVectorUpdateInput = {
     movieCd?: IntFieldUpdateOperationsInput | number
-    vector?: JsonNullValueInput | InputJsonValue
+    vector?: MovieVectorUpdatevectorInput | number[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -1962,7 +1936,7 @@ export namespace Prisma {
   export type MovieVectorUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     movieCd?: IntFieldUpdateOperationsInput | number
-    vector?: JsonNullValueInput | InputJsonValue
+    vector?: MovieVectorUpdatevectorInput | number[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -1970,14 +1944,14 @@ export namespace Prisma {
   export type MovieVectorCreateManyInput = {
     id?: number
     movieCd: number
-    vector: JsonNullValueInput | InputJsonValue
+    vector?: MovieVectorCreatevectorInput | number[]
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type MovieVectorUpdateManyMutationInput = {
     movieCd?: IntFieldUpdateOperationsInput | number
-    vector?: JsonNullValueInput | InputJsonValue
+    vector?: MovieVectorUpdatevectorInput | number[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -1985,7 +1959,7 @@ export namespace Prisma {
   export type MovieVectorUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     movieCd?: IntFieldUpdateOperationsInput | number
-    vector?: JsonNullValueInput | InputJsonValue
+    vector?: MovieVectorUpdatevectorInput | number[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -2000,27 +1974,13 @@ export namespace Prisma {
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntFilter<$PrismaModel> | number
   }
-  export type JsonFilter<$PrismaModel = never> = 
-    | PatchUndefined<
-        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
 
-  export type JsonFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  export type FloatNullableListFilter<$PrismaModel = never> = {
+    equals?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    has?: number | FloatFieldRefInput<$PrismaModel> | null
+    hasEvery?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    hasSome?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
   }
 
   export type DateTimeFilter<$PrismaModel = never> = {
@@ -2045,6 +2005,7 @@ export namespace Prisma {
   export type MovieVectorAvgOrderByAggregateInput = {
     id?: SortOrder
     movieCd?: SortOrder
+    vector?: SortOrder
   }
 
   export type MovieVectorMaxOrderByAggregateInput = {
@@ -2064,6 +2025,7 @@ export namespace Prisma {
   export type MovieVectorSumOrderByAggregateInput = {
     id?: SortOrder
     movieCd?: SortOrder
+    vector?: SortOrder
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -2081,31 +2043,6 @@ export namespace Prisma {
     _min?: NestedIntFilter<$PrismaModel>
     _max?: NestedIntFilter<$PrismaModel>
   }
-  export type JsonWithAggregatesFilter<$PrismaModel = never> = 
-    | PatchUndefined<
-        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedJsonFilter<$PrismaModel>
-    _max?: NestedJsonFilter<$PrismaModel>
-  }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
@@ -2121,12 +2058,21 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type MovieVectorCreatevectorInput = {
+    set: number[]
+  }
+
   export type IntFieldUpdateOperationsInput = {
     set?: number
     increment?: number
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type MovieVectorUpdatevectorInput = {
+    set?: number[]
+    push?: number | number[]
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -2180,28 +2126,6 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
-  }
-  export type NestedJsonFilter<$PrismaModel = never> = 
-    | PatchUndefined<
-        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
-        Required<NestedJsonFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
-
-  export type NestedJsonFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
