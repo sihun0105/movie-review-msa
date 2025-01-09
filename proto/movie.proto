@@ -9,10 +9,14 @@ option go_package = "movie";
 service MovieService {
   rpc GetMovieDatas(common.Empty) returns (MovieDatas) {}
   rpc FetchMovies(FetchMoviesRequest) returns (common.Empty) {}
+  rpc RecommendMovie(RecommendMovieRequest) returns (MovieDatas) {}
 }
 
 message FetchMoviesRequest {
   string fetchDate = 1;
+}
+message RecommendMovieRequest {
+  int32 movieCd = 1;
 }
 message MovieData {
   int32 id = 1;

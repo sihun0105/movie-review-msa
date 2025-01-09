@@ -4,6 +4,7 @@ import {
   MovieDatas,
   MovieServiceController,
   MovieServiceControllerMethods,
+  RecommendMovieRequest,
 } from '@app/common/protobuf';
 import { Controller } from '@nestjs/common';
 import { MovieService } from './movie.service';
@@ -18,5 +19,8 @@ export class MovieController implements MovieServiceController {
   }
   async getMovieDatas(request: Empty): Promise<MovieDatas> {
     return await this.movieService.getMovieDatas(request);
+  }
+  async recommendMovie(request: RecommendMovieRequest): Promise<MovieDatas> {
+    return await this.movieService.recommendMovies(request.movieCd);
   }
 }

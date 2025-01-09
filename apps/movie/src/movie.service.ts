@@ -138,7 +138,7 @@ export class MovieService implements OnModuleInit {
       poster: unknown.poster,
     };
   }
-  private async recommendMovies(movieCd: number): Promise<any> {
+  async recommendMovies(movieCd: number): Promise<any> {
     const movie = await this.mysqlPrismaService.movie.findUnique({
       where: { movieCd },
     });

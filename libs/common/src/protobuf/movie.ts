@@ -9,6 +9,10 @@ export interface FetchMoviesRequest {
   fetchDate: string;
 }
 
+export interface RecommendMovieRequest {
+  movieCd: number;
+}
+
 export interface MovieData {
   id: number;
   movieCd: number;
@@ -30,6 +34,8 @@ export interface MovieServiceClient {
   getMovieDatas(request: Empty): Observable<MovieDatas>;
 
   fetchMovies(request: FetchMoviesRequest): Observable<Empty>;
+
+  recommendMovie(request: RecommendMovieRequest): Observable<MovieDatas>;
 }
 
 export interface MovieServiceController {
@@ -40,11 +46,19 @@ export interface MovieServiceController {
   fetchMovies(
     request: FetchMoviesRequest,
   ): Promise<Empty> | Observable<Empty> | Empty;
+
+  recommendMovie(
+    request: RecommendMovieRequest,
+  ): Promise<MovieDatas> | Observable<MovieDatas> | MovieDatas;
 }
 
 export function MovieServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ['getMovieDatas', 'fetchMovies'];
+    const grpcMethods: string[] = [
+      'getMovieDatas',
+      'fetchMovies',
+      'recommendMovie',
+    ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(
         constructor.prototype,
