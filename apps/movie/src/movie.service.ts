@@ -25,12 +25,16 @@ export class MovieService implements OnModuleInit {
     const yesterday = moment().subtract(1, 'days').format('YYYYMMDD');
     this.fetchMovies(yesterday);
   }
-  async fetchKmdbData(title: string): Promise<{
+  async fetchKmdbData(
+    title: string,
+    date: string,
+  ): Promise<{
     poster: string;
     plot: string;
   }> {
-    const url = `${this.kmdbUrl}?collection=kmdb_new2&ServiceKey=${this.kmdbKey}&detail=Y&query=${title}`;
+    const url = `${this.kmdbUrl}?collection=kmdb_new2&ServiceKey=${this.kmdbKey}&detail=N&query=${title}&releaseDts=${date}`;
     const response = await axios.get(url);
+    console.log(response.data.Data[0].Result);
     const poster =
       response.data?.Data?.[0]?.Result?.[0]?.posters?.split('|')[0];
     const plot = response.data?.Data?.[0]?.Result?.[0]?.plots.plot[0].plotText;
@@ -38,19 +42,19 @@ export class MovieService implements OnModuleInit {
   }
 
   async fetchMovies(date: string): Promise<void> {
-    console.log('getMovieDatas');
-    const result = await this.recommendMovies(20248465);
-    console.log(result);
     try {
       const url = `${this.koficUrl}?key=${this.koficKey}&targetDt=${date}`;
+      console.log(url);
       const response = await axios.get<MovieResponse>(url);
       if (response.data?.boxOfficeResult?.dailyBoxOfficeList) {
         const movieList = response.data.boxOfficeResult.dailyBoxOfficeList;
 
         const upsertMovies = movieList.map(async (movieData) => {
+          console.log(movieData);
           try {
             const { plot, poster } = await this.fetchKmdbData(
               movieData.movieNm,
+              date,
             );
             const vector = await this.utilsService.generateEmbedding(plot);
             await this.mysqlPrismaService.movie.upsert({
@@ -98,7 +102,6 @@ export class MovieService implements OnModuleInit {
       console.error('Failed to fetch movies:', error);
     }
   }
-
   async getMovieDatas({}): Promise<MovieDatas> {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
@@ -166,7 +169,6 @@ export class MovieService implements OnModuleInit {
         },
       },
     });
-    console.log(recommendedMovies);
     return recommendedMovies;
   }
 }
