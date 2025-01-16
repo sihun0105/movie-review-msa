@@ -33,6 +33,6 @@ make generate_grpc_code
 ### generate prisma
 
 ```
-pnpm prisma generate --schema=/prisma/mysql.schema.prisma
-pnpm prisma generate --schema=/prisma/postgres.schema.prisma
+pnpm prisma generate --schema=prisma/mysql.schema.prisma
+pnpm prisma generate --schema=prisma/postgres.schema.prisma
 ```

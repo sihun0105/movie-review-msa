@@ -2637,6 +2637,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     poster: string | null
+    rankInten: string | null
   }
 
   export type MovieMaxAggregateOutputType = {
@@ -2648,6 +2649,7 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     poster: string | null
+    rankInten: string | null
   }
 
   export type MovieCountAggregateOutputType = {
@@ -2660,6 +2662,7 @@ export namespace Prisma {
     updatedAt: number
     poster: number
     vector: number
+    rankInten: number
     _all: number
   }
 
@@ -2687,6 +2690,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     poster?: true
+    rankInten?: true
   }
 
   export type MovieMaxAggregateInputType = {
@@ -2698,6 +2702,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     poster?: true
+    rankInten?: true
   }
 
   export type MovieCountAggregateInputType = {
@@ -2710,6 +2715,7 @@ export namespace Prisma {
     updatedAt?: true
     poster?: true
     vector?: true
+    rankInten?: true
     _all?: true
   }
 
@@ -2809,6 +2815,7 @@ export namespace Prisma {
     updatedAt: Date
     poster: string | null
     vector: JsonValue | null
+    rankInten: string | null
     _count: MovieCountAggregateOutputType | null
     _avg: MovieAvgAggregateOutputType | null
     _sum: MovieSumAggregateOutputType | null
@@ -2840,6 +2847,7 @@ export namespace Prisma {
     updatedAt?: boolean
     poster?: boolean
     vector?: boolean
+    rankInten?: boolean
     Comment?: boolean | Movie$CommentArgs<ExtArgs>
     _count?: boolean | MovieCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["movie"]>
@@ -2854,6 +2862,7 @@ export namespace Prisma {
     updatedAt?: boolean
     poster?: boolean
     vector?: boolean
+    rankInten?: boolean
   }
 
   export type MovieInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2877,6 +2886,7 @@ export namespace Prisma {
       updatedAt: Date
       poster: string | null
       vector: Prisma.JsonValue | null
+      rankInten: string | null
     }, ExtArgs["result"]["movie"]>
     composites: {}
   }
@@ -3281,6 +3291,7 @@ export namespace Prisma {
     readonly updatedAt: FieldRef<"Movie", 'DateTime'>
     readonly poster: FieldRef<"Movie", 'String'>
     readonly vector: FieldRef<"Movie", 'Json'>
+    readonly rankInten: FieldRef<"Movie", 'String'>
   }
     
 
@@ -9719,7 +9730,8 @@ export namespace Prisma {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     poster: 'poster',
-    vector: 'vector'
+    vector: 'vector',
+    rankInten: 'rankInten'
   };
 
   export type MovieScalarFieldEnum = (typeof MovieScalarFieldEnum)[keyof typeof MovieScalarFieldEnum]
@@ -9970,6 +9982,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Movie"> | Date | string
     poster?: StringNullableFilter<"Movie"> | string | null
     vector?: JsonNullableFilter<"Movie">
+    rankInten?: StringNullableFilter<"Movie"> | string | null
     Comment?: CommentListRelationFilter
   }
 
@@ -9983,6 +9996,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     poster?: SortOrderInput | SortOrder
     vector?: SortOrderInput | SortOrder
+    rankInten?: SortOrderInput | SortOrder
     Comment?: CommentOrderByRelationAggregateInput
   }
 
@@ -9999,6 +10013,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Movie"> | Date | string
     poster?: StringNullableFilter<"Movie"> | string | null
     vector?: JsonNullableFilter<"Movie">
+    rankInten?: StringNullableFilter<"Movie"> | string | null
     Comment?: CommentListRelationFilter
   }, "id" | "movieCd">
 
@@ -10012,6 +10027,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     poster?: SortOrderInput | SortOrder
     vector?: SortOrderInput | SortOrder
+    rankInten?: SortOrderInput | SortOrder
     _count?: MovieCountOrderByAggregateInput
     _avg?: MovieAvgOrderByAggregateInput
     _max?: MovieMaxOrderByAggregateInput
@@ -10032,6 +10048,7 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Movie"> | Date | string
     poster?: StringNullableWithAggregatesFilter<"Movie"> | string | null
     vector?: JsonNullableWithAggregatesFilter<"Movie">
+    rankInten?: StringNullableWithAggregatesFilter<"Movie"> | string | null
   }
 
   export type UserWhereInput = {
@@ -10503,6 +10520,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     poster?: string | null
     vector?: NullableJsonNullValueInput | InputJsonValue
+    rankInten?: string | null
     Comment?: CommentCreateNestedManyWithoutMovieInput
   }
 
@@ -10516,6 +10534,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     poster?: string | null
     vector?: NullableJsonNullValueInput | InputJsonValue
+    rankInten?: string | null
     Comment?: CommentUncheckedCreateNestedManyWithoutMovieInput
   }
 
@@ -10528,6 +10547,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     poster?: NullableStringFieldUpdateOperationsInput | string | null
     vector?: NullableJsonNullValueInput | InputJsonValue
+    rankInten?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUpdateManyWithoutMovieNestedInput
   }
 
@@ -10541,6 +10561,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     poster?: NullableStringFieldUpdateOperationsInput | string | null
     vector?: NullableJsonNullValueInput | InputJsonValue
+    rankInten?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUncheckedUpdateManyWithoutMovieNestedInput
   }
 
@@ -10554,6 +10575,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     poster?: string | null
     vector?: NullableJsonNullValueInput | InputJsonValue
+    rankInten?: string | null
   }
 
   export type MovieUpdateManyMutationInput = {
@@ -10565,6 +10587,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     poster?: NullableStringFieldUpdateOperationsInput | string | null
     vector?: NullableJsonNullValueInput | InputJsonValue
+    rankInten?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MovieUncheckedUpdateManyInput = {
@@ -10577,6 +10600,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     poster?: NullableStringFieldUpdateOperationsInput | string | null
     vector?: NullableJsonNullValueInput | InputJsonValue
+    rankInten?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserCreateInput = {
@@ -11185,6 +11209,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     poster?: SortOrder
     vector?: SortOrder
+    rankInten?: SortOrder
   }
 
   export type MovieAvgOrderByAggregateInput = {
@@ -11203,6 +11228,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     poster?: SortOrder
+    rankInten?: SortOrder
   }
 
   export type MovieMinOrderByAggregateInput = {
@@ -11214,6 +11240,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     poster?: SortOrder
+    rankInten?: SortOrder
   }
 
   export type MovieSumOrderByAggregateInput = {
@@ -12391,6 +12418,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     poster?: string | null
     vector?: NullableJsonNullValueInput | InputJsonValue
+    rankInten?: string | null
   }
 
   export type MovieUncheckedCreateWithoutCommentInput = {
@@ -12403,6 +12431,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     poster?: string | null
     vector?: NullableJsonNullValueInput | InputJsonValue
+    rankInten?: string | null
   }
 
   export type MovieCreateOrConnectWithoutCommentInput = {
@@ -12464,6 +12493,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     poster?: NullableStringFieldUpdateOperationsInput | string | null
     vector?: NullableJsonNullValueInput | InputJsonValue
+    rankInten?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MovieUncheckedUpdateWithoutCommentInput = {
@@ -12476,6 +12506,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     poster?: NullableStringFieldUpdateOperationsInput | string | null
     vector?: NullableJsonNullValueInput | InputJsonValue
+    rankInten?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUpsertWithoutCommentInput = {

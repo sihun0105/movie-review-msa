@@ -3,6 +3,7 @@ export interface Movie {
   movieNm: string;
   movieCd: string;
   audiAcc: number;
+  rankInten: string;
 }
 
 export interface MovieResponse {

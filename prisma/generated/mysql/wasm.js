@@ -126,7 +126,8 @@ exports.Prisma.MovieScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   poster: 'poster',
-  vector: 'vector'
+  vector: 'vector',
+  rankInten: 'rankInten'
 };
 
 exports.Prisma.UserScalarFieldEnum = {
