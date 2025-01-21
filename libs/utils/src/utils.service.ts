@@ -8,7 +8,6 @@ export class UtilsService {
 
   constructor() {
     this.hf = new HfInference(process.env.HF_API_KEY);
-    console.log(this.hf);
   }
 
   dateToTimestamp(date: Date): Timestamp {

@@ -46,6 +46,7 @@ export class MovieService implements OnModuleInit {
         const movieList = response.data.boxOfficeResult.dailyBoxOfficeList;
 
         const upsertMovies = movieList.map(async (movieData) => {
+          console.log(movieData);
           try {
             const { plot, poster } = await this.fetchKmdbData(
               movieData.movieNm,
@@ -60,6 +61,8 @@ export class MovieService implements OnModuleInit {
                 updatedAt: new Date(),
                 poster: poster ?? '',
                 rankInten: movieData.rankInten + '',
+                rankOldAndNew: movieData.rankOldAndNew,
+                openDt: new Date(movieData.openDt),
               },
               create: {
                 title: movieData.movieNm,
@@ -101,8 +104,6 @@ export class MovieService implements OnModuleInit {
   async getMovieDatas({}): Promise<MovieDatas> {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    // const yesterday = new Date(today);
-    // yesterday.setDate(yesterday.getDate() - 1);
 
     const movieList = await this.mysqlPrismaService.movie.findMany({
       where: {

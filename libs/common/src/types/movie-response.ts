@@ -4,6 +4,8 @@ export interface Movie {
   movieCd: string;
   audiAcc: number;
   rankInten: string;
+  rankOldAndNew: string;
+  openDt: string;
 }
 
 export interface MovieResponse {

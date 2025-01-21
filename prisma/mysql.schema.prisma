@@ -34,6 +34,8 @@ model Movie {
   poster    String?   @db.VarChar(1024)
   vector    Json?     
   rankInten String?   @db.VarChar(10)
+  rankOldAndNew String? @db.VarChar(10)
+  openDt    DateTime?   @db.DateTime(6)
   Comment   Comment[]
 
   @@index([movieCd], map: "movieId")
