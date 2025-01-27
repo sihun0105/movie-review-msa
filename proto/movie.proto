@@ -27,6 +27,13 @@ message MovieData {
   string createdAt = 6;
   string updatedAt = 7;
   string poster = 8;
+  string rankInten = 9;
+  string plot = 10;
+  string rankOldAndNew = 11;
+  string openDt = 12;
+  string genre = 13;
+  string director = 14;
+  string ratting = 15;
 }
 
 message MovieDatas {

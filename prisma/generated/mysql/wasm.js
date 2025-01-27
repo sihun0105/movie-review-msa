@@ -128,8 +128,12 @@ exports.Prisma.MovieScalarFieldEnum = {
   poster: 'poster',
   vector: 'vector',
   rankInten: 'rankInten',
+  plot: 'plot',
   rankOldAndNew: 'rankOldAndNew',
-  openDt: 'openDt'
+  openDt: 'openDt',
+  genre: 'genre',
+  director: 'director',
+  ratting: 'ratting'
 };
 
 exports.Prisma.UserScalarFieldEnum = {

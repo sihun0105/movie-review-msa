@@ -22,6 +22,13 @@ export interface MovieData {
   createdAt: string;
   updatedAt: string;
   poster: string;
+  rankInten: string;
+  plot: string;
+  rankOldAndNew: string;
+  openDt: string;
+  genre: string;
+  director: string;
+  ratting: string;
 }
 
 export interface MovieDatas {

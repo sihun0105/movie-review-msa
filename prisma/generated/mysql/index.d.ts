@@ -2638,8 +2638,12 @@ export namespace Prisma {
     updatedAt: Date | null
     poster: string | null
     rankInten: string | null
+    plot: string | null
     rankOldAndNew: string | null
     openDt: Date | null
+    genre: string | null
+    director: string | null
+    ratting: string | null
   }
 
   export type MovieMaxAggregateOutputType = {
@@ -2652,8 +2656,12 @@ export namespace Prisma {
     updatedAt: Date | null
     poster: string | null
     rankInten: string | null
+    plot: string | null
     rankOldAndNew: string | null
     openDt: Date | null
+    genre: string | null
+    director: string | null
+    ratting: string | null
   }
 
   export type MovieCountAggregateOutputType = {
@@ -2667,8 +2675,12 @@ export namespace Prisma {
     poster: number
     vector: number
     rankInten: number
+    plot: number
     rankOldAndNew: number
     openDt: number
+    genre: number
+    director: number
+    ratting: number
     _all: number
   }
 
@@ -2697,8 +2709,12 @@ export namespace Prisma {
     updatedAt?: true
     poster?: true
     rankInten?: true
+    plot?: true
     rankOldAndNew?: true
     openDt?: true
+    genre?: true
+    director?: true
+    ratting?: true
   }
 
   export type MovieMaxAggregateInputType = {
@@ -2711,8 +2727,12 @@ export namespace Prisma {
     updatedAt?: true
     poster?: true
     rankInten?: true
+    plot?: true
     rankOldAndNew?: true
     openDt?: true
+    genre?: true
+    director?: true
+    ratting?: true
   }
 
   export type MovieCountAggregateInputType = {
@@ -2726,8 +2746,12 @@ export namespace Prisma {
     poster?: true
     vector?: true
     rankInten?: true
+    plot?: true
     rankOldAndNew?: true
     openDt?: true
+    genre?: true
+    director?: true
+    ratting?: true
     _all?: true
   }
 
@@ -2828,8 +2852,12 @@ export namespace Prisma {
     poster: string | null
     vector: JsonValue | null
     rankInten: string | null
+    plot: string | null
     rankOldAndNew: string | null
     openDt: Date | null
+    genre: string | null
+    director: string | null
+    ratting: string | null
     _count: MovieCountAggregateOutputType | null
     _avg: MovieAvgAggregateOutputType | null
     _sum: MovieSumAggregateOutputType | null
@@ -2862,8 +2890,12 @@ export namespace Prisma {
     poster?: boolean
     vector?: boolean
     rankInten?: boolean
+    plot?: boolean
     rankOldAndNew?: boolean
     openDt?: boolean
+    genre?: boolean
+    director?: boolean
+    ratting?: boolean
     Comment?: boolean | Movie$CommentArgs<ExtArgs>
     _count?: boolean | MovieCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["movie"]>
@@ -2879,8 +2911,12 @@ export namespace Prisma {
     poster?: boolean
     vector?: boolean
     rankInten?: boolean
+    plot?: boolean
     rankOldAndNew?: boolean
     openDt?: boolean
+    genre?: boolean
+    director?: boolean
+    ratting?: boolean
   }
 
   export type MovieInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2905,8 +2941,12 @@ export namespace Prisma {
       poster: string | null
       vector: Prisma.JsonValue | null
       rankInten: string | null
+      plot: string | null
       rankOldAndNew: string | null
       openDt: Date | null
+      genre: string | null
+      director: string | null
+      ratting: string | null
     }, ExtArgs["result"]["movie"]>
     composites: {}
   }
@@ -3312,8 +3352,12 @@ export namespace Prisma {
     readonly poster: FieldRef<"Movie", 'String'>
     readonly vector: FieldRef<"Movie", 'Json'>
     readonly rankInten: FieldRef<"Movie", 'String'>
+    readonly plot: FieldRef<"Movie", 'String'>
     readonly rankOldAndNew: FieldRef<"Movie", 'String'>
     readonly openDt: FieldRef<"Movie", 'DateTime'>
+    readonly genre: FieldRef<"Movie", 'String'>
+    readonly director: FieldRef<"Movie", 'String'>
+    readonly ratting: FieldRef<"Movie", 'String'>
   }
     
 
@@ -9754,8 +9798,12 @@ export namespace Prisma {
     poster: 'poster',
     vector: 'vector',
     rankInten: 'rankInten',
+    plot: 'plot',
     rankOldAndNew: 'rankOldAndNew',
-    openDt: 'openDt'
+    openDt: 'openDt',
+    genre: 'genre',
+    director: 'director',
+    ratting: 'ratting'
   };
 
   export type MovieScalarFieldEnum = (typeof MovieScalarFieldEnum)[keyof typeof MovieScalarFieldEnum]
@@ -10007,8 +10055,12 @@ export namespace Prisma {
     poster?: StringNullableFilter<"Movie"> | string | null
     vector?: JsonNullableFilter<"Movie">
     rankInten?: StringNullableFilter<"Movie"> | string | null
+    plot?: StringNullableFilter<"Movie"> | string | null
     rankOldAndNew?: StringNullableFilter<"Movie"> | string | null
     openDt?: DateTimeNullableFilter<"Movie"> | Date | string | null
+    genre?: StringNullableFilter<"Movie"> | string | null
+    director?: StringNullableFilter<"Movie"> | string | null
+    ratting?: StringNullableFilter<"Movie"> | string | null
     Comment?: CommentListRelationFilter
   }
 
@@ -10023,8 +10075,12 @@ export namespace Prisma {
     poster?: SortOrderInput | SortOrder
     vector?: SortOrderInput | SortOrder
     rankInten?: SortOrderInput | SortOrder
+    plot?: SortOrderInput | SortOrder
     rankOldAndNew?: SortOrderInput | SortOrder
     openDt?: SortOrderInput | SortOrder
+    genre?: SortOrderInput | SortOrder
+    director?: SortOrderInput | SortOrder
+    ratting?: SortOrderInput | SortOrder
     Comment?: CommentOrderByRelationAggregateInput
   }
 
@@ -10042,8 +10098,12 @@ export namespace Prisma {
     poster?: StringNullableFilter<"Movie"> | string | null
     vector?: JsonNullableFilter<"Movie">
     rankInten?: StringNullableFilter<"Movie"> | string | null
+    plot?: StringNullableFilter<"Movie"> | string | null
     rankOldAndNew?: StringNullableFilter<"Movie"> | string | null
     openDt?: DateTimeNullableFilter<"Movie"> | Date | string | null
+    genre?: StringNullableFilter<"Movie"> | string | null
+    director?: StringNullableFilter<"Movie"> | string | null
+    ratting?: StringNullableFilter<"Movie"> | string | null
     Comment?: CommentListRelationFilter
   }, "id" | "movieCd">
 
@@ -10058,8 +10118,12 @@ export namespace Prisma {
     poster?: SortOrderInput | SortOrder
     vector?: SortOrderInput | SortOrder
     rankInten?: SortOrderInput | SortOrder
+    plot?: SortOrderInput | SortOrder
     rankOldAndNew?: SortOrderInput | SortOrder
     openDt?: SortOrderInput | SortOrder
+    genre?: SortOrderInput | SortOrder
+    director?: SortOrderInput | SortOrder
+    ratting?: SortOrderInput | SortOrder
     _count?: MovieCountOrderByAggregateInput
     _avg?: MovieAvgOrderByAggregateInput
     _max?: MovieMaxOrderByAggregateInput
@@ -10081,8 +10145,12 @@ export namespace Prisma {
     poster?: StringNullableWithAggregatesFilter<"Movie"> | string | null
     vector?: JsonNullableWithAggregatesFilter<"Movie">
     rankInten?: StringNullableWithAggregatesFilter<"Movie"> | string | null
+    plot?: StringNullableWithAggregatesFilter<"Movie"> | string | null
     rankOldAndNew?: StringNullableWithAggregatesFilter<"Movie"> | string | null
     openDt?: DateTimeNullableWithAggregatesFilter<"Movie"> | Date | string | null
+    genre?: StringNullableWithAggregatesFilter<"Movie"> | string | null
+    director?: StringNullableWithAggregatesFilter<"Movie"> | string | null
+    ratting?: StringNullableWithAggregatesFilter<"Movie"> | string | null
   }
 
   export type UserWhereInput = {
@@ -10555,8 +10623,12 @@ export namespace Prisma {
     poster?: string | null
     vector?: NullableJsonNullValueInput | InputJsonValue
     rankInten?: string | null
+    plot?: string | null
     rankOldAndNew?: string | null
     openDt?: Date | string | null
+    genre?: string | null
+    director?: string | null
+    ratting?: string | null
     Comment?: CommentCreateNestedManyWithoutMovieInput
   }
 
@@ -10571,8 +10643,12 @@ export namespace Prisma {
     poster?: string | null
     vector?: NullableJsonNullValueInput | InputJsonValue
     rankInten?: string | null
+    plot?: string | null
     rankOldAndNew?: string | null
     openDt?: Date | string | null
+    genre?: string | null
+    director?: string | null
+    ratting?: string | null
     Comment?: CommentUncheckedCreateNestedManyWithoutMovieInput
   }
 
@@ -10586,8 +10662,12 @@ export namespace Prisma {
     poster?: NullableStringFieldUpdateOperationsInput | string | null
     vector?: NullableJsonNullValueInput | InputJsonValue
     rankInten?: NullableStringFieldUpdateOperationsInput | string | null
+    plot?: NullableStringFieldUpdateOperationsInput | string | null
     rankOldAndNew?: NullableStringFieldUpdateOperationsInput | string | null
     openDt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    genre?: NullableStringFieldUpdateOperationsInput | string | null
+    director?: NullableStringFieldUpdateOperationsInput | string | null
+    ratting?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUpdateManyWithoutMovieNestedInput
   }
 
@@ -10602,8 +10682,12 @@ export namespace Prisma {
     poster?: NullableStringFieldUpdateOperationsInput | string | null
     vector?: NullableJsonNullValueInput | InputJsonValue
     rankInten?: NullableStringFieldUpdateOperationsInput | string | null
+    plot?: NullableStringFieldUpdateOperationsInput | string | null
     rankOldAndNew?: NullableStringFieldUpdateOperationsInput | string | null
     openDt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    genre?: NullableStringFieldUpdateOperationsInput | string | null
+    director?: NullableStringFieldUpdateOperationsInput | string | null
+    ratting?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUncheckedUpdateManyWithoutMovieNestedInput
   }
 
@@ -10618,8 +10702,12 @@ export namespace Prisma {
     poster?: string | null
     vector?: NullableJsonNullValueInput | InputJsonValue
     rankInten?: string | null
+    plot?: string | null
     rankOldAndNew?: string | null
     openDt?: Date | string | null
+    genre?: string | null
+    director?: string | null
+    ratting?: string | null
   }
 
   export type MovieUpdateManyMutationInput = {
@@ -10632,8 +10720,12 @@ export namespace Prisma {
     poster?: NullableStringFieldUpdateOperationsInput | string | null
     vector?: NullableJsonNullValueInput | InputJsonValue
     rankInten?: NullableStringFieldUpdateOperationsInput | string | null
+    plot?: NullableStringFieldUpdateOperationsInput | string | null
     rankOldAndNew?: NullableStringFieldUpdateOperationsInput | string | null
     openDt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    genre?: NullableStringFieldUpdateOperationsInput | string | null
+    director?: NullableStringFieldUpdateOperationsInput | string | null
+    ratting?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MovieUncheckedUpdateManyInput = {
@@ -10647,8 +10739,12 @@ export namespace Prisma {
     poster?: NullableStringFieldUpdateOperationsInput | string | null
     vector?: NullableJsonNullValueInput | InputJsonValue
     rankInten?: NullableStringFieldUpdateOperationsInput | string | null
+    plot?: NullableStringFieldUpdateOperationsInput | string | null
     rankOldAndNew?: NullableStringFieldUpdateOperationsInput | string | null
     openDt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    genre?: NullableStringFieldUpdateOperationsInput | string | null
+    director?: NullableStringFieldUpdateOperationsInput | string | null
+    ratting?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserCreateInput = {
@@ -11258,8 +11354,12 @@ export namespace Prisma {
     poster?: SortOrder
     vector?: SortOrder
     rankInten?: SortOrder
+    plot?: SortOrder
     rankOldAndNew?: SortOrder
     openDt?: SortOrder
+    genre?: SortOrder
+    director?: SortOrder
+    ratting?: SortOrder
   }
 
   export type MovieAvgOrderByAggregateInput = {
@@ -11279,8 +11379,12 @@ export namespace Prisma {
     updatedAt?: SortOrder
     poster?: SortOrder
     rankInten?: SortOrder
+    plot?: SortOrder
     rankOldAndNew?: SortOrder
     openDt?: SortOrder
+    genre?: SortOrder
+    director?: SortOrder
+    ratting?: SortOrder
   }
 
   export type MovieMinOrderByAggregateInput = {
@@ -11293,8 +11397,12 @@ export namespace Prisma {
     updatedAt?: SortOrder
     poster?: SortOrder
     rankInten?: SortOrder
+    plot?: SortOrder
     rankOldAndNew?: SortOrder
     openDt?: SortOrder
+    genre?: SortOrder
+    director?: SortOrder
+    ratting?: SortOrder
   }
 
   export type MovieSumOrderByAggregateInput = {
@@ -12473,8 +12581,12 @@ export namespace Prisma {
     poster?: string | null
     vector?: NullableJsonNullValueInput | InputJsonValue
     rankInten?: string | null
+    plot?: string | null
     rankOldAndNew?: string | null
     openDt?: Date | string | null
+    genre?: string | null
+    director?: string | null
+    ratting?: string | null
   }
 
   export type MovieUncheckedCreateWithoutCommentInput = {
@@ -12488,8 +12600,12 @@ export namespace Prisma {
     poster?: string | null
     vector?: NullableJsonNullValueInput | InputJsonValue
     rankInten?: string | null
+    plot?: string | null
     rankOldAndNew?: string | null
     openDt?: Date | string | null
+    genre?: string | null
+    director?: string | null
+    ratting?: string | null
   }
 
   export type MovieCreateOrConnectWithoutCommentInput = {
@@ -12552,8 +12668,12 @@ export namespace Prisma {
     poster?: NullableStringFieldUpdateOperationsInput | string | null
     vector?: NullableJsonNullValueInput | InputJsonValue
     rankInten?: NullableStringFieldUpdateOperationsInput | string | null
+    plot?: NullableStringFieldUpdateOperationsInput | string | null
     rankOldAndNew?: NullableStringFieldUpdateOperationsInput | string | null
     openDt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    genre?: NullableStringFieldUpdateOperationsInput | string | null
+    director?: NullableStringFieldUpdateOperationsInput | string | null
+    ratting?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type MovieUncheckedUpdateWithoutCommentInput = {
@@ -12567,8 +12687,12 @@ export namespace Prisma {
     poster?: NullableStringFieldUpdateOperationsInput | string | null
     vector?: NullableJsonNullValueInput | InputJsonValue
     rankInten?: NullableStringFieldUpdateOperationsInput | string | null
+    plot?: NullableStringFieldUpdateOperationsInput | string | null
     rankOldAndNew?: NullableStringFieldUpdateOperationsInput | string | null
     openDt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    genre?: NullableStringFieldUpdateOperationsInput | string | null
+    director?: NullableStringFieldUpdateOperationsInput | string | null
+    ratting?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUpsertWithoutCommentInput = {

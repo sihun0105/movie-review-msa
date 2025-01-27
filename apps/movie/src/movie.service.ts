@@ -28,6 +28,9 @@ export class MovieService implements OnModuleInit {
   async fetchKmdbData(title: string): Promise<{
     poster: string;
     plot: string;
+    genre: string;
+    rating: string;
+    director: string;
   }> {
     const url = `${this.kmdbUrl}?collection=kmdb_new2&ServiceKey=${this.kmdbKey}&detail=Y&title=${title}&sort=prodYear,1`;
     const response = await axios.get(url);
@@ -35,7 +38,11 @@ export class MovieService implements OnModuleInit {
       response.data?.Data?.[0]?.Result?.[0]?.posters?.split('|')[0];
     const plot =
       response.data?.Data?.[0]?.Result?.[0]?.plots.plot[0].plotText ?? '';
-    return { poster, plot };
+    const rating = response.data?.Data?.[0]?.Result[0].rating;
+    const genre = response.data?.Data?.[0]?.Result[0].genre;
+    const director =
+      response.data?.Data?.[0]?.Result[0].directors.director[0].directorNm;
+    return { poster, plot, genre, rating, director };
   }
 
   async fetchMovies(date: string): Promise<void> {
@@ -57,7 +64,7 @@ export class MovieService implements OnModuleInit {
         },
       },
     });
-    if (isUpdated) {
+    if (!isUpdated) {
       console.log('Movies already updated for the date:', date);
       return;
     } else {
@@ -68,11 +75,9 @@ export class MovieService implements OnModuleInit {
           const movieList = response.data.boxOfficeResult.dailyBoxOfficeList;
 
           const upsertMovies = movieList.map(async (movieData) => {
-            console.log(movieData);
             try {
-              const { plot, poster } = await this.fetchKmdbData(
-                movieData.movieNm,
-              );
+              const { plot, poster, director, genre, rating } =
+                await this.fetchKmdbData(movieData.movieNm);
               const vector = await this.utilsService.generateEmbedding(plot);
               await this.mysqlPrismaService.movie.upsert({
                 where: { movieCd: +movieData.movieCd },
@@ -85,6 +90,10 @@ export class MovieService implements OnModuleInit {
                   rankInten: movieData.rankInten + '',
                   rankOldAndNew: movieData.rankOldAndNew,
                   openDt: new Date(movieData.openDt),
+                  plot: plot,
+                  director: director,
+                  genre: genre,
+                  ratting: rating,
                 },
                 create: {
                   title: movieData.movieNm,
@@ -94,6 +103,12 @@ export class MovieService implements OnModuleInit {
                   vector: vector,
                   poster: poster ?? '',
                   rankInten: movieData.rankInten + '',
+                  rankOldAndNew: movieData.rankOldAndNew,
+                  openDt: new Date(movieData.openDt),
+                  plot: plot,
+                  director: director,
+                  genre: genre,
+                  ratting: rating,
                 },
               });
               await this.postgresPrismaService.movieVector.upsert({
@@ -124,7 +139,7 @@ export class MovieService implements OnModuleInit {
       }
     }
   }
-  async getMovieDatas({}): Promise<MovieDatas> {
+  async getMovieDatas({}): Promise<Omit<MovieDatas, 'vector'>> {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
@@ -149,7 +164,7 @@ export class MovieService implements OnModuleInit {
     };
   }
 
-  private convertMovieData(unknown: any): MovieData {
+  private convertMovieData(unknown: any): Omit<MovieData, 'vector'> {
     return {
       title: unknown.title,
       audience: Number(unknown.audience),
@@ -159,6 +174,13 @@ export class MovieService implements OnModuleInit {
       id: Number(unknown.id),
       movieCd: Number(unknown.movieCd),
       poster: unknown.poster,
+      rankInten: unknown.rankInten,
+      plot: unknown.plot,
+      rankOldAndNew: unknown.rankOldAndNew,
+      openDt: unknown.openDt,
+      genre: unknown.genre,
+      director: unknown.director,
+      ratting: unknown.ratting,
     };
   }
   async recommendMovies(movieCd: number): Promise<any> {

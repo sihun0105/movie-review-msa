@@ -17,7 +17,7 @@ export class MovieController implements MovieServiceController {
   async fetchMovies(request: FetchMoviesRequest) {
     return await this.movieService.fetchMovies(request.fetchDate);
   }
-  async getMovieDatas(request: Empty): Promise<MovieDatas> {
+  async getMovieDatas(request: Empty): Promise<Omit<MovieDatas, 'vector'>> {
     return await this.movieService.getMovieDatas(request);
   }
   async recommendMovie(request: RecommendMovieRequest): Promise<MovieDatas> {
