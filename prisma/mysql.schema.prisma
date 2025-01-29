@@ -60,7 +60,6 @@ model User {
   workspace        workspace[]
   workspacemembers workspacemembers[]
 }
-
 model channelchats {
   id        Int       @id @default(autoincrement())
   content   String    @db.Text
