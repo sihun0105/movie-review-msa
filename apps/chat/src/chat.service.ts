@@ -23,7 +23,12 @@ export class ChatService {
     });
   }
 
-  getHello(): string {
-    return 'Hello World!';
+  async getChat() {
+    return this.prisma.channelchats.findMany({
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 10,
+    });
   }
 }

@@ -5,8 +5,17 @@ import { ChatService } from './chat.service';
 export class ChatController {
   constructor(private readonly chatService: ChatService) {}
 
-  @Get()
-  getHello(): string {
-    return this.chatService.getHello();
+  @Get('chat')
+  getChat(): Promise<
+    {
+      id: number;
+      content: string;
+      createdAt: Date;
+      updatedAt: Date;
+      UserId: number | null;
+      ChannelId: number | null;
+    }[]
+  > {
+    return this.chatService.getChat();
   }
 }
