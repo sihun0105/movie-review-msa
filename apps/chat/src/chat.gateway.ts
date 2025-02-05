@@ -30,9 +30,11 @@ export class ChatGateway
     @MessageBody() data: { channel: number; userId: number; message: string },
     @ConnectedSocket() socket: Socket,
   ) {
-    await this.chatService.saveMessage(data.channel, data.userId, data.message);
-    const nickName = data.userId
-      ? await this.chatService.getNickName(data.userId)
+    const isAnonymous = typeof data.userId !== 'number';
+    const userId = isAnonymous ? 1 : data.userId;
+    await this.chatService.saveMessage(data.channel, userId, data.message);
+    const nickName = !isAnonymous
+      ? await this.chatService.getNickName(userId)
       : 'Anonymous';
     socket.to(`${socket.nsp.name}-${data.channel}`).emit('message', {
       id: onlineMap[socket.nsp.name][socket.id],

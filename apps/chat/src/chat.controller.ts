@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { ChatService } from './chat.service';
 
 @Controller()
@@ -6,16 +6,15 @@ export class ChatController {
   constructor(private readonly chatService: ChatService) {}
 
   @Get('chat')
-  getChat(): Promise<
+  getChat(@Query('nowDate') nowDate: string): Promise<
     {
       id: number;
       content: string;
       createdAt: Date;
       updatedAt: Date;
-      UserId: number | null;
-      ChannelId: number | null;
+      nickname: string;
     }[]
   > {
-    return this.chatService.getChat();
+    return this.chatService.getChat(nowDate);
   }
 }

@@ -23,12 +23,38 @@ export class ChatService {
     });
   }
 
-  async getChat() {
-    return this.prisma.channelchats.findMany({
-      orderBy: {
-        createdAt: 'desc',
-      },
-      take: 10,
-    });
+  async getChat(nowDate: string) {
+    return this.prisma.channelchats
+      .findMany({
+        where: {
+          createdAt: {
+            gte: new Date(nowDate),
+          },
+        },
+        select: {
+          id: true,
+          content: true,
+          createdAt: true,
+          updatedAt: true,
+          User: {
+            select: {
+              nickname: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+        take: 10,
+      })
+      .then((chats) =>
+        chats.map((chat) => ({
+          id: chat.id,
+          content: chat.content,
+          createdAt: chat.createdAt,
+          updatedAt: chat.updatedAt,
+          nickname: chat.User ? chat.User.nickname : null,
+        })),
+      );
   }
 }
