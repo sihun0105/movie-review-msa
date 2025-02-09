@@ -50,11 +50,16 @@ export class ChatService {
       .then((chats) =>
         chats.map((chat) => ({
           id: chat.id,
-          content: chat.content,
+          message: chat.content,
           createdAt: chat.createdAt,
           updatedAt: chat.updatedAt,
           nickname: chat.User ? chat.User.nickname : null,
         })),
-      );
+      )
+      .then((chats) => {
+        return chats.sort(
+          (a, b) => a.createdAt.getTime() - b.createdAt.getTime(),
+        );
+      });
   }
 }

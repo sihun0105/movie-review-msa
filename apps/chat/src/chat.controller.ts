@@ -9,7 +9,7 @@ export class ChatController {
   getChat(@Query('nowDate') nowDate: string): Promise<
     {
       id: number;
-      content: string;
+      message: string;
       createdAt: Date;
       updatedAt: Date;
       nickname: string;
