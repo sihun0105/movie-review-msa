@@ -32,8 +32,19 @@ export class MovieService implements OnModuleInit {
     rating: string;
     director: string;
   }> {
-    const url = `${this.kmdbUrl}?collection=kmdb_new2&ServiceKey=${this.kmdbKey}&detail=Y&title=${title}&sort=prodYear,1`;
-    const response = await axios.get(url);
+    const lastYear = moment().subtract(1, 'years').format('YYYY') + '0101';
+    let url = `${this.kmdbUrl}?collection=kmdb_new2&ServiceKey=${this.kmdbKey}&detail=Y&title=${title}&sort=prodYear,1&releaseDts=${lastYear}`;
+    let response = await axios.get(url);
+
+    if (!response.data?.Data?.[0]?.Result?.[0]) {
+      url = `${this.kmdbUrl}?collection=kmdb_new2&ServiceKey=${this.kmdbKey}&detail=Y&title=${title}&sort=prodYear,1`;
+      response = await axios.get(url);
+
+      if (!response.data?.Data?.[0]?.Result?.[0]) {
+        throw new Error(`No data found for title: ${title}`);
+      }
+    }
+
     const poster =
       response.data?.Data?.[0]?.Result?.[0]?.posters?.split('|')[0];
     const plot =
@@ -59,12 +70,10 @@ export class MovieService implements OnModuleInit {
 
     const isUpdated = await this.mysqlPrismaService.movie.findFirst({
       where: {
-        updatedAt: {
-          gte: dateObject,
-        },
+        updatedAt: dateObject,
       },
     });
-    if (!isUpdated) {
+    if (isUpdated) {
       console.log('Movies already updated for the date:', date);
       return;
     } else {
@@ -73,7 +82,6 @@ export class MovieService implements OnModuleInit {
         const response = await axios.get<MovieResponse>(url);
         if (response.data?.boxOfficeResult?.dailyBoxOfficeList) {
           const movieList = response.data.boxOfficeResult.dailyBoxOfficeList;
-
           const upsertMovies = movieList.map(async (movieData) => {
             try {
               const { plot, poster, director, genre, rating } =
