@@ -57,11 +57,7 @@ export class MovieService implements OnModuleInit {
   }
 
   async fetchMovies(date: string): Promise<void> {
-    const formattedDate = `${date.slice(0, 4)}-${date.slice(4, 6)}-${date.slice(
-      6,
-      8,
-    )}`;
-
+    const formattedDate = moment(date).format('YYYY-MM-DD');
     const dateObject = new Date(formattedDate);
 
     if (isNaN(dateObject.getTime())) {
@@ -78,67 +74,9 @@ export class MovieService implements OnModuleInit {
       return;
     } else {
       try {
-        const url = `${this.koficUrl}?key=${this.koficKey}&targetDt=${date}`;
-        const response = await axios.get<MovieResponse>(url);
-        if (response.data?.boxOfficeResult?.dailyBoxOfficeList) {
-          const movieList = response.data.boxOfficeResult.dailyBoxOfficeList;
-          const upsertMovies = movieList.map(async (movieData) => {
-            try {
-              const { plot, poster, director, genre, rating } =
-                await this.fetchKmdbData(movieData.movieNm);
-              const vector = await this.utilsService.generateEmbedding(plot);
-              await this.mysqlPrismaService.movie.upsert({
-                where: { movieCd: +movieData.movieCd },
-                update: {
-                  title: movieData.movieNm,
-                  audience: +movieData.audiAcc,
-                  rank: +movieData.rank,
-                  updatedAt: new Date(),
-                  poster: poster ?? '',
-                  rankInten: movieData.rankInten + '',
-                  rankOldAndNew: movieData.rankOldAndNew,
-                  openDt: new Date(movieData.openDt),
-                  plot: plot,
-                  director: director,
-                  genre: genre,
-                  ratting: rating,
-                },
-                create: {
-                  title: movieData.movieNm,
-                  movieCd: +movieData.movieCd,
-                  audience: +movieData.audiAcc,
-                  rank: +movieData.rank,
-                  vector: vector,
-                  poster: poster ?? '',
-                  rankInten: movieData.rankInten + '',
-                  rankOldAndNew: movieData.rankOldAndNew,
-                  openDt: new Date(movieData.openDt),
-                  plot: plot,
-                  director: director,
-                  genre: genre,
-                  ratting: rating,
-                },
-              });
-              await this.postgresPrismaService.movieVector.upsert({
-                where: { movieCd: +movieData.movieCd },
-                update: {
-                  vector: vector,
-                  updatedAt: new Date(),
-                },
-                create: {
-                  movieCd: +movieData.movieCd,
-                  vector: vector,
-                },
-              });
-            } catch (error) {
-              console.error(
-                `Failed to upsert movie: ${movieData.movieNm}`,
-                error,
-              );
-            }
-          });
-
-          await Promise.all(upsertMovies);
+        const movieList = await this.fetchKoficData(date);
+        if (movieList) {
+          await this.updateMovies(movieList);
         } else {
           console.warn('No daily box office list found in the response.');
         }
@@ -147,6 +85,74 @@ export class MovieService implements OnModuleInit {
       }
     }
   }
+
+  private async fetchKoficData(
+    date: string,
+  ): Promise<MovieResponse['boxOfficeResult']['dailyBoxOfficeList'] | null> {
+    const url = `${this.koficUrl}?key=${this.koficKey}&targetDt=${date}`;
+    const response = await axios.get<MovieResponse>(url);
+    return response.data?.boxOfficeResult?.dailyBoxOfficeList ?? null;
+  }
+
+  private async updateMovies(
+    movieList: MovieResponse['boxOfficeResult']['dailyBoxOfficeList'],
+  ): Promise<void> {
+    const upsertMovies = movieList.map(async (movieData) => {
+      try {
+        const { plot, poster, director, genre, rating } =
+          await this.fetchKmdbData(movieData.movieNm);
+        const vector = await this.utilsService.generateEmbedding(plot);
+        await this.mysqlPrismaService.movie.upsert({
+          where: { movieCd: +movieData.movieCd },
+          update: {
+            title: movieData.movieNm,
+            audience: +movieData.audiAcc,
+            rank: +movieData.rank,
+            updatedAt: new Date(),
+            poster: poster ?? '',
+            rankInten: movieData.rankInten + '',
+            rankOldAndNew: movieData.rankOldAndNew,
+            openDt: new Date(movieData.openDt),
+            plot: plot,
+            director: director,
+            genre: genre,
+            ratting: rating,
+          },
+          create: {
+            title: movieData.movieNm,
+            movieCd: +movieData.movieCd,
+            audience: +movieData.audiAcc,
+            rank: +movieData.rank,
+            vector: vector,
+            poster: poster ?? '',
+            rankInten: movieData.rankInten + '',
+            rankOldAndNew: movieData.rankOldAndNew,
+            openDt: new Date(movieData.openDt),
+            plot: plot,
+            director: director,
+            genre: genre,
+            ratting: rating,
+          },
+        });
+        await this.postgresPrismaService.movieVector.upsert({
+          where: { movieCd: +movieData.movieCd },
+          update: {
+            vector: vector,
+            updatedAt: new Date(),
+          },
+          create: {
+            movieCd: +movieData.movieCd,
+            vector: vector,
+          },
+        });
+      } catch (error) {
+        console.error(`Failed to upsert movie: ${movieData.movieNm}`, error);
+      }
+    });
+
+    await Promise.all(upsertMovies);
+  }
+
   async getMovieDatas({}): Promise<Omit<MovieDatas, 'vector'>> {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
