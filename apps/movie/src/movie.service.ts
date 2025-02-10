@@ -227,4 +227,13 @@ export class MovieService implements OnModuleInit {
     });
     return recommendedMovies;
   }
+  async getMovieDetail(movieCd: number): Promise<MovieData> {
+    const movie = await this.mysqlPrismaService.movie.findUnique({
+      where: { movieCd },
+    });
+    if (!movie) {
+      throw new Error(`Movie with movieCd ${movieCd} not found`);
+    }
+    return this.convertMovieData(movie);
+  }
 }

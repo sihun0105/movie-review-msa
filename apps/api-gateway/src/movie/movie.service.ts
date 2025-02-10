@@ -24,4 +24,7 @@ export class MovieService implements OnModuleInit {
   async recommendMovies(movieCd: number) {
     return await this.movieService.recommendMovie({ movieCd });
   }
+  async getMovieDetail(movieCd: number) {
+    return await this.movieService.getMovieDetailData({ movieCd });
+  }
 }

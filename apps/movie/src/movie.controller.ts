@@ -1,6 +1,7 @@
 import {
   Empty,
   FetchMoviesRequest,
+  MovieData,
   MovieDatas,
   MovieServiceController,
   MovieServiceControllerMethods,
@@ -22,5 +23,8 @@ export class MovieController implements MovieServiceController {
   }
   async recommendMovie(request: RecommendMovieRequest): Promise<MovieDatas> {
     return await this.movieService.recommendMovies(request.movieCd);
+  }
+  async getMovieDetailData(request: RecommendMovieRequest): Promise<MovieData> {
+    return await this.movieService.getMovieDetail(request.movieCd);
   }
 }

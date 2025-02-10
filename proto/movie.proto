@@ -10,6 +10,7 @@ service MovieService {
   rpc GetMovieDatas(common.Empty) returns (MovieDatas) {}
   rpc FetchMovies(FetchMoviesRequest) returns (common.Empty) {}
   rpc RecommendMovie(RecommendMovieRequest) returns (MovieDatas) {}
+  rpc GetMovieDetailData(RecommendMovieRequest) returns (MovieData) {}
 }
 
 message FetchMoviesRequest {
