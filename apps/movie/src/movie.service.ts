@@ -102,7 +102,8 @@ export class MovieService implements OnModuleInit {
       try {
         const { plot, poster, director, genre, rating } =
           await this.fetchKmdbData(movieData.movieNm);
-        const vector = await this.utilsService.generateEmbedding(plot);
+        // const vector = await this.utilsService.generateEmbedding(plot);
+        const vector = [];
         await this.mysqlPrismaService.movie.upsert({
           where: { movieCd: +movieData.movieCd },
           update: {
