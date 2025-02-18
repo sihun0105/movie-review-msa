@@ -1,7 +1,7 @@
 import { MovieData, MovieDatas } from '@app/common/protobuf';
 import { MovieResponse } from '@app/common/types/movie-response';
 import { MySQLPrismaService } from '@app/prisma';
-import { PostgresPrismaService } from '@app/prisma/postgres-prisma.service';
+// import { PostgresPrismaService } from '@app/prisma/postgres-prisma.service';
 import { UtilsService } from '@app/utils';
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import axios from 'axios';
@@ -17,7 +17,7 @@ export class MovieService implements OnModuleInit {
 
   constructor(
     private readonly mysqlPrismaService: MySQLPrismaService,
-    private readonly postgresPrismaService: PostgresPrismaService,
+    // private readonly postgresPrismaService: PostgresPrismaService,
     private readonly utilsService: UtilsService,
   ) {}
 
@@ -200,36 +200,36 @@ export class MovieService implements OnModuleInit {
       ratting: unknown.ratting,
     };
   }
-  async recommendMovies(movieCd: number): Promise<any> {
-    const movie = await this.mysqlPrismaService.movie.findUnique({
-      where: { movieCd },
-    });
-    if (!movie) {
-      throw new Error(`Movie with movieCd ${movieCd} not found`);
-    }
-    const vector = movie.vector;
+  // async recommendMovies(movieCd: number): Promise<any> {
+  //   const movie = await this.mysqlPrismaService.movie.findUnique({
+  //     where: { movieCd },
+  //   });
+  //   if (!movie) {
+  //     throw new Error(`Movie with movieCd ${movieCd} not found`);
+  //   }
+  //   const vector = movie.vector;
 
-    const similarMovies: { movieCd: number; similarity: number }[] = await this
-      .postgresPrismaService.$queryRaw`SELECT "movieCd", 
-    (SELECT SUM(a * b) 
-     FROM unnest("vector") AS a, unnest(ARRAY[${vector}]) AS b) AS similarity 
-      FROM public."MovieVector" 
-      WHERE "movieCd" != ${movieCd} 
-      ORDER BY similarity DESC 
-      LIMIT 10;`;
-    if (!similarMovies) {
-      throw new Error('No similar movies found');
-    }
+  //   const similarMovies: { movieCd: number; similarity: number }[] = await this
+  //     .postgresPrismaService.$queryRaw`SELECT "movieCd",
+  //   (SELECT SUM(a * b)
+  //    FROM unnest("vector") AS a, unnest(ARRAY[${vector}]) AS b) AS similarity
+  //     FROM public."MovieVector"
+  //     WHERE "movieCd" != ${movieCd}
+  //     ORDER BY similarity DESC
+  //     LIMIT 10;`;
+  //   if (!similarMovies) {
+  //     throw new Error('No similar movies found');
+  //   }
 
-    const recommendedMovies = await this.mysqlPrismaService.movie.findMany({
-      where: {
-        movieCd: {
-          in: similarMovies.map((movie) => movie.movieCd),
-        },
-      },
-    });
-    return recommendedMovies;
-  }
+  //   const recommendedMovies = await this.mysqlPrismaService.movie.findMany({
+  //     where: {
+  //       movieCd: {
+  //         in: similarMovies.map((movie) => movie.movieCd),
+  //       },
+  //     },
+  //   });
+  //   return recommendedMovies;
+  // }
   async getMovieDetail(movieCd: number): Promise<MovieData> {
     const movie = await this.mysqlPrismaService.movie.findUnique({
       where: { movieCd },
