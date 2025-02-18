@@ -57,7 +57,7 @@ export class MovieService implements OnModuleInit {
   }
 
   async fetchMovies(date: string): Promise<void> {
-    const formattedDate = moment(date).format('YYYY-MM-DD');
+    const formattedDate = moment().format('YYYY-MM-DD');
     const dateObject = new Date(formattedDate);
 
     if (isNaN(dateObject.getTime())) {
@@ -66,11 +66,12 @@ export class MovieService implements OnModuleInit {
 
     const isUpdated = await this.mysqlPrismaService.movie.findFirst({
       where: {
-        updatedAt: dateObject,
+        updatedAt: {
+          gte: dateObject,
+        },
       },
     });
     if (isUpdated) {
-      console.log('Movies already updated for the date:', date);
       return;
     } else {
       try {
@@ -156,11 +157,12 @@ export class MovieService implements OnModuleInit {
   async getMovieDatas({}): Promise<Omit<MovieDatas, 'vector'>> {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
+    const yesterday = moment().subtract(1, 'days').format('YYYY-MM-DD');
 
     const movieList = await this.mysqlPrismaService.movie.findMany({
       where: {
         updatedAt: {
-          gte: today,
+          gte: new Date(yesterday),
         },
       },
       take: 10,

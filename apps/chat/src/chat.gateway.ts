@@ -12,7 +12,7 @@ import { Server, Socket } from 'socket.io';
 import { onlineMap } from './online.map';
 import { ChatService } from './chat.service';
 
-@WebSocketGateway({ namespace: /\/ws-.+/ })
+@WebSocketGateway({ namespace: /\/ws-.+/, cors: { origin: '*' } })
 export class ChatGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
