@@ -136,17 +136,17 @@ export class MovieService implements OnModuleInit {
             ratting: rating,
           },
         });
-        await this.postgresPrismaService.movieVector.upsert({
-          where: { movieCd: +movieData.movieCd },
-          update: {
-            vector: vector,
-            updatedAt: new Date(),
-          },
-          create: {
-            movieCd: +movieData.movieCd,
-            vector: vector,
-          },
-        });
+        // await this.postgresPrismaService.movieVector.upsert({
+        //   where: { movieCd: +movieData.movieCd },
+        //   update: {
+        //     vector: vector,
+        //     updatedAt: new Date(),
+        //   },
+        //   create: {
+        //     movieCd: +movieData.movieCd,
+        //     vector: vector,
+        //   },
+        // });
       } catch (error) {
         console.error(`Failed to upsert movie: ${movieData.movieNm}`, error);
       }
