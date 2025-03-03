@@ -15,9 +15,10 @@ message User {
     int32 id =1;
     string email =2;
     string nickname = 3;
-    string createdAt = 4;
-    string updatedAt = 5;
-    string deletedAt = 6;
+    string image = 4;
+    string createdAt = 5;
+    string updatedAt = 6;
+    string deletedAt = 7;
 }
 
 message Users {
@@ -32,6 +33,7 @@ message UpdateUserDto {
     int32 id =1;
     string email =2;
     string nickname = 3;
+    string image = 4;
 }
 message RemoveUserDto {
     int32 id =1;

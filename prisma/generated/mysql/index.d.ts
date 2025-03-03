@@ -3735,6 +3735,7 @@ export namespace Prisma {
     updatedAt: Date | null
     deletedAt: Date | null
     provider: string | null
+    image: string | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -3746,6 +3747,7 @@ export namespace Prisma {
     updatedAt: Date | null
     deletedAt: Date | null
     provider: string | null
+    image: string | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -3757,6 +3759,7 @@ export namespace Prisma {
     updatedAt: number
     deletedAt: number
     provider: number
+    image: number
     _all: number
   }
 
@@ -3778,6 +3781,7 @@ export namespace Prisma {
     updatedAt?: true
     deletedAt?: true
     provider?: true
+    image?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -3789,6 +3793,7 @@ export namespace Prisma {
     updatedAt?: true
     deletedAt?: true
     provider?: true
+    image?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -3800,6 +3805,7 @@ export namespace Prisma {
     updatedAt?: true
     deletedAt?: true
     provider?: true
+    image?: true
     _all?: true
   }
 
@@ -3898,6 +3904,7 @@ export namespace Prisma {
     updatedAt: Date
     deletedAt: Date | null
     provider: string
+    image: string | null
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -3928,6 +3935,7 @@ export namespace Prisma {
     updatedAt?: boolean
     deletedAt?: boolean
     provider?: boolean
+    image?: boolean
     Comment?: boolean | User$CommentArgs<ExtArgs>
     channelchats?: boolean | User$channelchatsArgs<ExtArgs>
     channelmembers?: boolean | User$channelmembersArgs<ExtArgs>
@@ -3945,6 +3953,7 @@ export namespace Prisma {
     updatedAt?: boolean
     deletedAt?: boolean
     provider?: boolean
+    image?: boolean
   }
 
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3975,6 +3984,7 @@ export namespace Prisma {
       updatedAt: Date
       deletedAt: Date | null
       provider: string
+      image: string | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -4386,6 +4396,7 @@ export namespace Prisma {
     readonly updatedAt: FieldRef<"User", 'DateTime'>
     readonly deletedAt: FieldRef<"User", 'DateTime'>
     readonly provider: FieldRef<"User", 'String'>
+    readonly image: FieldRef<"User", 'String'>
   }
     
 
@@ -9817,7 +9828,8 @@ export namespace Prisma {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     deletedAt: 'deletedAt',
-    provider: 'provider'
+    provider: 'provider',
+    image: 'image'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -10165,6 +10177,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     deletedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     provider?: StringFilter<"User"> | string
+    image?: StringNullableFilter<"User"> | string | null
     Comment?: CommentListRelationFilter
     channelchats?: ChannelchatsListRelationFilter
     channelmembers?: ChannelmembersListRelationFilter
@@ -10181,6 +10194,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     deletedAt?: SortOrderInput | SortOrder
     provider?: SortOrder
+    image?: SortOrderInput | SortOrder
     Comment?: CommentOrderByRelationAggregateInput
     channelchats?: channelchatsOrderByRelationAggregateInput
     channelmembers?: channelmembersOrderByRelationAggregateInput
@@ -10200,6 +10214,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     deletedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     provider?: StringFilter<"User"> | string
+    image?: StringNullableFilter<"User"> | string | null
     Comment?: CommentListRelationFilter
     channelchats?: ChannelchatsListRelationFilter
     channelmembers?: ChannelmembersListRelationFilter
@@ -10216,6 +10231,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     deletedAt?: SortOrderInput | SortOrder
     provider?: SortOrder
+    image?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -10235,6 +10251,7 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     deletedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     provider?: StringWithAggregatesFilter<"User"> | string
+    image?: StringNullableWithAggregatesFilter<"User"> | string | null
   }
 
   export type channelchatsWhereInput = {
@@ -10755,6 +10772,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     provider?: string
+    image?: string | null
     Comment?: CommentCreateNestedManyWithoutUserInput
     channelchats?: channelchatsCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersCreateNestedManyWithoutUserInput
@@ -10771,6 +10789,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     provider?: string
+    image?: string | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
@@ -10786,6 +10805,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
@@ -10802,6 +10822,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
@@ -10818,6 +10839,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     provider?: string
+    image?: string | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -10828,6 +10850,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -10839,6 +10862,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type channelchatsCreateInput = {
@@ -11516,6 +11540,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     deletedAt?: SortOrder
     provider?: SortOrder
+    image?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
@@ -11531,6 +11556,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     deletedAt?: SortOrder
     provider?: SortOrder
+    image?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -11542,6 +11568,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     deletedAt?: SortOrder
     provider?: SortOrder
+    image?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
@@ -12621,6 +12648,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     provider?: string
+    image?: string | null
     channelchats?: channelchatsCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersCreateNestedManyWithoutUserInput
     workspace?: workspaceCreateNestedManyWithoutUserInput
@@ -12636,6 +12664,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     provider?: string
+    image?: string | null
     channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
     workspace?: workspaceUncheckedCreateNestedManyWithoutUserInput
@@ -12714,6 +12743,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     channelchats?: channelchatsUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
     workspace?: workspaceUpdateManyWithoutUserNestedInput
@@ -12729,6 +12759,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
     workspace?: workspaceUncheckedUpdateManyWithoutUserNestedInput
@@ -13074,6 +13105,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     provider?: string
+    image?: string | null
     Comment?: CommentCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersCreateNestedManyWithoutUserInput
     workspace?: workspaceCreateNestedManyWithoutUserInput
@@ -13089,6 +13121,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     provider?: string
+    image?: string | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
     workspace?: workspaceUncheckedCreateNestedManyWithoutUserInput
@@ -13147,6 +13180,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
     workspace?: workspaceUpdateManyWithoutUserNestedInput
@@ -13162,6 +13196,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
     workspace?: workspaceUncheckedUpdateManyWithoutUserNestedInput
@@ -13176,6 +13211,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     provider?: string
+    image?: string | null
     Comment?: CommentCreateNestedManyWithoutUserInput
     channelchats?: channelchatsCreateNestedManyWithoutUserInput
     workspace?: workspaceCreateNestedManyWithoutUserInput
@@ -13191,6 +13227,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     provider?: string
+    image?: string | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
     workspace?: workspaceUncheckedCreateNestedManyWithoutUserInput
@@ -13221,6 +13258,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUpdateManyWithoutUserNestedInput
     workspace?: workspaceUpdateManyWithoutUserNestedInput
@@ -13236,6 +13274,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
     workspace?: workspaceUncheckedUpdateManyWithoutUserNestedInput
@@ -13372,6 +13411,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     provider?: string
+    image?: string | null
     Comment?: CommentCreateNestedManyWithoutUserInput
     channelchats?: channelchatsCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersCreateNestedManyWithoutUserInput
@@ -13387,6 +13427,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     provider?: string
+    image?: string | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
@@ -13445,6 +13486,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
@@ -13460,6 +13502,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
@@ -13474,6 +13517,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     provider?: string
+    image?: string | null
     Comment?: CommentCreateNestedManyWithoutUserInput
     channelchats?: channelchatsCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersCreateNestedManyWithoutUserInput
@@ -13489,6 +13533,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     provider?: string
+    image?: string | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
@@ -13519,6 +13564,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
@@ -13534,6 +13580,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
