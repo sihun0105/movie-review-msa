@@ -47,11 +47,13 @@ export class UserController {
     @Body() updateUserDto: UpdateUserDto,
     @UploadedFiles() file: Express.Multer.File,
   ) {
-    const userNumber = req.user.id;
+    const userNumber = req.user.userId;
     const filePath = file ? file.path : null;
     console.log(filePath);
     if (filePath) {
       updateUserDto.image = filePath;
+    } else {
+      updateUserDto.image = '';
     }
     return this.userService.update({
       ...updateUserDto,

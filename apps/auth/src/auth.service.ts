@@ -88,6 +88,7 @@ export class AuthService {
         id: newUser.id,
         email: newUser.email,
         nickname: newUser.nickname,
+        image: newUser.image,
         createdAt,
         updatedAt,
         deletedAt,

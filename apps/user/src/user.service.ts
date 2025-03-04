@@ -85,31 +85,47 @@ export class UserService {
 
   async updateUser(updateUserDto: UpdateUserDto): Promise<User> {
     const { id, email, nickname } = updateUserDto;
+
     const userData = await this.mysqlPrismaService.user.findUnique({
       where: { id },
     });
     if (!userData) {
       throw new NotFoundException(`User not found ${id}`);
     }
-    const existedNickname = await this.mysqlPrismaService.user.findFirst({
-      where: { nickname },
-    });
-    if (existedNickname) {
-      throw new AlreadyExistsException('이미 존재하는 닉네임입니다.');
+
+    const updateData: Partial<User> = {};
+
+    if (nickname) {
+      const existedNickname = await this.mysqlPrismaService.user.findFirst({
+        where: {
+          nickname,
+          id: { not: id },
+        },
+      });
+      if (existedNickname) {
+        throw new AlreadyExistsException('이미 존재하는 닉네임입니다.');
+      }
+      updateData.nickname = nickname;
     }
-    const existedEmail = await this.mysqlPrismaService.user.findFirst({
-      where: { email },
-    });
-    if (existedEmail) {
-      throw new AlreadyExistsException('이미 존재하는 이메일입니다.');
+
+    if (email) {
+      const existedEmail = await this.mysqlPrismaService.user.findFirst({
+        where: {
+          email,
+          id: { not: id },
+        },
+      });
+      if (existedEmail) {
+        throw new AlreadyExistsException('이미 존재하는 이메일입니다.');
+      }
+      updateData.email = email;
     }
+
     const updatedUserData = await this.mysqlPrismaService.user.update({
       where: { id },
-      data: {
-        email,
-        nickname,
-      },
+      data: updateData,
     });
+
     const createdAt = this.utilsService.dateToTimestamp(
       updatedUserData.createdAt as Date,
     );
@@ -119,6 +135,7 @@ export class UserService {
     const deletedAt = updatedUserData.deletedAt
       ? this.utilsService.dateToTimestamp(updatedUserData.deletedAt as Date)
       : null;
+
     return {
       ...updatedUserData,
       createdAt,
