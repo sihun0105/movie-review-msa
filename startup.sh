@@ -1,13 +1,13 @@
 {
     echo "Starting services with PM2..."
 
-    pm2 start pnpm --name api-gateway -- dev api-gateway
-    pm2 start pnpm --name user -- dev user
-    pm2 start pnpm --name auth -- dev auth
-    pm2 start pnpm --name chat -- dev chat
-    pm2 start pnpm --name cron -- dev cron
-    pm2 start pnpm --name movie -- dev movie
-    pm2 start pnpm --name reply -- dev reply
+    pm2 start pnpm --name api-gateway -- dev api-gateway --time
+    pm2 start pnpm --name user -- dev user --time
+    pm2 start pnpm --name auth -- dev auth --time
+    pm2 start pnpm --name chat -- dev chat --time
+    pm2 start pnpm --name cron -- dev cron --time
+    pm2 start pnpm --name movie -- dev movie --time
+    pm2 start pnpm --name reply -- dev reply --time
 
     echo "All services started with PM2!"
 
