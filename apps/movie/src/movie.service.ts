@@ -94,16 +94,40 @@ export class MovieService implements OnModuleInit {
     const response = await axios.get<MovieResponse>(url);
     return response.data?.boxOfficeResult?.dailyBoxOfficeList ?? null;
   }
-
   private async updateMovies(
     movieList: MovieResponse['boxOfficeResult']['dailyBoxOfficeList'],
   ): Promise<void> {
     const upsertMovies = movieList.map(async (movieData) => {
       try {
-        const { plot, poster, director, genre, rating } =
-          await this.fetchKmdbData(movieData.movieNm);
-        // const vector = await this.utilsService.generateEmbedding(plot);
+        let plot = '',
+          poster = '',
+          director = '',
+          genre = '',
+          rating = '';
+        try {
+          const fetchedData = await this.fetchKmdbData(movieData.movieNm);
+          plot = fetchedData.plot || '';
+          poster = fetchedData.poster || '';
+          director = fetchedData.director || '';
+          genre = fetchedData.genre || '';
+          rating = fetchedData.rating || '';
+        } catch (error) {
+          console.warn(`fetchKmdbData failed for ${movieData.movieNm}:`, error);
+        }
+
         const vector = [];
+        // const vector = await this.utilsService.generateEmbedding(plot);
+        // await this.postgresPrismaService.movieVector.upsert({
+        //   where: { movieCd: +movieData.movieCd },
+        //   update: {
+        //     vector: vector,
+        //     updatedAt: new Date(),
+        //   },
+        //   create: {
+        //     movieCd: +movieData.movieCd,
+        //     vector: vector,
+        //   },
+        // });
         await this.mysqlPrismaService.movie.upsert({
           where: { movieCd: +movieData.movieCd },
           update: {
@@ -136,23 +160,12 @@ export class MovieService implements OnModuleInit {
             ratting: rating,
           },
         });
-        // await this.postgresPrismaService.movieVector.upsert({
-        //   where: { movieCd: +movieData.movieCd },
-        //   update: {
-        //     vector: vector,
-        //     updatedAt: new Date(),
-        //   },
-        //   create: {
-        //     movieCd: +movieData.movieCd,
-        //     vector: vector,
-        //   },
-        // });
       } catch (error) {
         console.error(`Failed to upsert movie: ${movieData.movieNm}`, error);
       }
     });
 
-    await Promise.all(upsertMovies);
+    await Promise.allSettled(upsertMovies);
   }
 
   async getMovieDatas({}): Promise<Omit<MovieDatas, 'vector'>> {
