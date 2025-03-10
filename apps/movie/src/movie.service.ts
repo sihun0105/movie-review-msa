@@ -57,16 +57,16 @@ export class MovieService implements OnModuleInit {
       throw new Error('Invalid date provided');
     }
 
-    // const isUpdated = await this.mysqlPrismaService.movie.findFirst({
-    //   where: {
-    //     updatedAt: {
-    //       gte: dateObject,
-    //     },
-    //   },
-    // });
-    // if (isUpdated) {
-    //   return;
-    // }
+    const isUpdated = await this.mysqlPrismaService.movie.findFirst({
+      where: {
+        updatedAt: {
+          gte: dateObject,
+        },
+      },
+    });
+    if (isUpdated) {
+      return;
+    }
 
     try {
       const movieList = await this.fetchKoficData(date);
