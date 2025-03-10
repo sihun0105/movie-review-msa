@@ -1,11 +1,16 @@
+import {
+  KobisResponse,
+  KobisMovie,
+  KmdbResponse,
+  KmdbMovie,
+} from '@app/common/types/movie-response';
 import { MovieData, MovieDatas } from '@app/common/protobuf';
-import { MovieResponse } from '@app/common/types/movie-response';
 import { MySQLPrismaService } from '@app/prisma';
-// import { PostgresPrismaService } from '@app/prisma/postgres-prisma.service';
 import { UtilsService } from '@app/utils';
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import axios from 'axios';
 import moment from 'moment';
+
 @Injectable()
 export class MovieService implements OnModuleInit {
   private readonly koficKey = process.env.KOFIC_API_KEY;
@@ -18,6 +23,7 @@ export class MovieService implements OnModuleInit {
   constructor(
     private readonly mysqlPrismaService: MySQLPrismaService,
     // private readonly postgresPrismaService: PostgresPrismaService,
+
     private readonly utilsService: UtilsService,
   ) {}
 
@@ -25,35 +31,22 @@ export class MovieService implements OnModuleInit {
     const yesterday = moment().subtract(1, 'days').format('YYYYMMDD');
     this.fetchMovies(yesterday);
   }
-  async fetchKmdbData(title: string): Promise<{
-    poster: string;
-    plot: string;
-    genre: string;
-    rating: string;
-    director: string;
-  }> {
+
+  async fetchKmdbData(title: string): Promise<Partial<KmdbMovie>> {
     const lastYear = moment().subtract(1, 'years').format('YYYY') + '0101';
     let url = `${this.kmdbUrl}?collection=kmdb_new2&ServiceKey=${this.kmdbKey}&detail=Y&title=${title}&sort=prodYear,1&releaseDts=${lastYear}`;
-    let response = await axios.get(url);
+    let response = await axios.get<KmdbResponse>(url);
 
     if (!response.data?.Data?.[0]?.Result?.[0]) {
       url = `${this.kmdbUrl}?collection=kmdb_new2&ServiceKey=${this.kmdbKey}&detail=Y&title=${title}&sort=prodYear,1`;
-      response = await axios.get(url);
+      response = await axios.get<KmdbResponse>(url);
 
       if (!response.data?.Data?.[0]?.Result?.[0]) {
-        throw new Error(`No data found for title: ${title}`);
+        return null;
       }
     }
 
-    const poster =
-      response.data?.Data?.[0]?.Result?.[0]?.posters?.split('|')[0];
-    const plot =
-      response.data?.Data?.[0]?.Result?.[0]?.plots.plot[0].plotText ?? '';
-    const rating = response.data?.Data?.[0]?.Result[0].rating;
-    const genre = response.data?.Data?.[0]?.Result[0].genre;
-    const director =
-      response.data?.Data?.[0]?.Result[0].directors.director[0].directorNm;
-    return { poster, plot, genre, rating, director };
+    return response.data.Data[0].Result[0];
   }
 
   async fetchMovies(date: string): Promise<void> {
@@ -64,39 +57,40 @@ export class MovieService implements OnModuleInit {
       throw new Error('Invalid date provided');
     }
 
-    const isUpdated = await this.mysqlPrismaService.movie.findFirst({
-      where: {
-        updatedAt: {
-          gte: dateObject,
-        },
-      },
-    });
-    if (isUpdated) {
-      return;
-    } else {
-      try {
-        const movieList = await this.fetchKoficData(date);
-        if (movieList) {
-          await this.updateMovies(movieList);
-        } else {
-          console.warn('No daily box office list found in the response.');
-        }
-      } catch (error) {
-        console.error('Failed to fetch movies:', error);
+    // const isUpdated = await this.mysqlPrismaService.movie.findFirst({
+    //   where: {
+    //     updatedAt: {
+    //       gte: dateObject,
+    //     },
+    //   },
+    // });
+    // if (isUpdated) {
+    //   return;
+    // }
+
+    try {
+      const movieList = await this.fetchKoficData(date);
+      if (movieList) {
+        const convertedMovieList = movieList?.map((item) => {
+          return this.convertKobisMovieData(item);
+        });
+
+        await this.updateMovies(convertedMovieList);
+      } else {
+        console.warn('No daily box office list found in the response.');
       }
+    } catch (error) {
+      console.error('Failed to fetch movies:', error);
     }
   }
 
-  private async fetchKoficData(
-    date: string,
-  ): Promise<MovieResponse['boxOfficeResult']['dailyBoxOfficeList'] | null> {
+  private async fetchKoficData(date: string): Promise<KobisMovie[] | null> {
     const url = `${this.koficUrl}?key=${this.koficKey}&targetDt=${date}`;
-    const response = await axios.get<MovieResponse>(url);
+    const response = await axios.get<KobisResponse>(url);
     return response.data?.boxOfficeResult?.dailyBoxOfficeList ?? null;
   }
-  private async updateMovies(
-    movieList: MovieResponse['boxOfficeResult']['dailyBoxOfficeList'],
-  ): Promise<void> {
+
+  private async updateMovies(movieList: KobisMovie[]): Promise<void> {
     const upsertMovies = movieList.map(async (movieData) => {
       try {
         let plot = '',
@@ -104,15 +98,25 @@ export class MovieService implements OnModuleInit {
           director = '',
           genre = '',
           rating = '';
+
         try {
           const fetchedData = await this.fetchKmdbData(movieData.movieNm);
-          plot = fetchedData.plot || '';
-          poster = fetchedData.poster || '';
-          director = fetchedData.director || '';
-          genre = fetchedData.genre || '';
-          rating = fetchedData.rating || '';
+
+          // 데이터가 존재하는 경우에만 값 할당
+          if (fetchedData) {
+            plot = fetchedData.plots?.plot?.[0]?.plotText ?? '';
+            poster = fetchedData.posters?.split('|')?.[0] ?? '';
+            director = fetchedData.directors?.director?.[0]?.directorNm ?? '';
+            genre = fetchedData.genre ?? '';
+            rating = fetchedData.rating ?? '';
+          }
         } catch (error) {
           console.warn(`fetchKmdbData failed for ${movieData.movieNm}:`, error);
+          plot = '';
+          poster = '';
+          director = '';
+          genre = '';
+          rating = '';
         }
 
         const vector = [];
@@ -135,13 +139,13 @@ export class MovieService implements OnModuleInit {
             audience: +movieData.audiAcc,
             rank: +movieData.rank,
             updatedAt: new Date(),
-            poster: poster ?? '',
-            rankInten: movieData.rankInten + '',
+            poster: poster,
+            rankInten: movieData.rankInten,
             rankOldAndNew: movieData.rankOldAndNew,
             openDt: new Date(movieData.openDt),
-            plot: plot,
-            director: director,
-            genre: genre,
+            plot,
+            director,
+            genre,
             ratting: rating,
           },
           create: {
@@ -150,13 +154,13 @@ export class MovieService implements OnModuleInit {
             audience: +movieData.audiAcc,
             rank: +movieData.rank,
             vector: vector,
-            poster: poster ?? '',
-            rankInten: movieData.rankInten + '',
+            poster: poster,
+            rankInten: movieData.rankInten,
             rankOldAndNew: movieData.rankOldAndNew,
             openDt: new Date(movieData.openDt),
-            plot: plot,
-            director: director,
-            genre: genre,
+            plot,
+            director,
+            genre,
             ratting: rating,
           },
         });
@@ -168,9 +172,7 @@ export class MovieService implements OnModuleInit {
     await Promise.allSettled(upsertMovies);
   }
 
-  async getMovieDatas({}): Promise<Omit<MovieDatas, 'vector'>> {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+  async getMovieDatas(): Promise<Omit<MovieDatas, 'vector'>> {
     const yesterday = moment().subtract(1, 'days').format('YYYY-MM-DD');
 
     const movieList = await this.mysqlPrismaService.movie.findMany({
@@ -193,24 +195,74 @@ export class MovieService implements OnModuleInit {
       MovieData: convertedMovieList,
     };
   }
+  private assertKobisMovieData(unknown: any): asserts unknown is KobisMovie {
+    if (
+      !unknown.rnum ||
+      !unknown.rank ||
+      !unknown.rankInten ||
+      !unknown.rankOldAndNew ||
+      !unknown.movieCd ||
+      !unknown.movieNm ||
+      !unknown.openDt ||
+      !unknown.audiAcc ||
+      !unknown.audiChange ||
+      !unknown.audiCnt ||
+      !unknown.audiInten ||
+      !unknown.salesAcc ||
+      !unknown.salesAmt ||
+      !unknown.salesChange ||
+      !unknown.salesInten ||
+      !unknown.salesShare ||
+      !unknown.scrnCnt ||
+      !unknown.showCnt
+    ) {
+      throw new Error('Invalid KobisMovie data');
+    }
+  }
+  private convertKobisMovieData(unknown: any): KobisMovie {
+    if (unknown.openDt === ' ') {
+      unknown.openDt = '0';
+    }
+    this.assertKobisMovieData(unknown);
+    return {
+      rnum: unknown.rnum ?? '',
+      rank: unknown.rank ?? '',
+      rankInten: unknown.rankInten ?? '',
+      rankOldAndNew: unknown.rankOldAndNew ?? '',
+      movieCd: unknown.movieCd ?? '',
+      movieNm: unknown.movieNm ?? '',
+      openDt: unknown.openDt ?? '',
+      audiAcc: unknown.audiAcc ?? '',
+      audiChange: unknown.audiChange ?? '',
+      audiCnt: unknown.audiCnt ?? '',
+      audiInten: unknown.audiInten ?? '',
+      salesAcc: unknown.salesAcc ?? '',
+      salesAmt: unknown.salesAmt ?? '',
+      salesChange: unknown.salesChange ?? '',
+      salesInten: unknown.salesInten ?? '',
+      salesShare: unknown.salesShare ?? '',
+      scrnCnt: unknown.scrnCnt ?? '',
+      showCnt: unknown.showCnt ?? '',
+    };
+  }
 
   private convertMovieData(unknown: any): Omit<MovieData, 'vector'> {
     return {
-      title: unknown.title,
-      audience: Number(unknown.audience),
-      rank: Number(unknown.rank),
-      createdAt: unknown.createdAt,
-      updatedAt: unknown.updatedAt,
-      id: Number(unknown.id),
-      movieCd: Number(unknown.movieCd),
-      poster: unknown.poster,
-      rankInten: unknown.rankInten,
-      plot: unknown.plot,
-      rankOldAndNew: unknown.rankOldAndNew,
-      openDt: unknown.openDt,
-      genre: unknown.genre,
-      director: unknown.director,
-      ratting: unknown.ratting,
+      title: unknown.title ?? '',
+      audience: Number(unknown.audience) ?? 0,
+      rank: Number(unknown.rank) ?? 0,
+      createdAt: unknown.createdAt ?? new Date(0),
+      updatedAt: unknown.updatedAt ?? new Date(0),
+      id: Number(unknown.id) ?? 0,
+      movieCd: Number(unknown.movieCd) ?? 0,
+      poster: unknown.poster ?? '',
+      rankInten: unknown.rankInten ?? 0,
+      plot: unknown.plot ?? '',
+      rankOldAndNew: unknown.rankOldAndNew ?? '',
+      openDt: unknown.openDt ?? new Date(0),
+      genre: unknown.genre ?? '',
+      director: unknown.director ?? '',
+      ratting: unknown.ratting ?? '',
     };
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -245,6 +297,7 @@ export class MovieService implements OnModuleInit {
     // });
     // return recommendedMovies;
   }
+
   async getMovieDetail(movieCd: number): Promise<MovieData> {
     const movie = await this.mysqlPrismaService.movie.findUnique({
       where: { movieCd },

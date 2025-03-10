@@ -18,8 +18,9 @@ export class MovieController implements MovieServiceController {
   async fetchMovies(request: FetchMoviesRequest) {
     return await this.movieService.fetchMovies(request.fetchDate);
   }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async getMovieDatas(request: Empty): Promise<Omit<MovieDatas, 'vector'>> {
-    return await this.movieService.getMovieDatas(request);
+    return await this.movieService.getMovieDatas();
   }
   async recommendMovie(request: RecommendMovieRequest): Promise<MovieDatas> {
     return await this.movieService.recommendMovies(request.movieCd);
