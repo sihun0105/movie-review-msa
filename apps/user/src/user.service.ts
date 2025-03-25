@@ -84,7 +84,7 @@ export class UserService {
   }
 
   async updateUser(updateUserDto: UpdateUserDto): Promise<User> {
-    const { id, email, nickname } = updateUserDto;
+    const { id, email, nickname, image } = updateUserDto;
 
     const userData = await this.mysqlPrismaService.user.findUnique({
       where: { id },
@@ -119,6 +119,9 @@ export class UserService {
         throw new AlreadyExistsException('이미 존재하는 이메일입니다.');
       }
       updateData.email = email;
+    }
+    if (image) {
+      updateData.image = image;
     }
 
     const updatedUserData = await this.mysqlPrismaService.user.update({

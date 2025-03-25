@@ -2,9 +2,11 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { RpcExceptionFilter } from '@app/common/filters/rpcexception/rpc-exception.filter';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import './utils/instrument';
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
   app.useGlobalFilters(new RpcExceptionFilter());
   /**Swaager설정 */
   const config = new DocumentBuilder()
