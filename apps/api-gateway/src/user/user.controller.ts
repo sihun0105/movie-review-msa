@@ -71,7 +71,6 @@ export class UserController {
     @Body() updateUserDto: UpdateUserDto,
     @UploadedFiles() file: Express.Multer.File,
   ) {
-    console.log(updateUserDto.image);
     const userNumber = req.user.userId;
     const filePath = file ? file[0].path : null;
     if (filePath) {
