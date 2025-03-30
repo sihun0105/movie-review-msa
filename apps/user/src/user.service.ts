@@ -1,4 +1,9 @@
-import { CreateUserDto, UpdateUserDto, User } from '@app/common/protobuf';
+import {
+  CreateUserDto,
+  UpdateUserDto,
+  UpdateUserProfileImageDto,
+  User,
+} from '@app/common/protobuf';
 import { AlreadyExistsException } from '@app/common/filters/rpcexception/rpc-exception';
 import { MySQLPrismaService } from '@app/prisma';
 import { UtilsService } from '@app/utils';
@@ -129,6 +134,38 @@ export class UserService {
       data: updateData,
     });
 
+    const createdAt = this.utilsService.dateToTimestamp(
+      updatedUserData.createdAt as Date,
+    );
+    const updatedAt = this.utilsService.dateToTimestamp(
+      updatedUserData.updatedAt as Date,
+    );
+    const deletedAt = updatedUserData.deletedAt
+      ? this.utilsService.dateToTimestamp(updatedUserData.deletedAt as Date)
+      : null;
+
+    return {
+      ...updatedUserData,
+      createdAt,
+      updatedAt,
+      deletedAt,
+    };
+  }
+
+  async updateUserProfileImage(
+    updateUserDto: UpdateUserProfileImageDto,
+  ): Promise<User> {
+    const { id, image } = updateUserDto;
+    const userData = await this.mysqlPrismaService.user.findUnique({
+      where: { id },
+    });
+    if (!userData) {
+      throw new NotFoundException(`User not found ${id}`);
+    }
+    const updatedUserData = await this.mysqlPrismaService.user.update({
+      where: { id },
+      data: { image },
+    });
     const createdAt = this.utilsService.dateToTimestamp(
       updatedUserData.createdAt as Date,
     );

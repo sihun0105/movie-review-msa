@@ -2,12 +2,14 @@ import {
   CreateUserDto,
   RemoveUserDto,
   UpdateUserDto,
+  UpdateUserProfileImageDto,
   User,
   UserServiceController,
   UserServiceControllerMethods,
 } from '@app/common/protobuf';
 import { Controller } from '@nestjs/common';
 import { UserService } from './user.service';
+import { Observable } from 'rxjs';
 
 @Controller()
 @UserServiceControllerMethods()
@@ -24,5 +26,10 @@ export class UserController implements UserServiceController {
 
   updateUser(updateUserDto: UpdateUserDto): Promise<User> {
     return this.userService.updateUser(updateUserDto);
+  }
+  updateUserProfileImage(
+    request: UpdateUserProfileImageDto,
+  ): Promise<User> | Observable<User> | User {
+    return this.userService.updateUserProfileImage(request);
   }
 }

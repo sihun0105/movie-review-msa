@@ -9,6 +9,8 @@ service UserService {
     rpc CreateUser(CreateUserDto) returns (User) {}
     rpc RemoveUser (RemoveUserDto) returns (User) {}
     rpc UpdateUser (UpdateUserDto) returns (User) {}
+    rpc UpdateUserProfileImage (UpdateUserProfileImageDto) returns (User) {}
+    
 }
 
 message User {
@@ -34,6 +36,10 @@ message UpdateUserDto {
     string email =2;
     string nickname = 3;
     string image = 4;
+}
+message UpdateUserProfileImageDto {
+    int32 id =1;
+    string image = 2;
 }
 message RemoveUserDto {
     int32 id =1;

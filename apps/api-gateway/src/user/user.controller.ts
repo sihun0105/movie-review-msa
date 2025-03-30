@@ -59,6 +59,31 @@ export class UserController {
       id: userNumber,
     });
   }
+  @Patch('/image')
+  @UpdateUserSpecDecorator(
+    '회원정보 프로필 이미지 업데이트 API',
+    '회원정보 프로필 이미지 업데이트',
+  )
+  @UseInterceptors(FilesInterceptor('file', 1, multerOptions))
+  @UseGuards(JwtAuthGuard, RateLimitGuard)
+  updateImage(
+    @Req() req,
+    @Body() updateUserDto: UpdateUserDto,
+    @UploadedFiles() file: Express.Multer.File,
+  ) {
+    console.log(updateUserDto.image);
+    const userNumber = req.user.userId;
+    const filePath = file ? file[0].path : null;
+    if (filePath) {
+      updateUserDto.image = filePath;
+    } else {
+      updateUserDto.image = '';
+    }
+    return this.userService.update({
+      ...updateUserDto,
+      id: userNumber,
+    });
+  }
 
   @DeleteUserSpecDecorator('회원탈퇴 API', '회원탈퇴')
   @Delete('/')

@@ -31,6 +31,11 @@ export interface UpdateUserDto {
   image: string;
 }
 
+export interface UpdateUserProfileImageDto {
+  id: number;
+  image: string;
+}
+
 export interface RemoveUserDto {
   id: number;
 }
@@ -43,6 +48,8 @@ export interface UserServiceClient {
   removeUser(request: RemoveUserDto): Observable<User>;
 
   updateUser(request: UpdateUserDto): Observable<User>;
+
+  updateUserProfileImage(request: UpdateUserProfileImageDto): Observable<User>;
 }
 
 export interface UserServiceController {
@@ -51,11 +58,13 @@ export interface UserServiceController {
   removeUser(request: RemoveUserDto): Promise<User> | Observable<User> | User;
 
   updateUser(request: UpdateUserDto): Promise<User> | Observable<User> | User;
+
+  updateUserProfileImage(request: UpdateUserProfileImageDto): Promise<User> | Observable<User> | User;
 }
 
 export function UserServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["createUser", "removeUser", "updateUser"];
+    const grpcMethods: string[] = ["createUser", "removeUser", "updateUser", "updateUserProfileImage"];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcMethod("UserService", method)(constructor.prototype[method], method, descriptor);

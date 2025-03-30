@@ -3,6 +3,7 @@ import {
   USER_PACKAGE_NAME,
   USER_SERVICE_NAME,
   UpdateUserDto,
+  UpdateUserProfileImageDto,
   UserServiceClient,
 } from '@app/common/protobuf';
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
@@ -29,5 +30,10 @@ export class UserService implements OnModuleInit {
 
   update(updateUserDto: UpdateUserDto) {
     return this.userService.updateUser({ ...updateUserDto });
+  }
+  updateProfileImage(updateUserProfileImageDto: UpdateUserProfileImageDto) {
+    return this.userService.updateUserProfileImage({
+      ...updateUserProfileImageDto,
+    });
   }
 }
