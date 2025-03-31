@@ -28,6 +28,7 @@ export class UserController {
   @Post('/')
   async create(@Body() createUserDto: CreateUserDto) {
     try {
+      console.log(createUserDto.nickname);
       const createUserObservable = this.userService.create(createUserDto);
       const data = await firstValueFrom(createUserObservable);
       return data;
@@ -38,12 +39,12 @@ export class UserController {
       });
     }
   }
-  @Patch('/')
+  @Patch('/nickname')
   @UpdateUserSpecDecorator('회원정보 수정 API', '회원정보 수정')
   @UseGuards(JwtAuthGuard, RateLimitGuard)
   update(@Req() req, @Body() updateUserDto: UpdateUserDto) {
-    const userNumber = req.user.userId;
     console.log(updateUserDto.nickname);
+    const userNumber = req.user.userId;
     return this.userService.update({
       ...updateUserDto,
       id: userNumber,
