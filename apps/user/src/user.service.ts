@@ -115,7 +115,9 @@ export class UserService {
 
     const updatedUserData = await this.mysqlPrismaService.user.update({
       where: { id },
-      data: updateData,
+      data: {
+        nickname: updateData.nickname,
+      },
     });
 
     const createdAt = this.utilsService.dateToTimestamp(
