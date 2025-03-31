@@ -40,20 +40,10 @@ export class UserController {
   }
   @Patch('/')
   @UpdateUserSpecDecorator('회원정보 수정 API', '회원정보 수정')
-  @UseInterceptors(FilesInterceptor('file', 1, multerOptions))
   @UseGuards(JwtAuthGuard, RateLimitGuard)
-  update(
-    @Req() req,
-    @Body() updateUserDto: UpdateUserDto,
-    @UploadedFiles() file: Express.Multer.File,
-  ) {
+  update(@Req() req, @Body() updateUserDto: UpdateUserDto) {
     const userNumber = req.user.userId;
-    const filePath = file ? file[0].path : null;
-    if (filePath) {
-      updateUserDto.image = filePath;
-    } else {
-      updateUserDto.image = '';
-    }
+    console.log(updateUserDto.nickname);
     return this.userService.update({
       ...updateUserDto,
       id: userNumber,
