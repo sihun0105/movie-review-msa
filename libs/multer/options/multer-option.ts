@@ -2,6 +2,14 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 
+const allowedImageTypes = [
+  'image/jpeg',
+  'image/png',
+  'image/gif',
+  'image/jpg',
+  'image/heic',
+];
+
 export const multerOptions = {
   storage: multer.diskStorage({
     destination(req, file, cb) {
@@ -19,5 +27,12 @@ export const multerOptions = {
       cb(null, path.basename(file.originalname, ext) + Date.now() + ext);
     },
   }),
-  limits: { fileSize: 60 * 1024 * 1024 },
+  limits: { fileSize: 20 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    if (allowedImageTypes.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error('지원되지 않는 파일 형식입니다.'));
+    }
+  },
 };
