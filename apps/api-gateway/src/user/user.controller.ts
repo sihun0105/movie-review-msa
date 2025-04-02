@@ -81,8 +81,9 @@ export class UserController {
         id: userNumber,
       }),
     );
-    console.log(result);
-    return result;
+    const user = convertToUserEntity(result);
+    console.log(user);
+    return user;
     //
     return this.userService.updateProfileImage({
       ...updateUserDto,
