@@ -20,6 +20,7 @@ import { UpdateUserSpecDecorator } from './decorator/patch-user-spec-decorator';
 import { DeleteUserSpecDecorator } from './decorator/delete-user-spec-decorator';
 import { multerOptions } from 'libs/multer/options';
 import { FilesInterceptor } from '@nestjs/platform-express';
+import { convertToUserEntity } from '@app/common/entity';
 
 @Controller('user')
 export class UserController {
@@ -42,13 +43,18 @@ export class UserController {
   @Patch('/nickname')
   @UpdateUserSpecDecorator('회원정보 수정 API', '회원정보 수정')
   @UseGuards(JwtAuthGuard, RateLimitGuard)
-  update(@Req() req, @Body() updateUserDto: UpdateUserDto) {
+  async update(@Req() req, @Body() updateUserDto: UpdateUserDto) {
     console.log(updateUserDto.nickname);
     const userNumber = req.user.userId;
-    return this.userService.update({
-      ...updateUserDto,
-      id: userNumber,
-    });
+    const result = await firstValueFrom(
+      this.userService.update({
+        ...updateUserDto,
+        id: userNumber,
+      }),
+    );
+    const user = convertToUserEntity(result);
+    console.log(user);
+    return user;
   }
   @Patch('/image')
   @UpdateUserSpecDecorator(
@@ -57,7 +63,7 @@ export class UserController {
   )
   @UseInterceptors(FilesInterceptor('file', 1, multerOptions))
   @UseGuards(JwtAuthGuard, RateLimitGuard)
-  updateImage(
+  async updateImage(
     @Req() req,
     @Body() updateUserDto: UpdateUserDto,
     @UploadedFiles() file: Express.Multer.File,
@@ -69,6 +75,15 @@ export class UserController {
     } else {
       updateUserDto.image = '';
     }
+    const result = await firstValueFrom(
+      this.userService.updateProfileImage({
+        ...updateUserDto,
+        id: userNumber,
+      }),
+    );
+    console.log(result);
+    return result;
+    //
     return this.userService.updateProfileImage({
       ...updateUserDto,
       id: userNumber,
