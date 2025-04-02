@@ -64,15 +64,12 @@ export class UserController {
   ) {
     const userNumber = req.user.userId;
     const filePath = file ? file[0].path : null;
-    console.log('filePath', filePath);
-    console.log('file', file);
-    console.log('userNumber', userNumber);
     if (filePath) {
       updateUserDto.image = filePath;
     } else {
       updateUserDto.image = '';
     }
-    return this.userService.update({
+    return this.userService.updateProfileImage({
       ...updateUserDto,
       id: userNumber,
     });
