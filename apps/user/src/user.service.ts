@@ -148,9 +148,10 @@ export class UserService {
     if (!userData) {
       throw new NotFoundException(`User not found ${id}`);
     }
+    console.log('updateUserProfileImage', image);
     const updatedUserData = await this.mysqlPrismaService.user.update({
       where: { id },
-      data: { image },
+      data: { image: image },
     });
     const createdAt = this.utilsService.dateToTimestamp(
       updatedUserData.createdAt as Date,
