@@ -40,6 +40,7 @@ model Movie {
   genre         String?   @db.VarChar(100)
   director      String?   @db.VarChar(100)
   ratting       String?   @db.VarChar(100)
+  movieScores   movieScore[]
   Comment       Comment[]
 
   @@index([movieCd], map: "movieId")
@@ -60,6 +61,7 @@ model User {
   channelmembers   channelmembers[]
   workspace        workspace[]
   workspacemembers workspacemembers[]
+  movieScores      movieScore[]
 }
 
 model channelchats {
@@ -122,4 +124,18 @@ model workspacemembers {
   User        User      @relation(fields: [UserId], references: [id], onDelete: Cascade, map: "FK_workspacemembers_user")
 
   @@id([UserId, WorkspaceId])
+}
+
+model movieScore {
+  id        Int       @id @default(autoincrement())
+  movieCd   Int
+  score     Float?
+  createdAt DateTime  @default(now()) @db.DateTime(6)
+  updatedAt DateTime  @default(now()) @db.DateTime(6)
+  deletedAt DateTime? @db.DateTime(6)
+  Userno    Int
+  Movie     Movie     @relation(fields: [movieCd], references: [movieCd], onDelete: Cascade)
+  User      User      @relation(fields: [Userno], references: [id], onDelete: Cascade)
+
+  @@index([movieCd], map: "movieId_idx")
 }

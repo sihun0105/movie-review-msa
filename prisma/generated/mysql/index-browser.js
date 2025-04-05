@@ -191,6 +191,16 @@ exports.Prisma.WorkspacemembersScalarFieldEnum = {
   loggedInAt: 'loggedInAt'
 };
 
+exports.Prisma.MovieScoreScalarFieldEnum = {
+  id: 'id',
+  movieCd: 'movieCd',
+  score: 'score',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt',
+  Userno: 'Userno'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -221,7 +231,8 @@ exports.Prisma.ModelName = {
   channelmembers: 'channelmembers',
   channels: 'channels',
   workspace: 'workspace',
-  workspacemembers: 'workspacemembers'
+  workspacemembers: 'workspacemembers',
+  movieScore: 'movieScore'
 };
 
 /**
