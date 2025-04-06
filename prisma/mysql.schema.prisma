@@ -138,4 +138,5 @@ model movieScore {
   User      User      @relation(fields: [Userno], references: [id], onDelete: Cascade)
 
   @@index([movieCd], map: "movieId_idx")
+  @@unique([movieCd, Userno], map: "movieCd_userno_unique")
 }

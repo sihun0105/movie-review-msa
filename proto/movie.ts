@@ -5,6 +5,26 @@ import { Empty } from "./common";
 
 export const protobufPackage = "movie";
 
+export interface UpsertMovieScoreRequest {
+  movieCd: number;
+  score: number;
+  userId: number;
+}
+
+export interface GetMovieScoreRequest {
+  movieCd: number;
+  userId: number;
+}
+
+export interface MovieScore {
+  id: number;
+  movieCd: number;
+  score: number;
+  createdAt: string;
+  updatedAt: string;
+  userId: number;
+}
+
 export interface FetchMoviesRequest {
   fetchDate: string;
 }
@@ -45,6 +65,10 @@ export interface MovieServiceClient {
   recommendMovie(request: RecommendMovieRequest): Observable<MovieDatas>;
 
   getMovieDetailData(request: RecommendMovieRequest): Observable<MovieData>;
+
+  upsertMovieScore(request: UpsertMovieScoreRequest): Observable<Empty>;
+
+  getMovieScore(request: GetMovieScoreRequest): Observable<MovieScore>;
 }
 
 export interface MovieServiceController {
@@ -55,11 +79,22 @@ export interface MovieServiceController {
   recommendMovie(request: RecommendMovieRequest): Promise<MovieDatas> | Observable<MovieDatas> | MovieDatas;
 
   getMovieDetailData(request: RecommendMovieRequest): Promise<MovieData> | Observable<MovieData> | MovieData;
+
+  upsertMovieScore(request: UpsertMovieScoreRequest): Promise<Empty> | Observable<Empty> | Empty;
+
+  getMovieScore(request: GetMovieScoreRequest): Promise<MovieScore> | Observable<MovieScore> | MovieScore;
 }
 
 export function MovieServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["getMovieDatas", "fetchMovies", "recommendMovie", "getMovieDetailData"];
+    const grpcMethods: string[] = [
+      "getMovieDatas",
+      "fetchMovies",
+      "recommendMovie",
+      "getMovieDetailData",
+      "upsertMovieScore",
+      "getMovieScore",
+    ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcMethod("MovieService", method)(constructor.prototype[method], method, descriptor);

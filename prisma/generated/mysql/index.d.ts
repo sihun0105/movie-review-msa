@@ -11758,6 +11758,7 @@ export namespace Prisma {
 
   export type movieScoreWhereUniqueInput = Prisma.AtLeast<{
     id?: number
+    movieCd_Userno?: movieScoreMovieCdUsernoCompoundUniqueInput
     AND?: movieScoreWhereInput | movieScoreWhereInput[]
     OR?: movieScoreWhereInput[]
     NOT?: movieScoreWhereInput | movieScoreWhereInput[]
@@ -11769,7 +11770,7 @@ export namespace Prisma {
     Userno?: IntFilter<"movieScore"> | number
     Movie?: XOR<MovieRelationFilter, MovieWhereInput>
     User?: XOR<UserRelationFilter, UserWhereInput>
-  }, "id">
+  }, "id" | "movieCd_Userno">
 
   export type movieScoreOrderByWithAggregationInput = {
     id?: SortOrder
@@ -13174,6 +13175,11 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type movieScoreMovieCdUsernoCompoundUniqueInput = {
+    movieCd: number
+    Userno: number
   }
 
   export type movieScoreCountOrderByAggregateInput = {

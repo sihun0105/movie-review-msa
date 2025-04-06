@@ -1,11 +1,14 @@
 import {
   Empty,
   FetchMoviesRequest,
+  GetMovieScoreRequest,
   MovieData,
   MovieDatas,
+  MovieScore,
   MovieServiceController,
   MovieServiceControllerMethods,
   RecommendMovieRequest,
+  UpsertMovieScoreRequest,
 } from '@app/common/protobuf';
 import { Controller } from '@nestjs/common';
 import { MovieService } from './movie.service';
@@ -27,5 +30,13 @@ export class MovieController implements MovieServiceController {
   }
   async getMovieDetailData(request: RecommendMovieRequest): Promise<MovieData> {
     return await this.movieService.getMovieDetail(request.movieCd);
+  }
+  async upsertMovieScore(request: UpsertMovieScoreRequest): Promise<void> {
+    return await this.movieService.upsertMovieScore(request);
+  }
+  async getMovieScore(
+    request: GetMovieScoreRequest,
+  ): Promise<MovieScore> | null {
+    return await this.movieService.getMovieScore(request);
   }
 }

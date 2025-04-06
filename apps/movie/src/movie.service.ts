@@ -4,7 +4,7 @@ import {
   KmdbResponse,
   KmdbMovie,
 } from '@app/common/types/movie-response';
-import { MovieData, MovieDatas } from '@app/common/protobuf';
+import { MovieData, MovieDatas, MovieScore } from '@app/common/protobuf';
 import { MySQLPrismaService } from '@app/prisma';
 import { UtilsService } from '@app/utils';
 import { Injectable, OnModuleInit } from '@nestjs/common';
@@ -306,5 +306,76 @@ export class MovieService implements OnModuleInit {
       throw new Error(`Movie with movieCd ${movieCd} not found`);
     }
     return this.convertMovieData(movie);
+  }
+
+  async upsertMovieScore({
+    movieCd,
+    score,
+    userId,
+  }: {
+    movieCd: number;
+    score: number;
+    userId: number;
+  }): Promise<void> {
+    const movieScore = await this.mysqlPrismaService.movieScore.upsert({
+      where: {
+        movieCd_Userno: {
+          movieCd: movieCd,
+          Userno: userId,
+        },
+      },
+      update: {
+        score,
+        updatedAt: new Date(),
+      },
+      create: {
+        movieCd,
+        Userno: userId,
+        score,
+      },
+    });
+
+    if (!movieScore) {
+      throw new Error(`Failed to upsert movie score for movieCd ${movieCd}`);
+    }
+  }
+  async getMovieScore({
+    movieCd,
+    userId,
+  }: {
+    movieCd: number;
+    userId: number;
+  }): Promise<MovieScore> {
+    const movieScore = await this.mysqlPrismaService.movieScore.findUnique({
+      where: {
+        movieCd_Userno: {
+          movieCd: movieCd,
+          Userno: userId,
+        },
+      },
+    });
+
+    if (!movieScore) {
+      return {
+        movieCd: movieCd,
+        score: 0,
+        userId: userId,
+        createdAt: this.utilsService.dateToTimestamp(new Date(0) as Date),
+        updatedAt: this.utilsService.dateToTimestamp(new Date(0) as Date),
+      } as MovieScore;
+    }
+    const createdAt = this.utilsService.dateToTimestamp(
+      movieScore.createdAt as Date,
+    );
+    const updatedAt = this.utilsService.dateToTimestamp(
+      movieScore.updatedAt as Date,
+    );
+
+    return {
+      ...movieScore,
+      userId: movieScore.Userno,
+      createdAt,
+      updatedAt,
+    } as MovieScore;
   }
 }

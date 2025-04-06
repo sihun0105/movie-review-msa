@@ -1,8 +1,18 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import { MovieService } from './movie.service';
 import { GetMovieSpecDecorator } from './decorator/get-movie-spec-decorator';
+import { JwtAuthGuard } from '@app/common/guards/jwtauth/jwtauth.guard';
+import { RateLimitGuard } from '@app/common/guards/rateLimit/rate-limit.guard';
 
 @Controller('movie')
 export class MovieController {
@@ -28,6 +38,47 @@ export class MovieController {
       const getRepliesObservable = await this.movieService.getMovieDetail(
         +movieCd,
       );
+      const data = await firstValueFrom(getRepliesObservable);
+      return data;
+    } catch (error) {
+      throw new RpcException({
+        code: error.code,
+        message: error.details,
+      });
+    }
+  }
+  @Post('/score/:movieCd')
+  @UseGuards(JwtAuthGuard, RateLimitGuard)
+  async upsertMovieScore(
+    @Param('movieCd') movieCd: string,
+    @Body() score: { score: number },
+    @Req() req,
+  ) {
+    const userNumber = req.user.userId;
+    try {
+      const getRepliesObservable = await this.movieService.upsertMovieScore({
+        userNumber,
+        movieCd: +movieCd,
+        score: score.score,
+      });
+      const data = await firstValueFrom(getRepliesObservable);
+      return data;
+    } catch (error) {
+      throw new RpcException({
+        code: error.code,
+        message: error.details,
+      });
+    }
+  }
+  @Get('/score/:movieCd')
+  @UseGuards(JwtAuthGuard, RateLimitGuard)
+  async getMovieScore(@Param('movieCd') movieCd: string, @Req() req) {
+    const userNumber = req.user.userId;
+    try {
+      const getRepliesObservable = await this.movieService.getMovieScore({
+        userNumber,
+        movieCd: +movieCd,
+      });
       const data = await firstValueFrom(getRepliesObservable);
       return data;
     } catch (error) {

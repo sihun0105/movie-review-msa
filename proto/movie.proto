@@ -11,6 +11,27 @@ service MovieService {
   rpc FetchMovies(FetchMoviesRequest) returns (common.Empty) {}
   rpc RecommendMovie(RecommendMovieRequest) returns (MovieDatas) {}
   rpc GetMovieDetailData(RecommendMovieRequest) returns (MovieData) {}
+  rpc UpsertMovieScore(UpsertMovieScoreRequest) returns (common.Empty) {}
+  rpc GetMovieScore(GetMovieScoreRequest) returns (MovieScore) {}
+}
+
+message UpsertMovieScoreRequest {
+  int32 movieCd = 1;
+  int32 score = 2;
+  int32 userId = 3;
+}
+message GetMovieScoreRequest {
+  int32 movieCd = 1;
+  int32 userId = 2;
+}
+
+message MovieScore {
+  int32 id = 1;
+  int32 movieCd = 2;
+  int32 score = 3;
+  string createdAt = 4;
+  string updatedAt = 5;
+  int32 userId = 6;
 }
 
 message FetchMoviesRequest {
