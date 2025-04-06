@@ -66,7 +66,7 @@ export interface MovieServiceClient {
 
   getMovieDetailData(request: RecommendMovieRequest): Observable<MovieData>;
 
-  upsertMovieScore(request: UpsertMovieScoreRequest): Observable<Empty>;
+  upsertMovieScore(request: UpsertMovieScoreRequest): Observable<MovieScore>;
 
   getMovieScore(request: GetMovieScoreRequest): Observable<MovieScore>;
 }
@@ -80,7 +80,7 @@ export interface MovieServiceController {
 
   getMovieDetailData(request: RecommendMovieRequest): Promise<MovieData> | Observable<MovieData> | MovieData;
 
-  upsertMovieScore(request: UpsertMovieScoreRequest): Promise<Empty> | Observable<Empty> | Empty;
+  upsertMovieScore(request: UpsertMovieScoreRequest): Promise<MovieScore> | Observable<MovieScore> | MovieScore;
 
   getMovieScore(request: GetMovieScoreRequest): Promise<MovieScore> | Observable<MovieScore> | MovieScore;
 }

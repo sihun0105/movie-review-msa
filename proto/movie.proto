@@ -11,7 +11,7 @@ service MovieService {
   rpc FetchMovies(FetchMoviesRequest) returns (common.Empty) {}
   rpc RecommendMovie(RecommendMovieRequest) returns (MovieDatas) {}
   rpc GetMovieDetailData(RecommendMovieRequest) returns (MovieData) {}
-  rpc UpsertMovieScore(UpsertMovieScoreRequest) returns (common.Empty) {}
+  rpc UpsertMovieScore(UpsertMovieScoreRequest) returns (MovieScore) {}
   rpc GetMovieScore(GetMovieScoreRequest) returns (MovieScore) {}
 }
 

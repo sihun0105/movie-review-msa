@@ -31,7 +31,9 @@ export class MovieController implements MovieServiceController {
   async getMovieDetailData(request: RecommendMovieRequest): Promise<MovieData> {
     return await this.movieService.getMovieDetail(request.movieCd);
   }
-  async upsertMovieScore(request: UpsertMovieScoreRequest): Promise<void> {
+  async upsertMovieScore(
+    request: UpsertMovieScoreRequest,
+  ): Promise<MovieScore> | null {
     return await this.movieService.upsertMovieScore(request);
   }
   async getMovieScore(

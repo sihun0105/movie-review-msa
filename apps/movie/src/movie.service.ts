@@ -316,7 +316,7 @@ export class MovieService implements OnModuleInit {
     movieCd: number;
     score: number;
     userId: number;
-  }): Promise<void> {
+  }): Promise<MovieScore> | null {
     const movieScore = await this.mysqlPrismaService.movieScore.upsert({
       where: {
         movieCd_Userno: {
@@ -336,8 +336,21 @@ export class MovieService implements OnModuleInit {
     });
 
     if (!movieScore) {
-      throw new Error(`Failed to upsert movie score for movieCd ${movieCd}`);
+      return null;
     }
+
+    const createdAt = this.utilsService.dateToTimestamp(
+      movieScore.createdAt as Date,
+    );
+    const updatedAt = this.utilsService.dateToTimestamp(
+      movieScore.updatedAt as Date,
+    );
+    return {
+      ...movieScore,
+      userId: movieScore.Userno,
+      createdAt,
+      updatedAt,
+    } as MovieScore;
   }
   async getMovieScore({
     movieCd,
