@@ -31,10 +31,8 @@ export class ReplyController {
     @Query('page') page: number,
   ) {
     try {
-      const userNumber = req.user.userId;
       const getRepliesObservable = this.replyService.getReplies({
         movieId: movieId,
-        userId: userNumber,
         page: page,
       });
       const data = await firstValueFrom(getRepliesObservable);
