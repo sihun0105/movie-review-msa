@@ -21,7 +21,6 @@ import { PatchReplySpecDecorator } from './decorator/patch-reply-spec-decorator'
 import { DeleteReplySpecDecorator } from './decorator/delete-reply-spec-decorator';
 
 @Controller('reply')
-@UseGuards(JwtAuthGuard, RateLimitGuard)
 export class ReplyController {
   constructor(private readonly replyService: ReplyService) {}
   @GetReplySpecDecorator('댓글 조회 API', '댓글 조회')
@@ -47,9 +46,9 @@ export class ReplyController {
       });
     }
   }
-
-  @PostReplySpecDecorator('댓글 생성 API', '댓글 생성')
   @Post('/')
+  @PostReplySpecDecorator('댓글 생성 API', '댓글 생성')
+  @UseGuards(JwtAuthGuard, RateLimitGuard)
   async create(@Req() req, @Body() createReplyDto: CreateReplyDto) {
     try {
       const userNumber = req.user.userId;
@@ -66,8 +65,10 @@ export class ReplyController {
       });
     }
   }
-  @PatchReplySpecDecorator('댓글 수정 API', '댓글 수정')
+
   @Patch()
+  @PatchReplySpecDecorator('댓글 수정 API', '댓글 수정')
+  @UseGuards(JwtAuthGuard, RateLimitGuard)
   async update(@Req() req, @Body() updateReplyDto: UpdateReplyDto) {
     try {
       const userNumber = req.user.id;
@@ -84,8 +85,9 @@ export class ReplyController {
       });
     }
   }
-  @DeleteReplySpecDecorator('댓글 삭제 API', '댓글 삭제')
   @Post('/:replyId')
+  @DeleteReplySpecDecorator('댓글 삭제 API', '댓글 삭제')
+  @UseGuards(JwtAuthGuard, RateLimitGuard)
   async delete(@Req() req, @Param() replyId: { replyId: number }) {
     try {
       const userNumber = req.user.id;
