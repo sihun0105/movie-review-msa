@@ -26,7 +26,7 @@ export class ReplyController implements ReplyServiceController {
     return await this.replyService.delete(deleteReplyDto);
   }
 
-  async getReply(getRepliesDto: GetReplyDto) {
-    return await this.replyService.getReplies(getRepliesDto);
+  async getReply(getReplyDto: GetReplyDto) {
+    return await this.replyService.getReplies(getReplyDto);
   }
 }

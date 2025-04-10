@@ -15,8 +15,9 @@ export interface Reply {
   updatedAt: string;
 }
 
-export interface Replys {
-  replys: Reply[];
+export interface RepliesResult {
+  replies: Reply[];
+  hasNext: boolean;
 }
 
 export interface GetReplyDto {
@@ -44,7 +45,7 @@ export interface DeleteReplyDto {
 export const REPLY_PACKAGE_NAME = 'reply';
 
 export interface ReplyServiceClient {
-  getReply(request: GetReplyDto): Observable<Replys>;
+  getReply(request: GetReplyDto): Observable<RepliesResult>;
 
   createReply(request: CreateReplyDto): Observable<Empty>;
 
@@ -54,7 +55,9 @@ export interface ReplyServiceClient {
 }
 
 export interface ReplyServiceController {
-  getReply(request: GetReplyDto): Promise<Replys> | Observable<Replys> | Replys;
+  getReply(
+    request: GetReplyDto,
+  ): Promise<RepliesResult> | Observable<RepliesResult> | RepliesResult;
 
   createReply(
     request: CreateReplyDto,

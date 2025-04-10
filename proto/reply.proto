@@ -7,7 +7,7 @@ package reply;
 option go_package = "reply";
 
 service ReplyService {
-    rpc GetReply (GetReplyDto) returns (Replys) {}
+    rpc GetReply (GetReplyDto) returns (RepliesResult) {}
     rpc CreateReply (CreateReplyDto) returns (common.Empty) {}
     rpc UpdateReply (UpdateReplyDto) returns (common.Empty) {}
     rpc DeleteReply (DeleteReplyDto) returns (common.Empty) {}
@@ -23,8 +23,9 @@ message Reply {
     string updatedAt = 7;
 }
 
-message Replys {
-    repeated Reply replys = 1;
+message RepliesResult {
+    repeated Reply replies = 1;
+    bool hasNext = 2;
 }
 
 message GetReplyDto {

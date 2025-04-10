@@ -1,9 +1,4 @@
-import {
-  CreateReplyDto,
-  Reply,
-  Replys,
-  UpdateReplyDto,
-} from '@app/common/protobuf';
+import { CreateReplyDto, Reply, UpdateReplyDto } from '@app/common/protobuf';
 import { NotFoundException } from '@app/common/filters/rpcexception/rpc-exception';
 import { MySQLPrismaService } from '@app/prisma';
 import { UtilsService } from '@app/utils';
@@ -107,27 +102,38 @@ export class ReplyService {
   async getReplies(getRepliesDto: {
     movieId: number;
     page: number;
-  }): Promise<Replys> {
+  }): Promise<{ replies: Reply[]; hasNext: boolean }> {
     const { movieId, page } = getRepliesDto;
-    const replies = await this.mysqlPrismaService.comment.findMany({
-      where: { movieId: movieId, deletedAt: null },
-      include: { User: true },
-      skip: (page - 1) * 10,
-      take: 10,
-    });
-    const replyObjects: Reply[] = [];
-    for (const reply of replies) {
-      const replyObject: Reply = {
-        replyId: reply.id,
-        comment: reply.comment,
-        email: reply.User.email,
-        nickname: reply.User.nickname,
-        userId: reply.User.id,
-        createdAt: reply.createdAt.toISOString(),
-        updatedAt: reply.updatedAt.toISOString(),
-      };
-      replyObjects.push(replyObject);
-    }
-    return { replys: replyObjects };
+    const take = 10;
+    const skip = (page - 1) * take;
+
+    const [replies, totalCount] = await Promise.all([
+      this.mysqlPrismaService.comment.findMany({
+        where: { movieId, deletedAt: null },
+        include: { User: true },
+        skip,
+        take,
+      }),
+      this.mysqlPrismaService.comment.count({
+        where: { movieId, deletedAt: null },
+      }),
+    ]);
+
+    const replyObjects: Reply[] = replies.map((reply) => ({
+      replyId: reply.id,
+      comment: reply.comment,
+      email: reply.User.email,
+      nickname: reply.User.nickname,
+      userId: reply.User.id,
+      createdAt: reply.createdAt.toISOString(),
+      updatedAt: reply.updatedAt.toISOString(),
+    }));
+
+    const hasNext = skip + take < totalCount;
+
+    return {
+      replies: replyObjects,
+      hasNext,
+    };
   }
 }
