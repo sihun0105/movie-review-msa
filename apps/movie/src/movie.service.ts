@@ -19,7 +19,7 @@ export class MovieService implements OnModuleInit {
   private readonly kmdbUrl =
     'http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp';
   private readonly kmdbKey = process.env.KMDB_API_KEY;
-
+  private readonly tmdbAccessToken = process.env.TMDB_API_ACCESS_TOKEN;
   constructor(
     private readonly mysqlPrismaService: MySQLPrismaService,
     // private readonly postgresPrismaService: PostgresPrismaService,
@@ -31,8 +31,34 @@ export class MovieService implements OnModuleInit {
     const yesterday = moment().subtract(1, 'days').format('YYYYMMDD');
     this.fetchMovies(yesterday);
   }
+  async fetchTmdbPoster(title: string): Promise<string | null> {
+    try {
+      console.log(title);
+      const url = `https://api.themoviedb.org/3/search/movie?query=${title}&language=ko-KR`;
 
+      const response = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${this.tmdbAccessToken}`,
+          'Content-Type': 'application/json',
+        },
+      });
+      const movie = response.data.results?.[0];
+
+      if (movie?.poster_path) {
+        return `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
+      }
+      return null;
+    } catch (error) {
+      console.warn(`fetchTmdbPoster failed for "${title}"`, error);
+      return null;
+    }
+  }
   async fetchKmdbData(title: string): Promise<Partial<KmdbMovie>> {
+    function getHighResKmdbPoster(posters: string): string {
+      const urls = posters?.split('|') ?? [];
+      const preferred = urls.find((url) => url.includes('/MD/')) || urls[0];
+      return preferred ?? '';
+    }
     const lastYear = moment().subtract(1, 'years').format('YYYY') + '0101';
     let url = `${this.kmdbUrl}?collection=kmdb_new2&ServiceKey=${this.kmdbKey}&detail=Y&title=${title}&sort=prodYear,1&releaseDts=${lastYear}`;
     let response = await axios.get<KmdbResponse>(url);
@@ -45,8 +71,20 @@ export class MovieService implements OnModuleInit {
         return null;
       }
     }
+    const poster = getHighResKmdbPoster(
+      response.data.Data[0].Result[0].posters,
+    );
 
-    return response.data.Data[0].Result[0];
+    const kmdbMovie: Partial<KmdbMovie> = {
+      title: response.data.Data[0].Result[0].title,
+      plots: response.data.Data[0].Result[0].plots,
+      posters: poster,
+      directors: response.data.Data[0].Result[0].directors,
+      genre: response.data.Data[0].Result[0].genre,
+      rating: response.data.Data[0].Result[0].rating,
+    };
+
+    return kmdbMovie;
   }
 
   async fetchMovies(date: string): Promise<void> {
@@ -105,10 +143,22 @@ export class MovieService implements OnModuleInit {
           // 데이터가 존재하는 경우에만 값 할당
           if (fetchedData) {
             plot = fetchedData.plots?.plot?.[0]?.plotText ?? '';
-            poster = fetchedData.posters?.split('|')?.[0] ?? '';
+            poster = fetchedData.posters;
             director = fetchedData.directors?.director?.[0]?.directorNm ?? '';
             genre = fetchedData.genre ?? '';
             rating = fetchedData.rating ?? '';
+          }
+          poster = (await this.fetchTmdbPoster(movieData.movieNm)) ?? '';
+
+          if (!poster) {
+            const fetchedData = await this.fetchKmdbData(movieData.movieNm);
+            if (fetchedData) {
+              plot = fetchedData.plots?.plot?.[0]?.plotText ?? '';
+              poster = fetchedData.posters?.split('|')?.[0] ?? '';
+              director = fetchedData.directors?.director?.[0]?.directorNm ?? '';
+              genre = fetchedData.genre ?? '';
+              rating = fetchedData.rating ?? '';
+            }
           }
         } catch (error) {
           console.warn(`fetchKmdbData failed for ${movieData.movieNm}:`, error);
