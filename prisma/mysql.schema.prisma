@@ -24,24 +24,25 @@ model Comment {
 }
 
 model Movie {
-  id            Int       @id @default(autoincrement())
+  id            Int          @id @default(autoincrement())
   audience      BigInt?
-  movieCd       Int       @unique
-  title         String?   @db.LongText
+  movieCd       Int          @unique
+  title         String?      @db.LongText
   rank          BigInt?
-  createdAt     DateTime  @default(now()) @db.DateTime(6)
-  updatedAt     DateTime  @default(now()) @db.DateTime(6)
-  poster        String?   @db.VarChar(1024)
+  createdAt     DateTime     @default(now()) @db.DateTime(6)
+  updatedAt     DateTime     @default(now()) @db.DateTime(6)
+  poster        String?      @db.VarChar(1024)
   vector        Json?
-  rankInten     String?   @db.VarChar(10)
-  plot          String?   @db.LongText
-  rankOldAndNew String?   @db.VarChar(10)
-  openDt        DateTime? @db.DateTime(6)
-  genre         String?   @db.VarChar(100)
-  director      String?   @db.VarChar(100)
-  ratting       String?   @db.VarChar(100)
-  movieScores   movieScore[]
+  rankInten     String?      @db.VarChar(10)
+  plot          String?      @db.LongText
+  rankOldAndNew String?      @db.VarChar(10)
+  openDt        DateTime?    @db.DateTime(6)
+  genre         String?      @db.VarChar(100)
+  director      String?      @db.VarChar(100)
+  ratting       String?      @db.VarChar(100)
   Comment       Comment[]
+  MovieVod      MovieVod[]
+  movieScores   movieScore[]
 
   @@index([movieCd], map: "movieId")
 }
@@ -59,9 +60,9 @@ model User {
   Comment          Comment[]
   channelchats     channelchats[]
   channelmembers   channelmembers[]
+  movieScores      movieScore[]
   workspace        workspace[]
   workspacemembers workspacemembers[]
-  movieScores      movieScore[]
 }
 
 model channelchats {
@@ -134,9 +135,22 @@ model movieScore {
   updatedAt DateTime  @default(now()) @db.DateTime(6)
   deletedAt DateTime? @db.DateTime(6)
   Userno    Int
-  Movie     Movie     @relation(fields: [movieCd], references: [movieCd], onDelete: Cascade)
   User      User      @relation(fields: [Userno], references: [id], onDelete: Cascade)
+  Movie     Movie     @relation(fields: [movieCd], references: [movieCd], onDelete: Cascade)
 
-  @@index([movieCd], map: "movieId_idx")
   @@unique([movieCd, Userno], map: "movieCd_userno_unique")
+  @@index([movieCd], map: "movieId_idx")
+  @@index([Userno], map: "movieScore_Userno_fkey")
+}
+
+model MovieVod {
+  id        Int       @id @default(autoincrement())
+  vodUrl    String    @db.VarChar(1024)
+  movieCd   Int
+  createdAt DateTime  @default(now()) @db.DateTime(6)
+  updatedAt DateTime  @default(now()) @db.DateTime(6)
+  deletedAt DateTime? @db.DateTime(6)
+  Movie     Movie     @relation(fields: [movieCd], references: [movieCd], onDelete: Cascade)
+
+  @@index([movieCd], map: "MovieVod_movieCd_fkey_idx")
 }

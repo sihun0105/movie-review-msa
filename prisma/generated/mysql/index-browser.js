@@ -201,6 +201,15 @@ exports.Prisma.MovieScoreScalarFieldEnum = {
   Userno: 'Userno'
 };
 
+exports.Prisma.MovieVodScalarFieldEnum = {
+  id: 'id',
+  vodUrl: 'vodUrl',
+  movieCd: 'movieCd',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -232,7 +241,8 @@ exports.Prisma.ModelName = {
   channels: 'channels',
   workspace: 'workspace',
   workspacemembers: 'workspacemembers',
-  movieScore: 'movieScore'
+  movieScore: 'movieScore',
+  MovieVod: 'MovieVod'
 };
 
 /**

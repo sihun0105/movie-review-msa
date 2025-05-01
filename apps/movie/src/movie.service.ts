@@ -59,6 +59,7 @@ export class MovieService implements OnModuleInit {
       const preferred = urls.find((url) => url.includes('/MD/')) || urls[0];
       return preferred ?? '';
     }
+
     const lastYear = moment().subtract(1, 'years').format('YYYY') + '0101';
     let url = `${this.kmdbUrl}?collection=kmdb_new2&ServiceKey=${this.kmdbKey}&detail=Y&title=${title}&sort=prodYear,1&releaseDts=${lastYear}`;
     let response = await axios.get<KmdbResponse>(url);
@@ -74,11 +75,11 @@ export class MovieService implements OnModuleInit {
     const poster = getHighResKmdbPoster(
       response.data.Data[0].Result[0].posters,
     );
-
     const kmdbMovie: Partial<KmdbMovie> = {
       title: response.data.Data[0].Result[0].title,
       plots: response.data.Data[0].Result[0].plots,
       posters: poster,
+      vods: response.data.Data[0].Result[0].vods,
       directors: response.data.Data[0].Result[0].directors,
       genre: response.data.Data[0].Result[0].genre,
       rating: response.data.Data[0].Result[0].rating,
@@ -137,10 +138,44 @@ export class MovieService implements OnModuleInit {
           genre = '',
           rating = '';
 
+        function sliceVods(
+          vod: {
+            vodClass: string;
+            vodUrl: string;
+          }[],
+        ): string[] {
+          const vodUrls = vod.map((vod) => vod.vodUrl);
+          const filteredUrls = vodUrls.filter((url) => url.includes('vod'));
+          return filteredUrls;
+        }
         try {
           const fetchedData = await this.fetchKmdbData(movieData.movieNm);
+          const vods = sliceVods(fetchedData.vods.vod);
+          vods.map(async (vod) => {
+            const existing = await this.mysqlPrismaService.movieVod.findFirst({
+              where: { movieCd: +movieData.movieCd },
+            });
 
-          // 데이터가 존재하는 경우에만 값 할당
+            if (existing) {
+              await this.mysqlPrismaService.movieVod.update({
+                where: { id: existing.id },
+                data: {
+                  vodUrl: vod,
+                  updatedAt: new Date(),
+                },
+              });
+            } else {
+              await this.mysqlPrismaService.movieVod.create({
+                data: {
+                  movieCd: +movieData.movieCd,
+                  vodUrl: vod,
+                  createdAt: new Date(),
+                  updatedAt: new Date(),
+                },
+              });
+            }
+          });
+
           if (fetchedData) {
             plot = fetchedData.plots?.plot?.[0]?.plotText ?? '';
             poster = fetchedData.posters;

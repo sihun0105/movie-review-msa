@@ -58,6 +58,11 @@ export type workspacemembers = $Result.DefaultSelection<Prisma.$workspacemembers
  * 
  */
 export type movieScore = $Result.DefaultSelection<Prisma.$movieScorePayload>
+/**
+ * Model MovieVod
+ * 
+ */
+export type MovieVod = $Result.DefaultSelection<Prisma.$MovieVodPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -270,6 +275,16 @@ export class PrismaClient<
     * ```
     */
   get movieScore(): Prisma.movieScoreDelegate<ExtArgs>;
+
+  /**
+   * `prisma.movieVod`: Exposes CRUD operations for the **MovieVod** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more MovieVods
+    * const movieVods = await prisma.movieVod.findMany()
+    * ```
+    */
+  get movieVod(): Prisma.MovieVodDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -748,7 +763,8 @@ export namespace Prisma {
     channels: 'channels',
     workspace: 'workspace',
     workspacemembers: 'workspacemembers',
-    movieScore: 'movieScore'
+    movieScore: 'movieScore',
+    MovieVod: 'MovieVod'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -765,7 +781,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     meta: {
-      modelProps: 'comment' | 'movie' | 'user' | 'channelchats' | 'channelmembers' | 'channels' | 'workspace' | 'workspacemembers' | 'movieScore'
+      modelProps: 'comment' | 'movie' | 'user' | 'channelchats' | 'channelmembers' | 'channels' | 'workspace' | 'workspacemembers' | 'movieScore' | 'movieVod'
       txIsolationLevel: Prisma.TransactionIsolationLevel
     },
     model: {
@@ -1363,6 +1379,72 @@ export namespace Prisma {
           }
         }
       }
+      MovieVod: {
+        payload: Prisma.$MovieVodPayload<ExtArgs>
+        fields: Prisma.MovieVodFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MovieVodFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$MovieVodPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MovieVodFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$MovieVodPayload>
+          }
+          findFirst: {
+            args: Prisma.MovieVodFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$MovieVodPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MovieVodFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$MovieVodPayload>
+          }
+          findMany: {
+            args: Prisma.MovieVodFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$MovieVodPayload>[]
+          }
+          create: {
+            args: Prisma.MovieVodCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$MovieVodPayload>
+          }
+          createMany: {
+            args: Prisma.MovieVodCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.MovieVodDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$MovieVodPayload>
+          }
+          update: {
+            args: Prisma.MovieVodUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$MovieVodPayload>
+          }
+          deleteMany: {
+            args: Prisma.MovieVodDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MovieVodUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.MovieVodUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$MovieVodPayload>
+          }
+          aggregate: {
+            args: Prisma.MovieVodAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateMovieVod>
+          }
+          groupBy: {
+            args: Prisma.MovieVodGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<MovieVodGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MovieVodCountArgs<ExtArgs>,
+            result: $Utils.Optional<MovieVodCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1522,13 +1604,15 @@ export namespace Prisma {
    */
 
   export type MovieCountOutputType = {
-    movieScores: number
     Comment: number
+    MovieVod: number
+    movieScores: number
   }
 
   export type MovieCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    movieScores?: boolean | MovieCountOutputTypeCountMovieScoresArgs
     Comment?: boolean | MovieCountOutputTypeCountCommentArgs
+    MovieVod?: boolean | MovieCountOutputTypeCountMovieVodArgs
+    movieScores?: boolean | MovieCountOutputTypeCountMovieScoresArgs
   }
 
   // Custom InputTypes
@@ -1547,16 +1631,24 @@ export namespace Prisma {
   /**
    * MovieCountOutputType without action
    */
-  export type MovieCountOutputTypeCountMovieScoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: movieScoreWhereInput
+  export type MovieCountOutputTypeCountCommentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CommentWhereInput
   }
 
 
   /**
    * MovieCountOutputType without action
    */
-  export type MovieCountOutputTypeCountCommentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: CommentWhereInput
+  export type MovieCountOutputTypeCountMovieVodArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MovieVodWhereInput
+  }
+
+
+  /**
+   * MovieCountOutputType without action
+   */
+  export type MovieCountOutputTypeCountMovieScoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: movieScoreWhereInput
   }
 
 
@@ -1569,18 +1661,18 @@ export namespace Prisma {
     Comment: number
     channelchats: number
     channelmembers: number
+    movieScores: number
     workspace: number
     workspacemembers: number
-    movieScores: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Comment?: boolean | UserCountOutputTypeCountCommentArgs
     channelchats?: boolean | UserCountOutputTypeCountChannelchatsArgs
     channelmembers?: boolean | UserCountOutputTypeCountChannelmembersArgs
+    movieScores?: boolean | UserCountOutputTypeCountMovieScoresArgs
     workspace?: boolean | UserCountOutputTypeCountWorkspaceArgs
     workspacemembers?: boolean | UserCountOutputTypeCountWorkspacemembersArgs
-    movieScores?: boolean | UserCountOutputTypeCountMovieScoresArgs
   }
 
   // Custom InputTypes
@@ -1623,6 +1715,14 @@ export namespace Prisma {
   /**
    * UserCountOutputType without action
    */
+  export type UserCountOutputTypeCountMovieScoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: movieScoreWhereInput
+  }
+
+
+  /**
+   * UserCountOutputType without action
+   */
   export type UserCountOutputTypeCountWorkspaceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: workspaceWhereInput
   }
@@ -1633,14 +1733,6 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountWorkspacemembersArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: workspacemembersWhereInput
-  }
-
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountMovieScoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: movieScoreWhereInput
   }
 
 
@@ -2998,8 +3090,9 @@ export namespace Prisma {
     genre?: boolean
     director?: boolean
     ratting?: boolean
-    movieScores?: boolean | Movie$movieScoresArgs<ExtArgs>
     Comment?: boolean | Movie$CommentArgs<ExtArgs>
+    MovieVod?: boolean | Movie$MovieVodArgs<ExtArgs>
+    movieScores?: boolean | Movie$movieScoresArgs<ExtArgs>
     _count?: boolean | MovieCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["movie"]>
 
@@ -3023,8 +3116,9 @@ export namespace Prisma {
   }
 
   export type MovieInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    movieScores?: boolean | Movie$movieScoresArgs<ExtArgs>
     Comment?: boolean | Movie$CommentArgs<ExtArgs>
+    MovieVod?: boolean | Movie$MovieVodArgs<ExtArgs>
+    movieScores?: boolean | Movie$movieScoresArgs<ExtArgs>
     _count?: boolean | MovieCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -3032,8 +3126,9 @@ export namespace Prisma {
   export type $MoviePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Movie"
     objects: {
-      movieScores: Prisma.$movieScorePayload<ExtArgs>[]
       Comment: Prisma.$CommentPayload<ExtArgs>[]
+      MovieVod: Prisma.$MovieVodPayload<ExtArgs>[]
+      movieScores: Prisma.$movieScorePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -3417,9 +3512,11 @@ export namespace Prisma {
   export interface Prisma__MovieClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
 
-    movieScores<T extends Movie$movieScoresArgs<ExtArgs> = {}>(args?: Subset<T, Movie$movieScoresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$movieScorePayload<ExtArgs>, T, 'findMany'> | Null>;
-
     Comment<T extends Movie$CommentArgs<ExtArgs> = {}>(args?: Subset<T, Movie$CommentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, 'findMany'> | Null>;
+
+    MovieVod<T extends Movie$MovieVodArgs<ExtArgs> = {}>(args?: Subset<T, Movie$MovieVodArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MovieVodPayload<ExtArgs>, T, 'findMany'> | Null>;
+
+    movieScores<T extends Movie$movieScoresArgs<ExtArgs> = {}>(args?: Subset<T, Movie$movieScoresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$movieScorePayload<ExtArgs>, T, 'findMany'> | Null>;
 
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -3777,27 +3874,6 @@ export namespace Prisma {
 
 
   /**
-   * Movie.movieScores
-   */
-  export type Movie$movieScoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the movieScore
-     */
-    select?: movieScoreSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: movieScoreInclude<ExtArgs> | null
-    where?: movieScoreWhereInput
-    orderBy?: movieScoreOrderByWithRelationInput | movieScoreOrderByWithRelationInput[]
-    cursor?: movieScoreWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: MovieScoreScalarFieldEnum | MovieScoreScalarFieldEnum[]
-  }
-
-
-  /**
    * Movie.Comment
    */
   export type Movie$CommentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3815,6 +3891,48 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CommentScalarFieldEnum | CommentScalarFieldEnum[]
+  }
+
+
+  /**
+   * Movie.MovieVod
+   */
+  export type Movie$MovieVodArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MovieVod
+     */
+    select?: MovieVodSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MovieVodInclude<ExtArgs> | null
+    where?: MovieVodWhereInput
+    orderBy?: MovieVodOrderByWithRelationInput | MovieVodOrderByWithRelationInput[]
+    cursor?: MovieVodWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MovieVodScalarFieldEnum | MovieVodScalarFieldEnum[]
+  }
+
+
+  /**
+   * Movie.movieScores
+   */
+  export type Movie$movieScoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the movieScore
+     */
+    select?: movieScoreSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: movieScoreInclude<ExtArgs> | null
+    where?: movieScoreWhereInput
+    orderBy?: movieScoreOrderByWithRelationInput | movieScoreOrderByWithRelationInput[]
+    cursor?: movieScoreWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MovieScoreScalarFieldEnum | MovieScoreScalarFieldEnum[]
   }
 
 
@@ -4067,9 +4185,9 @@ export namespace Prisma {
     Comment?: boolean | User$CommentArgs<ExtArgs>
     channelchats?: boolean | User$channelchatsArgs<ExtArgs>
     channelmembers?: boolean | User$channelmembersArgs<ExtArgs>
+    movieScores?: boolean | User$movieScoresArgs<ExtArgs>
     workspace?: boolean | User$workspaceArgs<ExtArgs>
     workspacemembers?: boolean | User$workspacemembersArgs<ExtArgs>
-    movieScores?: boolean | User$movieScoresArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -4089,9 +4207,9 @@ export namespace Prisma {
     Comment?: boolean | User$CommentArgs<ExtArgs>
     channelchats?: boolean | User$channelchatsArgs<ExtArgs>
     channelmembers?: boolean | User$channelmembersArgs<ExtArgs>
+    movieScores?: boolean | User$movieScoresArgs<ExtArgs>
     workspace?: boolean | User$workspaceArgs<ExtArgs>
     workspacemembers?: boolean | User$workspacemembersArgs<ExtArgs>
-    movieScores?: boolean | User$movieScoresArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
 
@@ -4102,9 +4220,9 @@ export namespace Prisma {
       Comment: Prisma.$CommentPayload<ExtArgs>[]
       channelchats: Prisma.$channelchatsPayload<ExtArgs>[]
       channelmembers: Prisma.$channelmembersPayload<ExtArgs>[]
+      movieScores: Prisma.$movieScorePayload<ExtArgs>[]
       workspace: Prisma.$workspacePayload<ExtArgs>[]
       workspacemembers: Prisma.$workspacemembersPayload<ExtArgs>[]
-      movieScores: Prisma.$movieScorePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -4487,11 +4605,11 @@ export namespace Prisma {
 
     channelmembers<T extends User$channelmembersArgs<ExtArgs> = {}>(args?: Subset<T, User$channelmembersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$channelmembersPayload<ExtArgs>, T, 'findMany'> | Null>;
 
+    movieScores<T extends User$movieScoresArgs<ExtArgs> = {}>(args?: Subset<T, User$movieScoresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$movieScorePayload<ExtArgs>, T, 'findMany'> | Null>;
+
     workspace<T extends User$workspaceArgs<ExtArgs> = {}>(args?: Subset<T, User$workspaceArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$workspacePayload<ExtArgs>, T, 'findMany'> | Null>;
 
     workspacemembers<T extends User$workspacemembersArgs<ExtArgs> = {}>(args?: Subset<T, User$workspacemembersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$workspacemembersPayload<ExtArgs>, T, 'findMany'> | Null>;
-
-    movieScores<T extends User$movieScoresArgs<ExtArgs> = {}>(args?: Subset<T, User$movieScoresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$movieScorePayload<ExtArgs>, T, 'findMany'> | Null>;
 
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -4905,6 +5023,27 @@ export namespace Prisma {
 
 
   /**
+   * User.movieScores
+   */
+  export type User$movieScoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the movieScore
+     */
+    select?: movieScoreSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: movieScoreInclude<ExtArgs> | null
+    where?: movieScoreWhereInput
+    orderBy?: movieScoreOrderByWithRelationInput | movieScoreOrderByWithRelationInput[]
+    cursor?: movieScoreWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MovieScoreScalarFieldEnum | MovieScoreScalarFieldEnum[]
+  }
+
+
+  /**
    * User.workspace
    */
   export type User$workspaceArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4943,27 +5082,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: WorkspacemembersScalarFieldEnum | WorkspacemembersScalarFieldEnum[]
-  }
-
-
-  /**
-   * User.movieScores
-   */
-  export type User$movieScoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the movieScore
-     */
-    select?: movieScoreSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: movieScoreInclude<ExtArgs> | null
-    where?: movieScoreWhereInput
-    orderBy?: movieScoreOrderByWithRelationInput | movieScoreOrderByWithRelationInput[]
-    cursor?: movieScoreWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: MovieScoreScalarFieldEnum | MovieScoreScalarFieldEnum[]
   }
 
 
@@ -10151,8 +10269,8 @@ export namespace Prisma {
     updatedAt?: boolean
     deletedAt?: boolean
     Userno?: boolean
-    Movie?: boolean | MovieDefaultArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
+    Movie?: boolean | MovieDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["movieScore"]>
 
   export type movieScoreSelectScalar = {
@@ -10166,16 +10284,16 @@ export namespace Prisma {
   }
 
   export type movieScoreInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    Movie?: boolean | MovieDefaultArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
+    Movie?: boolean | MovieDefaultArgs<ExtArgs>
   }
 
 
   export type $movieScorePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "movieScore"
     objects: {
-      Movie: Prisma.$MoviePayload<ExtArgs>
       User: Prisma.$UserPayload<ExtArgs>
+      Movie: Prisma.$MoviePayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -10550,9 +10668,9 @@ export namespace Prisma {
   export interface Prisma__movieScoreClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
 
-    Movie<T extends MovieDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MovieDefaultArgs<ExtArgs>>): Prisma__MovieClient<$Result.GetResult<Prisma.$MoviePayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
-
     User<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
+
+    Movie<T extends MovieDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MovieDefaultArgs<ExtArgs>>): Prisma__MovieClient<$Result.GetResult<Prisma.$MoviePayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
 
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -10917,6 +11035,973 @@ export namespace Prisma {
 
 
   /**
+   * Model MovieVod
+   */
+
+  export type AggregateMovieVod = {
+    _count: MovieVodCountAggregateOutputType | null
+    _avg: MovieVodAvgAggregateOutputType | null
+    _sum: MovieVodSumAggregateOutputType | null
+    _min: MovieVodMinAggregateOutputType | null
+    _max: MovieVodMaxAggregateOutputType | null
+  }
+
+  export type MovieVodAvgAggregateOutputType = {
+    id: number | null
+    movieCd: number | null
+  }
+
+  export type MovieVodSumAggregateOutputType = {
+    id: number | null
+    movieCd: number | null
+  }
+
+  export type MovieVodMinAggregateOutputType = {
+    id: number | null
+    vodUrl: string | null
+    movieCd: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deletedAt: Date | null
+  }
+
+  export type MovieVodMaxAggregateOutputType = {
+    id: number | null
+    vodUrl: string | null
+    movieCd: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deletedAt: Date | null
+  }
+
+  export type MovieVodCountAggregateOutputType = {
+    id: number
+    vodUrl: number
+    movieCd: number
+    createdAt: number
+    updatedAt: number
+    deletedAt: number
+    _all: number
+  }
+
+
+  export type MovieVodAvgAggregateInputType = {
+    id?: true
+    movieCd?: true
+  }
+
+  export type MovieVodSumAggregateInputType = {
+    id?: true
+    movieCd?: true
+  }
+
+  export type MovieVodMinAggregateInputType = {
+    id?: true
+    vodUrl?: true
+    movieCd?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+  }
+
+  export type MovieVodMaxAggregateInputType = {
+    id?: true
+    vodUrl?: true
+    movieCd?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+  }
+
+  export type MovieVodCountAggregateInputType = {
+    id?: true
+    vodUrl?: true
+    movieCd?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+    _all?: true
+  }
+
+  export type MovieVodAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MovieVod to aggregate.
+     */
+    where?: MovieVodWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MovieVods to fetch.
+     */
+    orderBy?: MovieVodOrderByWithRelationInput | MovieVodOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MovieVodWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MovieVods from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MovieVods.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned MovieVods
+    **/
+    _count?: true | MovieVodCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: MovieVodAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: MovieVodSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MovieVodMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MovieVodMaxAggregateInputType
+  }
+
+  export type GetMovieVodAggregateType<T extends MovieVodAggregateArgs> = {
+        [P in keyof T & keyof AggregateMovieVod]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMovieVod[P]>
+      : GetScalarType<T[P], AggregateMovieVod[P]>
+  }
+
+
+
+
+  export type MovieVodGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MovieVodWhereInput
+    orderBy?: MovieVodOrderByWithAggregationInput | MovieVodOrderByWithAggregationInput[]
+    by: MovieVodScalarFieldEnum[] | MovieVodScalarFieldEnum
+    having?: MovieVodScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MovieVodCountAggregateInputType | true
+    _avg?: MovieVodAvgAggregateInputType
+    _sum?: MovieVodSumAggregateInputType
+    _min?: MovieVodMinAggregateInputType
+    _max?: MovieVodMaxAggregateInputType
+  }
+
+  export type MovieVodGroupByOutputType = {
+    id: number
+    vodUrl: string
+    movieCd: number
+    createdAt: Date
+    updatedAt: Date
+    deletedAt: Date | null
+    _count: MovieVodCountAggregateOutputType | null
+    _avg: MovieVodAvgAggregateOutputType | null
+    _sum: MovieVodSumAggregateOutputType | null
+    _min: MovieVodMinAggregateOutputType | null
+    _max: MovieVodMaxAggregateOutputType | null
+  }
+
+  type GetMovieVodGroupByPayload<T extends MovieVodGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MovieVodGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MovieVodGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MovieVodGroupByOutputType[P]>
+            : GetScalarType<T[P], MovieVodGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MovieVodSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    vodUrl?: boolean
+    movieCd?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+    Movie?: boolean | MovieDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["movieVod"]>
+
+  export type MovieVodSelectScalar = {
+    id?: boolean
+    vodUrl?: boolean
+    movieCd?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+  }
+
+  export type MovieVodInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Movie?: boolean | MovieDefaultArgs<ExtArgs>
+  }
+
+
+  export type $MovieVodPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "MovieVod"
+    objects: {
+      Movie: Prisma.$MoviePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      vodUrl: string
+      movieCd: number
+      createdAt: Date
+      updatedAt: Date
+      deletedAt: Date | null
+    }, ExtArgs["result"]["movieVod"]>
+    composites: {}
+  }
+
+
+  type MovieVodGetPayload<S extends boolean | null | undefined | MovieVodDefaultArgs> = $Result.GetResult<Prisma.$MovieVodPayload, S>
+
+  type MovieVodCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<MovieVodFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: MovieVodCountAggregateInputType | true
+    }
+
+  export interface MovieVodDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['MovieVod'], meta: { name: 'MovieVod' } }
+    /**
+     * Find zero or one MovieVod that matches the filter.
+     * @param {MovieVodFindUniqueArgs} args - Arguments to find a MovieVod
+     * @example
+     * // Get one MovieVod
+     * const movieVod = await prisma.movieVod.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends MovieVodFindUniqueArgs<ExtArgs>>(
+      args: SelectSubset<T, MovieVodFindUniqueArgs<ExtArgs>>
+    ): Prisma__MovieVodClient<$Result.GetResult<Prisma.$MovieVodPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
+
+    /**
+     * Find one MovieVod that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {MovieVodFindUniqueOrThrowArgs} args - Arguments to find a MovieVod
+     * @example
+     * // Get one MovieVod
+     * const movieVod = await prisma.movieVod.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends MovieVodFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, MovieVodFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__MovieVodClient<$Result.GetResult<Prisma.$MovieVodPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find the first MovieVod that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MovieVodFindFirstArgs} args - Arguments to find a MovieVod
+     * @example
+     * // Get one MovieVod
+     * const movieVod = await prisma.movieVod.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends MovieVodFindFirstArgs<ExtArgs>>(
+      args?: SelectSubset<T, MovieVodFindFirstArgs<ExtArgs>>
+    ): Prisma__MovieVodClient<$Result.GetResult<Prisma.$MovieVodPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
+
+    /**
+     * Find the first MovieVod that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MovieVodFindFirstOrThrowArgs} args - Arguments to find a MovieVod
+     * @example
+     * // Get one MovieVod
+     * const movieVod = await prisma.movieVod.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends MovieVodFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, MovieVodFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__MovieVodClient<$Result.GetResult<Prisma.$MovieVodPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find zero or more MovieVods that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MovieVodFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all MovieVods
+     * const movieVods = await prisma.movieVod.findMany()
+     * 
+     * // Get first 10 MovieVods
+     * const movieVods = await prisma.movieVod.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const movieVodWithIdOnly = await prisma.movieVod.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends MovieVodFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, MovieVodFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MovieVodPayload<ExtArgs>, T, 'findMany'>>
+
+    /**
+     * Create a MovieVod.
+     * @param {MovieVodCreateArgs} args - Arguments to create a MovieVod.
+     * @example
+     * // Create one MovieVod
+     * const MovieVod = await prisma.movieVod.create({
+     *   data: {
+     *     // ... data to create a MovieVod
+     *   }
+     * })
+     * 
+    **/
+    create<T extends MovieVodCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, MovieVodCreateArgs<ExtArgs>>
+    ): Prisma__MovieVodClient<$Result.GetResult<Prisma.$MovieVodPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
+
+    /**
+     * Create many MovieVods.
+     *     @param {MovieVodCreateManyArgs} args - Arguments to create many MovieVods.
+     *     @example
+     *     // Create many MovieVods
+     *     const movieVod = await prisma.movieVod.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends MovieVodCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, MovieVodCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a MovieVod.
+     * @param {MovieVodDeleteArgs} args - Arguments to delete one MovieVod.
+     * @example
+     * // Delete one MovieVod
+     * const MovieVod = await prisma.movieVod.delete({
+     *   where: {
+     *     // ... filter to delete one MovieVod
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends MovieVodDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, MovieVodDeleteArgs<ExtArgs>>
+    ): Prisma__MovieVodClient<$Result.GetResult<Prisma.$MovieVodPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
+
+    /**
+     * Update one MovieVod.
+     * @param {MovieVodUpdateArgs} args - Arguments to update one MovieVod.
+     * @example
+     * // Update one MovieVod
+     * const movieVod = await prisma.movieVod.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends MovieVodUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, MovieVodUpdateArgs<ExtArgs>>
+    ): Prisma__MovieVodClient<$Result.GetResult<Prisma.$MovieVodPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
+
+    /**
+     * Delete zero or more MovieVods.
+     * @param {MovieVodDeleteManyArgs} args - Arguments to filter MovieVods to delete.
+     * @example
+     * // Delete a few MovieVods
+     * const { count } = await prisma.movieVod.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends MovieVodDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, MovieVodDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more MovieVods.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MovieVodUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many MovieVods
+     * const movieVod = await prisma.movieVod.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends MovieVodUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, MovieVodUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one MovieVod.
+     * @param {MovieVodUpsertArgs} args - Arguments to update or create a MovieVod.
+     * @example
+     * // Update or create a MovieVod
+     * const movieVod = await prisma.movieVod.upsert({
+     *   create: {
+     *     // ... data to create a MovieVod
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the MovieVod we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends MovieVodUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, MovieVodUpsertArgs<ExtArgs>>
+    ): Prisma__MovieVodClient<$Result.GetResult<Prisma.$MovieVodPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
+
+    /**
+     * Count the number of MovieVods.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MovieVodCountArgs} args - Arguments to filter MovieVods to count.
+     * @example
+     * // Count the number of MovieVods
+     * const count = await prisma.movieVod.count({
+     *   where: {
+     *     // ... the filter for the MovieVods we want to count
+     *   }
+     * })
+    **/
+    count<T extends MovieVodCountArgs>(
+      args?: Subset<T, MovieVodCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MovieVodCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a MovieVod.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MovieVodAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MovieVodAggregateArgs>(args: Subset<T, MovieVodAggregateArgs>): Prisma.PrismaPromise<GetMovieVodAggregateType<T>>
+
+    /**
+     * Group by MovieVod.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MovieVodGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MovieVodGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MovieVodGroupByArgs['orderBy'] }
+        : { orderBy?: MovieVodGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MovieVodGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMovieVodGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the MovieVod model
+   */
+  readonly fields: MovieVodFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for MovieVod.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MovieVodClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+
+    Movie<T extends MovieDefaultArgs<ExtArgs> = {}>(args?: Subset<T, MovieDefaultArgs<ExtArgs>>): Prisma__MovieClient<$Result.GetResult<Prisma.$MoviePayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
+
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
+  }
+
+
+
+  /**
+   * Fields of the MovieVod model
+   */ 
+  interface MovieVodFieldRefs {
+    readonly id: FieldRef<"MovieVod", 'Int'>
+    readonly vodUrl: FieldRef<"MovieVod", 'String'>
+    readonly movieCd: FieldRef<"MovieVod", 'Int'>
+    readonly createdAt: FieldRef<"MovieVod", 'DateTime'>
+    readonly updatedAt: FieldRef<"MovieVod", 'DateTime'>
+    readonly deletedAt: FieldRef<"MovieVod", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+
+  /**
+   * MovieVod findUnique
+   */
+  export type MovieVodFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MovieVod
+     */
+    select?: MovieVodSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MovieVodInclude<ExtArgs> | null
+    /**
+     * Filter, which MovieVod to fetch.
+     */
+    where: MovieVodWhereUniqueInput
+  }
+
+
+  /**
+   * MovieVod findUniqueOrThrow
+   */
+  export type MovieVodFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MovieVod
+     */
+    select?: MovieVodSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MovieVodInclude<ExtArgs> | null
+    /**
+     * Filter, which MovieVod to fetch.
+     */
+    where: MovieVodWhereUniqueInput
+  }
+
+
+  /**
+   * MovieVod findFirst
+   */
+  export type MovieVodFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MovieVod
+     */
+    select?: MovieVodSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MovieVodInclude<ExtArgs> | null
+    /**
+     * Filter, which MovieVod to fetch.
+     */
+    where?: MovieVodWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MovieVods to fetch.
+     */
+    orderBy?: MovieVodOrderByWithRelationInput | MovieVodOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MovieVods.
+     */
+    cursor?: MovieVodWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MovieVods from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MovieVods.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MovieVods.
+     */
+    distinct?: MovieVodScalarFieldEnum | MovieVodScalarFieldEnum[]
+  }
+
+
+  /**
+   * MovieVod findFirstOrThrow
+   */
+  export type MovieVodFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MovieVod
+     */
+    select?: MovieVodSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MovieVodInclude<ExtArgs> | null
+    /**
+     * Filter, which MovieVod to fetch.
+     */
+    where?: MovieVodWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MovieVods to fetch.
+     */
+    orderBy?: MovieVodOrderByWithRelationInput | MovieVodOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for MovieVods.
+     */
+    cursor?: MovieVodWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MovieVods from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MovieVods.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of MovieVods.
+     */
+    distinct?: MovieVodScalarFieldEnum | MovieVodScalarFieldEnum[]
+  }
+
+
+  /**
+   * MovieVod findMany
+   */
+  export type MovieVodFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MovieVod
+     */
+    select?: MovieVodSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MovieVodInclude<ExtArgs> | null
+    /**
+     * Filter, which MovieVods to fetch.
+     */
+    where?: MovieVodWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of MovieVods to fetch.
+     */
+    orderBy?: MovieVodOrderByWithRelationInput | MovieVodOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing MovieVods.
+     */
+    cursor?: MovieVodWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` MovieVods from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` MovieVods.
+     */
+    skip?: number
+    distinct?: MovieVodScalarFieldEnum | MovieVodScalarFieldEnum[]
+  }
+
+
+  /**
+   * MovieVod create
+   */
+  export type MovieVodCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MovieVod
+     */
+    select?: MovieVodSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MovieVodInclude<ExtArgs> | null
+    /**
+     * The data needed to create a MovieVod.
+     */
+    data: XOR<MovieVodCreateInput, MovieVodUncheckedCreateInput>
+  }
+
+
+  /**
+   * MovieVod createMany
+   */
+  export type MovieVodCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many MovieVods.
+     */
+    data: MovieVodCreateManyInput | MovieVodCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * MovieVod update
+   */
+  export type MovieVodUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MovieVod
+     */
+    select?: MovieVodSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MovieVodInclude<ExtArgs> | null
+    /**
+     * The data needed to update a MovieVod.
+     */
+    data: XOR<MovieVodUpdateInput, MovieVodUncheckedUpdateInput>
+    /**
+     * Choose, which MovieVod to update.
+     */
+    where: MovieVodWhereUniqueInput
+  }
+
+
+  /**
+   * MovieVod updateMany
+   */
+  export type MovieVodUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update MovieVods.
+     */
+    data: XOR<MovieVodUpdateManyMutationInput, MovieVodUncheckedUpdateManyInput>
+    /**
+     * Filter which MovieVods to update
+     */
+    where?: MovieVodWhereInput
+  }
+
+
+  /**
+   * MovieVod upsert
+   */
+  export type MovieVodUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MovieVod
+     */
+    select?: MovieVodSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MovieVodInclude<ExtArgs> | null
+    /**
+     * The filter to search for the MovieVod to update in case it exists.
+     */
+    where: MovieVodWhereUniqueInput
+    /**
+     * In case the MovieVod found by the `where` argument doesn't exist, create a new MovieVod with this data.
+     */
+    create: XOR<MovieVodCreateInput, MovieVodUncheckedCreateInput>
+    /**
+     * In case the MovieVod was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MovieVodUpdateInput, MovieVodUncheckedUpdateInput>
+  }
+
+
+  /**
+   * MovieVod delete
+   */
+  export type MovieVodDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MovieVod
+     */
+    select?: MovieVodSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MovieVodInclude<ExtArgs> | null
+    /**
+     * Filter which MovieVod to delete.
+     */
+    where: MovieVodWhereUniqueInput
+  }
+
+
+  /**
+   * MovieVod deleteMany
+   */
+  export type MovieVodDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which MovieVods to delete
+     */
+    where?: MovieVodWhereInput
+  }
+
+
+  /**
+   * MovieVod without action
+   */
+  export type MovieVodDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the MovieVod
+     */
+    select?: MovieVodSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MovieVodInclude<ExtArgs> | null
+  }
+
+
+
+  /**
    * Enums
    */
 
@@ -11049,6 +12134,18 @@ export namespace Prisma {
   };
 
   export type MovieScoreScalarFieldEnum = (typeof MovieScoreScalarFieldEnum)[keyof typeof MovieScoreScalarFieldEnum]
+
+
+  export const MovieVodScalarFieldEnum: {
+    id: 'id',
+    vodUrl: 'vodUrl',
+    movieCd: 'movieCd',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deletedAt: 'deletedAt'
+  };
+
+  export type MovieVodScalarFieldEnum = (typeof MovieVodScalarFieldEnum)[keyof typeof MovieVodScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -11231,8 +12328,9 @@ export namespace Prisma {
     genre?: StringNullableFilter<"Movie"> | string | null
     director?: StringNullableFilter<"Movie"> | string | null
     ratting?: StringNullableFilter<"Movie"> | string | null
-    movieScores?: MovieScoreListRelationFilter
     Comment?: CommentListRelationFilter
+    MovieVod?: MovieVodListRelationFilter
+    movieScores?: MovieScoreListRelationFilter
   }
 
   export type MovieOrderByWithRelationInput = {
@@ -11252,8 +12350,9 @@ export namespace Prisma {
     genre?: SortOrderInput | SortOrder
     director?: SortOrderInput | SortOrder
     ratting?: SortOrderInput | SortOrder
-    movieScores?: movieScoreOrderByRelationAggregateInput
     Comment?: CommentOrderByRelationAggregateInput
+    MovieVod?: MovieVodOrderByRelationAggregateInput
+    movieScores?: movieScoreOrderByRelationAggregateInput
   }
 
   export type MovieWhereUniqueInput = Prisma.AtLeast<{
@@ -11276,8 +12375,9 @@ export namespace Prisma {
     genre?: StringNullableFilter<"Movie"> | string | null
     director?: StringNullableFilter<"Movie"> | string | null
     ratting?: StringNullableFilter<"Movie"> | string | null
-    movieScores?: MovieScoreListRelationFilter
     Comment?: CommentListRelationFilter
+    MovieVod?: MovieVodListRelationFilter
+    movieScores?: MovieScoreListRelationFilter
   }, "id" | "movieCd">
 
   export type MovieOrderByWithAggregationInput = {
@@ -11342,9 +12442,9 @@ export namespace Prisma {
     Comment?: CommentListRelationFilter
     channelchats?: ChannelchatsListRelationFilter
     channelmembers?: ChannelmembersListRelationFilter
+    movieScores?: MovieScoreListRelationFilter
     workspace?: WorkspaceListRelationFilter
     workspacemembers?: WorkspacemembersListRelationFilter
-    movieScores?: MovieScoreListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -11360,9 +12460,9 @@ export namespace Prisma {
     Comment?: CommentOrderByRelationAggregateInput
     channelchats?: channelchatsOrderByRelationAggregateInput
     channelmembers?: channelmembersOrderByRelationAggregateInput
+    movieScores?: movieScoreOrderByRelationAggregateInput
     workspace?: workspaceOrderByRelationAggregateInput
     workspacemembers?: workspacemembersOrderByRelationAggregateInput
-    movieScores?: movieScoreOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -11381,9 +12481,9 @@ export namespace Prisma {
     Comment?: CommentListRelationFilter
     channelchats?: ChannelchatsListRelationFilter
     channelmembers?: ChannelmembersListRelationFilter
+    movieScores?: MovieScoreListRelationFilter
     workspace?: WorkspaceListRelationFilter
     workspacemembers?: WorkspacemembersListRelationFilter
-    movieScores?: MovieScoreListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -11740,8 +12840,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"movieScore"> | Date | string
     deletedAt?: DateTimeNullableFilter<"movieScore"> | Date | string | null
     Userno?: IntFilter<"movieScore"> | number
-    Movie?: XOR<MovieRelationFilter, MovieWhereInput>
     User?: XOR<UserRelationFilter, UserWhereInput>
+    Movie?: XOR<MovieRelationFilter, MovieWhereInput>
   }
 
   export type movieScoreOrderByWithRelationInput = {
@@ -11752,8 +12852,8 @@ export namespace Prisma {
     updatedAt?: SortOrder
     deletedAt?: SortOrderInput | SortOrder
     Userno?: SortOrder
-    Movie?: MovieOrderByWithRelationInput
     User?: UserOrderByWithRelationInput
+    Movie?: MovieOrderByWithRelationInput
   }
 
   export type movieScoreWhereUniqueInput = Prisma.AtLeast<{
@@ -11768,8 +12868,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"movieScore"> | Date | string
     deletedAt?: DateTimeNullableFilter<"movieScore"> | Date | string | null
     Userno?: IntFilter<"movieScore"> | number
-    Movie?: XOR<MovieRelationFilter, MovieWhereInput>
     User?: XOR<UserRelationFilter, UserWhereInput>
+    Movie?: XOR<MovieRelationFilter, MovieWhereInput>
   }, "id" | "movieCd_Userno">
 
   export type movieScoreOrderByWithAggregationInput = {
@@ -11798,6 +12898,68 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"movieScore"> | Date | string
     deletedAt?: DateTimeNullableWithAggregatesFilter<"movieScore"> | Date | string | null
     Userno?: IntWithAggregatesFilter<"movieScore"> | number
+  }
+
+  export type MovieVodWhereInput = {
+    AND?: MovieVodWhereInput | MovieVodWhereInput[]
+    OR?: MovieVodWhereInput[]
+    NOT?: MovieVodWhereInput | MovieVodWhereInput[]
+    id?: IntFilter<"MovieVod"> | number
+    vodUrl?: StringFilter<"MovieVod"> | string
+    movieCd?: IntFilter<"MovieVod"> | number
+    createdAt?: DateTimeFilter<"MovieVod"> | Date | string
+    updatedAt?: DateTimeFilter<"MovieVod"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"MovieVod"> | Date | string | null
+    Movie?: XOR<MovieRelationFilter, MovieWhereInput>
+  }
+
+  export type MovieVodOrderByWithRelationInput = {
+    id?: SortOrder
+    vodUrl?: SortOrder
+    movieCd?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    Movie?: MovieOrderByWithRelationInput
+  }
+
+  export type MovieVodWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: MovieVodWhereInput | MovieVodWhereInput[]
+    OR?: MovieVodWhereInput[]
+    NOT?: MovieVodWhereInput | MovieVodWhereInput[]
+    vodUrl?: StringFilter<"MovieVod"> | string
+    movieCd?: IntFilter<"MovieVod"> | number
+    createdAt?: DateTimeFilter<"MovieVod"> | Date | string
+    updatedAt?: DateTimeFilter<"MovieVod"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"MovieVod"> | Date | string | null
+    Movie?: XOR<MovieRelationFilter, MovieWhereInput>
+  }, "id">
+
+  export type MovieVodOrderByWithAggregationInput = {
+    id?: SortOrder
+    vodUrl?: SortOrder
+    movieCd?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    _count?: MovieVodCountOrderByAggregateInput
+    _avg?: MovieVodAvgOrderByAggregateInput
+    _max?: MovieVodMaxOrderByAggregateInput
+    _min?: MovieVodMinOrderByAggregateInput
+    _sum?: MovieVodSumOrderByAggregateInput
+  }
+
+  export type MovieVodScalarWhereWithAggregatesInput = {
+    AND?: MovieVodScalarWhereWithAggregatesInput | MovieVodScalarWhereWithAggregatesInput[]
+    OR?: MovieVodScalarWhereWithAggregatesInput[]
+    NOT?: MovieVodScalarWhereWithAggregatesInput | MovieVodScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"MovieVod"> | number
+    vodUrl?: StringWithAggregatesFilter<"MovieVod"> | string
+    movieCd?: IntWithAggregatesFilter<"MovieVod"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"MovieVod"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"MovieVod"> | Date | string
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"MovieVod"> | Date | string | null
   }
 
   export type CommentCreateInput = {
@@ -11881,8 +13043,9 @@ export namespace Prisma {
     genre?: string | null
     director?: string | null
     ratting?: string | null
-    movieScores?: movieScoreCreateNestedManyWithoutMovieInput
     Comment?: CommentCreateNestedManyWithoutMovieInput
+    MovieVod?: MovieVodCreateNestedManyWithoutMovieInput
+    movieScores?: movieScoreCreateNestedManyWithoutMovieInput
   }
 
   export type MovieUncheckedCreateInput = {
@@ -11902,8 +13065,9 @@ export namespace Prisma {
     genre?: string | null
     director?: string | null
     ratting?: string | null
-    movieScores?: movieScoreUncheckedCreateNestedManyWithoutMovieInput
     Comment?: CommentUncheckedCreateNestedManyWithoutMovieInput
+    MovieVod?: MovieVodUncheckedCreateNestedManyWithoutMovieInput
+    movieScores?: movieScoreUncheckedCreateNestedManyWithoutMovieInput
   }
 
   export type MovieUpdateInput = {
@@ -11922,8 +13086,9 @@ export namespace Prisma {
     genre?: NullableStringFieldUpdateOperationsInput | string | null
     director?: NullableStringFieldUpdateOperationsInput | string | null
     ratting?: NullableStringFieldUpdateOperationsInput | string | null
-    movieScores?: movieScoreUpdateManyWithoutMovieNestedInput
     Comment?: CommentUpdateManyWithoutMovieNestedInput
+    MovieVod?: MovieVodUpdateManyWithoutMovieNestedInput
+    movieScores?: movieScoreUpdateManyWithoutMovieNestedInput
   }
 
   export type MovieUncheckedUpdateInput = {
@@ -11943,8 +13108,9 @@ export namespace Prisma {
     genre?: NullableStringFieldUpdateOperationsInput | string | null
     director?: NullableStringFieldUpdateOperationsInput | string | null
     ratting?: NullableStringFieldUpdateOperationsInput | string | null
-    movieScores?: movieScoreUncheckedUpdateManyWithoutMovieNestedInput
     Comment?: CommentUncheckedUpdateManyWithoutMovieNestedInput
+    MovieVod?: MovieVodUncheckedUpdateManyWithoutMovieNestedInput
+    movieScores?: movieScoreUncheckedUpdateManyWithoutMovieNestedInput
   }
 
   export type MovieCreateManyInput = {
@@ -12015,9 +13181,9 @@ export namespace Prisma {
     Comment?: CommentCreateNestedManyWithoutUserInput
     channelchats?: channelchatsCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersCreateNestedManyWithoutUserInput
+    movieScores?: movieScoreCreateNestedManyWithoutUserInput
     workspace?: workspaceCreateNestedManyWithoutUserInput
     workspacemembers?: workspacemembersCreateNestedManyWithoutUserInput
-    movieScores?: movieScoreCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -12033,9 +13199,9 @@ export namespace Prisma {
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
+    movieScores?: movieScoreUncheckedCreateNestedManyWithoutUserInput
     workspace?: workspaceUncheckedCreateNestedManyWithoutUserInput
     workspacemembers?: workspacemembersUncheckedCreateNestedManyWithoutUserInput
-    movieScores?: movieScoreUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -12050,9 +13216,9 @@ export namespace Prisma {
     Comment?: CommentUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
+    movieScores?: movieScoreUpdateManyWithoutUserNestedInput
     workspace?: workspaceUpdateManyWithoutUserNestedInput
     workspacemembers?: workspacemembersUpdateManyWithoutUserNestedInput
-    movieScores?: movieScoreUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -12068,9 +13234,9 @@ export namespace Prisma {
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
+    movieScores?: movieScoreUncheckedUpdateManyWithoutUserNestedInput
     workspace?: workspaceUncheckedUpdateManyWithoutUserNestedInput
     workspacemembers?: workspacemembersUncheckedUpdateManyWithoutUserNestedInput
-    movieScores?: movieScoreUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -12407,8 +13573,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
-    Movie: MovieCreateNestedOneWithoutMovieScoresInput
     User: UserCreateNestedOneWithoutMovieScoresInput
+    Movie: MovieCreateNestedOneWithoutMovieScoresInput
   }
 
   export type movieScoreUncheckedCreateInput = {
@@ -12426,8 +13592,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    Movie?: MovieUpdateOneRequiredWithoutMovieScoresNestedInput
     User?: UserUpdateOneRequiredWithoutMovieScoresNestedInput
+    Movie?: MovieUpdateOneRequiredWithoutMovieScoresNestedInput
   }
 
   export type movieScoreUncheckedUpdateInput = {
@@ -12465,6 +13631,65 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     Userno?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type MovieVodCreateInput = {
+    vodUrl: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    Movie: MovieCreateNestedOneWithoutMovieVodInput
+  }
+
+  export type MovieVodUncheckedCreateInput = {
+    id?: number
+    vodUrl: string
+    movieCd: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type MovieVodUpdateInput = {
+    vodUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    Movie?: MovieUpdateOneRequiredWithoutMovieVodNestedInput
+  }
+
+  export type MovieVodUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    vodUrl?: StringFieldUpdateOperationsInput | string
+    movieCd?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type MovieVodCreateManyInput = {
+    id?: number
+    vodUrl: string
+    movieCd: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type MovieVodUpdateManyMutationInput = {
+    vodUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type MovieVodUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    vodUrl?: StringFieldUpdateOperationsInput | string
+    movieCd?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -12665,23 +13890,33 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
-  export type MovieScoreListRelationFilter = {
-    every?: movieScoreWhereInput
-    some?: movieScoreWhereInput
-    none?: movieScoreWhereInput
-  }
-
   export type CommentListRelationFilter = {
     every?: CommentWhereInput
     some?: CommentWhereInput
     none?: CommentWhereInput
   }
 
-  export type movieScoreOrderByRelationAggregateInput = {
-    _count?: SortOrder
+  export type MovieVodListRelationFilter = {
+    every?: MovieVodWhereInput
+    some?: MovieVodWhereInput
+    none?: MovieVodWhereInput
+  }
+
+  export type MovieScoreListRelationFilter = {
+    every?: movieScoreWhereInput
+    some?: movieScoreWhereInput
+    none?: movieScoreWhereInput
   }
 
   export type CommentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type MovieVodOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type movieScoreOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -13242,6 +14477,43 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
+  export type MovieVodCountOrderByAggregateInput = {
+    id?: SortOrder
+    vodUrl?: SortOrder
+    movieCd?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type MovieVodAvgOrderByAggregateInput = {
+    id?: SortOrder
+    movieCd?: SortOrder
+  }
+
+  export type MovieVodMaxOrderByAggregateInput = {
+    id?: SortOrder
+    vodUrl?: SortOrder
+    movieCd?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type MovieVodMinOrderByAggregateInput = {
+    id?: SortOrder
+    vodUrl?: SortOrder
+    movieCd?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type MovieVodSumOrderByAggregateInput = {
+    id?: SortOrder
+    movieCd?: SortOrder
+  }
+
   export type MovieCreateNestedOneWithoutCommentInput = {
     create?: XOR<MovieCreateWithoutCommentInput, MovieUncheckedCreateWithoutCommentInput>
     connectOrCreate?: MovieCreateOrConnectWithoutCommentInput
@@ -13290,13 +14562,6 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type movieScoreCreateNestedManyWithoutMovieInput = {
-    create?: XOR<movieScoreCreateWithoutMovieInput, movieScoreUncheckedCreateWithoutMovieInput> | movieScoreCreateWithoutMovieInput[] | movieScoreUncheckedCreateWithoutMovieInput[]
-    connectOrCreate?: movieScoreCreateOrConnectWithoutMovieInput | movieScoreCreateOrConnectWithoutMovieInput[]
-    createMany?: movieScoreCreateManyMovieInputEnvelope
-    connect?: movieScoreWhereUniqueInput | movieScoreWhereUniqueInput[]
-  }
-
   export type CommentCreateNestedManyWithoutMovieInput = {
     create?: XOR<CommentCreateWithoutMovieInput, CommentUncheckedCreateWithoutMovieInput> | CommentCreateWithoutMovieInput[] | CommentUncheckedCreateWithoutMovieInput[]
     connectOrCreate?: CommentCreateOrConnectWithoutMovieInput | CommentCreateOrConnectWithoutMovieInput[]
@@ -13304,7 +14569,14 @@ export namespace Prisma {
     connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
   }
 
-  export type movieScoreUncheckedCreateNestedManyWithoutMovieInput = {
+  export type MovieVodCreateNestedManyWithoutMovieInput = {
+    create?: XOR<MovieVodCreateWithoutMovieInput, MovieVodUncheckedCreateWithoutMovieInput> | MovieVodCreateWithoutMovieInput[] | MovieVodUncheckedCreateWithoutMovieInput[]
+    connectOrCreate?: MovieVodCreateOrConnectWithoutMovieInput | MovieVodCreateOrConnectWithoutMovieInput[]
+    createMany?: MovieVodCreateManyMovieInputEnvelope
+    connect?: MovieVodWhereUniqueInput | MovieVodWhereUniqueInput[]
+  }
+
+  export type movieScoreCreateNestedManyWithoutMovieInput = {
     create?: XOR<movieScoreCreateWithoutMovieInput, movieScoreUncheckedCreateWithoutMovieInput> | movieScoreCreateWithoutMovieInput[] | movieScoreUncheckedCreateWithoutMovieInput[]
     connectOrCreate?: movieScoreCreateOrConnectWithoutMovieInput | movieScoreCreateOrConnectWithoutMovieInput[]
     createMany?: movieScoreCreateManyMovieInputEnvelope
@@ -13318,26 +14590,26 @@ export namespace Prisma {
     connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
   }
 
+  export type MovieVodUncheckedCreateNestedManyWithoutMovieInput = {
+    create?: XOR<MovieVodCreateWithoutMovieInput, MovieVodUncheckedCreateWithoutMovieInput> | MovieVodCreateWithoutMovieInput[] | MovieVodUncheckedCreateWithoutMovieInput[]
+    connectOrCreate?: MovieVodCreateOrConnectWithoutMovieInput | MovieVodCreateOrConnectWithoutMovieInput[]
+    createMany?: MovieVodCreateManyMovieInputEnvelope
+    connect?: MovieVodWhereUniqueInput | MovieVodWhereUniqueInput[]
+  }
+
+  export type movieScoreUncheckedCreateNestedManyWithoutMovieInput = {
+    create?: XOR<movieScoreCreateWithoutMovieInput, movieScoreUncheckedCreateWithoutMovieInput> | movieScoreCreateWithoutMovieInput[] | movieScoreUncheckedCreateWithoutMovieInput[]
+    connectOrCreate?: movieScoreCreateOrConnectWithoutMovieInput | movieScoreCreateOrConnectWithoutMovieInput[]
+    createMany?: movieScoreCreateManyMovieInputEnvelope
+    connect?: movieScoreWhereUniqueInput | movieScoreWhereUniqueInput[]
+  }
+
   export type NullableBigIntFieldUpdateOperationsInput = {
     set?: bigint | number | null
     increment?: bigint | number
     decrement?: bigint | number
     multiply?: bigint | number
     divide?: bigint | number
-  }
-
-  export type movieScoreUpdateManyWithoutMovieNestedInput = {
-    create?: XOR<movieScoreCreateWithoutMovieInput, movieScoreUncheckedCreateWithoutMovieInput> | movieScoreCreateWithoutMovieInput[] | movieScoreUncheckedCreateWithoutMovieInput[]
-    connectOrCreate?: movieScoreCreateOrConnectWithoutMovieInput | movieScoreCreateOrConnectWithoutMovieInput[]
-    upsert?: movieScoreUpsertWithWhereUniqueWithoutMovieInput | movieScoreUpsertWithWhereUniqueWithoutMovieInput[]
-    createMany?: movieScoreCreateManyMovieInputEnvelope
-    set?: movieScoreWhereUniqueInput | movieScoreWhereUniqueInput[]
-    disconnect?: movieScoreWhereUniqueInput | movieScoreWhereUniqueInput[]
-    delete?: movieScoreWhereUniqueInput | movieScoreWhereUniqueInput[]
-    connect?: movieScoreWhereUniqueInput | movieScoreWhereUniqueInput[]
-    update?: movieScoreUpdateWithWhereUniqueWithoutMovieInput | movieScoreUpdateWithWhereUniqueWithoutMovieInput[]
-    updateMany?: movieScoreUpdateManyWithWhereWithoutMovieInput | movieScoreUpdateManyWithWhereWithoutMovieInput[]
-    deleteMany?: movieScoreScalarWhereInput | movieScoreScalarWhereInput[]
   }
 
   export type CommentUpdateManyWithoutMovieNestedInput = {
@@ -13354,7 +14626,21 @@ export namespace Prisma {
     deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
   }
 
-  export type movieScoreUncheckedUpdateManyWithoutMovieNestedInput = {
+  export type MovieVodUpdateManyWithoutMovieNestedInput = {
+    create?: XOR<MovieVodCreateWithoutMovieInput, MovieVodUncheckedCreateWithoutMovieInput> | MovieVodCreateWithoutMovieInput[] | MovieVodUncheckedCreateWithoutMovieInput[]
+    connectOrCreate?: MovieVodCreateOrConnectWithoutMovieInput | MovieVodCreateOrConnectWithoutMovieInput[]
+    upsert?: MovieVodUpsertWithWhereUniqueWithoutMovieInput | MovieVodUpsertWithWhereUniqueWithoutMovieInput[]
+    createMany?: MovieVodCreateManyMovieInputEnvelope
+    set?: MovieVodWhereUniqueInput | MovieVodWhereUniqueInput[]
+    disconnect?: MovieVodWhereUniqueInput | MovieVodWhereUniqueInput[]
+    delete?: MovieVodWhereUniqueInput | MovieVodWhereUniqueInput[]
+    connect?: MovieVodWhereUniqueInput | MovieVodWhereUniqueInput[]
+    update?: MovieVodUpdateWithWhereUniqueWithoutMovieInput | MovieVodUpdateWithWhereUniqueWithoutMovieInput[]
+    updateMany?: MovieVodUpdateManyWithWhereWithoutMovieInput | MovieVodUpdateManyWithWhereWithoutMovieInput[]
+    deleteMany?: MovieVodScalarWhereInput | MovieVodScalarWhereInput[]
+  }
+
+  export type movieScoreUpdateManyWithoutMovieNestedInput = {
     create?: XOR<movieScoreCreateWithoutMovieInput, movieScoreUncheckedCreateWithoutMovieInput> | movieScoreCreateWithoutMovieInput[] | movieScoreUncheckedCreateWithoutMovieInput[]
     connectOrCreate?: movieScoreCreateOrConnectWithoutMovieInput | movieScoreCreateOrConnectWithoutMovieInput[]
     upsert?: movieScoreUpsertWithWhereUniqueWithoutMovieInput | movieScoreUpsertWithWhereUniqueWithoutMovieInput[]
@@ -13382,6 +14668,34 @@ export namespace Prisma {
     deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
   }
 
+  export type MovieVodUncheckedUpdateManyWithoutMovieNestedInput = {
+    create?: XOR<MovieVodCreateWithoutMovieInput, MovieVodUncheckedCreateWithoutMovieInput> | MovieVodCreateWithoutMovieInput[] | MovieVodUncheckedCreateWithoutMovieInput[]
+    connectOrCreate?: MovieVodCreateOrConnectWithoutMovieInput | MovieVodCreateOrConnectWithoutMovieInput[]
+    upsert?: MovieVodUpsertWithWhereUniqueWithoutMovieInput | MovieVodUpsertWithWhereUniqueWithoutMovieInput[]
+    createMany?: MovieVodCreateManyMovieInputEnvelope
+    set?: MovieVodWhereUniqueInput | MovieVodWhereUniqueInput[]
+    disconnect?: MovieVodWhereUniqueInput | MovieVodWhereUniqueInput[]
+    delete?: MovieVodWhereUniqueInput | MovieVodWhereUniqueInput[]
+    connect?: MovieVodWhereUniqueInput | MovieVodWhereUniqueInput[]
+    update?: MovieVodUpdateWithWhereUniqueWithoutMovieInput | MovieVodUpdateWithWhereUniqueWithoutMovieInput[]
+    updateMany?: MovieVodUpdateManyWithWhereWithoutMovieInput | MovieVodUpdateManyWithWhereWithoutMovieInput[]
+    deleteMany?: MovieVodScalarWhereInput | MovieVodScalarWhereInput[]
+  }
+
+  export type movieScoreUncheckedUpdateManyWithoutMovieNestedInput = {
+    create?: XOR<movieScoreCreateWithoutMovieInput, movieScoreUncheckedCreateWithoutMovieInput> | movieScoreCreateWithoutMovieInput[] | movieScoreUncheckedCreateWithoutMovieInput[]
+    connectOrCreate?: movieScoreCreateOrConnectWithoutMovieInput | movieScoreCreateOrConnectWithoutMovieInput[]
+    upsert?: movieScoreUpsertWithWhereUniqueWithoutMovieInput | movieScoreUpsertWithWhereUniqueWithoutMovieInput[]
+    createMany?: movieScoreCreateManyMovieInputEnvelope
+    set?: movieScoreWhereUniqueInput | movieScoreWhereUniqueInput[]
+    disconnect?: movieScoreWhereUniqueInput | movieScoreWhereUniqueInput[]
+    delete?: movieScoreWhereUniqueInput | movieScoreWhereUniqueInput[]
+    connect?: movieScoreWhereUniqueInput | movieScoreWhereUniqueInput[]
+    update?: movieScoreUpdateWithWhereUniqueWithoutMovieInput | movieScoreUpdateWithWhereUniqueWithoutMovieInput[]
+    updateMany?: movieScoreUpdateManyWithWhereWithoutMovieInput | movieScoreUpdateManyWithWhereWithoutMovieInput[]
+    deleteMany?: movieScoreScalarWhereInput | movieScoreScalarWhereInput[]
+  }
+
   export type CommentCreateNestedManyWithoutUserInput = {
     create?: XOR<CommentCreateWithoutUserInput, CommentUncheckedCreateWithoutUserInput> | CommentCreateWithoutUserInput[] | CommentUncheckedCreateWithoutUserInput[]
     connectOrCreate?: CommentCreateOrConnectWithoutUserInput | CommentCreateOrConnectWithoutUserInput[]
@@ -13403,6 +14717,13 @@ export namespace Prisma {
     connect?: channelmembersWhereUniqueInput | channelmembersWhereUniqueInput[]
   }
 
+  export type movieScoreCreateNestedManyWithoutUserInput = {
+    create?: XOR<movieScoreCreateWithoutUserInput, movieScoreUncheckedCreateWithoutUserInput> | movieScoreCreateWithoutUserInput[] | movieScoreUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: movieScoreCreateOrConnectWithoutUserInput | movieScoreCreateOrConnectWithoutUserInput[]
+    createMany?: movieScoreCreateManyUserInputEnvelope
+    connect?: movieScoreWhereUniqueInput | movieScoreWhereUniqueInput[]
+  }
+
   export type workspaceCreateNestedManyWithoutUserInput = {
     create?: XOR<workspaceCreateWithoutUserInput, workspaceUncheckedCreateWithoutUserInput> | workspaceCreateWithoutUserInput[] | workspaceUncheckedCreateWithoutUserInput[]
     connectOrCreate?: workspaceCreateOrConnectWithoutUserInput | workspaceCreateOrConnectWithoutUserInput[]
@@ -13415,13 +14736,6 @@ export namespace Prisma {
     connectOrCreate?: workspacemembersCreateOrConnectWithoutUserInput | workspacemembersCreateOrConnectWithoutUserInput[]
     createMany?: workspacemembersCreateManyUserInputEnvelope
     connect?: workspacemembersWhereUniqueInput | workspacemembersWhereUniqueInput[]
-  }
-
-  export type movieScoreCreateNestedManyWithoutUserInput = {
-    create?: XOR<movieScoreCreateWithoutUserInput, movieScoreUncheckedCreateWithoutUserInput> | movieScoreCreateWithoutUserInput[] | movieScoreUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: movieScoreCreateOrConnectWithoutUserInput | movieScoreCreateOrConnectWithoutUserInput[]
-    createMany?: movieScoreCreateManyUserInputEnvelope
-    connect?: movieScoreWhereUniqueInput | movieScoreWhereUniqueInput[]
   }
 
   export type CommentUncheckedCreateNestedManyWithoutUserInput = {
@@ -13445,6 +14759,13 @@ export namespace Prisma {
     connect?: channelmembersWhereUniqueInput | channelmembersWhereUniqueInput[]
   }
 
+  export type movieScoreUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<movieScoreCreateWithoutUserInput, movieScoreUncheckedCreateWithoutUserInput> | movieScoreCreateWithoutUserInput[] | movieScoreUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: movieScoreCreateOrConnectWithoutUserInput | movieScoreCreateOrConnectWithoutUserInput[]
+    createMany?: movieScoreCreateManyUserInputEnvelope
+    connect?: movieScoreWhereUniqueInput | movieScoreWhereUniqueInput[]
+  }
+
   export type workspaceUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<workspaceCreateWithoutUserInput, workspaceUncheckedCreateWithoutUserInput> | workspaceCreateWithoutUserInput[] | workspaceUncheckedCreateWithoutUserInput[]
     connectOrCreate?: workspaceCreateOrConnectWithoutUserInput | workspaceCreateOrConnectWithoutUserInput[]
@@ -13457,13 +14778,6 @@ export namespace Prisma {
     connectOrCreate?: workspacemembersCreateOrConnectWithoutUserInput | workspacemembersCreateOrConnectWithoutUserInput[]
     createMany?: workspacemembersCreateManyUserInputEnvelope
     connect?: workspacemembersWhereUniqueInput | workspacemembersWhereUniqueInput[]
-  }
-
-  export type movieScoreUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<movieScoreCreateWithoutUserInput, movieScoreUncheckedCreateWithoutUserInput> | movieScoreCreateWithoutUserInput[] | movieScoreUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: movieScoreCreateOrConnectWithoutUserInput | movieScoreCreateOrConnectWithoutUserInput[]
-    createMany?: movieScoreCreateManyUserInputEnvelope
-    connect?: movieScoreWhereUniqueInput | movieScoreWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -13512,6 +14826,20 @@ export namespace Prisma {
     deleteMany?: channelmembersScalarWhereInput | channelmembersScalarWhereInput[]
   }
 
+  export type movieScoreUpdateManyWithoutUserNestedInput = {
+    create?: XOR<movieScoreCreateWithoutUserInput, movieScoreUncheckedCreateWithoutUserInput> | movieScoreCreateWithoutUserInput[] | movieScoreUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: movieScoreCreateOrConnectWithoutUserInput | movieScoreCreateOrConnectWithoutUserInput[]
+    upsert?: movieScoreUpsertWithWhereUniqueWithoutUserInput | movieScoreUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: movieScoreCreateManyUserInputEnvelope
+    set?: movieScoreWhereUniqueInput | movieScoreWhereUniqueInput[]
+    disconnect?: movieScoreWhereUniqueInput | movieScoreWhereUniqueInput[]
+    delete?: movieScoreWhereUniqueInput | movieScoreWhereUniqueInput[]
+    connect?: movieScoreWhereUniqueInput | movieScoreWhereUniqueInput[]
+    update?: movieScoreUpdateWithWhereUniqueWithoutUserInput | movieScoreUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: movieScoreUpdateManyWithWhereWithoutUserInput | movieScoreUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: movieScoreScalarWhereInput | movieScoreScalarWhereInput[]
+  }
+
   export type workspaceUpdateManyWithoutUserNestedInput = {
     create?: XOR<workspaceCreateWithoutUserInput, workspaceUncheckedCreateWithoutUserInput> | workspaceCreateWithoutUserInput[] | workspaceUncheckedCreateWithoutUserInput[]
     connectOrCreate?: workspaceCreateOrConnectWithoutUserInput | workspaceCreateOrConnectWithoutUserInput[]
@@ -13538,20 +14866,6 @@ export namespace Prisma {
     update?: workspacemembersUpdateWithWhereUniqueWithoutUserInput | workspacemembersUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: workspacemembersUpdateManyWithWhereWithoutUserInput | workspacemembersUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: workspacemembersScalarWhereInput | workspacemembersScalarWhereInput[]
-  }
-
-  export type movieScoreUpdateManyWithoutUserNestedInput = {
-    create?: XOR<movieScoreCreateWithoutUserInput, movieScoreUncheckedCreateWithoutUserInput> | movieScoreCreateWithoutUserInput[] | movieScoreUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: movieScoreCreateOrConnectWithoutUserInput | movieScoreCreateOrConnectWithoutUserInput[]
-    upsert?: movieScoreUpsertWithWhereUniqueWithoutUserInput | movieScoreUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: movieScoreCreateManyUserInputEnvelope
-    set?: movieScoreWhereUniqueInput | movieScoreWhereUniqueInput[]
-    disconnect?: movieScoreWhereUniqueInput | movieScoreWhereUniqueInput[]
-    delete?: movieScoreWhereUniqueInput | movieScoreWhereUniqueInput[]
-    connect?: movieScoreWhereUniqueInput | movieScoreWhereUniqueInput[]
-    update?: movieScoreUpdateWithWhereUniqueWithoutUserInput | movieScoreUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: movieScoreUpdateManyWithWhereWithoutUserInput | movieScoreUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: movieScoreScalarWhereInput | movieScoreScalarWhereInput[]
   }
 
   export type CommentUncheckedUpdateManyWithoutUserNestedInput = {
@@ -13596,6 +14910,20 @@ export namespace Prisma {
     deleteMany?: channelmembersScalarWhereInput | channelmembersScalarWhereInput[]
   }
 
+  export type movieScoreUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<movieScoreCreateWithoutUserInput, movieScoreUncheckedCreateWithoutUserInput> | movieScoreCreateWithoutUserInput[] | movieScoreUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: movieScoreCreateOrConnectWithoutUserInput | movieScoreCreateOrConnectWithoutUserInput[]
+    upsert?: movieScoreUpsertWithWhereUniqueWithoutUserInput | movieScoreUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: movieScoreCreateManyUserInputEnvelope
+    set?: movieScoreWhereUniqueInput | movieScoreWhereUniqueInput[]
+    disconnect?: movieScoreWhereUniqueInput | movieScoreWhereUniqueInput[]
+    delete?: movieScoreWhereUniqueInput | movieScoreWhereUniqueInput[]
+    connect?: movieScoreWhereUniqueInput | movieScoreWhereUniqueInput[]
+    update?: movieScoreUpdateWithWhereUniqueWithoutUserInput | movieScoreUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: movieScoreUpdateManyWithWhereWithoutUserInput | movieScoreUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: movieScoreScalarWhereInput | movieScoreScalarWhereInput[]
+  }
+
   export type workspaceUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<workspaceCreateWithoutUserInput, workspaceUncheckedCreateWithoutUserInput> | workspaceCreateWithoutUserInput[] | workspaceUncheckedCreateWithoutUserInput[]
     connectOrCreate?: workspaceCreateOrConnectWithoutUserInput | workspaceCreateOrConnectWithoutUserInput[]
@@ -13622,20 +14950,6 @@ export namespace Prisma {
     update?: workspacemembersUpdateWithWhereUniqueWithoutUserInput | workspacemembersUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: workspacemembersUpdateManyWithWhereWithoutUserInput | workspacemembersUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: workspacemembersScalarWhereInput | workspacemembersScalarWhereInput[]
-  }
-
-  export type movieScoreUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<movieScoreCreateWithoutUserInput, movieScoreUncheckedCreateWithoutUserInput> | movieScoreCreateWithoutUserInput[] | movieScoreUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: movieScoreCreateOrConnectWithoutUserInput | movieScoreCreateOrConnectWithoutUserInput[]
-    upsert?: movieScoreUpsertWithWhereUniqueWithoutUserInput | movieScoreUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: movieScoreCreateManyUserInputEnvelope
-    set?: movieScoreWhereUniqueInput | movieScoreWhereUniqueInput[]
-    disconnect?: movieScoreWhereUniqueInput | movieScoreWhereUniqueInput[]
-    delete?: movieScoreWhereUniqueInput | movieScoreWhereUniqueInput[]
-    connect?: movieScoreWhereUniqueInput | movieScoreWhereUniqueInput[]
-    update?: movieScoreUpdateWithWhereUniqueWithoutUserInput | movieScoreUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: movieScoreUpdateManyWithWhereWithoutUserInput | movieScoreUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: movieScoreScalarWhereInput | movieScoreScalarWhereInput[]
   }
 
   export type channelsCreateNestedOneWithoutChannelchatsInput = {
@@ -13826,16 +15140,16 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutWorkspacemembersInput, UserUpdateWithoutWorkspacemembersInput>, UserUncheckedUpdateWithoutWorkspacemembersInput>
   }
 
-  export type MovieCreateNestedOneWithoutMovieScoresInput = {
-    create?: XOR<MovieCreateWithoutMovieScoresInput, MovieUncheckedCreateWithoutMovieScoresInput>
-    connectOrCreate?: MovieCreateOrConnectWithoutMovieScoresInput
-    connect?: MovieWhereUniqueInput
-  }
-
   export type UserCreateNestedOneWithoutMovieScoresInput = {
     create?: XOR<UserCreateWithoutMovieScoresInput, UserUncheckedCreateWithoutMovieScoresInput>
     connectOrCreate?: UserCreateOrConnectWithoutMovieScoresInput
     connect?: UserWhereUniqueInput
+  }
+
+  export type MovieCreateNestedOneWithoutMovieScoresInput = {
+    create?: XOR<MovieCreateWithoutMovieScoresInput, MovieUncheckedCreateWithoutMovieScoresInput>
+    connectOrCreate?: MovieCreateOrConnectWithoutMovieScoresInput
+    connect?: MovieWhereUniqueInput
   }
 
   export type NullableFloatFieldUpdateOperationsInput = {
@@ -13846,6 +15160,14 @@ export namespace Prisma {
     divide?: number
   }
 
+  export type UserUpdateOneRequiredWithoutMovieScoresNestedInput = {
+    create?: XOR<UserCreateWithoutMovieScoresInput, UserUncheckedCreateWithoutMovieScoresInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMovieScoresInput
+    upsert?: UserUpsertWithoutMovieScoresInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMovieScoresInput, UserUpdateWithoutMovieScoresInput>, UserUncheckedUpdateWithoutMovieScoresInput>
+  }
+
   export type MovieUpdateOneRequiredWithoutMovieScoresNestedInput = {
     create?: XOR<MovieCreateWithoutMovieScoresInput, MovieUncheckedCreateWithoutMovieScoresInput>
     connectOrCreate?: MovieCreateOrConnectWithoutMovieScoresInput
@@ -13854,12 +15176,18 @@ export namespace Prisma {
     update?: XOR<XOR<MovieUpdateToOneWithWhereWithoutMovieScoresInput, MovieUpdateWithoutMovieScoresInput>, MovieUncheckedUpdateWithoutMovieScoresInput>
   }
 
-  export type UserUpdateOneRequiredWithoutMovieScoresNestedInput = {
-    create?: XOR<UserCreateWithoutMovieScoresInput, UserUncheckedCreateWithoutMovieScoresInput>
-    connectOrCreate?: UserCreateOrConnectWithoutMovieScoresInput
-    upsert?: UserUpsertWithoutMovieScoresInput
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMovieScoresInput, UserUpdateWithoutMovieScoresInput>, UserUncheckedUpdateWithoutMovieScoresInput>
+  export type MovieCreateNestedOneWithoutMovieVodInput = {
+    create?: XOR<MovieCreateWithoutMovieVodInput, MovieUncheckedCreateWithoutMovieVodInput>
+    connectOrCreate?: MovieCreateOrConnectWithoutMovieVodInput
+    connect?: MovieWhereUniqueInput
+  }
+
+  export type MovieUpdateOneRequiredWithoutMovieVodNestedInput = {
+    create?: XOR<MovieCreateWithoutMovieVodInput, MovieUncheckedCreateWithoutMovieVodInput>
+    connectOrCreate?: MovieCreateOrConnectWithoutMovieVodInput
+    upsert?: MovieUpsertWithoutMovieVodInput
+    connect?: MovieWhereUniqueInput
+    update?: XOR<XOR<MovieUpdateToOneWithWhereWithoutMovieVodInput, MovieUpdateWithoutMovieVodInput>, MovieUncheckedUpdateWithoutMovieVodInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -14144,6 +15472,7 @@ export namespace Prisma {
     genre?: string | null
     director?: string | null
     ratting?: string | null
+    MovieVod?: MovieVodCreateNestedManyWithoutMovieInput
     movieScores?: movieScoreCreateNestedManyWithoutMovieInput
   }
 
@@ -14164,6 +15493,7 @@ export namespace Prisma {
     genre?: string | null
     director?: string | null
     ratting?: string | null
+    MovieVod?: MovieVodUncheckedCreateNestedManyWithoutMovieInput
     movieScores?: movieScoreUncheckedCreateNestedManyWithoutMovieInput
   }
 
@@ -14183,9 +15513,9 @@ export namespace Prisma {
     image?: string | null
     channelchats?: channelchatsCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersCreateNestedManyWithoutUserInput
+    movieScores?: movieScoreCreateNestedManyWithoutUserInput
     workspace?: workspaceCreateNestedManyWithoutUserInput
     workspacemembers?: workspacemembersCreateNestedManyWithoutUserInput
-    movieScores?: movieScoreCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCommentInput = {
@@ -14200,9 +15530,9 @@ export namespace Prisma {
     image?: string | null
     channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
+    movieScores?: movieScoreUncheckedCreateNestedManyWithoutUserInput
     workspace?: workspaceUncheckedCreateNestedManyWithoutUserInput
     workspacemembers?: workspacemembersUncheckedCreateNestedManyWithoutUserInput
-    movieScores?: movieScoreUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCommentInput = {
@@ -14237,6 +15567,7 @@ export namespace Prisma {
     genre?: NullableStringFieldUpdateOperationsInput | string | null
     director?: NullableStringFieldUpdateOperationsInput | string | null
     ratting?: NullableStringFieldUpdateOperationsInput | string | null
+    MovieVod?: MovieVodUpdateManyWithoutMovieNestedInput
     movieScores?: movieScoreUpdateManyWithoutMovieNestedInput
   }
 
@@ -14257,6 +15588,7 @@ export namespace Prisma {
     genre?: NullableStringFieldUpdateOperationsInput | string | null
     director?: NullableStringFieldUpdateOperationsInput | string | null
     ratting?: NullableStringFieldUpdateOperationsInput | string | null
+    MovieVod?: MovieVodUncheckedUpdateManyWithoutMovieNestedInput
     movieScores?: movieScoreUncheckedUpdateManyWithoutMovieNestedInput
   }
 
@@ -14282,9 +15614,9 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     channelchats?: channelchatsUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
+    movieScores?: movieScoreUpdateManyWithoutUserNestedInput
     workspace?: workspaceUpdateManyWithoutUserNestedInput
     workspacemembers?: workspacemembersUpdateManyWithoutUserNestedInput
-    movieScores?: movieScoreUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommentInput = {
@@ -14299,36 +15631,9 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
+    movieScores?: movieScoreUncheckedUpdateManyWithoutUserNestedInput
     workspace?: workspaceUncheckedUpdateManyWithoutUserNestedInput
     workspacemembers?: workspacemembersUncheckedUpdateManyWithoutUserNestedInput
-    movieScores?: movieScoreUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type movieScoreCreateWithoutMovieInput = {
-    score?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    deletedAt?: Date | string | null
-    User: UserCreateNestedOneWithoutMovieScoresInput
-  }
-
-  export type movieScoreUncheckedCreateWithoutMovieInput = {
-    id?: number
-    score?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    deletedAt?: Date | string | null
-    Userno: number
-  }
-
-  export type movieScoreCreateOrConnectWithoutMovieInput = {
-    where: movieScoreWhereUniqueInput
-    create: XOR<movieScoreCreateWithoutMovieInput, movieScoreUncheckedCreateWithoutMovieInput>
-  }
-
-  export type movieScoreCreateManyMovieInputEnvelope = {
-    data: movieScoreCreateManyMovieInput | movieScoreCreateManyMovieInput[]
-    skipDuplicates?: boolean
   }
 
   export type CommentCreateWithoutMovieInput = {
@@ -14358,33 +15663,56 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type movieScoreUpsertWithWhereUniqueWithoutMovieInput = {
+  export type MovieVodCreateWithoutMovieInput = {
+    vodUrl: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type MovieVodUncheckedCreateWithoutMovieInput = {
+    id?: number
+    vodUrl: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type MovieVodCreateOrConnectWithoutMovieInput = {
+    where: MovieVodWhereUniqueInput
+    create: XOR<MovieVodCreateWithoutMovieInput, MovieVodUncheckedCreateWithoutMovieInput>
+  }
+
+  export type MovieVodCreateManyMovieInputEnvelope = {
+    data: MovieVodCreateManyMovieInput | MovieVodCreateManyMovieInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type movieScoreCreateWithoutMovieInput = {
+    score?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    User: UserCreateNestedOneWithoutMovieScoresInput
+  }
+
+  export type movieScoreUncheckedCreateWithoutMovieInput = {
+    id?: number
+    score?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    Userno: number
+  }
+
+  export type movieScoreCreateOrConnectWithoutMovieInput = {
     where: movieScoreWhereUniqueInput
-    update: XOR<movieScoreUpdateWithoutMovieInput, movieScoreUncheckedUpdateWithoutMovieInput>
     create: XOR<movieScoreCreateWithoutMovieInput, movieScoreUncheckedCreateWithoutMovieInput>
   }
 
-  export type movieScoreUpdateWithWhereUniqueWithoutMovieInput = {
-    where: movieScoreWhereUniqueInput
-    data: XOR<movieScoreUpdateWithoutMovieInput, movieScoreUncheckedUpdateWithoutMovieInput>
-  }
-
-  export type movieScoreUpdateManyWithWhereWithoutMovieInput = {
-    where: movieScoreScalarWhereInput
-    data: XOR<movieScoreUpdateManyMutationInput, movieScoreUncheckedUpdateManyWithoutMovieInput>
-  }
-
-  export type movieScoreScalarWhereInput = {
-    AND?: movieScoreScalarWhereInput | movieScoreScalarWhereInput[]
-    OR?: movieScoreScalarWhereInput[]
-    NOT?: movieScoreScalarWhereInput | movieScoreScalarWhereInput[]
-    id?: IntFilter<"movieScore"> | number
-    movieCd?: IntFilter<"movieScore"> | number
-    score?: FloatNullableFilter<"movieScore"> | number | null
-    createdAt?: DateTimeFilter<"movieScore"> | Date | string
-    updatedAt?: DateTimeFilter<"movieScore"> | Date | string
-    deletedAt?: DateTimeNullableFilter<"movieScore"> | Date | string | null
-    Userno?: IntFilter<"movieScore"> | number
+  export type movieScoreCreateManyMovieInputEnvelope = {
+    data: movieScoreCreateManyMovieInput | movieScoreCreateManyMovieInput[]
+    skipDuplicates?: boolean
   }
 
   export type CommentUpsertWithWhereUniqueWithoutMovieInput = {
@@ -14414,6 +15742,63 @@ export namespace Prisma {
     deletedAt?: DateTimeNullableFilter<"Comment"> | Date | string | null
     userno?: IntFilter<"Comment"> | number
     comment?: StringNullableFilter<"Comment"> | string | null
+  }
+
+  export type MovieVodUpsertWithWhereUniqueWithoutMovieInput = {
+    where: MovieVodWhereUniqueInput
+    update: XOR<MovieVodUpdateWithoutMovieInput, MovieVodUncheckedUpdateWithoutMovieInput>
+    create: XOR<MovieVodCreateWithoutMovieInput, MovieVodUncheckedCreateWithoutMovieInput>
+  }
+
+  export type MovieVodUpdateWithWhereUniqueWithoutMovieInput = {
+    where: MovieVodWhereUniqueInput
+    data: XOR<MovieVodUpdateWithoutMovieInput, MovieVodUncheckedUpdateWithoutMovieInput>
+  }
+
+  export type MovieVodUpdateManyWithWhereWithoutMovieInput = {
+    where: MovieVodScalarWhereInput
+    data: XOR<MovieVodUpdateManyMutationInput, MovieVodUncheckedUpdateManyWithoutMovieInput>
+  }
+
+  export type MovieVodScalarWhereInput = {
+    AND?: MovieVodScalarWhereInput | MovieVodScalarWhereInput[]
+    OR?: MovieVodScalarWhereInput[]
+    NOT?: MovieVodScalarWhereInput | MovieVodScalarWhereInput[]
+    id?: IntFilter<"MovieVod"> | number
+    vodUrl?: StringFilter<"MovieVod"> | string
+    movieCd?: IntFilter<"MovieVod"> | number
+    createdAt?: DateTimeFilter<"MovieVod"> | Date | string
+    updatedAt?: DateTimeFilter<"MovieVod"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"MovieVod"> | Date | string | null
+  }
+
+  export type movieScoreUpsertWithWhereUniqueWithoutMovieInput = {
+    where: movieScoreWhereUniqueInput
+    update: XOR<movieScoreUpdateWithoutMovieInput, movieScoreUncheckedUpdateWithoutMovieInput>
+    create: XOR<movieScoreCreateWithoutMovieInput, movieScoreUncheckedCreateWithoutMovieInput>
+  }
+
+  export type movieScoreUpdateWithWhereUniqueWithoutMovieInput = {
+    where: movieScoreWhereUniqueInput
+    data: XOR<movieScoreUpdateWithoutMovieInput, movieScoreUncheckedUpdateWithoutMovieInput>
+  }
+
+  export type movieScoreUpdateManyWithWhereWithoutMovieInput = {
+    where: movieScoreScalarWhereInput
+    data: XOR<movieScoreUpdateManyMutationInput, movieScoreUncheckedUpdateManyWithoutMovieInput>
+  }
+
+  export type movieScoreScalarWhereInput = {
+    AND?: movieScoreScalarWhereInput | movieScoreScalarWhereInput[]
+    OR?: movieScoreScalarWhereInput[]
+    NOT?: movieScoreScalarWhereInput | movieScoreScalarWhereInput[]
+    id?: IntFilter<"movieScore"> | number
+    movieCd?: IntFilter<"movieScore"> | number
+    score?: FloatNullableFilter<"movieScore"> | number | null
+    createdAt?: DateTimeFilter<"movieScore"> | Date | string
+    updatedAt?: DateTimeFilter<"movieScore"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"movieScore"> | Date | string | null
+    Userno?: IntFilter<"movieScore"> | number
   }
 
   export type CommentCreateWithoutUserInput = {
@@ -14490,6 +15875,33 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type movieScoreCreateWithoutUserInput = {
+    score?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    Movie: MovieCreateNestedOneWithoutMovieScoresInput
+  }
+
+  export type movieScoreUncheckedCreateWithoutUserInput = {
+    id?: number
+    movieCd: number
+    score?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type movieScoreCreateOrConnectWithoutUserInput = {
+    where: movieScoreWhereUniqueInput
+    create: XOR<movieScoreCreateWithoutUserInput, movieScoreUncheckedCreateWithoutUserInput>
+  }
+
+  export type movieScoreCreateManyUserInputEnvelope = {
+    data: movieScoreCreateManyUserInput | movieScoreCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type workspaceCreateWithoutUserInput = {
     name: string
     url: string
@@ -14540,33 +15952,6 @@ export namespace Prisma {
 
   export type workspacemembersCreateManyUserInputEnvelope = {
     data: workspacemembersCreateManyUserInput | workspacemembersCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type movieScoreCreateWithoutUserInput = {
-    score?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    deletedAt?: Date | string | null
-    Movie: MovieCreateNestedOneWithoutMovieScoresInput
-  }
-
-  export type movieScoreUncheckedCreateWithoutUserInput = {
-    id?: number
-    movieCd: number
-    score?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    deletedAt?: Date | string | null
-  }
-
-  export type movieScoreCreateOrConnectWithoutUserInput = {
-    where: movieScoreWhereUniqueInput
-    create: XOR<movieScoreCreateWithoutUserInput, movieScoreUncheckedCreateWithoutUserInput>
-  }
-
-  export type movieScoreCreateManyUserInputEnvelope = {
-    data: movieScoreCreateManyUserInput | movieScoreCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -14640,6 +16025,22 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"channelmembers"> | Date | string
   }
 
+  export type movieScoreUpsertWithWhereUniqueWithoutUserInput = {
+    where: movieScoreWhereUniqueInput
+    update: XOR<movieScoreUpdateWithoutUserInput, movieScoreUncheckedUpdateWithoutUserInput>
+    create: XOR<movieScoreCreateWithoutUserInput, movieScoreUncheckedCreateWithoutUserInput>
+  }
+
+  export type movieScoreUpdateWithWhereUniqueWithoutUserInput = {
+    where: movieScoreWhereUniqueInput
+    data: XOR<movieScoreUpdateWithoutUserInput, movieScoreUncheckedUpdateWithoutUserInput>
+  }
+
+  export type movieScoreUpdateManyWithWhereWithoutUserInput = {
+    where: movieScoreScalarWhereInput
+    data: XOR<movieScoreUpdateManyMutationInput, movieScoreUncheckedUpdateManyWithoutUserInput>
+  }
+
   export type workspaceUpsertWithWhereUniqueWithoutUserInput = {
     where: workspaceWhereUniqueInput
     update: XOR<workspaceUpdateWithoutUserInput, workspaceUncheckedUpdateWithoutUserInput>
@@ -14696,22 +16097,6 @@ export namespace Prisma {
     loggedInAt?: DateTimeNullableFilter<"workspacemembers"> | Date | string | null
   }
 
-  export type movieScoreUpsertWithWhereUniqueWithoutUserInput = {
-    where: movieScoreWhereUniqueInput
-    update: XOR<movieScoreUpdateWithoutUserInput, movieScoreUncheckedUpdateWithoutUserInput>
-    create: XOR<movieScoreCreateWithoutUserInput, movieScoreUncheckedCreateWithoutUserInput>
-  }
-
-  export type movieScoreUpdateWithWhereUniqueWithoutUserInput = {
-    where: movieScoreWhereUniqueInput
-    data: XOR<movieScoreUpdateWithoutUserInput, movieScoreUncheckedUpdateWithoutUserInput>
-  }
-
-  export type movieScoreUpdateManyWithWhereWithoutUserInput = {
-    where: movieScoreScalarWhereInput
-    data: XOR<movieScoreUpdateManyMutationInput, movieScoreUncheckedUpdateManyWithoutUserInput>
-  }
-
   export type channelsCreateWithoutChannelchatsInput = {
     name: string
     private?: boolean | null
@@ -14745,9 +16130,9 @@ export namespace Prisma {
     image?: string | null
     Comment?: CommentCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersCreateNestedManyWithoutUserInput
+    movieScores?: movieScoreCreateNestedManyWithoutUserInput
     workspace?: workspaceCreateNestedManyWithoutUserInput
     workspacemembers?: workspacemembersCreateNestedManyWithoutUserInput
-    movieScores?: movieScoreCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutChannelchatsInput = {
@@ -14762,9 +16147,9 @@ export namespace Prisma {
     image?: string | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
+    movieScores?: movieScoreUncheckedCreateNestedManyWithoutUserInput
     workspace?: workspaceUncheckedCreateNestedManyWithoutUserInput
     workspacemembers?: workspacemembersUncheckedCreateNestedManyWithoutUserInput
-    movieScores?: movieScoreUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutChannelchatsInput = {
@@ -14822,9 +16207,9 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
+    movieScores?: movieScoreUpdateManyWithoutUserNestedInput
     workspace?: workspaceUpdateManyWithoutUserNestedInput
     workspacemembers?: workspacemembersUpdateManyWithoutUserNestedInput
-    movieScores?: movieScoreUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutChannelchatsInput = {
@@ -14839,9 +16224,9 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
+    movieScores?: movieScoreUncheckedUpdateManyWithoutUserNestedInput
     workspace?: workspaceUncheckedUpdateManyWithoutUserNestedInput
     workspacemembers?: workspacemembersUncheckedUpdateManyWithoutUserNestedInput
-    movieScores?: movieScoreUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutChannelmembersInput = {
@@ -14855,9 +16240,9 @@ export namespace Prisma {
     image?: string | null
     Comment?: CommentCreateNestedManyWithoutUserInput
     channelchats?: channelchatsCreateNestedManyWithoutUserInput
+    movieScores?: movieScoreCreateNestedManyWithoutUserInput
     workspace?: workspaceCreateNestedManyWithoutUserInput
     workspacemembers?: workspacemembersCreateNestedManyWithoutUserInput
-    movieScores?: movieScoreCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutChannelmembersInput = {
@@ -14872,9 +16257,9 @@ export namespace Prisma {
     image?: string | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
+    movieScores?: movieScoreUncheckedCreateNestedManyWithoutUserInput
     workspace?: workspaceUncheckedCreateNestedManyWithoutUserInput
     workspacemembers?: workspacemembersUncheckedCreateNestedManyWithoutUserInput
-    movieScores?: movieScoreUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutChannelmembersInput = {
@@ -14904,9 +16289,9 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUpdateManyWithoutUserNestedInput
+    movieScores?: movieScoreUpdateManyWithoutUserNestedInput
     workspace?: workspaceUpdateManyWithoutUserNestedInput
     workspacemembers?: workspacemembersUpdateManyWithoutUserNestedInput
-    movieScores?: movieScoreUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutChannelmembersInput = {
@@ -14921,9 +16306,9 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
+    movieScores?: movieScoreUncheckedUpdateManyWithoutUserNestedInput
     workspace?: workspaceUncheckedUpdateManyWithoutUserNestedInput
     workspacemembers?: workspacemembersUncheckedUpdateManyWithoutUserNestedInput
-    movieScores?: movieScoreUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type channelchatsCreateWithoutChannelsInput = {
@@ -15060,8 +16445,8 @@ export namespace Prisma {
     Comment?: CommentCreateNestedManyWithoutUserInput
     channelchats?: channelchatsCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersCreateNestedManyWithoutUserInput
-    workspacemembers?: workspacemembersCreateNestedManyWithoutUserInput
     movieScores?: movieScoreCreateNestedManyWithoutUserInput
+    workspacemembers?: workspacemembersCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutWorkspaceInput = {
@@ -15077,8 +16462,8 @@ export namespace Prisma {
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
-    workspacemembers?: workspacemembersUncheckedCreateNestedManyWithoutUserInput
     movieScores?: movieScoreUncheckedCreateNestedManyWithoutUserInput
+    workspacemembers?: workspacemembersUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutWorkspaceInput = {
@@ -15137,8 +16522,8 @@ export namespace Prisma {
     Comment?: CommentUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
-    workspacemembers?: workspacemembersUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUpdateManyWithoutUserNestedInput
+    workspacemembers?: workspacemembersUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutWorkspaceInput = {
@@ -15154,8 +16539,8 @@ export namespace Prisma {
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
-    workspacemembers?: workspacemembersUncheckedUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUncheckedUpdateManyWithoutUserNestedInput
+    workspacemembers?: workspacemembersUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutWorkspacemembersInput = {
@@ -15170,8 +16555,8 @@ export namespace Prisma {
     Comment?: CommentCreateNestedManyWithoutUserInput
     channelchats?: channelchatsCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersCreateNestedManyWithoutUserInput
-    workspace?: workspaceCreateNestedManyWithoutUserInput
     movieScores?: movieScoreCreateNestedManyWithoutUserInput
+    workspace?: workspaceCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutWorkspacemembersInput = {
@@ -15187,8 +16572,8 @@ export namespace Prisma {
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
-    workspace?: workspaceUncheckedCreateNestedManyWithoutUserInput
     movieScores?: movieScoreUncheckedCreateNestedManyWithoutUserInput
+    workspace?: workspaceUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutWorkspacemembersInput = {
@@ -15219,8 +16604,8 @@ export namespace Prisma {
     Comment?: CommentUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
-    workspace?: workspaceUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUpdateManyWithoutUserNestedInput
+    workspace?: workspaceUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutWorkspacemembersInput = {
@@ -15236,52 +16621,8 @@ export namespace Prisma {
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
-    workspace?: workspaceUncheckedUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type MovieCreateWithoutMovieScoresInput = {
-    audience?: bigint | number | null
-    movieCd: number
-    title?: string | null
-    rank?: bigint | number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    poster?: string | null
-    vector?: NullableJsonNullValueInput | InputJsonValue
-    rankInten?: string | null
-    plot?: string | null
-    rankOldAndNew?: string | null
-    openDt?: Date | string | null
-    genre?: string | null
-    director?: string | null
-    ratting?: string | null
-    Comment?: CommentCreateNestedManyWithoutMovieInput
-  }
-
-  export type MovieUncheckedCreateWithoutMovieScoresInput = {
-    id?: number
-    audience?: bigint | number | null
-    movieCd: number
-    title?: string | null
-    rank?: bigint | number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    poster?: string | null
-    vector?: NullableJsonNullValueInput | InputJsonValue
-    rankInten?: string | null
-    plot?: string | null
-    rankOldAndNew?: string | null
-    openDt?: Date | string | null
-    genre?: string | null
-    director?: string | null
-    ratting?: string | null
-    Comment?: CommentUncheckedCreateNestedManyWithoutMovieInput
-  }
-
-  export type MovieCreateOrConnectWithoutMovieScoresInput = {
-    where: MovieWhereUniqueInput
-    create: XOR<MovieCreateWithoutMovieScoresInput, MovieUncheckedCreateWithoutMovieScoresInput>
+    workspace?: workspaceUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutMovieScoresInput = {
@@ -15322,54 +16663,50 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutMovieScoresInput, UserUncheckedCreateWithoutMovieScoresInput>
   }
 
-  export type MovieUpsertWithoutMovieScoresInput = {
-    update: XOR<MovieUpdateWithoutMovieScoresInput, MovieUncheckedUpdateWithoutMovieScoresInput>
+  export type MovieCreateWithoutMovieScoresInput = {
+    audience?: bigint | number | null
+    movieCd: number
+    title?: string | null
+    rank?: bigint | number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    poster?: string | null
+    vector?: NullableJsonNullValueInput | InputJsonValue
+    rankInten?: string | null
+    plot?: string | null
+    rankOldAndNew?: string | null
+    openDt?: Date | string | null
+    genre?: string | null
+    director?: string | null
+    ratting?: string | null
+    Comment?: CommentCreateNestedManyWithoutMovieInput
+    MovieVod?: MovieVodCreateNestedManyWithoutMovieInput
+  }
+
+  export type MovieUncheckedCreateWithoutMovieScoresInput = {
+    id?: number
+    audience?: bigint | number | null
+    movieCd: number
+    title?: string | null
+    rank?: bigint | number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    poster?: string | null
+    vector?: NullableJsonNullValueInput | InputJsonValue
+    rankInten?: string | null
+    plot?: string | null
+    rankOldAndNew?: string | null
+    openDt?: Date | string | null
+    genre?: string | null
+    director?: string | null
+    ratting?: string | null
+    Comment?: CommentUncheckedCreateNestedManyWithoutMovieInput
+    MovieVod?: MovieVodUncheckedCreateNestedManyWithoutMovieInput
+  }
+
+  export type MovieCreateOrConnectWithoutMovieScoresInput = {
+    where: MovieWhereUniqueInput
     create: XOR<MovieCreateWithoutMovieScoresInput, MovieUncheckedCreateWithoutMovieScoresInput>
-    where?: MovieWhereInput
-  }
-
-  export type MovieUpdateToOneWithWhereWithoutMovieScoresInput = {
-    where?: MovieWhereInput
-    data: XOR<MovieUpdateWithoutMovieScoresInput, MovieUncheckedUpdateWithoutMovieScoresInput>
-  }
-
-  export type MovieUpdateWithoutMovieScoresInput = {
-    audience?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    movieCd?: IntFieldUpdateOperationsInput | number
-    title?: NullableStringFieldUpdateOperationsInput | string | null
-    rank?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    poster?: NullableStringFieldUpdateOperationsInput | string | null
-    vector?: NullableJsonNullValueInput | InputJsonValue
-    rankInten?: NullableStringFieldUpdateOperationsInput | string | null
-    plot?: NullableStringFieldUpdateOperationsInput | string | null
-    rankOldAndNew?: NullableStringFieldUpdateOperationsInput | string | null
-    openDt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    genre?: NullableStringFieldUpdateOperationsInput | string | null
-    director?: NullableStringFieldUpdateOperationsInput | string | null
-    ratting?: NullableStringFieldUpdateOperationsInput | string | null
-    Comment?: CommentUpdateManyWithoutMovieNestedInput
-  }
-
-  export type MovieUncheckedUpdateWithoutMovieScoresInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    audience?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    movieCd?: IntFieldUpdateOperationsInput | number
-    title?: NullableStringFieldUpdateOperationsInput | string | null
-    rank?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    poster?: NullableStringFieldUpdateOperationsInput | string | null
-    vector?: NullableJsonNullValueInput | InputJsonValue
-    rankInten?: NullableStringFieldUpdateOperationsInput | string | null
-    plot?: NullableStringFieldUpdateOperationsInput | string | null
-    rankOldAndNew?: NullableStringFieldUpdateOperationsInput | string | null
-    openDt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    genre?: NullableStringFieldUpdateOperationsInput | string | null
-    director?: NullableStringFieldUpdateOperationsInput | string | null
-    ratting?: NullableStringFieldUpdateOperationsInput | string | null
-    Comment?: CommentUncheckedUpdateManyWithoutMovieNestedInput
   }
 
   export type UserUpsertWithoutMovieScoresInput = {
@@ -15416,13 +16753,154 @@ export namespace Prisma {
     workspacemembers?: workspacemembersUncheckedUpdateManyWithoutUserNestedInput
   }
 
-  export type movieScoreCreateManyMovieInput = {
-    id?: number
-    score?: number | null
+  export type MovieUpsertWithoutMovieScoresInput = {
+    update: XOR<MovieUpdateWithoutMovieScoresInput, MovieUncheckedUpdateWithoutMovieScoresInput>
+    create: XOR<MovieCreateWithoutMovieScoresInput, MovieUncheckedCreateWithoutMovieScoresInput>
+    where?: MovieWhereInput
+  }
+
+  export type MovieUpdateToOneWithWhereWithoutMovieScoresInput = {
+    where?: MovieWhereInput
+    data: XOR<MovieUpdateWithoutMovieScoresInput, MovieUncheckedUpdateWithoutMovieScoresInput>
+  }
+
+  export type MovieUpdateWithoutMovieScoresInput = {
+    audience?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    movieCd?: IntFieldUpdateOperationsInput | number
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    rank?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    poster?: NullableStringFieldUpdateOperationsInput | string | null
+    vector?: NullableJsonNullValueInput | InputJsonValue
+    rankInten?: NullableStringFieldUpdateOperationsInput | string | null
+    plot?: NullableStringFieldUpdateOperationsInput | string | null
+    rankOldAndNew?: NullableStringFieldUpdateOperationsInput | string | null
+    openDt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    genre?: NullableStringFieldUpdateOperationsInput | string | null
+    director?: NullableStringFieldUpdateOperationsInput | string | null
+    ratting?: NullableStringFieldUpdateOperationsInput | string | null
+    Comment?: CommentUpdateManyWithoutMovieNestedInput
+    MovieVod?: MovieVodUpdateManyWithoutMovieNestedInput
+  }
+
+  export type MovieUncheckedUpdateWithoutMovieScoresInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    audience?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    movieCd?: IntFieldUpdateOperationsInput | number
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    rank?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    poster?: NullableStringFieldUpdateOperationsInput | string | null
+    vector?: NullableJsonNullValueInput | InputJsonValue
+    rankInten?: NullableStringFieldUpdateOperationsInput | string | null
+    plot?: NullableStringFieldUpdateOperationsInput | string | null
+    rankOldAndNew?: NullableStringFieldUpdateOperationsInput | string | null
+    openDt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    genre?: NullableStringFieldUpdateOperationsInput | string | null
+    director?: NullableStringFieldUpdateOperationsInput | string | null
+    ratting?: NullableStringFieldUpdateOperationsInput | string | null
+    Comment?: CommentUncheckedUpdateManyWithoutMovieNestedInput
+    MovieVod?: MovieVodUncheckedUpdateManyWithoutMovieNestedInput
+  }
+
+  export type MovieCreateWithoutMovieVodInput = {
+    audience?: bigint | number | null
+    movieCd: number
+    title?: string | null
+    rank?: bigint | number | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    deletedAt?: Date | string | null
-    Userno: number
+    poster?: string | null
+    vector?: NullableJsonNullValueInput | InputJsonValue
+    rankInten?: string | null
+    plot?: string | null
+    rankOldAndNew?: string | null
+    openDt?: Date | string | null
+    genre?: string | null
+    director?: string | null
+    ratting?: string | null
+    Comment?: CommentCreateNestedManyWithoutMovieInput
+    movieScores?: movieScoreCreateNestedManyWithoutMovieInput
+  }
+
+  export type MovieUncheckedCreateWithoutMovieVodInput = {
+    id?: number
+    audience?: bigint | number | null
+    movieCd: number
+    title?: string | null
+    rank?: bigint | number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    poster?: string | null
+    vector?: NullableJsonNullValueInput | InputJsonValue
+    rankInten?: string | null
+    plot?: string | null
+    rankOldAndNew?: string | null
+    openDt?: Date | string | null
+    genre?: string | null
+    director?: string | null
+    ratting?: string | null
+    Comment?: CommentUncheckedCreateNestedManyWithoutMovieInput
+    movieScores?: movieScoreUncheckedCreateNestedManyWithoutMovieInput
+  }
+
+  export type MovieCreateOrConnectWithoutMovieVodInput = {
+    where: MovieWhereUniqueInput
+    create: XOR<MovieCreateWithoutMovieVodInput, MovieUncheckedCreateWithoutMovieVodInput>
+  }
+
+  export type MovieUpsertWithoutMovieVodInput = {
+    update: XOR<MovieUpdateWithoutMovieVodInput, MovieUncheckedUpdateWithoutMovieVodInput>
+    create: XOR<MovieCreateWithoutMovieVodInput, MovieUncheckedCreateWithoutMovieVodInput>
+    where?: MovieWhereInput
+  }
+
+  export type MovieUpdateToOneWithWhereWithoutMovieVodInput = {
+    where?: MovieWhereInput
+    data: XOR<MovieUpdateWithoutMovieVodInput, MovieUncheckedUpdateWithoutMovieVodInput>
+  }
+
+  export type MovieUpdateWithoutMovieVodInput = {
+    audience?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    movieCd?: IntFieldUpdateOperationsInput | number
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    rank?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    poster?: NullableStringFieldUpdateOperationsInput | string | null
+    vector?: NullableJsonNullValueInput | InputJsonValue
+    rankInten?: NullableStringFieldUpdateOperationsInput | string | null
+    plot?: NullableStringFieldUpdateOperationsInput | string | null
+    rankOldAndNew?: NullableStringFieldUpdateOperationsInput | string | null
+    openDt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    genre?: NullableStringFieldUpdateOperationsInput | string | null
+    director?: NullableStringFieldUpdateOperationsInput | string | null
+    ratting?: NullableStringFieldUpdateOperationsInput | string | null
+    Comment?: CommentUpdateManyWithoutMovieNestedInput
+    movieScores?: movieScoreUpdateManyWithoutMovieNestedInput
+  }
+
+  export type MovieUncheckedUpdateWithoutMovieVodInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    audience?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    movieCd?: IntFieldUpdateOperationsInput | number
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    rank?: NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    poster?: NullableStringFieldUpdateOperationsInput | string | null
+    vector?: NullableJsonNullValueInput | InputJsonValue
+    rankInten?: NullableStringFieldUpdateOperationsInput | string | null
+    plot?: NullableStringFieldUpdateOperationsInput | string | null
+    rankOldAndNew?: NullableStringFieldUpdateOperationsInput | string | null
+    openDt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    genre?: NullableStringFieldUpdateOperationsInput | string | null
+    director?: NullableStringFieldUpdateOperationsInput | string | null
+    ratting?: NullableStringFieldUpdateOperationsInput | string | null
+    Comment?: CommentUncheckedUpdateManyWithoutMovieNestedInput
+    movieScores?: movieScoreUncheckedUpdateManyWithoutMovieNestedInput
   }
 
   export type CommentCreateManyMovieInput = {
@@ -15434,30 +16912,21 @@ export namespace Prisma {
     comment?: string | null
   }
 
-  export type movieScoreUpdateWithoutMovieInput = {
-    score?: NullableFloatFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    User?: UserUpdateOneRequiredWithoutMovieScoresNestedInput
+  export type MovieVodCreateManyMovieInput = {
+    id?: number
+    vodUrl: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
   }
 
-  export type movieScoreUncheckedUpdateWithoutMovieInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    score?: NullableFloatFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    Userno?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type movieScoreUncheckedUpdateManyWithoutMovieInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    score?: NullableFloatFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    Userno?: IntFieldUpdateOperationsInput | number
+  export type movieScoreCreateManyMovieInput = {
+    id?: number
+    score?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    Userno: number
   }
 
   export type CommentUpdateWithoutMovieInput = {
@@ -15486,6 +16955,55 @@ export namespace Prisma {
     comment?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type MovieVodUpdateWithoutMovieInput = {
+    vodUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type MovieVodUncheckedUpdateWithoutMovieInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    vodUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type MovieVodUncheckedUpdateManyWithoutMovieInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    vodUrl?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type movieScoreUpdateWithoutMovieInput = {
+    score?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    User?: UserUpdateOneRequiredWithoutMovieScoresNestedInput
+  }
+
+  export type movieScoreUncheckedUpdateWithoutMovieInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    score?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    Userno?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type movieScoreUncheckedUpdateManyWithoutMovieInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    score?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    Userno?: IntFieldUpdateOperationsInput | number
+  }
+
   export type CommentCreateManyUserInput = {
     id?: number
     movieId: number
@@ -15509,6 +17027,15 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type movieScoreCreateManyUserInput = {
+    id?: number
+    movieCd: number
+    score?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
   export type workspaceCreateManyUserInput = {
     id?: number
     name: string
@@ -15523,15 +17050,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     loggedInAt?: Date | string | null
-  }
-
-  export type movieScoreCreateManyUserInput = {
-    id?: number
-    movieCd: number
-    score?: number | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    deletedAt?: Date | string | null
   }
 
   export type CommentUpdateWithoutUserInput = {
@@ -15601,6 +17119,32 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type movieScoreUpdateWithoutUserInput = {
+    score?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    Movie?: MovieUpdateOneRequiredWithoutMovieScoresNestedInput
+  }
+
+  export type movieScoreUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    movieCd?: IntFieldUpdateOperationsInput | number
+    score?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type movieScoreUncheckedUpdateManyWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    movieCd?: IntFieldUpdateOperationsInput | number
+    score?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type workspaceUpdateWithoutUserInput = {
     name?: StringFieldUpdateOperationsInput | string
     url?: StringFieldUpdateOperationsInput | string
@@ -15648,32 +17192,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     loggedInAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type movieScoreUpdateWithoutUserInput = {
-    score?: NullableFloatFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    Movie?: MovieUpdateOneRequiredWithoutMovieScoresNestedInput
-  }
-
-  export type movieScoreUncheckedUpdateWithoutUserInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    movieCd?: IntFieldUpdateOperationsInput | number
-    score?: NullableFloatFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type movieScoreUncheckedUpdateManyWithoutUserInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    movieCd?: IntFieldUpdateOperationsInput | number
-    score?: NullableFloatFieldUpdateOperationsInput | number | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type channelchatsCreateManyChannelsInput = {
@@ -15797,6 +17315,10 @@ export namespace Prisma {
      * @deprecated Use movieScoreDefaultArgs instead
      */
     export type movieScoreArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = movieScoreDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use MovieVodDefaultArgs instead
+     */
+    export type MovieVodArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = MovieVodDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany
