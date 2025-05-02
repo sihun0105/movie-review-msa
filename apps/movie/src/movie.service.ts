@@ -28,8 +28,7 @@ export class MovieService implements OnModuleInit {
   ) {}
 
   onModuleInit() {
-    const yesterday = moment().subtract(1, 'days').format('YYYYMMDD');
-    this.fetchMovies(yesterday);
+    this.fetchMovies();
   }
   async fetchTmdbPoster(title: string): Promise<string | null> {
     try {
@@ -88,8 +87,13 @@ export class MovieService implements OnModuleInit {
     return kmdbMovie;
   }
 
-  async fetchMovies(date: string): Promise<void> {
-    const formattedDate = moment().format('YYYY-MM-DD');
+  async fetchMovies(): Promise<void> {
+    const now = moment();
+
+    const targetDate =
+      now.hour() === 0 && now.minute() < 10 ? now.subtract(1, 'day') : now;
+
+    const formattedDate = targetDate.format('YYYY-MM-DD');
     const dateObject = new Date(formattedDate);
 
     if (isNaN(dateObject.getTime())) {
@@ -103,14 +107,15 @@ export class MovieService implements OnModuleInit {
         },
       },
     });
+
     if (isUpdated) {
       return;
     }
 
     try {
-      const movieList = await this.fetchKoficData(date);
+      const movieList = await this.fetchKoficData(formattedDate); // <-- 수정
       if (movieList) {
-        const convertedMovieList = movieList?.map((item) => {
+        const convertedMovieList = movieList.map((item) => {
           return this.convertKobisMovieData(item);
         });
 
@@ -138,20 +143,10 @@ export class MovieService implements OnModuleInit {
           genre = '',
           rating = '';
 
-        function sliceVods(
-          vod: {
-            vodClass: string;
-            vodUrl: string;
-          }[],
-        ): string[] {
-          const vodUrls = vod.map((vod) => vod.vodUrl);
-          const filteredUrls = vodUrls.filter((url) => url.includes('vod'));
-          return filteredUrls;
-        }
         try {
           const fetchedData = await this.fetchKmdbData(movieData.movieNm);
-          const vods = sliceVods(fetchedData.vods.vod);
-          vods.map(async (vod) => {
+          console.log(fetchedData.vods);
+          fetchedData.vods.vod.map(async (vod) => {
             const existing = await this.mysqlPrismaService.movieVod.findFirst({
               where: { movieCd: +movieData.movieCd },
             });
@@ -160,7 +155,7 @@ export class MovieService implements OnModuleInit {
               await this.mysqlPrismaService.movieVod.update({
                 where: { id: existing.id },
                 data: {
-                  vodUrl: vod,
+                  vodUrl: vod.vodUrl,
                   updatedAt: new Date(),
                 },
               });
@@ -168,14 +163,13 @@ export class MovieService implements OnModuleInit {
               await this.mysqlPrismaService.movieVod.create({
                 data: {
                   movieCd: +movieData.movieCd,
-                  vodUrl: vod,
+                  vodUrl: vod.vodUrl,
                   createdAt: new Date(),
                   updatedAt: new Date(),
                 },
               });
             }
           });
-
           if (fetchedData) {
             plot = fetchedData.plots?.plot?.[0]?.plotText ?? '';
             poster = fetchedData.posters;
@@ -348,6 +342,7 @@ export class MovieService implements OnModuleInit {
       genre: unknown.genre ?? '',
       director: unknown.director ?? '',
       ratting: unknown.ratting ?? '',
+      vods: unknown.vods ?? [],
     };
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -386,10 +381,14 @@ export class MovieService implements OnModuleInit {
   async getMovieDetail(movieCd: number): Promise<MovieData> {
     const movie = await this.mysqlPrismaService.movie.findUnique({
       where: { movieCd },
+      include: {
+        MovieVod: true,
+      },
     });
     if (!movie) {
       throw new Error(`Movie with movieCd ${movieCd} not found`);
     }
+
     return this.convertMovieData(movie);
   }
 

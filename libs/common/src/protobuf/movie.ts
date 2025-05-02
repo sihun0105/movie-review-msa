@@ -25,10 +25,6 @@ export interface MovieScore {
   userId: number;
 }
 
-export interface FetchMoviesRequest {
-  fetchDate: string;
-}
-
 export interface RecommendMovieRequest {
   movieCd: number;
 }
@@ -49,6 +45,16 @@ export interface MovieData {
   genre: string;
   director: string;
   ratting: string;
+  vods: MovieVod[];
+}
+
+export interface MovieVod {
+  id: number;
+  vodUrl: string;
+  movieCd: number;
+  createdAt: string;
+  updatedAt: string;
+  deletedAt: string;
 }
 
 export interface MovieDatas {
@@ -60,7 +66,7 @@ export const MOVIE_PACKAGE_NAME = 'movie';
 export interface MovieServiceClient {
   getMovieDatas(request: Empty): Observable<MovieDatas>;
 
-  fetchMovies(request: FetchMoviesRequest): Observable<Empty>;
+  fetchMovies(request: Empty): Observable<Empty>;
 
   recommendMovie(request: RecommendMovieRequest): Observable<MovieDatas>;
 
@@ -76,9 +82,7 @@ export interface MovieServiceController {
     request: Empty,
   ): Promise<MovieDatas> | Observable<MovieDatas> | MovieDatas;
 
-  fetchMovies(
-    request: FetchMoviesRequest,
-  ): Promise<Empty> | Observable<Empty> | Empty;
+  fetchMovies(request: Empty): Promise<Empty> | Observable<Empty> | Empty;
 
   recommendMovie(
     request: RecommendMovieRequest,

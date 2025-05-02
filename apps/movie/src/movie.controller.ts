@@ -1,6 +1,5 @@
 import {
   Empty,
-  FetchMoviesRequest,
   GetMovieScoreRequest,
   MovieData,
   MovieDatas,
@@ -18,8 +17,9 @@ import { MovieService } from './movie.service';
 export class MovieController implements MovieServiceController {
   constructor(private readonly movieService: MovieService) {}
 
-  async fetchMovies(request: FetchMoviesRequest) {
-    return await this.movieService.fetchMovies(request.fetchDate);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async fetchMovies(request: Empty) {
+    return await this.movieService.fetchMovies();
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async getMovieDatas(request: Empty): Promise<Omit<MovieDatas, 'vector'>> {

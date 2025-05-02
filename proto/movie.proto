@@ -8,7 +8,7 @@ option go_package = "movie";
 
 service MovieService {
   rpc GetMovieDatas(common.Empty) returns (MovieDatas) {}
-  rpc FetchMovies(FetchMoviesRequest) returns (common.Empty) {}
+  rpc FetchMovies(common.Empty) returns (common.Empty) {}
   rpc RecommendMovie(RecommendMovieRequest) returns (MovieDatas) {}
   rpc GetMovieDetailData(RecommendMovieRequest) returns (MovieData) {}
   rpc UpsertMovieScore(UpsertMovieScoreRequest) returns (MovieScore) {}
@@ -33,10 +33,6 @@ message MovieScore {
   string updatedAt = 5;
   int32 userId = 6;
 }
-
-message FetchMoviesRequest {
-  string fetchDate = 1;
-}
 message RecommendMovieRequest {
   int32 movieCd = 1;
 }
@@ -56,6 +52,16 @@ message MovieData {
   string genre = 13;
   string director = 14;
   string ratting = 15;
+  repeated MovieVod vods = 16;
+}
+
+message MovieVod {
+  int32 id = 1;
+  string vodUrl = 2;
+  int32 movieCd = 3;
+  string createdAt = 4;
+  string updatedAt = 5;
+  string deletedAt = 6;
 }
 
 message MovieDatas {
