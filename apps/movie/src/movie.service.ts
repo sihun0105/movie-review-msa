@@ -342,7 +342,7 @@ export class MovieService implements OnModuleInit {
       genre: unknown.genre ?? '',
       director: unknown.director ?? '',
       ratting: unknown.ratting ?? '',
-      vods: unknown.vods ?? [],
+      vods: unknown.MovieVod ?? [],
     };
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
