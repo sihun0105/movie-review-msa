@@ -32,7 +32,6 @@ export class MovieService implements OnModuleInit {
   }
   async fetchTmdbPoster(title: string): Promise<string | null> {
     try {
-      console.log(title);
       const url = `https://api.themoviedb.org/3/search/movie?query=${title}&language=ko-KR`;
 
       const response = await axios.get(url, {
@@ -59,8 +58,9 @@ export class MovieService implements OnModuleInit {
       return preferred ?? '';
     }
 
-    const lastYear = moment().subtract(1, 'years').format('YYYY') + '0101';
-    let url = `${this.kmdbUrl}?collection=kmdb_new2&ServiceKey=${this.kmdbKey}&detail=Y&title=${title}&sort=prodYear,1&releaseDts=${lastYear}`;
+    // const lastYear = moment().subtract(1, 'years').format('YYYY') + '0101';
+    const thisYear = moment().format('YYYY') + '0101';
+    let url = `${this.kmdbUrl}?collection=kmdb_new2&ServiceKey=${this.kmdbKey}&detail=Y&title=${title}&sort=prodYear,1&releaseDts=${thisYear}`;
     let response = await axios.get<KmdbResponse>(url);
 
     if (!response.data?.Data?.[0]?.Result?.[0]) {
@@ -89,12 +89,11 @@ export class MovieService implements OnModuleInit {
 
   async fetchMovies(): Promise<void> {
     const now = moment();
-
     const targetDate =
       now.hour() === 0 && now.minute() < 10 ? now.subtract(1, 'day') : now;
+    const formattedDate = targetDate.format('YYYYMMDD');
 
-    const formattedDate = targetDate.format('YYYY-MM-DD');
-    const dateObject = new Date(formattedDate);
+    const dateObject = moment(formattedDate, 'YYYYMMDD').toDate();
 
     if (isNaN(dateObject.getTime())) {
       throw new Error('Invalid date provided');
@@ -113,7 +112,7 @@ export class MovieService implements OnModuleInit {
     }
 
     try {
-      const movieList = await this.fetchKoficData(formattedDate); // <-- 수정
+      const movieList = await this.fetchKoficData(formattedDate);
       if (movieList) {
         const convertedMovieList = movieList.map((item) => {
           return this.convertKobisMovieData(item);
@@ -137,80 +136,37 @@ export class MovieService implements OnModuleInit {
   private async updateMovies(movieList: KobisMovie[]): Promise<void> {
     const upsertMovies = movieList.map(async (movieData) => {
       try {
-        let plot = '',
-          poster = '',
-          director = '',
-          genre = '',
-          rating = '';
+        let plot = '';
+        let poster = '';
+        let director = '';
+        let genre = '';
+        let rating = '';
+        let fetchedData: any = null;
 
         try {
-          const fetchedData = await this.fetchKmdbData(movieData.movieNm);
-          console.log(fetchedData.vods);
-          fetchedData.vods.vod.map(async (vod) => {
-            const existing = await this.mysqlPrismaService.movieVod.findFirst({
-              where: { movieCd: +movieData.movieCd },
-            });
+          fetchedData = await this.fetchKmdbData(movieData.movieNm);
 
-            if (existing) {
-              await this.mysqlPrismaService.movieVod.update({
-                where: { id: existing.id },
-                data: {
-                  vodUrl: vod.vodUrl,
-                  updatedAt: new Date(),
-                },
-              });
-            } else {
-              await this.mysqlPrismaService.movieVod.create({
-                data: {
-                  movieCd: +movieData.movieCd,
-                  vodUrl: vod.vodUrl,
-                  createdAt: new Date(),
-                  updatedAt: new Date(),
-                },
-              });
-            }
-          });
           if (fetchedData) {
             plot = fetchedData.plots?.plot?.[0]?.plotText ?? '';
-            poster = fetchedData.posters;
+            poster = fetchedData.posters ?? '';
             director = fetchedData.directors?.director?.[0]?.directorNm ?? '';
             genre = fetchedData.genre ?? '';
             rating = fetchedData.rating ?? '';
           }
-          poster = (await this.fetchTmdbPoster(movieData.movieNm)) ?? '';
 
-          if (!poster) {
-            const fetchedData = await this.fetchKmdbData(movieData.movieNm);
-            if (fetchedData) {
-              plot = fetchedData.plots?.plot?.[0]?.plotText ?? '';
-              poster = fetchedData.posters?.split('|')?.[0] ?? '';
-              director = fetchedData.directors?.director?.[0]?.directorNm ?? '';
-              genre = fetchedData.genre ?? '';
-              rating = fetchedData.rating ?? '';
-            }
+          const tmdbPoster = await this.fetchTmdbPoster(movieData.movieNm);
+          if (tmdbPoster) {
+            poster = tmdbPoster;
+          } else if (fetchedData) {
+            poster = fetchedData.posters?.split('|')?.[0] ?? '';
           }
         } catch (error) {
           console.warn(`fetchKmdbData failed for ${movieData.movieNm}:`, error);
-          plot = '';
-          poster = '';
-          director = '';
-          genre = '';
-          rating = '';
         }
 
         const vector = [];
         // const vector = await this.utilsService.generateEmbedding(plot);
-        // await this.postgresPrismaService.movieVector.upsert({
-        //   where: { movieCd: +movieData.movieCd },
-        //   update: {
-        //     vector: vector,
-        //     updatedAt: new Date(),
-        //   },
-        //   create: {
-        //     movieCd: +movieData.movieCd,
-        //     vector: vector,
-        //   },
-        // });
+
         await this.mysqlPrismaService.movie.upsert({
           where: { movieCd: +movieData.movieCd },
           update: {
@@ -243,6 +199,34 @@ export class MovieService implements OnModuleInit {
             ratting: rating,
           },
         });
+        if (fetchedData?.vods?.vod?.length) {
+          for (const vod of fetchedData.vods.vod) {
+            const existing = await this.mysqlPrismaService.movieVod.findFirst({
+              where: {
+                vodUrl: vod.vodUrl,
+              },
+            });
+
+            if (existing) {
+              await this.mysqlPrismaService.movieVod.update({
+                where: { id: existing.id },
+                data: {
+                  vodUrl: vod.vodUrl,
+                  updatedAt: new Date(),
+                },
+              });
+            } else {
+              await this.mysqlPrismaService.movieVod.create({
+                data: {
+                  movieCd: +movieData.movieCd,
+                  vodUrl: vod.vodUrl,
+                  createdAt: new Date(),
+                  updatedAt: new Date(),
+                },
+              });
+            }
+          }
+        }
       } catch (error) {
         console.error(`Failed to upsert movie: ${movieData.movieNm}`, error);
       }
