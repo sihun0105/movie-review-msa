@@ -88,13 +88,9 @@ export class MovieService implements OnModuleInit {
   }
 
   async fetchMovies(): Promise<void> {
-    const now = moment();
-    const targetDate =
-      now.hour() === 0 && now.minute() < 10 ? now.subtract(1, 'day') : now;
-    const formattedDate = targetDate.format('YYYYMMDD');
-
-    const dateObject = moment(formattedDate, 'YYYYMMDD').toDate();
-
+    const formattedDate = moment().format('YYYY-MM-DD');
+    const dateObject = new Date(formattedDate);
+    const yesterday = moment().subtract(1, 'days').format('YYYYMMDD');
     if (isNaN(dateObject.getTime())) {
       throw new Error('Invalid date provided');
     }
@@ -106,15 +102,14 @@ export class MovieService implements OnModuleInit {
         },
       },
     });
-
     if (isUpdated) {
       return;
     }
 
     try {
-      const movieList = await this.fetchKoficData(formattedDate);
+      const movieList = await this.fetchKoficData(yesterday);
       if (movieList) {
-        const convertedMovieList = movieList.map((item) => {
+        const convertedMovieList = movieList?.map((item) => {
           return this.convertKobisMovieData(item);
         });
 
@@ -236,12 +231,19 @@ export class MovieService implements OnModuleInit {
   }
 
   async getMovieDatas(): Promise<Omit<MovieDatas, 'vector'>> {
-    const yesterday = moment().subtract(1, 'days').format('YYYY-MM-DD');
+    const now = moment();
+    const targetDate =
+      now.hour() === 0 && now.minute() < 10 ? now.subtract(1, 'day') : now;
+    const formattedDate = targetDate.format('YYYYMMDD');
+    const dateObject = moment(formattedDate, 'YYYYMMDD').toDate();
 
+    if (isNaN(dateObject.getTime())) {
+      throw new Error('Invalid date provided');
+    }
     const movieList = await this.mysqlPrismaService.movie.findMany({
       where: {
         updatedAt: {
-          gte: new Date(yesterday),
+          gte: new Date(dateObject),
         },
       },
       take: 10,
