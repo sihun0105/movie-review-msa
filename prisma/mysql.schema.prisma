@@ -16,7 +16,7 @@ model Comment {
   deletedAt DateTime? @db.DateTime(6)
   userno    Int
   comment   String?   @db.LongText
-  Movie     Movie     @relation(fields: [movieId], references: [movieCd], onDelete: Cascade)
+  Movie     Movie     @relation(fields: [movieId], references: [movieCd], onDelete: NoAction, onUpdate: NoAction)
   User      User      @relation(fields: [userno], references: [id], onDelete: Cascade)
 
   @@index([movieId], map: "movieId_idx")
