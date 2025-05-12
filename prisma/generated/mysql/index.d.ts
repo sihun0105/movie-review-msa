@@ -63,6 +63,34 @@ export type movieScore = $Result.DefaultSelection<Prisma.$movieScorePayload>
  * 
  */
 export type MovieVod = $Result.DefaultSelection<Prisma.$MovieVodPayload>
+/**
+ * Model Recruit
+ * 
+ */
+export type Recruit = $Result.DefaultSelection<Prisma.$RecruitPayload>
+/**
+ * Model RecruitComment
+ * 
+ */
+export type RecruitComment = $Result.DefaultSelection<Prisma.$RecruitCommentPayload>
+
+/**
+ * Enums
+ */
+export namespace $Enums {
+  export const Recruit_status: {
+  open: 'open',
+  matched: 'matched',
+  closed: 'closed'
+};
+
+export type Recruit_status = (typeof Recruit_status)[keyof typeof Recruit_status]
+
+}
+
+export type Recruit_status = $Enums.Recruit_status
+
+export const Recruit_status: typeof $Enums.Recruit_status
 
 /**
  * ##  Prisma Client ʲˢ
@@ -285,6 +313,26 @@ export class PrismaClient<
     * ```
     */
   get movieVod(): Prisma.MovieVodDelegate<ExtArgs>;
+
+  /**
+   * `prisma.recruit`: Exposes CRUD operations for the **Recruit** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Recruits
+    * const recruits = await prisma.recruit.findMany()
+    * ```
+    */
+  get recruit(): Prisma.RecruitDelegate<ExtArgs>;
+
+  /**
+   * `prisma.recruitComment`: Exposes CRUD operations for the **RecruitComment** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RecruitComments
+    * const recruitComments = await prisma.recruitComment.findMany()
+    * ```
+    */
+  get recruitComment(): Prisma.RecruitCommentDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -764,7 +812,9 @@ export namespace Prisma {
     workspace: 'workspace',
     workspacemembers: 'workspacemembers',
     movieScore: 'movieScore',
-    MovieVod: 'MovieVod'
+    MovieVod: 'MovieVod',
+    Recruit: 'Recruit',
+    RecruitComment: 'RecruitComment'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -781,7 +831,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     meta: {
-      modelProps: 'comment' | 'movie' | 'user' | 'channelchats' | 'channelmembers' | 'channels' | 'workspace' | 'workspacemembers' | 'movieScore' | 'movieVod'
+      modelProps: 'comment' | 'movie' | 'user' | 'channelchats' | 'channelmembers' | 'channels' | 'workspace' | 'workspacemembers' | 'movieScore' | 'movieVod' | 'recruit' | 'recruitComment'
       txIsolationLevel: Prisma.TransactionIsolationLevel
     },
     model: {
@@ -1445,6 +1495,138 @@ export namespace Prisma {
           }
         }
       }
+      Recruit: {
+        payload: Prisma.$RecruitPayload<ExtArgs>
+        fields: Prisma.RecruitFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RecruitFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$RecruitPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RecruitFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$RecruitPayload>
+          }
+          findFirst: {
+            args: Prisma.RecruitFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$RecruitPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RecruitFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$RecruitPayload>
+          }
+          findMany: {
+            args: Prisma.RecruitFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$RecruitPayload>[]
+          }
+          create: {
+            args: Prisma.RecruitCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$RecruitPayload>
+          }
+          createMany: {
+            args: Prisma.RecruitCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.RecruitDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$RecruitPayload>
+          }
+          update: {
+            args: Prisma.RecruitUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$RecruitPayload>
+          }
+          deleteMany: {
+            args: Prisma.RecruitDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RecruitUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.RecruitUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$RecruitPayload>
+          }
+          aggregate: {
+            args: Prisma.RecruitAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateRecruit>
+          }
+          groupBy: {
+            args: Prisma.RecruitGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<RecruitGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RecruitCountArgs<ExtArgs>,
+            result: $Utils.Optional<RecruitCountAggregateOutputType> | number
+          }
+        }
+      }
+      RecruitComment: {
+        payload: Prisma.$RecruitCommentPayload<ExtArgs>
+        fields: Prisma.RecruitCommentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RecruitCommentFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$RecruitCommentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RecruitCommentFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$RecruitCommentPayload>
+          }
+          findFirst: {
+            args: Prisma.RecruitCommentFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$RecruitCommentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RecruitCommentFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$RecruitCommentPayload>
+          }
+          findMany: {
+            args: Prisma.RecruitCommentFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$RecruitCommentPayload>[]
+          }
+          create: {
+            args: Prisma.RecruitCommentCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$RecruitCommentPayload>
+          }
+          createMany: {
+            args: Prisma.RecruitCommentCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.RecruitCommentDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$RecruitCommentPayload>
+          }
+          update: {
+            args: Prisma.RecruitCommentUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$RecruitCommentPayload>
+          }
+          deleteMany: {
+            args: Prisma.RecruitCommentDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RecruitCommentUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.RecruitCommentUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$RecruitCommentPayload>
+          }
+          aggregate: {
+            args: Prisma.RecruitCommentAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateRecruitComment>
+          }
+          groupBy: {
+            args: Prisma.RecruitCommentGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<RecruitCommentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RecruitCommentCountArgs<ExtArgs>,
+            result: $Utils.Optional<RecruitCommentCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1659,6 +1841,8 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     Comment: number
+    Recruit: number
+    RecruitComment: number
     channelchats: number
     channelmembers: number
     movieScores: number
@@ -1668,6 +1852,8 @@ export namespace Prisma {
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Comment?: boolean | UserCountOutputTypeCountCommentArgs
+    Recruit?: boolean | UserCountOutputTypeCountRecruitArgs
+    RecruitComment?: boolean | UserCountOutputTypeCountRecruitCommentArgs
     channelchats?: boolean | UserCountOutputTypeCountChannelchatsArgs
     channelmembers?: boolean | UserCountOutputTypeCountChannelmembersArgs
     movieScores?: boolean | UserCountOutputTypeCountMovieScoresArgs
@@ -1693,6 +1879,22 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountCommentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CommentWhereInput
+  }
+
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountRecruitArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RecruitWhereInput
+  }
+
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountRecruitCommentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RecruitCommentWhereInput
   }
 
 
@@ -1801,6 +2003,40 @@ export namespace Prisma {
    */
   export type WorkspaceCountOutputTypeCountChannelsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: channelsWhereInput
+  }
+
+
+
+  /**
+   * Count Type RecruitCountOutputType
+   */
+
+  export type RecruitCountOutputType = {
+    RecruitComment: number
+  }
+
+  export type RecruitCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    RecruitComment?: boolean | RecruitCountOutputTypeCountRecruitCommentArgs
+  }
+
+  // Custom InputTypes
+
+  /**
+   * RecruitCountOutputType without action
+   */
+  export type RecruitCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecruitCountOutputType
+     */
+    select?: RecruitCountOutputTypeSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * RecruitCountOutputType without action
+   */
+  export type RecruitCountOutputTypeCountRecruitCommentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RecruitCommentWhereInput
   }
 
 
@@ -4183,6 +4419,8 @@ export namespace Prisma {
     provider?: boolean
     image?: boolean
     Comment?: boolean | User$CommentArgs<ExtArgs>
+    Recruit?: boolean | User$RecruitArgs<ExtArgs>
+    RecruitComment?: boolean | User$RecruitCommentArgs<ExtArgs>
     channelchats?: boolean | User$channelchatsArgs<ExtArgs>
     channelmembers?: boolean | User$channelmembersArgs<ExtArgs>
     movieScores?: boolean | User$movieScoresArgs<ExtArgs>
@@ -4205,6 +4443,8 @@ export namespace Prisma {
 
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Comment?: boolean | User$CommentArgs<ExtArgs>
+    Recruit?: boolean | User$RecruitArgs<ExtArgs>
+    RecruitComment?: boolean | User$RecruitCommentArgs<ExtArgs>
     channelchats?: boolean | User$channelchatsArgs<ExtArgs>
     channelmembers?: boolean | User$channelmembersArgs<ExtArgs>
     movieScores?: boolean | User$movieScoresArgs<ExtArgs>
@@ -4218,6 +4458,8 @@ export namespace Prisma {
     name: "User"
     objects: {
       Comment: Prisma.$CommentPayload<ExtArgs>[]
+      Recruit: Prisma.$RecruitPayload<ExtArgs>[]
+      RecruitComment: Prisma.$RecruitCommentPayload<ExtArgs>[]
       channelchats: Prisma.$channelchatsPayload<ExtArgs>[]
       channelmembers: Prisma.$channelmembersPayload<ExtArgs>[]
       movieScores: Prisma.$movieScorePayload<ExtArgs>[]
@@ -4601,6 +4843,10 @@ export namespace Prisma {
 
     Comment<T extends User$CommentArgs<ExtArgs> = {}>(args?: Subset<T, User$CommentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, 'findMany'> | Null>;
 
+    Recruit<T extends User$RecruitArgs<ExtArgs> = {}>(args?: Subset<T, User$RecruitArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecruitPayload<ExtArgs>, T, 'findMany'> | Null>;
+
+    RecruitComment<T extends User$RecruitCommentArgs<ExtArgs> = {}>(args?: Subset<T, User$RecruitCommentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecruitCommentPayload<ExtArgs>, T, 'findMany'> | Null>;
+
     channelchats<T extends User$channelchatsArgs<ExtArgs> = {}>(args?: Subset<T, User$channelchatsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$channelchatsPayload<ExtArgs>, T, 'findMany'> | Null>;
 
     channelmembers<T extends User$channelmembersArgs<ExtArgs> = {}>(args?: Subset<T, User$channelmembersArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$channelmembersPayload<ExtArgs>, T, 'findMany'> | Null>;
@@ -4977,6 +5223,48 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CommentScalarFieldEnum | CommentScalarFieldEnum[]
+  }
+
+
+  /**
+   * User.Recruit
+   */
+  export type User$RecruitArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Recruit
+     */
+    select?: RecruitSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RecruitInclude<ExtArgs> | null
+    where?: RecruitWhereInput
+    orderBy?: RecruitOrderByWithRelationInput | RecruitOrderByWithRelationInput[]
+    cursor?: RecruitWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RecruitScalarFieldEnum | RecruitScalarFieldEnum[]
+  }
+
+
+  /**
+   * User.RecruitComment
+   */
+  export type User$RecruitCommentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecruitComment
+     */
+    select?: RecruitCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RecruitCommentInclude<ExtArgs> | null
+    where?: RecruitCommentWhereInput
+    orderBy?: RecruitCommentOrderByWithRelationInput | RecruitCommentOrderByWithRelationInput[]
+    cursor?: RecruitCommentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RecruitCommentScalarFieldEnum | RecruitCommentScalarFieldEnum[]
   }
 
 
@@ -12002,6 +12290,2043 @@ export namespace Prisma {
 
 
   /**
+   * Model Recruit
+   */
+
+  export type AggregateRecruit = {
+    _count: RecruitCountAggregateOutputType | null
+    _avg: RecruitAvgAggregateOutputType | null
+    _sum: RecruitSumAggregateOutputType | null
+    _min: RecruitMinAggregateOutputType | null
+    _max: RecruitMaxAggregateOutputType | null
+  }
+
+  export type RecruitAvgAggregateOutputType = {
+    id: number | null
+    userno: number | null
+  }
+
+  export type RecruitSumAggregateOutputType = {
+    id: number | null
+    userno: number | null
+  }
+
+  export type RecruitMinAggregateOutputType = {
+    id: number | null
+    userno: number | null
+    title: string | null
+    content: string | null
+    screening_date: Date | null
+    location: string | null
+    status: $Enums.Recruit_status | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deletedAt: Date | null
+    theater_name: string | null
+  }
+
+  export type RecruitMaxAggregateOutputType = {
+    id: number | null
+    userno: number | null
+    title: string | null
+    content: string | null
+    screening_date: Date | null
+    location: string | null
+    status: $Enums.Recruit_status | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deletedAt: Date | null
+    theater_name: string | null
+  }
+
+  export type RecruitCountAggregateOutputType = {
+    id: number
+    userno: number
+    title: number
+    content: number
+    screening_date: number
+    location: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    deletedAt: number
+    theater_name: number
+    _all: number
+  }
+
+
+  export type RecruitAvgAggregateInputType = {
+    id?: true
+    userno?: true
+  }
+
+  export type RecruitSumAggregateInputType = {
+    id?: true
+    userno?: true
+  }
+
+  export type RecruitMinAggregateInputType = {
+    id?: true
+    userno?: true
+    title?: true
+    content?: true
+    screening_date?: true
+    location?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+    theater_name?: true
+  }
+
+  export type RecruitMaxAggregateInputType = {
+    id?: true
+    userno?: true
+    title?: true
+    content?: true
+    screening_date?: true
+    location?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+    theater_name?: true
+  }
+
+  export type RecruitCountAggregateInputType = {
+    id?: true
+    userno?: true
+    title?: true
+    content?: true
+    screening_date?: true
+    location?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+    theater_name?: true
+    _all?: true
+  }
+
+  export type RecruitAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Recruit to aggregate.
+     */
+    where?: RecruitWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Recruits to fetch.
+     */
+    orderBy?: RecruitOrderByWithRelationInput | RecruitOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RecruitWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Recruits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Recruits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Recruits
+    **/
+    _count?: true | RecruitCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RecruitAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RecruitSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RecruitMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RecruitMaxAggregateInputType
+  }
+
+  export type GetRecruitAggregateType<T extends RecruitAggregateArgs> = {
+        [P in keyof T & keyof AggregateRecruit]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRecruit[P]>
+      : GetScalarType<T[P], AggregateRecruit[P]>
+  }
+
+
+
+
+  export type RecruitGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RecruitWhereInput
+    orderBy?: RecruitOrderByWithAggregationInput | RecruitOrderByWithAggregationInput[]
+    by: RecruitScalarFieldEnum[] | RecruitScalarFieldEnum
+    having?: RecruitScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RecruitCountAggregateInputType | true
+    _avg?: RecruitAvgAggregateInputType
+    _sum?: RecruitSumAggregateInputType
+    _min?: RecruitMinAggregateInputType
+    _max?: RecruitMaxAggregateInputType
+  }
+
+  export type RecruitGroupByOutputType = {
+    id: number
+    userno: number
+    title: string
+    content: string
+    screening_date: Date | null
+    location: string | null
+    status: $Enums.Recruit_status
+    createdAt: Date
+    updatedAt: Date
+    deletedAt: Date | null
+    theater_name: string | null
+    _count: RecruitCountAggregateOutputType | null
+    _avg: RecruitAvgAggregateOutputType | null
+    _sum: RecruitSumAggregateOutputType | null
+    _min: RecruitMinAggregateOutputType | null
+    _max: RecruitMaxAggregateOutputType | null
+  }
+
+  type GetRecruitGroupByPayload<T extends RecruitGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RecruitGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RecruitGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RecruitGroupByOutputType[P]>
+            : GetScalarType<T[P], RecruitGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RecruitSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userno?: boolean
+    title?: boolean
+    content?: boolean
+    screening_date?: boolean
+    location?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+    theater_name?: boolean
+    User?: boolean | UserDefaultArgs<ExtArgs>
+    RecruitComment?: boolean | Recruit$RecruitCommentArgs<ExtArgs>
+    _count?: boolean | RecruitCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["recruit"]>
+
+  export type RecruitSelectScalar = {
+    id?: boolean
+    userno?: boolean
+    title?: boolean
+    content?: boolean
+    screening_date?: boolean
+    location?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+    theater_name?: boolean
+  }
+
+  export type RecruitInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    User?: boolean | UserDefaultArgs<ExtArgs>
+    RecruitComment?: boolean | Recruit$RecruitCommentArgs<ExtArgs>
+    _count?: boolean | RecruitCountOutputTypeDefaultArgs<ExtArgs>
+  }
+
+
+  export type $RecruitPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Recruit"
+    objects: {
+      User: Prisma.$UserPayload<ExtArgs>
+      RecruitComment: Prisma.$RecruitCommentPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      userno: number
+      title: string
+      content: string
+      screening_date: Date | null
+      location: string | null
+      status: $Enums.Recruit_status
+      createdAt: Date
+      updatedAt: Date
+      deletedAt: Date | null
+      theater_name: string | null
+    }, ExtArgs["result"]["recruit"]>
+    composites: {}
+  }
+
+
+  type RecruitGetPayload<S extends boolean | null | undefined | RecruitDefaultArgs> = $Result.GetResult<Prisma.$RecruitPayload, S>
+
+  type RecruitCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<RecruitFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: RecruitCountAggregateInputType | true
+    }
+
+  export interface RecruitDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Recruit'], meta: { name: 'Recruit' } }
+    /**
+     * Find zero or one Recruit that matches the filter.
+     * @param {RecruitFindUniqueArgs} args - Arguments to find a Recruit
+     * @example
+     * // Get one Recruit
+     * const recruit = await prisma.recruit.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends RecruitFindUniqueArgs<ExtArgs>>(
+      args: SelectSubset<T, RecruitFindUniqueArgs<ExtArgs>>
+    ): Prisma__RecruitClient<$Result.GetResult<Prisma.$RecruitPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
+
+    /**
+     * Find one Recruit that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {RecruitFindUniqueOrThrowArgs} args - Arguments to find a Recruit
+     * @example
+     * // Get one Recruit
+     * const recruit = await prisma.recruit.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends RecruitFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, RecruitFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__RecruitClient<$Result.GetResult<Prisma.$RecruitPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find the first Recruit that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecruitFindFirstArgs} args - Arguments to find a Recruit
+     * @example
+     * // Get one Recruit
+     * const recruit = await prisma.recruit.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends RecruitFindFirstArgs<ExtArgs>>(
+      args?: SelectSubset<T, RecruitFindFirstArgs<ExtArgs>>
+    ): Prisma__RecruitClient<$Result.GetResult<Prisma.$RecruitPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
+
+    /**
+     * Find the first Recruit that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecruitFindFirstOrThrowArgs} args - Arguments to find a Recruit
+     * @example
+     * // Get one Recruit
+     * const recruit = await prisma.recruit.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends RecruitFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, RecruitFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__RecruitClient<$Result.GetResult<Prisma.$RecruitPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find zero or more Recruits that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecruitFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Recruits
+     * const recruits = await prisma.recruit.findMany()
+     * 
+     * // Get first 10 Recruits
+     * const recruits = await prisma.recruit.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const recruitWithIdOnly = await prisma.recruit.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends RecruitFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, RecruitFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecruitPayload<ExtArgs>, T, 'findMany'>>
+
+    /**
+     * Create a Recruit.
+     * @param {RecruitCreateArgs} args - Arguments to create a Recruit.
+     * @example
+     * // Create one Recruit
+     * const Recruit = await prisma.recruit.create({
+     *   data: {
+     *     // ... data to create a Recruit
+     *   }
+     * })
+     * 
+    **/
+    create<T extends RecruitCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, RecruitCreateArgs<ExtArgs>>
+    ): Prisma__RecruitClient<$Result.GetResult<Prisma.$RecruitPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
+
+    /**
+     * Create many Recruits.
+     *     @param {RecruitCreateManyArgs} args - Arguments to create many Recruits.
+     *     @example
+     *     // Create many Recruits
+     *     const recruit = await prisma.recruit.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends RecruitCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, RecruitCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Recruit.
+     * @param {RecruitDeleteArgs} args - Arguments to delete one Recruit.
+     * @example
+     * // Delete one Recruit
+     * const Recruit = await prisma.recruit.delete({
+     *   where: {
+     *     // ... filter to delete one Recruit
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends RecruitDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, RecruitDeleteArgs<ExtArgs>>
+    ): Prisma__RecruitClient<$Result.GetResult<Prisma.$RecruitPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
+
+    /**
+     * Update one Recruit.
+     * @param {RecruitUpdateArgs} args - Arguments to update one Recruit.
+     * @example
+     * // Update one Recruit
+     * const recruit = await prisma.recruit.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends RecruitUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, RecruitUpdateArgs<ExtArgs>>
+    ): Prisma__RecruitClient<$Result.GetResult<Prisma.$RecruitPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
+
+    /**
+     * Delete zero or more Recruits.
+     * @param {RecruitDeleteManyArgs} args - Arguments to filter Recruits to delete.
+     * @example
+     * // Delete a few Recruits
+     * const { count } = await prisma.recruit.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends RecruitDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, RecruitDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Recruits.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecruitUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Recruits
+     * const recruit = await prisma.recruit.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends RecruitUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, RecruitUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Recruit.
+     * @param {RecruitUpsertArgs} args - Arguments to update or create a Recruit.
+     * @example
+     * // Update or create a Recruit
+     * const recruit = await prisma.recruit.upsert({
+     *   create: {
+     *     // ... data to create a Recruit
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Recruit we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends RecruitUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, RecruitUpsertArgs<ExtArgs>>
+    ): Prisma__RecruitClient<$Result.GetResult<Prisma.$RecruitPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
+
+    /**
+     * Count the number of Recruits.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecruitCountArgs} args - Arguments to filter Recruits to count.
+     * @example
+     * // Count the number of Recruits
+     * const count = await prisma.recruit.count({
+     *   where: {
+     *     // ... the filter for the Recruits we want to count
+     *   }
+     * })
+    **/
+    count<T extends RecruitCountArgs>(
+      args?: Subset<T, RecruitCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RecruitCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Recruit.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecruitAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RecruitAggregateArgs>(args: Subset<T, RecruitAggregateArgs>): Prisma.PrismaPromise<GetRecruitAggregateType<T>>
+
+    /**
+     * Group by Recruit.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecruitGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RecruitGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RecruitGroupByArgs['orderBy'] }
+        : { orderBy?: RecruitGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RecruitGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRecruitGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Recruit model
+   */
+  readonly fields: RecruitFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Recruit.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RecruitClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+
+    User<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
+
+    RecruitComment<T extends Recruit$RecruitCommentArgs<ExtArgs> = {}>(args?: Subset<T, Recruit$RecruitCommentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecruitCommentPayload<ExtArgs>, T, 'findMany'> | Null>;
+
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
+  }
+
+
+
+  /**
+   * Fields of the Recruit model
+   */ 
+  interface RecruitFieldRefs {
+    readonly id: FieldRef<"Recruit", 'Int'>
+    readonly userno: FieldRef<"Recruit", 'Int'>
+    readonly title: FieldRef<"Recruit", 'String'>
+    readonly content: FieldRef<"Recruit", 'String'>
+    readonly screening_date: FieldRef<"Recruit", 'DateTime'>
+    readonly location: FieldRef<"Recruit", 'String'>
+    readonly status: FieldRef<"Recruit", 'Recruit_status'>
+    readonly createdAt: FieldRef<"Recruit", 'DateTime'>
+    readonly updatedAt: FieldRef<"Recruit", 'DateTime'>
+    readonly deletedAt: FieldRef<"Recruit", 'DateTime'>
+    readonly theater_name: FieldRef<"Recruit", 'String'>
+  }
+    
+
+  // Custom InputTypes
+
+  /**
+   * Recruit findUnique
+   */
+  export type RecruitFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Recruit
+     */
+    select?: RecruitSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RecruitInclude<ExtArgs> | null
+    /**
+     * Filter, which Recruit to fetch.
+     */
+    where: RecruitWhereUniqueInput
+  }
+
+
+  /**
+   * Recruit findUniqueOrThrow
+   */
+  export type RecruitFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Recruit
+     */
+    select?: RecruitSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RecruitInclude<ExtArgs> | null
+    /**
+     * Filter, which Recruit to fetch.
+     */
+    where: RecruitWhereUniqueInput
+  }
+
+
+  /**
+   * Recruit findFirst
+   */
+  export type RecruitFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Recruit
+     */
+    select?: RecruitSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RecruitInclude<ExtArgs> | null
+    /**
+     * Filter, which Recruit to fetch.
+     */
+    where?: RecruitWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Recruits to fetch.
+     */
+    orderBy?: RecruitOrderByWithRelationInput | RecruitOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Recruits.
+     */
+    cursor?: RecruitWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Recruits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Recruits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Recruits.
+     */
+    distinct?: RecruitScalarFieldEnum | RecruitScalarFieldEnum[]
+  }
+
+
+  /**
+   * Recruit findFirstOrThrow
+   */
+  export type RecruitFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Recruit
+     */
+    select?: RecruitSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RecruitInclude<ExtArgs> | null
+    /**
+     * Filter, which Recruit to fetch.
+     */
+    where?: RecruitWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Recruits to fetch.
+     */
+    orderBy?: RecruitOrderByWithRelationInput | RecruitOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Recruits.
+     */
+    cursor?: RecruitWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Recruits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Recruits.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Recruits.
+     */
+    distinct?: RecruitScalarFieldEnum | RecruitScalarFieldEnum[]
+  }
+
+
+  /**
+   * Recruit findMany
+   */
+  export type RecruitFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Recruit
+     */
+    select?: RecruitSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RecruitInclude<ExtArgs> | null
+    /**
+     * Filter, which Recruits to fetch.
+     */
+    where?: RecruitWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Recruits to fetch.
+     */
+    orderBy?: RecruitOrderByWithRelationInput | RecruitOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Recruits.
+     */
+    cursor?: RecruitWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Recruits from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Recruits.
+     */
+    skip?: number
+    distinct?: RecruitScalarFieldEnum | RecruitScalarFieldEnum[]
+  }
+
+
+  /**
+   * Recruit create
+   */
+  export type RecruitCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Recruit
+     */
+    select?: RecruitSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RecruitInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Recruit.
+     */
+    data: XOR<RecruitCreateInput, RecruitUncheckedCreateInput>
+  }
+
+
+  /**
+   * Recruit createMany
+   */
+  export type RecruitCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Recruits.
+     */
+    data: RecruitCreateManyInput | RecruitCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Recruit update
+   */
+  export type RecruitUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Recruit
+     */
+    select?: RecruitSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RecruitInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Recruit.
+     */
+    data: XOR<RecruitUpdateInput, RecruitUncheckedUpdateInput>
+    /**
+     * Choose, which Recruit to update.
+     */
+    where: RecruitWhereUniqueInput
+  }
+
+
+  /**
+   * Recruit updateMany
+   */
+  export type RecruitUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Recruits.
+     */
+    data: XOR<RecruitUpdateManyMutationInput, RecruitUncheckedUpdateManyInput>
+    /**
+     * Filter which Recruits to update
+     */
+    where?: RecruitWhereInput
+  }
+
+
+  /**
+   * Recruit upsert
+   */
+  export type RecruitUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Recruit
+     */
+    select?: RecruitSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RecruitInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Recruit to update in case it exists.
+     */
+    where: RecruitWhereUniqueInput
+    /**
+     * In case the Recruit found by the `where` argument doesn't exist, create a new Recruit with this data.
+     */
+    create: XOR<RecruitCreateInput, RecruitUncheckedCreateInput>
+    /**
+     * In case the Recruit was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RecruitUpdateInput, RecruitUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Recruit delete
+   */
+  export type RecruitDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Recruit
+     */
+    select?: RecruitSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RecruitInclude<ExtArgs> | null
+    /**
+     * Filter which Recruit to delete.
+     */
+    where: RecruitWhereUniqueInput
+  }
+
+
+  /**
+   * Recruit deleteMany
+   */
+  export type RecruitDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Recruits to delete
+     */
+    where?: RecruitWhereInput
+  }
+
+
+  /**
+   * Recruit.RecruitComment
+   */
+  export type Recruit$RecruitCommentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecruitComment
+     */
+    select?: RecruitCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RecruitCommentInclude<ExtArgs> | null
+    where?: RecruitCommentWhereInput
+    orderBy?: RecruitCommentOrderByWithRelationInput | RecruitCommentOrderByWithRelationInput[]
+    cursor?: RecruitCommentWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RecruitCommentScalarFieldEnum | RecruitCommentScalarFieldEnum[]
+  }
+
+
+  /**
+   * Recruit without action
+   */
+  export type RecruitDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Recruit
+     */
+    select?: RecruitSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RecruitInclude<ExtArgs> | null
+  }
+
+
+
+  /**
+   * Model RecruitComment
+   */
+
+  export type AggregateRecruitComment = {
+    _count: RecruitCommentCountAggregateOutputType | null
+    _avg: RecruitCommentAvgAggregateOutputType | null
+    _sum: RecruitCommentSumAggregateOutputType | null
+    _min: RecruitCommentMinAggregateOutputType | null
+    _max: RecruitCommentMaxAggregateOutputType | null
+  }
+
+  export type RecruitCommentAvgAggregateOutputType = {
+    id: number | null
+    recruit_id: number | null
+    userno: number | null
+  }
+
+  export type RecruitCommentSumAggregateOutputType = {
+    id: number | null
+    recruit_id: number | null
+    userno: number | null
+  }
+
+  export type RecruitCommentMinAggregateOutputType = {
+    id: number | null
+    recruit_id: number | null
+    userno: number | null
+    content: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deletedAt: Date | null
+  }
+
+  export type RecruitCommentMaxAggregateOutputType = {
+    id: number | null
+    recruit_id: number | null
+    userno: number | null
+    content: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deletedAt: Date | null
+  }
+
+  export type RecruitCommentCountAggregateOutputType = {
+    id: number
+    recruit_id: number
+    userno: number
+    content: number
+    createdAt: number
+    updatedAt: number
+    deletedAt: number
+    _all: number
+  }
+
+
+  export type RecruitCommentAvgAggregateInputType = {
+    id?: true
+    recruit_id?: true
+    userno?: true
+  }
+
+  export type RecruitCommentSumAggregateInputType = {
+    id?: true
+    recruit_id?: true
+    userno?: true
+  }
+
+  export type RecruitCommentMinAggregateInputType = {
+    id?: true
+    recruit_id?: true
+    userno?: true
+    content?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+  }
+
+  export type RecruitCommentMaxAggregateInputType = {
+    id?: true
+    recruit_id?: true
+    userno?: true
+    content?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+  }
+
+  export type RecruitCommentCountAggregateInputType = {
+    id?: true
+    recruit_id?: true
+    userno?: true
+    content?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+    _all?: true
+  }
+
+  export type RecruitCommentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RecruitComment to aggregate.
+     */
+    where?: RecruitCommentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RecruitComments to fetch.
+     */
+    orderBy?: RecruitCommentOrderByWithRelationInput | RecruitCommentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RecruitCommentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RecruitComments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RecruitComments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned RecruitComments
+    **/
+    _count?: true | RecruitCommentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RecruitCommentAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RecruitCommentSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RecruitCommentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RecruitCommentMaxAggregateInputType
+  }
+
+  export type GetRecruitCommentAggregateType<T extends RecruitCommentAggregateArgs> = {
+        [P in keyof T & keyof AggregateRecruitComment]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRecruitComment[P]>
+      : GetScalarType<T[P], AggregateRecruitComment[P]>
+  }
+
+
+
+
+  export type RecruitCommentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RecruitCommentWhereInput
+    orderBy?: RecruitCommentOrderByWithAggregationInput | RecruitCommentOrderByWithAggregationInput[]
+    by: RecruitCommentScalarFieldEnum[] | RecruitCommentScalarFieldEnum
+    having?: RecruitCommentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RecruitCommentCountAggregateInputType | true
+    _avg?: RecruitCommentAvgAggregateInputType
+    _sum?: RecruitCommentSumAggregateInputType
+    _min?: RecruitCommentMinAggregateInputType
+    _max?: RecruitCommentMaxAggregateInputType
+  }
+
+  export type RecruitCommentGroupByOutputType = {
+    id: number
+    recruit_id: number
+    userno: number
+    content: string
+    createdAt: Date
+    updatedAt: Date
+    deletedAt: Date | null
+    _count: RecruitCommentCountAggregateOutputType | null
+    _avg: RecruitCommentAvgAggregateOutputType | null
+    _sum: RecruitCommentSumAggregateOutputType | null
+    _min: RecruitCommentMinAggregateOutputType | null
+    _max: RecruitCommentMaxAggregateOutputType | null
+  }
+
+  type GetRecruitCommentGroupByPayload<T extends RecruitCommentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RecruitCommentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RecruitCommentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RecruitCommentGroupByOutputType[P]>
+            : GetScalarType<T[P], RecruitCommentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RecruitCommentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    recruit_id?: boolean
+    userno?: boolean
+    content?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+    Recruit?: boolean | RecruitDefaultArgs<ExtArgs>
+    User?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["recruitComment"]>
+
+  export type RecruitCommentSelectScalar = {
+    id?: boolean
+    recruit_id?: boolean
+    userno?: boolean
+    content?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+  }
+
+  export type RecruitCommentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Recruit?: boolean | RecruitDefaultArgs<ExtArgs>
+    User?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+
+  export type $RecruitCommentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "RecruitComment"
+    objects: {
+      Recruit: Prisma.$RecruitPayload<ExtArgs>
+      User: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      recruit_id: number
+      userno: number
+      content: string
+      createdAt: Date
+      updatedAt: Date
+      deletedAt: Date | null
+    }, ExtArgs["result"]["recruitComment"]>
+    composites: {}
+  }
+
+
+  type RecruitCommentGetPayload<S extends boolean | null | undefined | RecruitCommentDefaultArgs> = $Result.GetResult<Prisma.$RecruitCommentPayload, S>
+
+  type RecruitCommentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<RecruitCommentFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: RecruitCommentCountAggregateInputType | true
+    }
+
+  export interface RecruitCommentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RecruitComment'], meta: { name: 'RecruitComment' } }
+    /**
+     * Find zero or one RecruitComment that matches the filter.
+     * @param {RecruitCommentFindUniqueArgs} args - Arguments to find a RecruitComment
+     * @example
+     * // Get one RecruitComment
+     * const recruitComment = await prisma.recruitComment.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends RecruitCommentFindUniqueArgs<ExtArgs>>(
+      args: SelectSubset<T, RecruitCommentFindUniqueArgs<ExtArgs>>
+    ): Prisma__RecruitCommentClient<$Result.GetResult<Prisma.$RecruitCommentPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
+
+    /**
+     * Find one RecruitComment that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {RecruitCommentFindUniqueOrThrowArgs} args - Arguments to find a RecruitComment
+     * @example
+     * // Get one RecruitComment
+     * const recruitComment = await prisma.recruitComment.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends RecruitCommentFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, RecruitCommentFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__RecruitCommentClient<$Result.GetResult<Prisma.$RecruitCommentPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find the first RecruitComment that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecruitCommentFindFirstArgs} args - Arguments to find a RecruitComment
+     * @example
+     * // Get one RecruitComment
+     * const recruitComment = await prisma.recruitComment.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends RecruitCommentFindFirstArgs<ExtArgs>>(
+      args?: SelectSubset<T, RecruitCommentFindFirstArgs<ExtArgs>>
+    ): Prisma__RecruitCommentClient<$Result.GetResult<Prisma.$RecruitCommentPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
+
+    /**
+     * Find the first RecruitComment that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecruitCommentFindFirstOrThrowArgs} args - Arguments to find a RecruitComment
+     * @example
+     * // Get one RecruitComment
+     * const recruitComment = await prisma.recruitComment.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends RecruitCommentFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, RecruitCommentFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__RecruitCommentClient<$Result.GetResult<Prisma.$RecruitCommentPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find zero or more RecruitComments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecruitCommentFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all RecruitComments
+     * const recruitComments = await prisma.recruitComment.findMany()
+     * 
+     * // Get first 10 RecruitComments
+     * const recruitComments = await prisma.recruitComment.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const recruitCommentWithIdOnly = await prisma.recruitComment.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends RecruitCommentFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, RecruitCommentFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecruitCommentPayload<ExtArgs>, T, 'findMany'>>
+
+    /**
+     * Create a RecruitComment.
+     * @param {RecruitCommentCreateArgs} args - Arguments to create a RecruitComment.
+     * @example
+     * // Create one RecruitComment
+     * const RecruitComment = await prisma.recruitComment.create({
+     *   data: {
+     *     // ... data to create a RecruitComment
+     *   }
+     * })
+     * 
+    **/
+    create<T extends RecruitCommentCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, RecruitCommentCreateArgs<ExtArgs>>
+    ): Prisma__RecruitCommentClient<$Result.GetResult<Prisma.$RecruitCommentPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
+
+    /**
+     * Create many RecruitComments.
+     *     @param {RecruitCommentCreateManyArgs} args - Arguments to create many RecruitComments.
+     *     @example
+     *     // Create many RecruitComments
+     *     const recruitComment = await prisma.recruitComment.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends RecruitCommentCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, RecruitCommentCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a RecruitComment.
+     * @param {RecruitCommentDeleteArgs} args - Arguments to delete one RecruitComment.
+     * @example
+     * // Delete one RecruitComment
+     * const RecruitComment = await prisma.recruitComment.delete({
+     *   where: {
+     *     // ... filter to delete one RecruitComment
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends RecruitCommentDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, RecruitCommentDeleteArgs<ExtArgs>>
+    ): Prisma__RecruitCommentClient<$Result.GetResult<Prisma.$RecruitCommentPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
+
+    /**
+     * Update one RecruitComment.
+     * @param {RecruitCommentUpdateArgs} args - Arguments to update one RecruitComment.
+     * @example
+     * // Update one RecruitComment
+     * const recruitComment = await prisma.recruitComment.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends RecruitCommentUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, RecruitCommentUpdateArgs<ExtArgs>>
+    ): Prisma__RecruitCommentClient<$Result.GetResult<Prisma.$RecruitCommentPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
+
+    /**
+     * Delete zero or more RecruitComments.
+     * @param {RecruitCommentDeleteManyArgs} args - Arguments to filter RecruitComments to delete.
+     * @example
+     * // Delete a few RecruitComments
+     * const { count } = await prisma.recruitComment.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends RecruitCommentDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, RecruitCommentDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RecruitComments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecruitCommentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many RecruitComments
+     * const recruitComment = await prisma.recruitComment.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends RecruitCommentUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, RecruitCommentUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one RecruitComment.
+     * @param {RecruitCommentUpsertArgs} args - Arguments to update or create a RecruitComment.
+     * @example
+     * // Update or create a RecruitComment
+     * const recruitComment = await prisma.recruitComment.upsert({
+     *   create: {
+     *     // ... data to create a RecruitComment
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the RecruitComment we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends RecruitCommentUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, RecruitCommentUpsertArgs<ExtArgs>>
+    ): Prisma__RecruitCommentClient<$Result.GetResult<Prisma.$RecruitCommentPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
+
+    /**
+     * Count the number of RecruitComments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecruitCommentCountArgs} args - Arguments to filter RecruitComments to count.
+     * @example
+     * // Count the number of RecruitComments
+     * const count = await prisma.recruitComment.count({
+     *   where: {
+     *     // ... the filter for the RecruitComments we want to count
+     *   }
+     * })
+    **/
+    count<T extends RecruitCommentCountArgs>(
+      args?: Subset<T, RecruitCommentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RecruitCommentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a RecruitComment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecruitCommentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RecruitCommentAggregateArgs>(args: Subset<T, RecruitCommentAggregateArgs>): Prisma.PrismaPromise<GetRecruitCommentAggregateType<T>>
+
+    /**
+     * Group by RecruitComment.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RecruitCommentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RecruitCommentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RecruitCommentGroupByArgs['orderBy'] }
+        : { orderBy?: RecruitCommentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RecruitCommentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRecruitCommentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the RecruitComment model
+   */
+  readonly fields: RecruitCommentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for RecruitComment.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RecruitCommentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+
+    Recruit<T extends RecruitDefaultArgs<ExtArgs> = {}>(args?: Subset<T, RecruitDefaultArgs<ExtArgs>>): Prisma__RecruitClient<$Result.GetResult<Prisma.$RecruitPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
+
+    User<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
+
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
+  }
+
+
+
+  /**
+   * Fields of the RecruitComment model
+   */ 
+  interface RecruitCommentFieldRefs {
+    readonly id: FieldRef<"RecruitComment", 'Int'>
+    readonly recruit_id: FieldRef<"RecruitComment", 'Int'>
+    readonly userno: FieldRef<"RecruitComment", 'Int'>
+    readonly content: FieldRef<"RecruitComment", 'String'>
+    readonly createdAt: FieldRef<"RecruitComment", 'DateTime'>
+    readonly updatedAt: FieldRef<"RecruitComment", 'DateTime'>
+    readonly deletedAt: FieldRef<"RecruitComment", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+
+  /**
+   * RecruitComment findUnique
+   */
+  export type RecruitCommentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecruitComment
+     */
+    select?: RecruitCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RecruitCommentInclude<ExtArgs> | null
+    /**
+     * Filter, which RecruitComment to fetch.
+     */
+    where: RecruitCommentWhereUniqueInput
+  }
+
+
+  /**
+   * RecruitComment findUniqueOrThrow
+   */
+  export type RecruitCommentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecruitComment
+     */
+    select?: RecruitCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RecruitCommentInclude<ExtArgs> | null
+    /**
+     * Filter, which RecruitComment to fetch.
+     */
+    where: RecruitCommentWhereUniqueInput
+  }
+
+
+  /**
+   * RecruitComment findFirst
+   */
+  export type RecruitCommentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecruitComment
+     */
+    select?: RecruitCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RecruitCommentInclude<ExtArgs> | null
+    /**
+     * Filter, which RecruitComment to fetch.
+     */
+    where?: RecruitCommentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RecruitComments to fetch.
+     */
+    orderBy?: RecruitCommentOrderByWithRelationInput | RecruitCommentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RecruitComments.
+     */
+    cursor?: RecruitCommentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RecruitComments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RecruitComments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RecruitComments.
+     */
+    distinct?: RecruitCommentScalarFieldEnum | RecruitCommentScalarFieldEnum[]
+  }
+
+
+  /**
+   * RecruitComment findFirstOrThrow
+   */
+  export type RecruitCommentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecruitComment
+     */
+    select?: RecruitCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RecruitCommentInclude<ExtArgs> | null
+    /**
+     * Filter, which RecruitComment to fetch.
+     */
+    where?: RecruitCommentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RecruitComments to fetch.
+     */
+    orderBy?: RecruitCommentOrderByWithRelationInput | RecruitCommentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RecruitComments.
+     */
+    cursor?: RecruitCommentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RecruitComments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RecruitComments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RecruitComments.
+     */
+    distinct?: RecruitCommentScalarFieldEnum | RecruitCommentScalarFieldEnum[]
+  }
+
+
+  /**
+   * RecruitComment findMany
+   */
+  export type RecruitCommentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecruitComment
+     */
+    select?: RecruitCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RecruitCommentInclude<ExtArgs> | null
+    /**
+     * Filter, which RecruitComments to fetch.
+     */
+    where?: RecruitCommentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RecruitComments to fetch.
+     */
+    orderBy?: RecruitCommentOrderByWithRelationInput | RecruitCommentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing RecruitComments.
+     */
+    cursor?: RecruitCommentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RecruitComments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RecruitComments.
+     */
+    skip?: number
+    distinct?: RecruitCommentScalarFieldEnum | RecruitCommentScalarFieldEnum[]
+  }
+
+
+  /**
+   * RecruitComment create
+   */
+  export type RecruitCommentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecruitComment
+     */
+    select?: RecruitCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RecruitCommentInclude<ExtArgs> | null
+    /**
+     * The data needed to create a RecruitComment.
+     */
+    data: XOR<RecruitCommentCreateInput, RecruitCommentUncheckedCreateInput>
+  }
+
+
+  /**
+   * RecruitComment createMany
+   */
+  export type RecruitCommentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many RecruitComments.
+     */
+    data: RecruitCommentCreateManyInput | RecruitCommentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * RecruitComment update
+   */
+  export type RecruitCommentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecruitComment
+     */
+    select?: RecruitCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RecruitCommentInclude<ExtArgs> | null
+    /**
+     * The data needed to update a RecruitComment.
+     */
+    data: XOR<RecruitCommentUpdateInput, RecruitCommentUncheckedUpdateInput>
+    /**
+     * Choose, which RecruitComment to update.
+     */
+    where: RecruitCommentWhereUniqueInput
+  }
+
+
+  /**
+   * RecruitComment updateMany
+   */
+  export type RecruitCommentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update RecruitComments.
+     */
+    data: XOR<RecruitCommentUpdateManyMutationInput, RecruitCommentUncheckedUpdateManyInput>
+    /**
+     * Filter which RecruitComments to update
+     */
+    where?: RecruitCommentWhereInput
+  }
+
+
+  /**
+   * RecruitComment upsert
+   */
+  export type RecruitCommentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecruitComment
+     */
+    select?: RecruitCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RecruitCommentInclude<ExtArgs> | null
+    /**
+     * The filter to search for the RecruitComment to update in case it exists.
+     */
+    where: RecruitCommentWhereUniqueInput
+    /**
+     * In case the RecruitComment found by the `where` argument doesn't exist, create a new RecruitComment with this data.
+     */
+    create: XOR<RecruitCommentCreateInput, RecruitCommentUncheckedCreateInput>
+    /**
+     * In case the RecruitComment was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RecruitCommentUpdateInput, RecruitCommentUncheckedUpdateInput>
+  }
+
+
+  /**
+   * RecruitComment delete
+   */
+  export type RecruitCommentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecruitComment
+     */
+    select?: RecruitCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RecruitCommentInclude<ExtArgs> | null
+    /**
+     * Filter which RecruitComment to delete.
+     */
+    where: RecruitCommentWhereUniqueInput
+  }
+
+
+  /**
+   * RecruitComment deleteMany
+   */
+  export type RecruitCommentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RecruitComments to delete
+     */
+    where?: RecruitCommentWhereInput
+  }
+
+
+  /**
+   * RecruitComment without action
+   */
+  export type RecruitCommentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RecruitComment
+     */
+    select?: RecruitCommentSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RecruitCommentInclude<ExtArgs> | null
+  }
+
+
+
+  /**
    * Enums
    */
 
@@ -12148,6 +14473,36 @@ export namespace Prisma {
   export type MovieVodScalarFieldEnum = (typeof MovieVodScalarFieldEnum)[keyof typeof MovieVodScalarFieldEnum]
 
 
+  export const RecruitScalarFieldEnum: {
+    id: 'id',
+    userno: 'userno',
+    title: 'title',
+    content: 'content',
+    screening_date: 'screening_date',
+    location: 'location',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deletedAt: 'deletedAt',
+    theater_name: 'theater_name'
+  };
+
+  export type RecruitScalarFieldEnum = (typeof RecruitScalarFieldEnum)[keyof typeof RecruitScalarFieldEnum]
+
+
+  export const RecruitCommentScalarFieldEnum: {
+    id: 'id',
+    recruit_id: 'recruit_id',
+    userno: 'userno',
+    content: 'content',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deletedAt: 'deletedAt'
+  };
+
+  export type RecruitCommentScalarFieldEnum = (typeof RecruitCommentScalarFieldEnum)[keyof typeof RecruitCommentScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -12232,6 +14587,13 @@ export namespace Prisma {
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Recruit_status'
+   */
+  export type EnumRecruit_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Recruit_status'>
     
   /**
    * Deep Input Types
@@ -12440,6 +14802,8 @@ export namespace Prisma {
     provider?: StringFilter<"User"> | string
     image?: StringNullableFilter<"User"> | string | null
     Comment?: CommentListRelationFilter
+    Recruit?: RecruitListRelationFilter
+    RecruitComment?: RecruitCommentListRelationFilter
     channelchats?: ChannelchatsListRelationFilter
     channelmembers?: ChannelmembersListRelationFilter
     movieScores?: MovieScoreListRelationFilter
@@ -12458,6 +14822,8 @@ export namespace Prisma {
     provider?: SortOrder
     image?: SortOrderInput | SortOrder
     Comment?: CommentOrderByRelationAggregateInput
+    Recruit?: RecruitOrderByRelationAggregateInput
+    RecruitComment?: RecruitCommentOrderByRelationAggregateInput
     channelchats?: channelchatsOrderByRelationAggregateInput
     channelmembers?: channelmembersOrderByRelationAggregateInput
     movieScores?: movieScoreOrderByRelationAggregateInput
@@ -12479,6 +14845,8 @@ export namespace Prisma {
     provider?: StringFilter<"User"> | string
     image?: StringNullableFilter<"User"> | string | null
     Comment?: CommentListRelationFilter
+    Recruit?: RecruitListRelationFilter
+    RecruitComment?: RecruitCommentListRelationFilter
     channelchats?: ChannelchatsListRelationFilter
     channelmembers?: ChannelmembersListRelationFilter
     movieScores?: MovieScoreListRelationFilter
@@ -12962,6 +15330,166 @@ export namespace Prisma {
     deletedAt?: DateTimeNullableWithAggregatesFilter<"MovieVod"> | Date | string | null
   }
 
+  export type RecruitWhereInput = {
+    AND?: RecruitWhereInput | RecruitWhereInput[]
+    OR?: RecruitWhereInput[]
+    NOT?: RecruitWhereInput | RecruitWhereInput[]
+    id?: IntFilter<"Recruit"> | number
+    userno?: IntFilter<"Recruit"> | number
+    title?: StringFilter<"Recruit"> | string
+    content?: StringFilter<"Recruit"> | string
+    screening_date?: DateTimeNullableFilter<"Recruit"> | Date | string | null
+    location?: StringNullableFilter<"Recruit"> | string | null
+    status?: EnumRecruit_statusFilter<"Recruit"> | $Enums.Recruit_status
+    createdAt?: DateTimeFilter<"Recruit"> | Date | string
+    updatedAt?: DateTimeFilter<"Recruit"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Recruit"> | Date | string | null
+    theater_name?: StringNullableFilter<"Recruit"> | string | null
+    User?: XOR<UserRelationFilter, UserWhereInput>
+    RecruitComment?: RecruitCommentListRelationFilter
+  }
+
+  export type RecruitOrderByWithRelationInput = {
+    id?: SortOrder
+    userno?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    screening_date?: SortOrderInput | SortOrder
+    location?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    theater_name?: SortOrderInput | SortOrder
+    User?: UserOrderByWithRelationInput
+    RecruitComment?: RecruitCommentOrderByRelationAggregateInput
+  }
+
+  export type RecruitWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: RecruitWhereInput | RecruitWhereInput[]
+    OR?: RecruitWhereInput[]
+    NOT?: RecruitWhereInput | RecruitWhereInput[]
+    userno?: IntFilter<"Recruit"> | number
+    title?: StringFilter<"Recruit"> | string
+    content?: StringFilter<"Recruit"> | string
+    screening_date?: DateTimeNullableFilter<"Recruit"> | Date | string | null
+    location?: StringNullableFilter<"Recruit"> | string | null
+    status?: EnumRecruit_statusFilter<"Recruit"> | $Enums.Recruit_status
+    createdAt?: DateTimeFilter<"Recruit"> | Date | string
+    updatedAt?: DateTimeFilter<"Recruit"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Recruit"> | Date | string | null
+    theater_name?: StringNullableFilter<"Recruit"> | string | null
+    User?: XOR<UserRelationFilter, UserWhereInput>
+    RecruitComment?: RecruitCommentListRelationFilter
+  }, "id">
+
+  export type RecruitOrderByWithAggregationInput = {
+    id?: SortOrder
+    userno?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    screening_date?: SortOrderInput | SortOrder
+    location?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    theater_name?: SortOrderInput | SortOrder
+    _count?: RecruitCountOrderByAggregateInput
+    _avg?: RecruitAvgOrderByAggregateInput
+    _max?: RecruitMaxOrderByAggregateInput
+    _min?: RecruitMinOrderByAggregateInput
+    _sum?: RecruitSumOrderByAggregateInput
+  }
+
+  export type RecruitScalarWhereWithAggregatesInput = {
+    AND?: RecruitScalarWhereWithAggregatesInput | RecruitScalarWhereWithAggregatesInput[]
+    OR?: RecruitScalarWhereWithAggregatesInput[]
+    NOT?: RecruitScalarWhereWithAggregatesInput | RecruitScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Recruit"> | number
+    userno?: IntWithAggregatesFilter<"Recruit"> | number
+    title?: StringWithAggregatesFilter<"Recruit"> | string
+    content?: StringWithAggregatesFilter<"Recruit"> | string
+    screening_date?: DateTimeNullableWithAggregatesFilter<"Recruit"> | Date | string | null
+    location?: StringNullableWithAggregatesFilter<"Recruit"> | string | null
+    status?: EnumRecruit_statusWithAggregatesFilter<"Recruit"> | $Enums.Recruit_status
+    createdAt?: DateTimeWithAggregatesFilter<"Recruit"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Recruit"> | Date | string
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"Recruit"> | Date | string | null
+    theater_name?: StringNullableWithAggregatesFilter<"Recruit"> | string | null
+  }
+
+  export type RecruitCommentWhereInput = {
+    AND?: RecruitCommentWhereInput | RecruitCommentWhereInput[]
+    OR?: RecruitCommentWhereInput[]
+    NOT?: RecruitCommentWhereInput | RecruitCommentWhereInput[]
+    id?: IntFilter<"RecruitComment"> | number
+    recruit_id?: IntFilter<"RecruitComment"> | number
+    userno?: IntFilter<"RecruitComment"> | number
+    content?: StringFilter<"RecruitComment"> | string
+    createdAt?: DateTimeFilter<"RecruitComment"> | Date | string
+    updatedAt?: DateTimeFilter<"RecruitComment"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"RecruitComment"> | Date | string | null
+    Recruit?: XOR<RecruitRelationFilter, RecruitWhereInput>
+    User?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type RecruitCommentOrderByWithRelationInput = {
+    id?: SortOrder
+    recruit_id?: SortOrder
+    userno?: SortOrder
+    content?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    Recruit?: RecruitOrderByWithRelationInput
+    User?: UserOrderByWithRelationInput
+  }
+
+  export type RecruitCommentWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: RecruitCommentWhereInput | RecruitCommentWhereInput[]
+    OR?: RecruitCommentWhereInput[]
+    NOT?: RecruitCommentWhereInput | RecruitCommentWhereInput[]
+    recruit_id?: IntFilter<"RecruitComment"> | number
+    userno?: IntFilter<"RecruitComment"> | number
+    content?: StringFilter<"RecruitComment"> | string
+    createdAt?: DateTimeFilter<"RecruitComment"> | Date | string
+    updatedAt?: DateTimeFilter<"RecruitComment"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"RecruitComment"> | Date | string | null
+    Recruit?: XOR<RecruitRelationFilter, RecruitWhereInput>
+    User?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type RecruitCommentOrderByWithAggregationInput = {
+    id?: SortOrder
+    recruit_id?: SortOrder
+    userno?: SortOrder
+    content?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    _count?: RecruitCommentCountOrderByAggregateInput
+    _avg?: RecruitCommentAvgOrderByAggregateInput
+    _max?: RecruitCommentMaxOrderByAggregateInput
+    _min?: RecruitCommentMinOrderByAggregateInput
+    _sum?: RecruitCommentSumOrderByAggregateInput
+  }
+
+  export type RecruitCommentScalarWhereWithAggregatesInput = {
+    AND?: RecruitCommentScalarWhereWithAggregatesInput | RecruitCommentScalarWhereWithAggregatesInput[]
+    OR?: RecruitCommentScalarWhereWithAggregatesInput[]
+    NOT?: RecruitCommentScalarWhereWithAggregatesInput | RecruitCommentScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"RecruitComment"> | number
+    recruit_id?: IntWithAggregatesFilter<"RecruitComment"> | number
+    userno?: IntWithAggregatesFilter<"RecruitComment"> | number
+    content?: StringWithAggregatesFilter<"RecruitComment"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"RecruitComment"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"RecruitComment"> | Date | string
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"RecruitComment"> | Date | string | null
+  }
+
   export type CommentCreateInput = {
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -13179,6 +15707,8 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     Comment?: CommentCreateNestedManyWithoutUserInput
+    Recruit?: RecruitCreateNestedManyWithoutUserInput
+    RecruitComment?: RecruitCommentCreateNestedManyWithoutUserInput
     channelchats?: channelchatsCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersCreateNestedManyWithoutUserInput
     movieScores?: movieScoreCreateNestedManyWithoutUserInput
@@ -13197,6 +15727,8 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
+    Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
+    RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutUserInput
     channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
     movieScores?: movieScoreUncheckedCreateNestedManyWithoutUserInput
@@ -13214,6 +15746,8 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
+    Recruit?: RecruitUpdateManyWithoutUserNestedInput
+    RecruitComment?: RecruitCommentUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUpdateManyWithoutUserNestedInput
@@ -13232,6 +15766,8 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
+    RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUncheckedUpdateManyWithoutUserNestedInput
@@ -13692,6 +16228,169 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type RecruitCreateInput = {
+    title: string
+    content: string
+    screening_date?: Date | string | null
+    location?: string | null
+    status?: $Enums.Recruit_status
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    theater_name?: string | null
+    User: UserCreateNestedOneWithoutRecruitInput
+    RecruitComment?: RecruitCommentCreateNestedManyWithoutRecruitInput
+  }
+
+  export type RecruitUncheckedCreateInput = {
+    id?: number
+    userno: number
+    title: string
+    content: string
+    screening_date?: Date | string | null
+    location?: string | null
+    status?: $Enums.Recruit_status
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    theater_name?: string | null
+    RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutRecruitInput
+  }
+
+  export type RecruitUpdateInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    screening_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumRecruit_statusFieldUpdateOperationsInput | $Enums.Recruit_status
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    theater_name?: NullableStringFieldUpdateOperationsInput | string | null
+    User?: UserUpdateOneRequiredWithoutRecruitNestedInput
+    RecruitComment?: RecruitCommentUpdateManyWithoutRecruitNestedInput
+  }
+
+  export type RecruitUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userno?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    screening_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumRecruit_statusFieldUpdateOperationsInput | $Enums.Recruit_status
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    theater_name?: NullableStringFieldUpdateOperationsInput | string | null
+    RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutRecruitNestedInput
+  }
+
+  export type RecruitCreateManyInput = {
+    id?: number
+    userno: number
+    title: string
+    content: string
+    screening_date?: Date | string | null
+    location?: string | null
+    status?: $Enums.Recruit_status
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    theater_name?: string | null
+  }
+
+  export type RecruitUpdateManyMutationInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    screening_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumRecruit_statusFieldUpdateOperationsInput | $Enums.Recruit_status
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    theater_name?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type RecruitUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userno?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    screening_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumRecruit_statusFieldUpdateOperationsInput | $Enums.Recruit_status
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    theater_name?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type RecruitCommentCreateInput = {
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    Recruit: RecruitCreateNestedOneWithoutRecruitCommentInput
+    User: UserCreateNestedOneWithoutRecruitCommentInput
+  }
+
+  export type RecruitCommentUncheckedCreateInput = {
+    id?: number
+    recruit_id: number
+    userno: number
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type RecruitCommentUpdateInput = {
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    Recruit?: RecruitUpdateOneRequiredWithoutRecruitCommentNestedInput
+    User?: UserUpdateOneRequiredWithoutRecruitCommentNestedInput
+  }
+
+  export type RecruitCommentUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    recruit_id?: IntFieldUpdateOperationsInput | number
+    userno?: IntFieldUpdateOperationsInput | number
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type RecruitCommentCreateManyInput = {
+    id?: number
+    recruit_id: number
+    userno: number
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type RecruitCommentUpdateManyMutationInput = {
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type RecruitCommentUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    recruit_id?: IntFieldUpdateOperationsInput | number
+    userno?: IntFieldUpdateOperationsInput | number
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[]
@@ -14044,6 +16743,18 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type RecruitListRelationFilter = {
+    every?: RecruitWhereInput
+    some?: RecruitWhereInput
+    none?: RecruitWhereInput
+  }
+
+  export type RecruitCommentListRelationFilter = {
+    every?: RecruitCommentWhereInput
+    some?: RecruitCommentWhereInput
+    none?: RecruitCommentWhereInput
+  }
+
   export type ChannelchatsListRelationFilter = {
     every?: channelchatsWhereInput
     some?: channelchatsWhereInput
@@ -14066,6 +16777,14 @@ export namespace Prisma {
     every?: workspacemembersWhereInput
     some?: workspacemembersWhereInput
     none?: workspacemembersWhereInput
+  }
+
+  export type RecruitOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RecruitCommentOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type channelchatsOrderByRelationAggregateInput = {
@@ -14514,6 +17233,122 @@ export namespace Prisma {
     movieCd?: SortOrder
   }
 
+  export type EnumRecruit_statusFilter<$PrismaModel = never> = {
+    equals?: $Enums.Recruit_status | EnumRecruit_statusFieldRefInput<$PrismaModel>
+    in?: $Enums.Recruit_status[]
+    notIn?: $Enums.Recruit_status[]
+    not?: NestedEnumRecruit_statusFilter<$PrismaModel> | $Enums.Recruit_status
+  }
+
+  export type RecruitCountOrderByAggregateInput = {
+    id?: SortOrder
+    userno?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    screening_date?: SortOrder
+    location?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+    theater_name?: SortOrder
+  }
+
+  export type RecruitAvgOrderByAggregateInput = {
+    id?: SortOrder
+    userno?: SortOrder
+  }
+
+  export type RecruitMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userno?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    screening_date?: SortOrder
+    location?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+    theater_name?: SortOrder
+  }
+
+  export type RecruitMinOrderByAggregateInput = {
+    id?: SortOrder
+    userno?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    screening_date?: SortOrder
+    location?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+    theater_name?: SortOrder
+  }
+
+  export type RecruitSumOrderByAggregateInput = {
+    id?: SortOrder
+    userno?: SortOrder
+  }
+
+  export type EnumRecruit_statusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Recruit_status | EnumRecruit_statusFieldRefInput<$PrismaModel>
+    in?: $Enums.Recruit_status[]
+    notIn?: $Enums.Recruit_status[]
+    not?: NestedEnumRecruit_statusWithAggregatesFilter<$PrismaModel> | $Enums.Recruit_status
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRecruit_statusFilter<$PrismaModel>
+    _max?: NestedEnumRecruit_statusFilter<$PrismaModel>
+  }
+
+  export type RecruitRelationFilter = {
+    is?: RecruitWhereInput
+    isNot?: RecruitWhereInput
+  }
+
+  export type RecruitCommentCountOrderByAggregateInput = {
+    id?: SortOrder
+    recruit_id?: SortOrder
+    userno?: SortOrder
+    content?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type RecruitCommentAvgOrderByAggregateInput = {
+    id?: SortOrder
+    recruit_id?: SortOrder
+    userno?: SortOrder
+  }
+
+  export type RecruitCommentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    recruit_id?: SortOrder
+    userno?: SortOrder
+    content?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type RecruitCommentMinOrderByAggregateInput = {
+    id?: SortOrder
+    recruit_id?: SortOrder
+    userno?: SortOrder
+    content?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type RecruitCommentSumOrderByAggregateInput = {
+    id?: SortOrder
+    recruit_id?: SortOrder
+    userno?: SortOrder
+  }
+
   export type MovieCreateNestedOneWithoutCommentInput = {
     create?: XOR<MovieCreateWithoutCommentInput, MovieUncheckedCreateWithoutCommentInput>
     connectOrCreate?: MovieCreateOrConnectWithoutCommentInput
@@ -14703,6 +17538,20 @@ export namespace Prisma {
     connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
   }
 
+  export type RecruitCreateNestedManyWithoutUserInput = {
+    create?: XOR<RecruitCreateWithoutUserInput, RecruitUncheckedCreateWithoutUserInput> | RecruitCreateWithoutUserInput[] | RecruitUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RecruitCreateOrConnectWithoutUserInput | RecruitCreateOrConnectWithoutUserInput[]
+    createMany?: RecruitCreateManyUserInputEnvelope
+    connect?: RecruitWhereUniqueInput | RecruitWhereUniqueInput[]
+  }
+
+  export type RecruitCommentCreateNestedManyWithoutUserInput = {
+    create?: XOR<RecruitCommentCreateWithoutUserInput, RecruitCommentUncheckedCreateWithoutUserInput> | RecruitCommentCreateWithoutUserInput[] | RecruitCommentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RecruitCommentCreateOrConnectWithoutUserInput | RecruitCommentCreateOrConnectWithoutUserInput[]
+    createMany?: RecruitCommentCreateManyUserInputEnvelope
+    connect?: RecruitCommentWhereUniqueInput | RecruitCommentWhereUniqueInput[]
+  }
+
   export type channelchatsCreateNestedManyWithoutUserInput = {
     create?: XOR<channelchatsCreateWithoutUserInput, channelchatsUncheckedCreateWithoutUserInput> | channelchatsCreateWithoutUserInput[] | channelchatsUncheckedCreateWithoutUserInput[]
     connectOrCreate?: channelchatsCreateOrConnectWithoutUserInput | channelchatsCreateOrConnectWithoutUserInput[]
@@ -14743,6 +17592,20 @@ export namespace Prisma {
     connectOrCreate?: CommentCreateOrConnectWithoutUserInput | CommentCreateOrConnectWithoutUserInput[]
     createMany?: CommentCreateManyUserInputEnvelope
     connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+  }
+
+  export type RecruitUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<RecruitCreateWithoutUserInput, RecruitUncheckedCreateWithoutUserInput> | RecruitCreateWithoutUserInput[] | RecruitUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RecruitCreateOrConnectWithoutUserInput | RecruitCreateOrConnectWithoutUserInput[]
+    createMany?: RecruitCreateManyUserInputEnvelope
+    connect?: RecruitWhereUniqueInput | RecruitWhereUniqueInput[]
+  }
+
+  export type RecruitCommentUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<RecruitCommentCreateWithoutUserInput, RecruitCommentUncheckedCreateWithoutUserInput> | RecruitCommentCreateWithoutUserInput[] | RecruitCommentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RecruitCommentCreateOrConnectWithoutUserInput | RecruitCommentCreateOrConnectWithoutUserInput[]
+    createMany?: RecruitCommentCreateManyUserInputEnvelope
+    connect?: RecruitCommentWhereUniqueInput | RecruitCommentWhereUniqueInput[]
   }
 
   export type channelchatsUncheckedCreateNestedManyWithoutUserInput = {
@@ -14796,6 +17659,34 @@ export namespace Prisma {
     update?: CommentUpdateWithWhereUniqueWithoutUserInput | CommentUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: CommentUpdateManyWithWhereWithoutUserInput | CommentUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
+  }
+
+  export type RecruitUpdateManyWithoutUserNestedInput = {
+    create?: XOR<RecruitCreateWithoutUserInput, RecruitUncheckedCreateWithoutUserInput> | RecruitCreateWithoutUserInput[] | RecruitUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RecruitCreateOrConnectWithoutUserInput | RecruitCreateOrConnectWithoutUserInput[]
+    upsert?: RecruitUpsertWithWhereUniqueWithoutUserInput | RecruitUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: RecruitCreateManyUserInputEnvelope
+    set?: RecruitWhereUniqueInput | RecruitWhereUniqueInput[]
+    disconnect?: RecruitWhereUniqueInput | RecruitWhereUniqueInput[]
+    delete?: RecruitWhereUniqueInput | RecruitWhereUniqueInput[]
+    connect?: RecruitWhereUniqueInput | RecruitWhereUniqueInput[]
+    update?: RecruitUpdateWithWhereUniqueWithoutUserInput | RecruitUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: RecruitUpdateManyWithWhereWithoutUserInput | RecruitUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: RecruitScalarWhereInput | RecruitScalarWhereInput[]
+  }
+
+  export type RecruitCommentUpdateManyWithoutUserNestedInput = {
+    create?: XOR<RecruitCommentCreateWithoutUserInput, RecruitCommentUncheckedCreateWithoutUserInput> | RecruitCommentCreateWithoutUserInput[] | RecruitCommentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RecruitCommentCreateOrConnectWithoutUserInput | RecruitCommentCreateOrConnectWithoutUserInput[]
+    upsert?: RecruitCommentUpsertWithWhereUniqueWithoutUserInput | RecruitCommentUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: RecruitCommentCreateManyUserInputEnvelope
+    set?: RecruitCommentWhereUniqueInput | RecruitCommentWhereUniqueInput[]
+    disconnect?: RecruitCommentWhereUniqueInput | RecruitCommentWhereUniqueInput[]
+    delete?: RecruitCommentWhereUniqueInput | RecruitCommentWhereUniqueInput[]
+    connect?: RecruitCommentWhereUniqueInput | RecruitCommentWhereUniqueInput[]
+    update?: RecruitCommentUpdateWithWhereUniqueWithoutUserInput | RecruitCommentUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: RecruitCommentUpdateManyWithWhereWithoutUserInput | RecruitCommentUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: RecruitCommentScalarWhereInput | RecruitCommentScalarWhereInput[]
   }
 
   export type channelchatsUpdateManyWithoutUserNestedInput = {
@@ -14880,6 +17771,34 @@ export namespace Prisma {
     update?: CommentUpdateWithWhereUniqueWithoutUserInput | CommentUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: CommentUpdateManyWithWhereWithoutUserInput | CommentUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
+  }
+
+  export type RecruitUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<RecruitCreateWithoutUserInput, RecruitUncheckedCreateWithoutUserInput> | RecruitCreateWithoutUserInput[] | RecruitUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RecruitCreateOrConnectWithoutUserInput | RecruitCreateOrConnectWithoutUserInput[]
+    upsert?: RecruitUpsertWithWhereUniqueWithoutUserInput | RecruitUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: RecruitCreateManyUserInputEnvelope
+    set?: RecruitWhereUniqueInput | RecruitWhereUniqueInput[]
+    disconnect?: RecruitWhereUniqueInput | RecruitWhereUniqueInput[]
+    delete?: RecruitWhereUniqueInput | RecruitWhereUniqueInput[]
+    connect?: RecruitWhereUniqueInput | RecruitWhereUniqueInput[]
+    update?: RecruitUpdateWithWhereUniqueWithoutUserInput | RecruitUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: RecruitUpdateManyWithWhereWithoutUserInput | RecruitUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: RecruitScalarWhereInput | RecruitScalarWhereInput[]
+  }
+
+  export type RecruitCommentUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<RecruitCommentCreateWithoutUserInput, RecruitCommentUncheckedCreateWithoutUserInput> | RecruitCommentCreateWithoutUserInput[] | RecruitCommentUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: RecruitCommentCreateOrConnectWithoutUserInput | RecruitCommentCreateOrConnectWithoutUserInput[]
+    upsert?: RecruitCommentUpsertWithWhereUniqueWithoutUserInput | RecruitCommentUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: RecruitCommentCreateManyUserInputEnvelope
+    set?: RecruitCommentWhereUniqueInput | RecruitCommentWhereUniqueInput[]
+    disconnect?: RecruitCommentWhereUniqueInput | RecruitCommentWhereUniqueInput[]
+    delete?: RecruitCommentWhereUniqueInput | RecruitCommentWhereUniqueInput[]
+    connect?: RecruitCommentWhereUniqueInput | RecruitCommentWhereUniqueInput[]
+    update?: RecruitCommentUpdateWithWhereUniqueWithoutUserInput | RecruitCommentUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: RecruitCommentUpdateManyWithWhereWithoutUserInput | RecruitCommentUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: RecruitCommentScalarWhereInput | RecruitCommentScalarWhereInput[]
   }
 
   export type channelchatsUncheckedUpdateManyWithoutUserNestedInput = {
@@ -15190,6 +18109,94 @@ export namespace Prisma {
     update?: XOR<XOR<MovieUpdateToOneWithWhereWithoutMovieVodInput, MovieUpdateWithoutMovieVodInput>, MovieUncheckedUpdateWithoutMovieVodInput>
   }
 
+  export type UserCreateNestedOneWithoutRecruitInput = {
+    create?: XOR<UserCreateWithoutRecruitInput, UserUncheckedCreateWithoutRecruitInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRecruitInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type RecruitCommentCreateNestedManyWithoutRecruitInput = {
+    create?: XOR<RecruitCommentCreateWithoutRecruitInput, RecruitCommentUncheckedCreateWithoutRecruitInput> | RecruitCommentCreateWithoutRecruitInput[] | RecruitCommentUncheckedCreateWithoutRecruitInput[]
+    connectOrCreate?: RecruitCommentCreateOrConnectWithoutRecruitInput | RecruitCommentCreateOrConnectWithoutRecruitInput[]
+    createMany?: RecruitCommentCreateManyRecruitInputEnvelope
+    connect?: RecruitCommentWhereUniqueInput | RecruitCommentWhereUniqueInput[]
+  }
+
+  export type RecruitCommentUncheckedCreateNestedManyWithoutRecruitInput = {
+    create?: XOR<RecruitCommentCreateWithoutRecruitInput, RecruitCommentUncheckedCreateWithoutRecruitInput> | RecruitCommentCreateWithoutRecruitInput[] | RecruitCommentUncheckedCreateWithoutRecruitInput[]
+    connectOrCreate?: RecruitCommentCreateOrConnectWithoutRecruitInput | RecruitCommentCreateOrConnectWithoutRecruitInput[]
+    createMany?: RecruitCommentCreateManyRecruitInputEnvelope
+    connect?: RecruitCommentWhereUniqueInput | RecruitCommentWhereUniqueInput[]
+  }
+
+  export type EnumRecruit_statusFieldUpdateOperationsInput = {
+    set?: $Enums.Recruit_status
+  }
+
+  export type UserUpdateOneRequiredWithoutRecruitNestedInput = {
+    create?: XOR<UserCreateWithoutRecruitInput, UserUncheckedCreateWithoutRecruitInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRecruitInput
+    upsert?: UserUpsertWithoutRecruitInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRecruitInput, UserUpdateWithoutRecruitInput>, UserUncheckedUpdateWithoutRecruitInput>
+  }
+
+  export type RecruitCommentUpdateManyWithoutRecruitNestedInput = {
+    create?: XOR<RecruitCommentCreateWithoutRecruitInput, RecruitCommentUncheckedCreateWithoutRecruitInput> | RecruitCommentCreateWithoutRecruitInput[] | RecruitCommentUncheckedCreateWithoutRecruitInput[]
+    connectOrCreate?: RecruitCommentCreateOrConnectWithoutRecruitInput | RecruitCommentCreateOrConnectWithoutRecruitInput[]
+    upsert?: RecruitCommentUpsertWithWhereUniqueWithoutRecruitInput | RecruitCommentUpsertWithWhereUniqueWithoutRecruitInput[]
+    createMany?: RecruitCommentCreateManyRecruitInputEnvelope
+    set?: RecruitCommentWhereUniqueInput | RecruitCommentWhereUniqueInput[]
+    disconnect?: RecruitCommentWhereUniqueInput | RecruitCommentWhereUniqueInput[]
+    delete?: RecruitCommentWhereUniqueInput | RecruitCommentWhereUniqueInput[]
+    connect?: RecruitCommentWhereUniqueInput | RecruitCommentWhereUniqueInput[]
+    update?: RecruitCommentUpdateWithWhereUniqueWithoutRecruitInput | RecruitCommentUpdateWithWhereUniqueWithoutRecruitInput[]
+    updateMany?: RecruitCommentUpdateManyWithWhereWithoutRecruitInput | RecruitCommentUpdateManyWithWhereWithoutRecruitInput[]
+    deleteMany?: RecruitCommentScalarWhereInput | RecruitCommentScalarWhereInput[]
+  }
+
+  export type RecruitCommentUncheckedUpdateManyWithoutRecruitNestedInput = {
+    create?: XOR<RecruitCommentCreateWithoutRecruitInput, RecruitCommentUncheckedCreateWithoutRecruitInput> | RecruitCommentCreateWithoutRecruitInput[] | RecruitCommentUncheckedCreateWithoutRecruitInput[]
+    connectOrCreate?: RecruitCommentCreateOrConnectWithoutRecruitInput | RecruitCommentCreateOrConnectWithoutRecruitInput[]
+    upsert?: RecruitCommentUpsertWithWhereUniqueWithoutRecruitInput | RecruitCommentUpsertWithWhereUniqueWithoutRecruitInput[]
+    createMany?: RecruitCommentCreateManyRecruitInputEnvelope
+    set?: RecruitCommentWhereUniqueInput | RecruitCommentWhereUniqueInput[]
+    disconnect?: RecruitCommentWhereUniqueInput | RecruitCommentWhereUniqueInput[]
+    delete?: RecruitCommentWhereUniqueInput | RecruitCommentWhereUniqueInput[]
+    connect?: RecruitCommentWhereUniqueInput | RecruitCommentWhereUniqueInput[]
+    update?: RecruitCommentUpdateWithWhereUniqueWithoutRecruitInput | RecruitCommentUpdateWithWhereUniqueWithoutRecruitInput[]
+    updateMany?: RecruitCommentUpdateManyWithWhereWithoutRecruitInput | RecruitCommentUpdateManyWithWhereWithoutRecruitInput[]
+    deleteMany?: RecruitCommentScalarWhereInput | RecruitCommentScalarWhereInput[]
+  }
+
+  export type RecruitCreateNestedOneWithoutRecruitCommentInput = {
+    create?: XOR<RecruitCreateWithoutRecruitCommentInput, RecruitUncheckedCreateWithoutRecruitCommentInput>
+    connectOrCreate?: RecruitCreateOrConnectWithoutRecruitCommentInput
+    connect?: RecruitWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutRecruitCommentInput = {
+    create?: XOR<UserCreateWithoutRecruitCommentInput, UserUncheckedCreateWithoutRecruitCommentInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRecruitCommentInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type RecruitUpdateOneRequiredWithoutRecruitCommentNestedInput = {
+    create?: XOR<RecruitCreateWithoutRecruitCommentInput, RecruitUncheckedCreateWithoutRecruitCommentInput>
+    connectOrCreate?: RecruitCreateOrConnectWithoutRecruitCommentInput
+    upsert?: RecruitUpsertWithoutRecruitCommentInput
+    connect?: RecruitWhereUniqueInput
+    update?: XOR<XOR<RecruitUpdateToOneWithWhereWithoutRecruitCommentInput, RecruitUpdateWithoutRecruitCommentInput>, RecruitUncheckedUpdateWithoutRecruitCommentInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutRecruitCommentNestedInput = {
+    create?: XOR<UserCreateWithoutRecruitCommentInput, UserUncheckedCreateWithoutRecruitCommentInput>
+    connectOrCreate?: UserCreateOrConnectWithoutRecruitCommentInput
+    upsert?: UserUpsertWithoutRecruitCommentInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRecruitCommentInput, UserUpdateWithoutRecruitCommentInput>, UserUncheckedUpdateWithoutRecruitCommentInput>
+  }
+
   export type NestedIntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[]
@@ -15456,6 +18463,23 @@ export namespace Prisma {
     _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
+  export type NestedEnumRecruit_statusFilter<$PrismaModel = never> = {
+    equals?: $Enums.Recruit_status | EnumRecruit_statusFieldRefInput<$PrismaModel>
+    in?: $Enums.Recruit_status[]
+    notIn?: $Enums.Recruit_status[]
+    not?: NestedEnumRecruit_statusFilter<$PrismaModel> | $Enums.Recruit_status
+  }
+
+  export type NestedEnumRecruit_statusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Recruit_status | EnumRecruit_statusFieldRefInput<$PrismaModel>
+    in?: $Enums.Recruit_status[]
+    notIn?: $Enums.Recruit_status[]
+    not?: NestedEnumRecruit_statusWithAggregatesFilter<$PrismaModel> | $Enums.Recruit_status
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRecruit_statusFilter<$PrismaModel>
+    _max?: NestedEnumRecruit_statusFilter<$PrismaModel>
+  }
+
   export type MovieCreateWithoutCommentInput = {
     audience?: bigint | number | null
     movieCd: number
@@ -15511,6 +18535,8 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     provider?: string
     image?: string | null
+    Recruit?: RecruitCreateNestedManyWithoutUserInput
+    RecruitComment?: RecruitCommentCreateNestedManyWithoutUserInput
     channelchats?: channelchatsCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersCreateNestedManyWithoutUserInput
     movieScores?: movieScoreCreateNestedManyWithoutUserInput
@@ -15528,6 +18554,8 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     provider?: string
     image?: string | null
+    Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
+    RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutUserInput
     channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
     movieScores?: movieScoreUncheckedCreateNestedManyWithoutUserInput
@@ -15612,6 +18640,8 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    Recruit?: RecruitUpdateManyWithoutUserNestedInput
+    RecruitComment?: RecruitCommentUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUpdateManyWithoutUserNestedInput
@@ -15629,6 +18659,8 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
+    RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUncheckedUpdateManyWithoutUserNestedInput
@@ -15828,6 +18860,70 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type RecruitCreateWithoutUserInput = {
+    title: string
+    content: string
+    screening_date?: Date | string | null
+    location?: string | null
+    status?: $Enums.Recruit_status
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    theater_name?: string | null
+    RecruitComment?: RecruitCommentCreateNestedManyWithoutRecruitInput
+  }
+
+  export type RecruitUncheckedCreateWithoutUserInput = {
+    id?: number
+    title: string
+    content: string
+    screening_date?: Date | string | null
+    location?: string | null
+    status?: $Enums.Recruit_status
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    theater_name?: string | null
+    RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutRecruitInput
+  }
+
+  export type RecruitCreateOrConnectWithoutUserInput = {
+    where: RecruitWhereUniqueInput
+    create: XOR<RecruitCreateWithoutUserInput, RecruitUncheckedCreateWithoutUserInput>
+  }
+
+  export type RecruitCreateManyUserInputEnvelope = {
+    data: RecruitCreateManyUserInput | RecruitCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RecruitCommentCreateWithoutUserInput = {
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    Recruit: RecruitCreateNestedOneWithoutRecruitCommentInput
+  }
+
+  export type RecruitCommentUncheckedCreateWithoutUserInput = {
+    id?: number
+    recruit_id: number
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type RecruitCommentCreateOrConnectWithoutUserInput = {
+    where: RecruitCommentWhereUniqueInput
+    create: XOR<RecruitCommentCreateWithoutUserInput, RecruitCommentUncheckedCreateWithoutUserInput>
+  }
+
+  export type RecruitCommentCreateManyUserInputEnvelope = {
+    data: RecruitCommentCreateManyUserInput | RecruitCommentCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type channelchatsCreateWithoutUserInput = {
     content: string
     createdAt?: Date | string
@@ -15969,6 +19065,68 @@ export namespace Prisma {
   export type CommentUpdateManyWithWhereWithoutUserInput = {
     where: CommentScalarWhereInput
     data: XOR<CommentUpdateManyMutationInput, CommentUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type RecruitUpsertWithWhereUniqueWithoutUserInput = {
+    where: RecruitWhereUniqueInput
+    update: XOR<RecruitUpdateWithoutUserInput, RecruitUncheckedUpdateWithoutUserInput>
+    create: XOR<RecruitCreateWithoutUserInput, RecruitUncheckedCreateWithoutUserInput>
+  }
+
+  export type RecruitUpdateWithWhereUniqueWithoutUserInput = {
+    where: RecruitWhereUniqueInput
+    data: XOR<RecruitUpdateWithoutUserInput, RecruitUncheckedUpdateWithoutUserInput>
+  }
+
+  export type RecruitUpdateManyWithWhereWithoutUserInput = {
+    where: RecruitScalarWhereInput
+    data: XOR<RecruitUpdateManyMutationInput, RecruitUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type RecruitScalarWhereInput = {
+    AND?: RecruitScalarWhereInput | RecruitScalarWhereInput[]
+    OR?: RecruitScalarWhereInput[]
+    NOT?: RecruitScalarWhereInput | RecruitScalarWhereInput[]
+    id?: IntFilter<"Recruit"> | number
+    userno?: IntFilter<"Recruit"> | number
+    title?: StringFilter<"Recruit"> | string
+    content?: StringFilter<"Recruit"> | string
+    screening_date?: DateTimeNullableFilter<"Recruit"> | Date | string | null
+    location?: StringNullableFilter<"Recruit"> | string | null
+    status?: EnumRecruit_statusFilter<"Recruit"> | $Enums.Recruit_status
+    createdAt?: DateTimeFilter<"Recruit"> | Date | string
+    updatedAt?: DateTimeFilter<"Recruit"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"Recruit"> | Date | string | null
+    theater_name?: StringNullableFilter<"Recruit"> | string | null
+  }
+
+  export type RecruitCommentUpsertWithWhereUniqueWithoutUserInput = {
+    where: RecruitCommentWhereUniqueInput
+    update: XOR<RecruitCommentUpdateWithoutUserInput, RecruitCommentUncheckedUpdateWithoutUserInput>
+    create: XOR<RecruitCommentCreateWithoutUserInput, RecruitCommentUncheckedCreateWithoutUserInput>
+  }
+
+  export type RecruitCommentUpdateWithWhereUniqueWithoutUserInput = {
+    where: RecruitCommentWhereUniqueInput
+    data: XOR<RecruitCommentUpdateWithoutUserInput, RecruitCommentUncheckedUpdateWithoutUserInput>
+  }
+
+  export type RecruitCommentUpdateManyWithWhereWithoutUserInput = {
+    where: RecruitCommentScalarWhereInput
+    data: XOR<RecruitCommentUpdateManyMutationInput, RecruitCommentUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type RecruitCommentScalarWhereInput = {
+    AND?: RecruitCommentScalarWhereInput | RecruitCommentScalarWhereInput[]
+    OR?: RecruitCommentScalarWhereInput[]
+    NOT?: RecruitCommentScalarWhereInput | RecruitCommentScalarWhereInput[]
+    id?: IntFilter<"RecruitComment"> | number
+    recruit_id?: IntFilter<"RecruitComment"> | number
+    userno?: IntFilter<"RecruitComment"> | number
+    content?: StringFilter<"RecruitComment"> | string
+    createdAt?: DateTimeFilter<"RecruitComment"> | Date | string
+    updatedAt?: DateTimeFilter<"RecruitComment"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"RecruitComment"> | Date | string | null
   }
 
   export type channelchatsUpsertWithWhereUniqueWithoutUserInput = {
@@ -16129,6 +19287,8 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     Comment?: CommentCreateNestedManyWithoutUserInput
+    Recruit?: RecruitCreateNestedManyWithoutUserInput
+    RecruitComment?: RecruitCommentCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersCreateNestedManyWithoutUserInput
     movieScores?: movieScoreCreateNestedManyWithoutUserInput
     workspace?: workspaceCreateNestedManyWithoutUserInput
@@ -16146,6 +19306,8 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
+    Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
+    RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
     movieScores?: movieScoreUncheckedCreateNestedManyWithoutUserInput
     workspace?: workspaceUncheckedCreateNestedManyWithoutUserInput
@@ -16206,6 +19368,8 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
+    Recruit?: RecruitUpdateManyWithoutUserNestedInput
+    RecruitComment?: RecruitCommentUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUpdateManyWithoutUserNestedInput
     workspace?: workspaceUpdateManyWithoutUserNestedInput
@@ -16223,6 +19387,8 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
+    RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUncheckedUpdateManyWithoutUserNestedInput
     workspace?: workspaceUncheckedUpdateManyWithoutUserNestedInput
@@ -16239,6 +19405,8 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     Comment?: CommentCreateNestedManyWithoutUserInput
+    Recruit?: RecruitCreateNestedManyWithoutUserInput
+    RecruitComment?: RecruitCommentCreateNestedManyWithoutUserInput
     channelchats?: channelchatsCreateNestedManyWithoutUserInput
     movieScores?: movieScoreCreateNestedManyWithoutUserInput
     workspace?: workspaceCreateNestedManyWithoutUserInput
@@ -16256,6 +19424,8 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
+    Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
+    RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutUserInput
     channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
     movieScores?: movieScoreUncheckedCreateNestedManyWithoutUserInput
     workspace?: workspaceUncheckedCreateNestedManyWithoutUserInput
@@ -16288,6 +19458,8 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
+    Recruit?: RecruitUpdateManyWithoutUserNestedInput
+    RecruitComment?: RecruitCommentUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUpdateManyWithoutUserNestedInput
     workspace?: workspaceUpdateManyWithoutUserNestedInput
@@ -16305,6 +19477,8 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
+    RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUncheckedUpdateManyWithoutUserNestedInput
     workspace?: workspaceUncheckedUpdateManyWithoutUserNestedInput
@@ -16443,6 +19617,8 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     Comment?: CommentCreateNestedManyWithoutUserInput
+    Recruit?: RecruitCreateNestedManyWithoutUserInput
+    RecruitComment?: RecruitCommentCreateNestedManyWithoutUserInput
     channelchats?: channelchatsCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersCreateNestedManyWithoutUserInput
     movieScores?: movieScoreCreateNestedManyWithoutUserInput
@@ -16460,6 +19636,8 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
+    Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
+    RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutUserInput
     channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
     movieScores?: movieScoreUncheckedCreateNestedManyWithoutUserInput
@@ -16520,6 +19698,8 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
+    Recruit?: RecruitUpdateManyWithoutUserNestedInput
+    RecruitComment?: RecruitCommentUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUpdateManyWithoutUserNestedInput
@@ -16537,6 +19717,8 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
+    RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUncheckedUpdateManyWithoutUserNestedInput
@@ -16553,6 +19735,8 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     Comment?: CommentCreateNestedManyWithoutUserInput
+    Recruit?: RecruitCreateNestedManyWithoutUserInput
+    RecruitComment?: RecruitCommentCreateNestedManyWithoutUserInput
     channelchats?: channelchatsCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersCreateNestedManyWithoutUserInput
     movieScores?: movieScoreCreateNestedManyWithoutUserInput
@@ -16570,6 +19754,8 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
+    Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
+    RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutUserInput
     channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
     movieScores?: movieScoreUncheckedCreateNestedManyWithoutUserInput
@@ -16602,6 +19788,8 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
+    Recruit?: RecruitUpdateManyWithoutUserNestedInput
+    RecruitComment?: RecruitCommentUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUpdateManyWithoutUserNestedInput
@@ -16619,6 +19807,8 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
+    RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUncheckedUpdateManyWithoutUserNestedInput
@@ -16635,6 +19825,8 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     Comment?: CommentCreateNestedManyWithoutUserInput
+    Recruit?: RecruitCreateNestedManyWithoutUserInput
+    RecruitComment?: RecruitCommentCreateNestedManyWithoutUserInput
     channelchats?: channelchatsCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersCreateNestedManyWithoutUserInput
     workspace?: workspaceCreateNestedManyWithoutUserInput
@@ -16652,6 +19844,8 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
+    Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
+    RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutUserInput
     channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
     workspace?: workspaceUncheckedCreateNestedManyWithoutUserInput
@@ -16730,6 +19924,8 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
+    Recruit?: RecruitUpdateManyWithoutUserNestedInput
+    RecruitComment?: RecruitCommentUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
     workspace?: workspaceUpdateManyWithoutUserNestedInput
@@ -16747,6 +19943,8 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
+    RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
     workspace?: workspaceUncheckedUpdateManyWithoutUserNestedInput
@@ -16903,6 +20101,299 @@ export namespace Prisma {
     movieScores?: movieScoreUncheckedUpdateManyWithoutMovieNestedInput
   }
 
+  export type UserCreateWithoutRecruitInput = {
+    email: string
+    nickname?: string | null
+    password?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    provider?: string
+    image?: string | null
+    Comment?: CommentCreateNestedManyWithoutUserInput
+    RecruitComment?: RecruitCommentCreateNestedManyWithoutUserInput
+    channelchats?: channelchatsCreateNestedManyWithoutUserInput
+    channelmembers?: channelmembersCreateNestedManyWithoutUserInput
+    movieScores?: movieScoreCreateNestedManyWithoutUserInput
+    workspace?: workspaceCreateNestedManyWithoutUserInput
+    workspacemembers?: workspacemembersCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutRecruitInput = {
+    id?: number
+    email: string
+    nickname?: string | null
+    password?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    provider?: string
+    image?: string | null
+    Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
+    RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutUserInput
+    channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
+    channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
+    movieScores?: movieScoreUncheckedCreateNestedManyWithoutUserInput
+    workspace?: workspaceUncheckedCreateNestedManyWithoutUserInput
+    workspacemembers?: workspacemembersUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutRecruitInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutRecruitInput, UserUncheckedCreateWithoutRecruitInput>
+  }
+
+  export type RecruitCommentCreateWithoutRecruitInput = {
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    User: UserCreateNestedOneWithoutRecruitCommentInput
+  }
+
+  export type RecruitCommentUncheckedCreateWithoutRecruitInput = {
+    id?: number
+    userno: number
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type RecruitCommentCreateOrConnectWithoutRecruitInput = {
+    where: RecruitCommentWhereUniqueInput
+    create: XOR<RecruitCommentCreateWithoutRecruitInput, RecruitCommentUncheckedCreateWithoutRecruitInput>
+  }
+
+  export type RecruitCommentCreateManyRecruitInputEnvelope = {
+    data: RecruitCommentCreateManyRecruitInput | RecruitCommentCreateManyRecruitInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutRecruitInput = {
+    update: XOR<UserUpdateWithoutRecruitInput, UserUncheckedUpdateWithoutRecruitInput>
+    create: XOR<UserCreateWithoutRecruitInput, UserUncheckedCreateWithoutRecruitInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutRecruitInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutRecruitInput, UserUncheckedUpdateWithoutRecruitInput>
+  }
+
+  export type UserUpdateWithoutRecruitInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    Comment?: CommentUpdateManyWithoutUserNestedInput
+    RecruitComment?: RecruitCommentUpdateManyWithoutUserNestedInput
+    channelchats?: channelchatsUpdateManyWithoutUserNestedInput
+    channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
+    movieScores?: movieScoreUpdateManyWithoutUserNestedInput
+    workspace?: workspaceUpdateManyWithoutUserNestedInput
+    workspacemembers?: workspacemembersUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutRecruitInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutUserNestedInput
+    channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
+    channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
+    movieScores?: movieScoreUncheckedUpdateManyWithoutUserNestedInput
+    workspace?: workspaceUncheckedUpdateManyWithoutUserNestedInput
+    workspacemembers?: workspacemembersUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type RecruitCommentUpsertWithWhereUniqueWithoutRecruitInput = {
+    where: RecruitCommentWhereUniqueInput
+    update: XOR<RecruitCommentUpdateWithoutRecruitInput, RecruitCommentUncheckedUpdateWithoutRecruitInput>
+    create: XOR<RecruitCommentCreateWithoutRecruitInput, RecruitCommentUncheckedCreateWithoutRecruitInput>
+  }
+
+  export type RecruitCommentUpdateWithWhereUniqueWithoutRecruitInput = {
+    where: RecruitCommentWhereUniqueInput
+    data: XOR<RecruitCommentUpdateWithoutRecruitInput, RecruitCommentUncheckedUpdateWithoutRecruitInput>
+  }
+
+  export type RecruitCommentUpdateManyWithWhereWithoutRecruitInput = {
+    where: RecruitCommentScalarWhereInput
+    data: XOR<RecruitCommentUpdateManyMutationInput, RecruitCommentUncheckedUpdateManyWithoutRecruitInput>
+  }
+
+  export type RecruitCreateWithoutRecruitCommentInput = {
+    title: string
+    content: string
+    screening_date?: Date | string | null
+    location?: string | null
+    status?: $Enums.Recruit_status
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    theater_name?: string | null
+    User: UserCreateNestedOneWithoutRecruitInput
+  }
+
+  export type RecruitUncheckedCreateWithoutRecruitCommentInput = {
+    id?: number
+    userno: number
+    title: string
+    content: string
+    screening_date?: Date | string | null
+    location?: string | null
+    status?: $Enums.Recruit_status
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    theater_name?: string | null
+  }
+
+  export type RecruitCreateOrConnectWithoutRecruitCommentInput = {
+    where: RecruitWhereUniqueInput
+    create: XOR<RecruitCreateWithoutRecruitCommentInput, RecruitUncheckedCreateWithoutRecruitCommentInput>
+  }
+
+  export type UserCreateWithoutRecruitCommentInput = {
+    email: string
+    nickname?: string | null
+    password?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    provider?: string
+    image?: string | null
+    Comment?: CommentCreateNestedManyWithoutUserInput
+    Recruit?: RecruitCreateNestedManyWithoutUserInput
+    channelchats?: channelchatsCreateNestedManyWithoutUserInput
+    channelmembers?: channelmembersCreateNestedManyWithoutUserInput
+    movieScores?: movieScoreCreateNestedManyWithoutUserInput
+    workspace?: workspaceCreateNestedManyWithoutUserInput
+    workspacemembers?: workspacemembersCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutRecruitCommentInput = {
+    id?: number
+    email: string
+    nickname?: string | null
+    password?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    provider?: string
+    image?: string | null
+    Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
+    Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
+    channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
+    channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
+    movieScores?: movieScoreUncheckedCreateNestedManyWithoutUserInput
+    workspace?: workspaceUncheckedCreateNestedManyWithoutUserInput
+    workspacemembers?: workspacemembersUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutRecruitCommentInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutRecruitCommentInput, UserUncheckedCreateWithoutRecruitCommentInput>
+  }
+
+  export type RecruitUpsertWithoutRecruitCommentInput = {
+    update: XOR<RecruitUpdateWithoutRecruitCommentInput, RecruitUncheckedUpdateWithoutRecruitCommentInput>
+    create: XOR<RecruitCreateWithoutRecruitCommentInput, RecruitUncheckedCreateWithoutRecruitCommentInput>
+    where?: RecruitWhereInput
+  }
+
+  export type RecruitUpdateToOneWithWhereWithoutRecruitCommentInput = {
+    where?: RecruitWhereInput
+    data: XOR<RecruitUpdateWithoutRecruitCommentInput, RecruitUncheckedUpdateWithoutRecruitCommentInput>
+  }
+
+  export type RecruitUpdateWithoutRecruitCommentInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    screening_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumRecruit_statusFieldUpdateOperationsInput | $Enums.Recruit_status
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    theater_name?: NullableStringFieldUpdateOperationsInput | string | null
+    User?: UserUpdateOneRequiredWithoutRecruitNestedInput
+  }
+
+  export type RecruitUncheckedUpdateWithoutRecruitCommentInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userno?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    screening_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumRecruit_statusFieldUpdateOperationsInput | $Enums.Recruit_status
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    theater_name?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type UserUpsertWithoutRecruitCommentInput = {
+    update: XOR<UserUpdateWithoutRecruitCommentInput, UserUncheckedUpdateWithoutRecruitCommentInput>
+    create: XOR<UserCreateWithoutRecruitCommentInput, UserUncheckedCreateWithoutRecruitCommentInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutRecruitCommentInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutRecruitCommentInput, UserUncheckedUpdateWithoutRecruitCommentInput>
+  }
+
+  export type UserUpdateWithoutRecruitCommentInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    Comment?: CommentUpdateManyWithoutUserNestedInput
+    Recruit?: RecruitUpdateManyWithoutUserNestedInput
+    channelchats?: channelchatsUpdateManyWithoutUserNestedInput
+    channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
+    movieScores?: movieScoreUpdateManyWithoutUserNestedInput
+    workspace?: workspaceUpdateManyWithoutUserNestedInput
+    workspacemembers?: workspacemembersUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutRecruitCommentInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
+    channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
+    channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
+    movieScores?: movieScoreUncheckedUpdateManyWithoutUserNestedInput
+    workspace?: workspaceUncheckedUpdateManyWithoutUserNestedInput
+    workspacemembers?: workspacemembersUncheckedUpdateManyWithoutUserNestedInput
+  }
+
   export type CommentCreateManyMovieInput = {
     id?: number
     createdAt?: Date | string
@@ -17013,6 +20504,28 @@ export namespace Prisma {
     comment?: string | null
   }
 
+  export type RecruitCreateManyUserInput = {
+    id?: number
+    title: string
+    content: string
+    screening_date?: Date | string | null
+    location?: string | null
+    status?: $Enums.Recruit_status
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    theater_name?: string | null
+  }
+
+  export type RecruitCommentCreateManyUserInput = {
+    id?: number
+    recruit_id: number
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
   export type channelchatsCreateManyUserInput = {
     id?: number
     content: string
@@ -17076,6 +20589,72 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     comment?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type RecruitUpdateWithoutUserInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    screening_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumRecruit_statusFieldUpdateOperationsInput | $Enums.Recruit_status
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    theater_name?: NullableStringFieldUpdateOperationsInput | string | null
+    RecruitComment?: RecruitCommentUpdateManyWithoutRecruitNestedInput
+  }
+
+  export type RecruitUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    screening_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumRecruit_statusFieldUpdateOperationsInput | $Enums.Recruit_status
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    theater_name?: NullableStringFieldUpdateOperationsInput | string | null
+    RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutRecruitNestedInput
+  }
+
+  export type RecruitUncheckedUpdateManyWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    screening_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumRecruit_statusFieldUpdateOperationsInput | $Enums.Recruit_status
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    theater_name?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type RecruitCommentUpdateWithoutUserInput = {
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    Recruit?: RecruitUpdateOneRequiredWithoutRecruitCommentNestedInput
+  }
+
+  export type RecruitCommentUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    recruit_id?: IntFieldUpdateOperationsInput | number
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type RecruitCommentUncheckedUpdateManyWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    recruit_id?: IntFieldUpdateOperationsInput | number
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type channelchatsUpdateWithoutUserInput = {
@@ -17258,6 +20837,41 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type RecruitCommentCreateManyRecruitInput = {
+    id?: number
+    userno: number
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type RecruitCommentUpdateWithoutRecruitInput = {
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    User?: UserUpdateOneRequiredWithoutRecruitCommentNestedInput
+  }
+
+  export type RecruitCommentUncheckedUpdateWithoutRecruitInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userno?: IntFieldUpdateOperationsInput | number
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type RecruitCommentUncheckedUpdateManyWithoutRecruitInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userno?: IntFieldUpdateOperationsInput | number
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
 
 
   /**
@@ -17279,6 +20893,10 @@ export namespace Prisma {
      * @deprecated Use WorkspaceCountOutputTypeDefaultArgs instead
      */
     export type WorkspaceCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = WorkspaceCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use RecruitCountOutputTypeDefaultArgs instead
+     */
+    export type RecruitCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RecruitCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use CommentDefaultArgs instead
      */
@@ -17319,6 +20937,14 @@ export namespace Prisma {
      * @deprecated Use MovieVodDefaultArgs instead
      */
     export type MovieVodArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = MovieVodDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use RecruitDefaultArgs instead
+     */
+    export type RecruitArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RecruitDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use RecruitCommentDefaultArgs instead
+     */
+    export type RecruitCommentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RecruitCommentDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

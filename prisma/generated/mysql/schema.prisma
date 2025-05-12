@@ -58,6 +58,8 @@ model User {
   provider         String             @default("credentials") @db.VarChar(45)
   image            String?            @db.LongText
   Comment          Comment[]
+  Recruit          Recruit[]
+  RecruitComment   RecruitComment[]
   channelchats     channelchats[]
   channelmembers   channelmembers[]
   movieScores      movieScore[]
@@ -153,4 +155,43 @@ model MovieVod {
   Movie     Movie     @relation(fields: [movieCd], references: [movieCd], onDelete: Cascade)
 
   @@index([movieCd], map: "MovieVod_movieCd_fkey_idx")
+}
+
+model Recruit {
+  id             Int              @id @default(autoincrement())
+  userno         Int
+  title          String           @db.VarChar(256)
+  content        String           @db.VarChar(1024)
+  screening_date DateTime?        @db.DateTime(6)
+  location       String?          @db.VarChar(255)
+  status         Recruit_status   @default(open)
+  createdAt      DateTime         @default(now()) @db.DateTime(6)
+  updatedAt      DateTime         @default(now()) @db.DateTime(6)
+  deletedAt      DateTime?        @db.DateTime(6)
+  theater_name   String?          @map("theater name") @db.VarChar(45)
+  User           User             @relation(fields: [userno], references: [id], onDelete: Cascade)
+  RecruitComment RecruitComment[]
+
+  @@index([userno], map: "Recruit_userno_fkey_idx")
+}
+
+model RecruitComment {
+  id         Int       @id @default(autoincrement())
+  recruit_id Int
+  userno     Int
+  content    String    @db.VarChar(256)
+  createdAt  DateTime  @default(now()) @db.DateTime(6)
+  updatedAt  DateTime  @default(now()) @db.DateTime(6)
+  deletedAt  DateTime? @db.DateTime(6)
+  Recruit    Recruit   @relation(fields: [recruit_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "RecruitComment_recruitno_fkey")
+  User       User      @relation(fields: [userno], references: [id], onDelete: Cascade)
+
+  @@index([recruit_id], map: "RecruitComment_recruitno_fkey_idx")
+  @@index([userno], map: "RecruitComment_userno_fkey_idx")
+}
+
+enum Recruit_status {
+  open
+  matched
+  closed
 }

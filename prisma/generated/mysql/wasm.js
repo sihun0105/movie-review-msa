@@ -210,6 +210,30 @@ exports.Prisma.MovieVodScalarFieldEnum = {
   deletedAt: 'deletedAt'
 };
 
+exports.Prisma.RecruitScalarFieldEnum = {
+  id: 'id',
+  userno: 'userno',
+  title: 'title',
+  content: 'content',
+  screening_date: 'screening_date',
+  location: 'location',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt',
+  theater_name: 'theater_name'
+};
+
+exports.Prisma.RecruitCommentScalarFieldEnum = {
+  id: 'id',
+  recruit_id: 'recruit_id',
+  userno: 'userno',
+  content: 'content',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -230,7 +254,11 @@ exports.Prisma.JsonNullValueFilter = {
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
-
+exports.Recruit_status = exports.$Enums.Recruit_status = {
+  open: 'open',
+  matched: 'matched',
+  closed: 'closed'
+};
 
 exports.Prisma.ModelName = {
   Comment: 'Comment',
@@ -242,7 +270,9 @@ exports.Prisma.ModelName = {
   workspace: 'workspace',
   workspacemembers: 'workspacemembers',
   movieScore: 'movieScore',
-  MovieVod: 'MovieVod'
+  MovieVod: 'MovieVod',
+  Recruit: 'Recruit',
+  RecruitComment: 'RecruitComment'
 };
 
 /**
