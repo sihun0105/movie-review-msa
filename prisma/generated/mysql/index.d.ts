@@ -73,6 +73,11 @@ export type Recruit = $Result.DefaultSelection<Prisma.$RecruitPayload>
  * 
  */
 export type RecruitComment = $Result.DefaultSelection<Prisma.$RecruitCommentPayload>
+/**
+ * Model Matches
+ * 
+ */
+export type Matches = $Result.DefaultSelection<Prisma.$MatchesPayload>
 
 /**
  * Enums
@@ -86,11 +91,24 @@ export namespace $Enums {
 
 export type Recruit_status = (typeof Recruit_status)[keyof typeof Recruit_status]
 
+
+export const Matches_status: {
+  pending: 'pending',
+  confirmed: 'confirmed',
+  cancelled: 'cancelled'
+};
+
+export type Matches_status = (typeof Matches_status)[keyof typeof Matches_status]
+
 }
 
 export type Recruit_status = $Enums.Recruit_status
 
 export const Recruit_status: typeof $Enums.Recruit_status
+
+export type Matches_status = $Enums.Matches_status
+
+export const Matches_status: typeof $Enums.Matches_status
 
 /**
  * ##  Prisma Client ʲˢ
@@ -333,6 +351,16 @@ export class PrismaClient<
     * ```
     */
   get recruitComment(): Prisma.RecruitCommentDelegate<ExtArgs>;
+
+  /**
+   * `prisma.matches`: Exposes CRUD operations for the **Matches** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Matches
+    * const matches = await prisma.matches.findMany()
+    * ```
+    */
+  get matches(): Prisma.MatchesDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -814,7 +842,8 @@ export namespace Prisma {
     movieScore: 'movieScore',
     MovieVod: 'MovieVod',
     Recruit: 'Recruit',
-    RecruitComment: 'RecruitComment'
+    RecruitComment: 'RecruitComment',
+    Matches: 'Matches'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -831,7 +860,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     meta: {
-      modelProps: 'comment' | 'movie' | 'user' | 'channelchats' | 'channelmembers' | 'channels' | 'workspace' | 'workspacemembers' | 'movieScore' | 'movieVod' | 'recruit' | 'recruitComment'
+      modelProps: 'comment' | 'movie' | 'user' | 'channelchats' | 'channelmembers' | 'channels' | 'workspace' | 'workspacemembers' | 'movieScore' | 'movieVod' | 'recruit' | 'recruitComment' | 'matches'
       txIsolationLevel: Prisma.TransactionIsolationLevel
     },
     model: {
@@ -1627,6 +1656,72 @@ export namespace Prisma {
           }
         }
       }
+      Matches: {
+        payload: Prisma.$MatchesPayload<ExtArgs>
+        fields: Prisma.MatchesFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.MatchesFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$MatchesPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.MatchesFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$MatchesPayload>
+          }
+          findFirst: {
+            args: Prisma.MatchesFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$MatchesPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.MatchesFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$MatchesPayload>
+          }
+          findMany: {
+            args: Prisma.MatchesFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$MatchesPayload>[]
+          }
+          create: {
+            args: Prisma.MatchesCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$MatchesPayload>
+          }
+          createMany: {
+            args: Prisma.MatchesCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.MatchesDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$MatchesPayload>
+          }
+          update: {
+            args: Prisma.MatchesUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$MatchesPayload>
+          }
+          deleteMany: {
+            args: Prisma.MatchesDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.MatchesUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.MatchesUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$MatchesPayload>
+          }
+          aggregate: {
+            args: Prisma.MatchesAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateMatches>
+          }
+          groupBy: {
+            args: Prisma.MatchesGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<MatchesGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.MatchesCountArgs<ExtArgs>,
+            result: $Utils.Optional<MatchesCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1841,6 +1936,8 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     Comment: number
+    Matches_Matches_owner_idToUser: number
+    Matches_Matches_requester_idToUser: number
     Recruit: number
     RecruitComment: number
     channelchats: number
@@ -1852,6 +1949,8 @@ export namespace Prisma {
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Comment?: boolean | UserCountOutputTypeCountCommentArgs
+    Matches_Matches_owner_idToUser?: boolean | UserCountOutputTypeCountMatches_Matches_owner_idToUserArgs
+    Matches_Matches_requester_idToUser?: boolean | UserCountOutputTypeCountMatches_Matches_requester_idToUserArgs
     Recruit?: boolean | UserCountOutputTypeCountRecruitArgs
     RecruitComment?: boolean | UserCountOutputTypeCountRecruitCommentArgs
     channelchats?: boolean | UserCountOutputTypeCountChannelchatsArgs
@@ -1879,6 +1978,22 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountCommentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: CommentWhereInput
+  }
+
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountMatches_Matches_owner_idToUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MatchesWhereInput
+  }
+
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountMatches_Matches_requester_idToUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MatchesWhereInput
   }
 
 
@@ -2012,10 +2127,12 @@ export namespace Prisma {
    */
 
   export type RecruitCountOutputType = {
+    Matches: number
     RecruitComment: number
   }
 
   export type RecruitCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Matches?: boolean | RecruitCountOutputTypeCountMatchesArgs
     RecruitComment?: boolean | RecruitCountOutputTypeCountRecruitCommentArgs
   }
 
@@ -2029,6 +2146,14 @@ export namespace Prisma {
      * Select specific fields to fetch from the RecruitCountOutputType
      */
     select?: RecruitCountOutputTypeSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * RecruitCountOutputType without action
+   */
+  export type RecruitCountOutputTypeCountMatchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MatchesWhereInput
   }
 
 
@@ -4419,6 +4544,8 @@ export namespace Prisma {
     provider?: boolean
     image?: boolean
     Comment?: boolean | User$CommentArgs<ExtArgs>
+    Matches_Matches_owner_idToUser?: boolean | User$Matches_Matches_owner_idToUserArgs<ExtArgs>
+    Matches_Matches_requester_idToUser?: boolean | User$Matches_Matches_requester_idToUserArgs<ExtArgs>
     Recruit?: boolean | User$RecruitArgs<ExtArgs>
     RecruitComment?: boolean | User$RecruitCommentArgs<ExtArgs>
     channelchats?: boolean | User$channelchatsArgs<ExtArgs>
@@ -4443,6 +4570,8 @@ export namespace Prisma {
 
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Comment?: boolean | User$CommentArgs<ExtArgs>
+    Matches_Matches_owner_idToUser?: boolean | User$Matches_Matches_owner_idToUserArgs<ExtArgs>
+    Matches_Matches_requester_idToUser?: boolean | User$Matches_Matches_requester_idToUserArgs<ExtArgs>
     Recruit?: boolean | User$RecruitArgs<ExtArgs>
     RecruitComment?: boolean | User$RecruitCommentArgs<ExtArgs>
     channelchats?: boolean | User$channelchatsArgs<ExtArgs>
@@ -4458,6 +4587,8 @@ export namespace Prisma {
     name: "User"
     objects: {
       Comment: Prisma.$CommentPayload<ExtArgs>[]
+      Matches_Matches_owner_idToUser: Prisma.$MatchesPayload<ExtArgs>[]
+      Matches_Matches_requester_idToUser: Prisma.$MatchesPayload<ExtArgs>[]
       Recruit: Prisma.$RecruitPayload<ExtArgs>[]
       RecruitComment: Prisma.$RecruitCommentPayload<ExtArgs>[]
       channelchats: Prisma.$channelchatsPayload<ExtArgs>[]
@@ -4843,6 +4974,10 @@ export namespace Prisma {
 
     Comment<T extends User$CommentArgs<ExtArgs> = {}>(args?: Subset<T, User$CommentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, 'findMany'> | Null>;
 
+    Matches_Matches_owner_idToUser<T extends User$Matches_Matches_owner_idToUserArgs<ExtArgs> = {}>(args?: Subset<T, User$Matches_Matches_owner_idToUserArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MatchesPayload<ExtArgs>, T, 'findMany'> | Null>;
+
+    Matches_Matches_requester_idToUser<T extends User$Matches_Matches_requester_idToUserArgs<ExtArgs> = {}>(args?: Subset<T, User$Matches_Matches_requester_idToUserArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MatchesPayload<ExtArgs>, T, 'findMany'> | Null>;
+
     Recruit<T extends User$RecruitArgs<ExtArgs> = {}>(args?: Subset<T, User$RecruitArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecruitPayload<ExtArgs>, T, 'findMany'> | Null>;
 
     RecruitComment<T extends User$RecruitCommentArgs<ExtArgs> = {}>(args?: Subset<T, User$RecruitCommentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecruitCommentPayload<ExtArgs>, T, 'findMany'> | Null>;
@@ -5223,6 +5358,48 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CommentScalarFieldEnum | CommentScalarFieldEnum[]
+  }
+
+
+  /**
+   * User.Matches_Matches_owner_idToUser
+   */
+  export type User$Matches_Matches_owner_idToUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Matches
+     */
+    select?: MatchesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MatchesInclude<ExtArgs> | null
+    where?: MatchesWhereInput
+    orderBy?: MatchesOrderByWithRelationInput | MatchesOrderByWithRelationInput[]
+    cursor?: MatchesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MatchesScalarFieldEnum | MatchesScalarFieldEnum[]
+  }
+
+
+  /**
+   * User.Matches_Matches_requester_idToUser
+   */
+  export type User$Matches_Matches_requester_idToUserArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Matches
+     */
+    select?: MatchesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MatchesInclude<ExtArgs> | null
+    where?: MatchesWhereInput
+    orderBy?: MatchesOrderByWithRelationInput | MatchesOrderByWithRelationInput[]
+    cursor?: MatchesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MatchesScalarFieldEnum | MatchesScalarFieldEnum[]
   }
 
 
@@ -12539,6 +12716,7 @@ export namespace Prisma {
     updatedAt?: boolean
     deletedAt?: boolean
     theater_name?: boolean
+    Matches?: boolean | Recruit$MatchesArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
     RecruitComment?: boolean | Recruit$RecruitCommentArgs<ExtArgs>
     _count?: boolean | RecruitCountOutputTypeDefaultArgs<ExtArgs>
@@ -12559,6 +12737,7 @@ export namespace Prisma {
   }
 
   export type RecruitInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Matches?: boolean | Recruit$MatchesArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
     RecruitComment?: boolean | Recruit$RecruitCommentArgs<ExtArgs>
     _count?: boolean | RecruitCountOutputTypeDefaultArgs<ExtArgs>
@@ -12568,6 +12747,7 @@ export namespace Prisma {
   export type $RecruitPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Recruit"
     objects: {
+      Matches: Prisma.$MatchesPayload<ExtArgs>[]
       User: Prisma.$UserPayload<ExtArgs>
       RecruitComment: Prisma.$RecruitCommentPayload<ExtArgs>[]
     }
@@ -12948,6 +13128,8 @@ export namespace Prisma {
   export interface Prisma__RecruitClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
 
+    Matches<T extends Recruit$MatchesArgs<ExtArgs> = {}>(args?: Subset<T, Recruit$MatchesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MatchesPayload<ExtArgs>, T, 'findMany'> | Null>;
+
     User<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
 
     RecruitComment<T extends Recruit$RecruitCommentArgs<ExtArgs> = {}>(args?: Subset<T, Recruit$RecruitCommentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecruitCommentPayload<ExtArgs>, T, 'findMany'> | Null>;
@@ -13299,6 +13481,27 @@ export namespace Prisma {
      * Filter which Recruits to delete
      */
     where?: RecruitWhereInput
+  }
+
+
+  /**
+   * Recruit.Matches
+   */
+  export type Recruit$MatchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Matches
+     */
+    select?: MatchesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MatchesInclude<ExtArgs> | null
+    where?: MatchesWhereInput
+    orderBy?: MatchesOrderByWithRelationInput | MatchesOrderByWithRelationInput[]
+    cursor?: MatchesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: MatchesScalarFieldEnum | MatchesScalarFieldEnum[]
   }
 
 
@@ -14327,6 +14530,1040 @@ export namespace Prisma {
 
 
   /**
+   * Model Matches
+   */
+
+  export type AggregateMatches = {
+    _count: MatchesCountAggregateOutputType | null
+    _avg: MatchesAvgAggregateOutputType | null
+    _sum: MatchesSumAggregateOutputType | null
+    _min: MatchesMinAggregateOutputType | null
+    _max: MatchesMaxAggregateOutputType | null
+  }
+
+  export type MatchesAvgAggregateOutputType = {
+    id: number | null
+    recruit_id: number | null
+    requester_id: number | null
+    owner_id: number | null
+  }
+
+  export type MatchesSumAggregateOutputType = {
+    id: number | null
+    recruit_id: number | null
+    requester_id: number | null
+    owner_id: number | null
+  }
+
+  export type MatchesMinAggregateOutputType = {
+    id: number | null
+    recruit_id: number | null
+    requester_id: number | null
+    owner_id: number | null
+    acceptedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deletedAt: string | null
+    status: $Enums.Matches_status | null
+  }
+
+  export type MatchesMaxAggregateOutputType = {
+    id: number | null
+    recruit_id: number | null
+    requester_id: number | null
+    owner_id: number | null
+    acceptedAt: Date | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deletedAt: string | null
+    status: $Enums.Matches_status | null
+  }
+
+  export type MatchesCountAggregateOutputType = {
+    id: number
+    recruit_id: number
+    requester_id: number
+    owner_id: number
+    acceptedAt: number
+    createdAt: number
+    updatedAt: number
+    deletedAt: number
+    status: number
+    _all: number
+  }
+
+
+  export type MatchesAvgAggregateInputType = {
+    id?: true
+    recruit_id?: true
+    requester_id?: true
+    owner_id?: true
+  }
+
+  export type MatchesSumAggregateInputType = {
+    id?: true
+    recruit_id?: true
+    requester_id?: true
+    owner_id?: true
+  }
+
+  export type MatchesMinAggregateInputType = {
+    id?: true
+    recruit_id?: true
+    requester_id?: true
+    owner_id?: true
+    acceptedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+    status?: true
+  }
+
+  export type MatchesMaxAggregateInputType = {
+    id?: true
+    recruit_id?: true
+    requester_id?: true
+    owner_id?: true
+    acceptedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+    status?: true
+  }
+
+  export type MatchesCountAggregateInputType = {
+    id?: true
+    recruit_id?: true
+    requester_id?: true
+    owner_id?: true
+    acceptedAt?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+    status?: true
+    _all?: true
+  }
+
+  export type MatchesAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Matches to aggregate.
+     */
+    where?: MatchesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Matches to fetch.
+     */
+    orderBy?: MatchesOrderByWithRelationInput | MatchesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: MatchesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Matches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Matches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Matches
+    **/
+    _count?: true | MatchesCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: MatchesAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: MatchesSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: MatchesMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: MatchesMaxAggregateInputType
+  }
+
+  export type GetMatchesAggregateType<T extends MatchesAggregateArgs> = {
+        [P in keyof T & keyof AggregateMatches]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateMatches[P]>
+      : GetScalarType<T[P], AggregateMatches[P]>
+  }
+
+
+
+
+  export type MatchesGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: MatchesWhereInput
+    orderBy?: MatchesOrderByWithAggregationInput | MatchesOrderByWithAggregationInput[]
+    by: MatchesScalarFieldEnum[] | MatchesScalarFieldEnum
+    having?: MatchesScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: MatchesCountAggregateInputType | true
+    _avg?: MatchesAvgAggregateInputType
+    _sum?: MatchesSumAggregateInputType
+    _min?: MatchesMinAggregateInputType
+    _max?: MatchesMaxAggregateInputType
+  }
+
+  export type MatchesGroupByOutputType = {
+    id: number
+    recruit_id: number | null
+    requester_id: number
+    owner_id: number
+    acceptedAt: Date | null
+    createdAt: Date
+    updatedAt: Date
+    deletedAt: string | null
+    status: $Enums.Matches_status
+    _count: MatchesCountAggregateOutputType | null
+    _avg: MatchesAvgAggregateOutputType | null
+    _sum: MatchesSumAggregateOutputType | null
+    _min: MatchesMinAggregateOutputType | null
+    _max: MatchesMaxAggregateOutputType | null
+  }
+
+  type GetMatchesGroupByPayload<T extends MatchesGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<MatchesGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof MatchesGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], MatchesGroupByOutputType[P]>
+            : GetScalarType<T[P], MatchesGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type MatchesSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    recruit_id?: boolean
+    requester_id?: boolean
+    owner_id?: boolean
+    acceptedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+    status?: boolean
+    User_Matches_owner_idToUser?: boolean | UserDefaultArgs<ExtArgs>
+    Recruit?: boolean | Matches$RecruitArgs<ExtArgs>
+    User_Matches_requester_idToUser?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["matches"]>
+
+  export type MatchesSelectScalar = {
+    id?: boolean
+    recruit_id?: boolean
+    requester_id?: boolean
+    owner_id?: boolean
+    acceptedAt?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+    status?: boolean
+  }
+
+  export type MatchesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    User_Matches_owner_idToUser?: boolean | UserDefaultArgs<ExtArgs>
+    Recruit?: boolean | Matches$RecruitArgs<ExtArgs>
+    User_Matches_requester_idToUser?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+
+  export type $MatchesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Matches"
+    objects: {
+      User_Matches_owner_idToUser: Prisma.$UserPayload<ExtArgs>
+      Recruit: Prisma.$RecruitPayload<ExtArgs> | null
+      User_Matches_requester_idToUser: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      recruit_id: number | null
+      requester_id: number
+      owner_id: number
+      acceptedAt: Date | null
+      createdAt: Date
+      updatedAt: Date
+      deletedAt: string | null
+      status: $Enums.Matches_status
+    }, ExtArgs["result"]["matches"]>
+    composites: {}
+  }
+
+
+  type MatchesGetPayload<S extends boolean | null | undefined | MatchesDefaultArgs> = $Result.GetResult<Prisma.$MatchesPayload, S>
+
+  type MatchesCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<MatchesFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: MatchesCountAggregateInputType | true
+    }
+
+  export interface MatchesDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Matches'], meta: { name: 'Matches' } }
+    /**
+     * Find zero or one Matches that matches the filter.
+     * @param {MatchesFindUniqueArgs} args - Arguments to find a Matches
+     * @example
+     * // Get one Matches
+     * const matches = await prisma.matches.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends MatchesFindUniqueArgs<ExtArgs>>(
+      args: SelectSubset<T, MatchesFindUniqueArgs<ExtArgs>>
+    ): Prisma__MatchesClient<$Result.GetResult<Prisma.$MatchesPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
+
+    /**
+     * Find one Matches that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {MatchesFindUniqueOrThrowArgs} args - Arguments to find a Matches
+     * @example
+     * // Get one Matches
+     * const matches = await prisma.matches.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends MatchesFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, MatchesFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__MatchesClient<$Result.GetResult<Prisma.$MatchesPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find the first Matches that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MatchesFindFirstArgs} args - Arguments to find a Matches
+     * @example
+     * // Get one Matches
+     * const matches = await prisma.matches.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends MatchesFindFirstArgs<ExtArgs>>(
+      args?: SelectSubset<T, MatchesFindFirstArgs<ExtArgs>>
+    ): Prisma__MatchesClient<$Result.GetResult<Prisma.$MatchesPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
+
+    /**
+     * Find the first Matches that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MatchesFindFirstOrThrowArgs} args - Arguments to find a Matches
+     * @example
+     * // Get one Matches
+     * const matches = await prisma.matches.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends MatchesFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, MatchesFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__MatchesClient<$Result.GetResult<Prisma.$MatchesPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find zero or more Matches that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MatchesFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Matches
+     * const matches = await prisma.matches.findMany()
+     * 
+     * // Get first 10 Matches
+     * const matches = await prisma.matches.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const matchesWithIdOnly = await prisma.matches.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends MatchesFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, MatchesFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MatchesPayload<ExtArgs>, T, 'findMany'>>
+
+    /**
+     * Create a Matches.
+     * @param {MatchesCreateArgs} args - Arguments to create a Matches.
+     * @example
+     * // Create one Matches
+     * const Matches = await prisma.matches.create({
+     *   data: {
+     *     // ... data to create a Matches
+     *   }
+     * })
+     * 
+    **/
+    create<T extends MatchesCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, MatchesCreateArgs<ExtArgs>>
+    ): Prisma__MatchesClient<$Result.GetResult<Prisma.$MatchesPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
+
+    /**
+     * Create many Matches.
+     *     @param {MatchesCreateManyArgs} args - Arguments to create many Matches.
+     *     @example
+     *     // Create many Matches
+     *     const matches = await prisma.matches.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends MatchesCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, MatchesCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Matches.
+     * @param {MatchesDeleteArgs} args - Arguments to delete one Matches.
+     * @example
+     * // Delete one Matches
+     * const Matches = await prisma.matches.delete({
+     *   where: {
+     *     // ... filter to delete one Matches
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends MatchesDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, MatchesDeleteArgs<ExtArgs>>
+    ): Prisma__MatchesClient<$Result.GetResult<Prisma.$MatchesPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
+
+    /**
+     * Update one Matches.
+     * @param {MatchesUpdateArgs} args - Arguments to update one Matches.
+     * @example
+     * // Update one Matches
+     * const matches = await prisma.matches.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends MatchesUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, MatchesUpdateArgs<ExtArgs>>
+    ): Prisma__MatchesClient<$Result.GetResult<Prisma.$MatchesPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
+
+    /**
+     * Delete zero or more Matches.
+     * @param {MatchesDeleteManyArgs} args - Arguments to filter Matches to delete.
+     * @example
+     * // Delete a few Matches
+     * const { count } = await prisma.matches.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends MatchesDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, MatchesDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Matches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MatchesUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Matches
+     * const matches = await prisma.matches.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends MatchesUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, MatchesUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Matches.
+     * @param {MatchesUpsertArgs} args - Arguments to update or create a Matches.
+     * @example
+     * // Update or create a Matches
+     * const matches = await prisma.matches.upsert({
+     *   create: {
+     *     // ... data to create a Matches
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Matches we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends MatchesUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, MatchesUpsertArgs<ExtArgs>>
+    ): Prisma__MatchesClient<$Result.GetResult<Prisma.$MatchesPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
+
+    /**
+     * Count the number of Matches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MatchesCountArgs} args - Arguments to filter Matches to count.
+     * @example
+     * // Count the number of Matches
+     * const count = await prisma.matches.count({
+     *   where: {
+     *     // ... the filter for the Matches we want to count
+     *   }
+     * })
+    **/
+    count<T extends MatchesCountArgs>(
+      args?: Subset<T, MatchesCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], MatchesCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Matches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MatchesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends MatchesAggregateArgs>(args: Subset<T, MatchesAggregateArgs>): Prisma.PrismaPromise<GetMatchesAggregateType<T>>
+
+    /**
+     * Group by Matches.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {MatchesGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends MatchesGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: MatchesGroupByArgs['orderBy'] }
+        : { orderBy?: MatchesGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, MatchesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetMatchesGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Matches model
+   */
+  readonly fields: MatchesFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Matches.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__MatchesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+
+    User_Matches_owner_idToUser<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
+
+    Recruit<T extends Matches$RecruitArgs<ExtArgs> = {}>(args?: Subset<T, Matches$RecruitArgs<ExtArgs>>): Prisma__RecruitClient<$Result.GetResult<Prisma.$RecruitPayload<ExtArgs>, T, 'findUniqueOrThrow'> | null, null, ExtArgs>;
+
+    User_Matches_requester_idToUser<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
+
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
+  }
+
+
+
+  /**
+   * Fields of the Matches model
+   */ 
+  interface MatchesFieldRefs {
+    readonly id: FieldRef<"Matches", 'Int'>
+    readonly recruit_id: FieldRef<"Matches", 'Int'>
+    readonly requester_id: FieldRef<"Matches", 'Int'>
+    readonly owner_id: FieldRef<"Matches", 'Int'>
+    readonly acceptedAt: FieldRef<"Matches", 'DateTime'>
+    readonly createdAt: FieldRef<"Matches", 'DateTime'>
+    readonly updatedAt: FieldRef<"Matches", 'DateTime'>
+    readonly deletedAt: FieldRef<"Matches", 'String'>
+    readonly status: FieldRef<"Matches", 'Matches_status'>
+  }
+    
+
+  // Custom InputTypes
+
+  /**
+   * Matches findUnique
+   */
+  export type MatchesFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Matches
+     */
+    select?: MatchesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MatchesInclude<ExtArgs> | null
+    /**
+     * Filter, which Matches to fetch.
+     */
+    where: MatchesWhereUniqueInput
+  }
+
+
+  /**
+   * Matches findUniqueOrThrow
+   */
+  export type MatchesFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Matches
+     */
+    select?: MatchesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MatchesInclude<ExtArgs> | null
+    /**
+     * Filter, which Matches to fetch.
+     */
+    where: MatchesWhereUniqueInput
+  }
+
+
+  /**
+   * Matches findFirst
+   */
+  export type MatchesFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Matches
+     */
+    select?: MatchesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MatchesInclude<ExtArgs> | null
+    /**
+     * Filter, which Matches to fetch.
+     */
+    where?: MatchesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Matches to fetch.
+     */
+    orderBy?: MatchesOrderByWithRelationInput | MatchesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Matches.
+     */
+    cursor?: MatchesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Matches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Matches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Matches.
+     */
+    distinct?: MatchesScalarFieldEnum | MatchesScalarFieldEnum[]
+  }
+
+
+  /**
+   * Matches findFirstOrThrow
+   */
+  export type MatchesFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Matches
+     */
+    select?: MatchesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MatchesInclude<ExtArgs> | null
+    /**
+     * Filter, which Matches to fetch.
+     */
+    where?: MatchesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Matches to fetch.
+     */
+    orderBy?: MatchesOrderByWithRelationInput | MatchesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Matches.
+     */
+    cursor?: MatchesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Matches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Matches.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Matches.
+     */
+    distinct?: MatchesScalarFieldEnum | MatchesScalarFieldEnum[]
+  }
+
+
+  /**
+   * Matches findMany
+   */
+  export type MatchesFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Matches
+     */
+    select?: MatchesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MatchesInclude<ExtArgs> | null
+    /**
+     * Filter, which Matches to fetch.
+     */
+    where?: MatchesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Matches to fetch.
+     */
+    orderBy?: MatchesOrderByWithRelationInput | MatchesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Matches.
+     */
+    cursor?: MatchesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Matches from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Matches.
+     */
+    skip?: number
+    distinct?: MatchesScalarFieldEnum | MatchesScalarFieldEnum[]
+  }
+
+
+  /**
+   * Matches create
+   */
+  export type MatchesCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Matches
+     */
+    select?: MatchesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MatchesInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Matches.
+     */
+    data: XOR<MatchesCreateInput, MatchesUncheckedCreateInput>
+  }
+
+
+  /**
+   * Matches createMany
+   */
+  export type MatchesCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Matches.
+     */
+    data: MatchesCreateManyInput | MatchesCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Matches update
+   */
+  export type MatchesUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Matches
+     */
+    select?: MatchesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MatchesInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Matches.
+     */
+    data: XOR<MatchesUpdateInput, MatchesUncheckedUpdateInput>
+    /**
+     * Choose, which Matches to update.
+     */
+    where: MatchesWhereUniqueInput
+  }
+
+
+  /**
+   * Matches updateMany
+   */
+  export type MatchesUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Matches.
+     */
+    data: XOR<MatchesUpdateManyMutationInput, MatchesUncheckedUpdateManyInput>
+    /**
+     * Filter which Matches to update
+     */
+    where?: MatchesWhereInput
+  }
+
+
+  /**
+   * Matches upsert
+   */
+  export type MatchesUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Matches
+     */
+    select?: MatchesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MatchesInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Matches to update in case it exists.
+     */
+    where: MatchesWhereUniqueInput
+    /**
+     * In case the Matches found by the `where` argument doesn't exist, create a new Matches with this data.
+     */
+    create: XOR<MatchesCreateInput, MatchesUncheckedCreateInput>
+    /**
+     * In case the Matches was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<MatchesUpdateInput, MatchesUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Matches delete
+   */
+  export type MatchesDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Matches
+     */
+    select?: MatchesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MatchesInclude<ExtArgs> | null
+    /**
+     * Filter which Matches to delete.
+     */
+    where: MatchesWhereUniqueInput
+  }
+
+
+  /**
+   * Matches deleteMany
+   */
+  export type MatchesDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Matches to delete
+     */
+    where?: MatchesWhereInput
+  }
+
+
+  /**
+   * Matches.Recruit
+   */
+  export type Matches$RecruitArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Recruit
+     */
+    select?: RecruitSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RecruitInclude<ExtArgs> | null
+    where?: RecruitWhereInput
+  }
+
+
+  /**
+   * Matches without action
+   */
+  export type MatchesDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Matches
+     */
+    select?: MatchesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: MatchesInclude<ExtArgs> | null
+  }
+
+
+
+  /**
    * Enums
    */
 
@@ -14503,6 +15740,21 @@ export namespace Prisma {
   export type RecruitCommentScalarFieldEnum = (typeof RecruitCommentScalarFieldEnum)[keyof typeof RecruitCommentScalarFieldEnum]
 
 
+  export const MatchesScalarFieldEnum: {
+    id: 'id',
+    recruit_id: 'recruit_id',
+    requester_id: 'requester_id',
+    owner_id: 'owner_id',
+    acceptedAt: 'acceptedAt',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deletedAt: 'deletedAt',
+    status: 'status'
+  };
+
+  export type MatchesScalarFieldEnum = (typeof MatchesScalarFieldEnum)[keyof typeof MatchesScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -14594,6 +15846,13 @@ export namespace Prisma {
    * Reference to a field of type 'Recruit_status'
    */
   export type EnumRecruit_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Recruit_status'>
+    
+
+
+  /**
+   * Reference to a field of type 'Matches_status'
+   */
+  export type EnumMatches_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Matches_status'>
     
   /**
    * Deep Input Types
@@ -14802,6 +16061,8 @@ export namespace Prisma {
     provider?: StringFilter<"User"> | string
     image?: StringNullableFilter<"User"> | string | null
     Comment?: CommentListRelationFilter
+    Matches_Matches_owner_idToUser?: MatchesListRelationFilter
+    Matches_Matches_requester_idToUser?: MatchesListRelationFilter
     Recruit?: RecruitListRelationFilter
     RecruitComment?: RecruitCommentListRelationFilter
     channelchats?: ChannelchatsListRelationFilter
@@ -14822,6 +16083,8 @@ export namespace Prisma {
     provider?: SortOrder
     image?: SortOrderInput | SortOrder
     Comment?: CommentOrderByRelationAggregateInput
+    Matches_Matches_owner_idToUser?: MatchesOrderByRelationAggregateInput
+    Matches_Matches_requester_idToUser?: MatchesOrderByRelationAggregateInput
     Recruit?: RecruitOrderByRelationAggregateInput
     RecruitComment?: RecruitCommentOrderByRelationAggregateInput
     channelchats?: channelchatsOrderByRelationAggregateInput
@@ -14845,6 +16108,8 @@ export namespace Prisma {
     provider?: StringFilter<"User"> | string
     image?: StringNullableFilter<"User"> | string | null
     Comment?: CommentListRelationFilter
+    Matches_Matches_owner_idToUser?: MatchesListRelationFilter
+    Matches_Matches_requester_idToUser?: MatchesListRelationFilter
     Recruit?: RecruitListRelationFilter
     RecruitComment?: RecruitCommentListRelationFilter
     channelchats?: ChannelchatsListRelationFilter
@@ -15345,6 +16610,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Recruit"> | Date | string
     deletedAt?: DateTimeNullableFilter<"Recruit"> | Date | string | null
     theater_name?: StringNullableFilter<"Recruit"> | string | null
+    Matches?: MatchesListRelationFilter
     User?: XOR<UserRelationFilter, UserWhereInput>
     RecruitComment?: RecruitCommentListRelationFilter
   }
@@ -15361,6 +16627,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     deletedAt?: SortOrderInput | SortOrder
     theater_name?: SortOrderInput | SortOrder
+    Matches?: MatchesOrderByRelationAggregateInput
     User?: UserOrderByWithRelationInput
     RecruitComment?: RecruitCommentOrderByRelationAggregateInput
   }
@@ -15380,6 +16647,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Recruit"> | Date | string
     deletedAt?: DateTimeNullableFilter<"Recruit"> | Date | string | null
     theater_name?: StringNullableFilter<"Recruit"> | string | null
+    Matches?: MatchesListRelationFilter
     User?: XOR<UserRelationFilter, UserWhereInput>
     RecruitComment?: RecruitCommentListRelationFilter
   }, "id">
@@ -15488,6 +16756,89 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"RecruitComment"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"RecruitComment"> | Date | string
     deletedAt?: DateTimeNullableWithAggregatesFilter<"RecruitComment"> | Date | string | null
+  }
+
+  export type MatchesWhereInput = {
+    AND?: MatchesWhereInput | MatchesWhereInput[]
+    OR?: MatchesWhereInput[]
+    NOT?: MatchesWhereInput | MatchesWhereInput[]
+    id?: IntFilter<"Matches"> | number
+    recruit_id?: IntNullableFilter<"Matches"> | number | null
+    requester_id?: IntFilter<"Matches"> | number
+    owner_id?: IntFilter<"Matches"> | number
+    acceptedAt?: DateTimeNullableFilter<"Matches"> | Date | string | null
+    createdAt?: DateTimeFilter<"Matches"> | Date | string
+    updatedAt?: DateTimeFilter<"Matches"> | Date | string
+    deletedAt?: StringNullableFilter<"Matches"> | string | null
+    status?: EnumMatches_statusFilter<"Matches"> | $Enums.Matches_status
+    User_Matches_owner_idToUser?: XOR<UserRelationFilter, UserWhereInput>
+    Recruit?: XOR<RecruitNullableRelationFilter, RecruitWhereInput> | null
+    User_Matches_requester_idToUser?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type MatchesOrderByWithRelationInput = {
+    id?: SortOrder
+    recruit_id?: SortOrderInput | SortOrder
+    requester_id?: SortOrder
+    owner_id?: SortOrder
+    acceptedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    status?: SortOrder
+    User_Matches_owner_idToUser?: UserOrderByWithRelationInput
+    Recruit?: RecruitOrderByWithRelationInput
+    User_Matches_requester_idToUser?: UserOrderByWithRelationInput
+  }
+
+  export type MatchesWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: MatchesWhereInput | MatchesWhereInput[]
+    OR?: MatchesWhereInput[]
+    NOT?: MatchesWhereInput | MatchesWhereInput[]
+    recruit_id?: IntNullableFilter<"Matches"> | number | null
+    requester_id?: IntFilter<"Matches"> | number
+    owner_id?: IntFilter<"Matches"> | number
+    acceptedAt?: DateTimeNullableFilter<"Matches"> | Date | string | null
+    createdAt?: DateTimeFilter<"Matches"> | Date | string
+    updatedAt?: DateTimeFilter<"Matches"> | Date | string
+    deletedAt?: StringNullableFilter<"Matches"> | string | null
+    status?: EnumMatches_statusFilter<"Matches"> | $Enums.Matches_status
+    User_Matches_owner_idToUser?: XOR<UserRelationFilter, UserWhereInput>
+    Recruit?: XOR<RecruitNullableRelationFilter, RecruitWhereInput> | null
+    User_Matches_requester_idToUser?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type MatchesOrderByWithAggregationInput = {
+    id?: SortOrder
+    recruit_id?: SortOrderInput | SortOrder
+    requester_id?: SortOrder
+    owner_id?: SortOrder
+    acceptedAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    status?: SortOrder
+    _count?: MatchesCountOrderByAggregateInput
+    _avg?: MatchesAvgOrderByAggregateInput
+    _max?: MatchesMaxOrderByAggregateInput
+    _min?: MatchesMinOrderByAggregateInput
+    _sum?: MatchesSumOrderByAggregateInput
+  }
+
+  export type MatchesScalarWhereWithAggregatesInput = {
+    AND?: MatchesScalarWhereWithAggregatesInput | MatchesScalarWhereWithAggregatesInput[]
+    OR?: MatchesScalarWhereWithAggregatesInput[]
+    NOT?: MatchesScalarWhereWithAggregatesInput | MatchesScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Matches"> | number
+    recruit_id?: IntNullableWithAggregatesFilter<"Matches"> | number | null
+    requester_id?: IntWithAggregatesFilter<"Matches"> | number
+    owner_id?: IntWithAggregatesFilter<"Matches"> | number
+    acceptedAt?: DateTimeNullableWithAggregatesFilter<"Matches"> | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Matches"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Matches"> | Date | string
+    deletedAt?: StringNullableWithAggregatesFilter<"Matches"> | string | null
+    status?: EnumMatches_statusWithAggregatesFilter<"Matches"> | $Enums.Matches_status
   }
 
   export type CommentCreateInput = {
@@ -15707,6 +17058,8 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     Comment?: CommentCreateNestedManyWithoutUserInput
+    Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
+    Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitCreateNestedManyWithoutUserInput
     RecruitComment?: RecruitCommentCreateNestedManyWithoutUserInput
     channelchats?: channelchatsCreateNestedManyWithoutUserInput
@@ -15727,6 +17080,8 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
+    Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
+    Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
     RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutUserInput
     channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
@@ -15746,6 +17101,8 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
+    Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
+    Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUpdateManyWithoutUserNestedInput
     RecruitComment?: RecruitCommentUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUpdateManyWithoutUserNestedInput
@@ -15766,6 +17123,8 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
+    Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
     RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
@@ -16238,6 +17597,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     theater_name?: string | null
+    Matches?: MatchesCreateNestedManyWithoutRecruitInput
     User: UserCreateNestedOneWithoutRecruitInput
     RecruitComment?: RecruitCommentCreateNestedManyWithoutRecruitInput
   }
@@ -16254,6 +17614,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     theater_name?: string | null
+    Matches?: MatchesUncheckedCreateNestedManyWithoutRecruitInput
     RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutRecruitInput
   }
 
@@ -16267,6 +17628,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     theater_name?: NullableStringFieldUpdateOperationsInput | string | null
+    Matches?: MatchesUpdateManyWithoutRecruitNestedInput
     User?: UserUpdateOneRequiredWithoutRecruitNestedInput
     RecruitComment?: RecruitCommentUpdateManyWithoutRecruitNestedInput
   }
@@ -16283,6 +17645,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     theater_name?: NullableStringFieldUpdateOperationsInput | string | null
+    Matches?: MatchesUncheckedUpdateManyWithoutRecruitNestedInput
     RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutRecruitNestedInput
   }
 
@@ -16389,6 +17752,84 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type MatchesCreateInput = {
+    acceptedAt?: Date | string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    deletedAt?: string | null
+    status?: $Enums.Matches_status
+    User_Matches_owner_idToUser: UserCreateNestedOneWithoutMatches_Matches_owner_idToUserInput
+    Recruit?: RecruitCreateNestedOneWithoutMatchesInput
+    User_Matches_requester_idToUser: UserCreateNestedOneWithoutMatches_Matches_requester_idToUserInput
+  }
+
+  export type MatchesUncheckedCreateInput = {
+    id?: number
+    recruit_id?: number | null
+    requester_id: number
+    owner_id: number
+    acceptedAt?: Date | string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    deletedAt?: string | null
+    status?: $Enums.Matches_status
+  }
+
+  export type MatchesUpdateInput = {
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumMatches_statusFieldUpdateOperationsInput | $Enums.Matches_status
+    User_Matches_owner_idToUser?: UserUpdateOneRequiredWithoutMatches_Matches_owner_idToUserNestedInput
+    Recruit?: RecruitUpdateOneWithoutMatchesNestedInput
+    User_Matches_requester_idToUser?: UserUpdateOneRequiredWithoutMatches_Matches_requester_idToUserNestedInput
+  }
+
+  export type MatchesUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    recruit_id?: NullableIntFieldUpdateOperationsInput | number | null
+    requester_id?: IntFieldUpdateOperationsInput | number
+    owner_id?: IntFieldUpdateOperationsInput | number
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumMatches_statusFieldUpdateOperationsInput | $Enums.Matches_status
+  }
+
+  export type MatchesCreateManyInput = {
+    id?: number
+    recruit_id?: number | null
+    requester_id: number
+    owner_id: number
+    acceptedAt?: Date | string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    deletedAt?: string | null
+    status?: $Enums.Matches_status
+  }
+
+  export type MatchesUpdateManyMutationInput = {
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumMatches_statusFieldUpdateOperationsInput | $Enums.Matches_status
+  }
+
+  export type MatchesUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    recruit_id?: NullableIntFieldUpdateOperationsInput | number | null
+    requester_id?: IntFieldUpdateOperationsInput | number
+    owner_id?: IntFieldUpdateOperationsInput | number
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumMatches_statusFieldUpdateOperationsInput | $Enums.Matches_status
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -16743,6 +18184,12 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type MatchesListRelationFilter = {
+    every?: MatchesWhereInput
+    some?: MatchesWhereInput
+    none?: MatchesWhereInput
+  }
+
   export type RecruitListRelationFilter = {
     every?: RecruitWhereInput
     some?: RecruitWhereInput
@@ -16777,6 +18224,10 @@ export namespace Prisma {
     every?: workspacemembersWhereInput
     some?: workspacemembersWhereInput
     none?: workspacemembersWhereInput
+  }
+
+  export type MatchesOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type RecruitOrderByRelationAggregateInput = {
@@ -17349,6 +18800,78 @@ export namespace Prisma {
     userno?: SortOrder
   }
 
+  export type EnumMatches_statusFilter<$PrismaModel = never> = {
+    equals?: $Enums.Matches_status | EnumMatches_statusFieldRefInput<$PrismaModel>
+    in?: $Enums.Matches_status[]
+    notIn?: $Enums.Matches_status[]
+    not?: NestedEnumMatches_statusFilter<$PrismaModel> | $Enums.Matches_status
+  }
+
+  export type RecruitNullableRelationFilter = {
+    is?: RecruitWhereInput | null
+    isNot?: RecruitWhereInput | null
+  }
+
+  export type MatchesCountOrderByAggregateInput = {
+    id?: SortOrder
+    recruit_id?: SortOrder
+    requester_id?: SortOrder
+    owner_id?: SortOrder
+    acceptedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+    status?: SortOrder
+  }
+
+  export type MatchesAvgOrderByAggregateInput = {
+    id?: SortOrder
+    recruit_id?: SortOrder
+    requester_id?: SortOrder
+    owner_id?: SortOrder
+  }
+
+  export type MatchesMaxOrderByAggregateInput = {
+    id?: SortOrder
+    recruit_id?: SortOrder
+    requester_id?: SortOrder
+    owner_id?: SortOrder
+    acceptedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+    status?: SortOrder
+  }
+
+  export type MatchesMinOrderByAggregateInput = {
+    id?: SortOrder
+    recruit_id?: SortOrder
+    requester_id?: SortOrder
+    owner_id?: SortOrder
+    acceptedAt?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+    status?: SortOrder
+  }
+
+  export type MatchesSumOrderByAggregateInput = {
+    id?: SortOrder
+    recruit_id?: SortOrder
+    requester_id?: SortOrder
+    owner_id?: SortOrder
+  }
+
+  export type EnumMatches_statusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Matches_status | EnumMatches_statusFieldRefInput<$PrismaModel>
+    in?: $Enums.Matches_status[]
+    notIn?: $Enums.Matches_status[]
+    not?: NestedEnumMatches_statusWithAggregatesFilter<$PrismaModel> | $Enums.Matches_status
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumMatches_statusFilter<$PrismaModel>
+    _max?: NestedEnumMatches_statusFilter<$PrismaModel>
+  }
+
   export type MovieCreateNestedOneWithoutCommentInput = {
     create?: XOR<MovieCreateWithoutCommentInput, MovieUncheckedCreateWithoutCommentInput>
     connectOrCreate?: MovieCreateOrConnectWithoutCommentInput
@@ -17538,6 +19061,20 @@ export namespace Prisma {
     connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
   }
 
+  export type MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput = {
+    create?: XOR<MatchesCreateWithoutUser_Matches_owner_idToUserInput, MatchesUncheckedCreateWithoutUser_Matches_owner_idToUserInput> | MatchesCreateWithoutUser_Matches_owner_idToUserInput[] | MatchesUncheckedCreateWithoutUser_Matches_owner_idToUserInput[]
+    connectOrCreate?: MatchesCreateOrConnectWithoutUser_Matches_owner_idToUserInput | MatchesCreateOrConnectWithoutUser_Matches_owner_idToUserInput[]
+    createMany?: MatchesCreateManyUser_Matches_owner_idToUserInputEnvelope
+    connect?: MatchesWhereUniqueInput | MatchesWhereUniqueInput[]
+  }
+
+  export type MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput = {
+    create?: XOR<MatchesCreateWithoutUser_Matches_requester_idToUserInput, MatchesUncheckedCreateWithoutUser_Matches_requester_idToUserInput> | MatchesCreateWithoutUser_Matches_requester_idToUserInput[] | MatchesUncheckedCreateWithoutUser_Matches_requester_idToUserInput[]
+    connectOrCreate?: MatchesCreateOrConnectWithoutUser_Matches_requester_idToUserInput | MatchesCreateOrConnectWithoutUser_Matches_requester_idToUserInput[]
+    createMany?: MatchesCreateManyUser_Matches_requester_idToUserInputEnvelope
+    connect?: MatchesWhereUniqueInput | MatchesWhereUniqueInput[]
+  }
+
   export type RecruitCreateNestedManyWithoutUserInput = {
     create?: XOR<RecruitCreateWithoutUserInput, RecruitUncheckedCreateWithoutUserInput> | RecruitCreateWithoutUserInput[] | RecruitUncheckedCreateWithoutUserInput[]
     connectOrCreate?: RecruitCreateOrConnectWithoutUserInput | RecruitCreateOrConnectWithoutUserInput[]
@@ -17592,6 +19129,20 @@ export namespace Prisma {
     connectOrCreate?: CommentCreateOrConnectWithoutUserInput | CommentCreateOrConnectWithoutUserInput[]
     createMany?: CommentCreateManyUserInputEnvelope
     connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+  }
+
+  export type MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput = {
+    create?: XOR<MatchesCreateWithoutUser_Matches_owner_idToUserInput, MatchesUncheckedCreateWithoutUser_Matches_owner_idToUserInput> | MatchesCreateWithoutUser_Matches_owner_idToUserInput[] | MatchesUncheckedCreateWithoutUser_Matches_owner_idToUserInput[]
+    connectOrCreate?: MatchesCreateOrConnectWithoutUser_Matches_owner_idToUserInput | MatchesCreateOrConnectWithoutUser_Matches_owner_idToUserInput[]
+    createMany?: MatchesCreateManyUser_Matches_owner_idToUserInputEnvelope
+    connect?: MatchesWhereUniqueInput | MatchesWhereUniqueInput[]
+  }
+
+  export type MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput = {
+    create?: XOR<MatchesCreateWithoutUser_Matches_requester_idToUserInput, MatchesUncheckedCreateWithoutUser_Matches_requester_idToUserInput> | MatchesCreateWithoutUser_Matches_requester_idToUserInput[] | MatchesUncheckedCreateWithoutUser_Matches_requester_idToUserInput[]
+    connectOrCreate?: MatchesCreateOrConnectWithoutUser_Matches_requester_idToUserInput | MatchesCreateOrConnectWithoutUser_Matches_requester_idToUserInput[]
+    createMany?: MatchesCreateManyUser_Matches_requester_idToUserInputEnvelope
+    connect?: MatchesWhereUniqueInput | MatchesWhereUniqueInput[]
   }
 
   export type RecruitUncheckedCreateNestedManyWithoutUserInput = {
@@ -17659,6 +19210,34 @@ export namespace Prisma {
     update?: CommentUpdateWithWhereUniqueWithoutUserInput | CommentUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: CommentUpdateManyWithWhereWithoutUserInput | CommentUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
+  }
+
+  export type MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput = {
+    create?: XOR<MatchesCreateWithoutUser_Matches_owner_idToUserInput, MatchesUncheckedCreateWithoutUser_Matches_owner_idToUserInput> | MatchesCreateWithoutUser_Matches_owner_idToUserInput[] | MatchesUncheckedCreateWithoutUser_Matches_owner_idToUserInput[]
+    connectOrCreate?: MatchesCreateOrConnectWithoutUser_Matches_owner_idToUserInput | MatchesCreateOrConnectWithoutUser_Matches_owner_idToUserInput[]
+    upsert?: MatchesUpsertWithWhereUniqueWithoutUser_Matches_owner_idToUserInput | MatchesUpsertWithWhereUniqueWithoutUser_Matches_owner_idToUserInput[]
+    createMany?: MatchesCreateManyUser_Matches_owner_idToUserInputEnvelope
+    set?: MatchesWhereUniqueInput | MatchesWhereUniqueInput[]
+    disconnect?: MatchesWhereUniqueInput | MatchesWhereUniqueInput[]
+    delete?: MatchesWhereUniqueInput | MatchesWhereUniqueInput[]
+    connect?: MatchesWhereUniqueInput | MatchesWhereUniqueInput[]
+    update?: MatchesUpdateWithWhereUniqueWithoutUser_Matches_owner_idToUserInput | MatchesUpdateWithWhereUniqueWithoutUser_Matches_owner_idToUserInput[]
+    updateMany?: MatchesUpdateManyWithWhereWithoutUser_Matches_owner_idToUserInput | MatchesUpdateManyWithWhereWithoutUser_Matches_owner_idToUserInput[]
+    deleteMany?: MatchesScalarWhereInput | MatchesScalarWhereInput[]
+  }
+
+  export type MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput = {
+    create?: XOR<MatchesCreateWithoutUser_Matches_requester_idToUserInput, MatchesUncheckedCreateWithoutUser_Matches_requester_idToUserInput> | MatchesCreateWithoutUser_Matches_requester_idToUserInput[] | MatchesUncheckedCreateWithoutUser_Matches_requester_idToUserInput[]
+    connectOrCreate?: MatchesCreateOrConnectWithoutUser_Matches_requester_idToUserInput | MatchesCreateOrConnectWithoutUser_Matches_requester_idToUserInput[]
+    upsert?: MatchesUpsertWithWhereUniqueWithoutUser_Matches_requester_idToUserInput | MatchesUpsertWithWhereUniqueWithoutUser_Matches_requester_idToUserInput[]
+    createMany?: MatchesCreateManyUser_Matches_requester_idToUserInputEnvelope
+    set?: MatchesWhereUniqueInput | MatchesWhereUniqueInput[]
+    disconnect?: MatchesWhereUniqueInput | MatchesWhereUniqueInput[]
+    delete?: MatchesWhereUniqueInput | MatchesWhereUniqueInput[]
+    connect?: MatchesWhereUniqueInput | MatchesWhereUniqueInput[]
+    update?: MatchesUpdateWithWhereUniqueWithoutUser_Matches_requester_idToUserInput | MatchesUpdateWithWhereUniqueWithoutUser_Matches_requester_idToUserInput[]
+    updateMany?: MatchesUpdateManyWithWhereWithoutUser_Matches_requester_idToUserInput | MatchesUpdateManyWithWhereWithoutUser_Matches_requester_idToUserInput[]
+    deleteMany?: MatchesScalarWhereInput | MatchesScalarWhereInput[]
   }
 
   export type RecruitUpdateManyWithoutUserNestedInput = {
@@ -17771,6 +19350,34 @@ export namespace Prisma {
     update?: CommentUpdateWithWhereUniqueWithoutUserInput | CommentUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: CommentUpdateManyWithWhereWithoutUserInput | CommentUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
+  }
+
+  export type MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput = {
+    create?: XOR<MatchesCreateWithoutUser_Matches_owner_idToUserInput, MatchesUncheckedCreateWithoutUser_Matches_owner_idToUserInput> | MatchesCreateWithoutUser_Matches_owner_idToUserInput[] | MatchesUncheckedCreateWithoutUser_Matches_owner_idToUserInput[]
+    connectOrCreate?: MatchesCreateOrConnectWithoutUser_Matches_owner_idToUserInput | MatchesCreateOrConnectWithoutUser_Matches_owner_idToUserInput[]
+    upsert?: MatchesUpsertWithWhereUniqueWithoutUser_Matches_owner_idToUserInput | MatchesUpsertWithWhereUniqueWithoutUser_Matches_owner_idToUserInput[]
+    createMany?: MatchesCreateManyUser_Matches_owner_idToUserInputEnvelope
+    set?: MatchesWhereUniqueInput | MatchesWhereUniqueInput[]
+    disconnect?: MatchesWhereUniqueInput | MatchesWhereUniqueInput[]
+    delete?: MatchesWhereUniqueInput | MatchesWhereUniqueInput[]
+    connect?: MatchesWhereUniqueInput | MatchesWhereUniqueInput[]
+    update?: MatchesUpdateWithWhereUniqueWithoutUser_Matches_owner_idToUserInput | MatchesUpdateWithWhereUniqueWithoutUser_Matches_owner_idToUserInput[]
+    updateMany?: MatchesUpdateManyWithWhereWithoutUser_Matches_owner_idToUserInput | MatchesUpdateManyWithWhereWithoutUser_Matches_owner_idToUserInput[]
+    deleteMany?: MatchesScalarWhereInput | MatchesScalarWhereInput[]
+  }
+
+  export type MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput = {
+    create?: XOR<MatchesCreateWithoutUser_Matches_requester_idToUserInput, MatchesUncheckedCreateWithoutUser_Matches_requester_idToUserInput> | MatchesCreateWithoutUser_Matches_requester_idToUserInput[] | MatchesUncheckedCreateWithoutUser_Matches_requester_idToUserInput[]
+    connectOrCreate?: MatchesCreateOrConnectWithoutUser_Matches_requester_idToUserInput | MatchesCreateOrConnectWithoutUser_Matches_requester_idToUserInput[]
+    upsert?: MatchesUpsertWithWhereUniqueWithoutUser_Matches_requester_idToUserInput | MatchesUpsertWithWhereUniqueWithoutUser_Matches_requester_idToUserInput[]
+    createMany?: MatchesCreateManyUser_Matches_requester_idToUserInputEnvelope
+    set?: MatchesWhereUniqueInput | MatchesWhereUniqueInput[]
+    disconnect?: MatchesWhereUniqueInput | MatchesWhereUniqueInput[]
+    delete?: MatchesWhereUniqueInput | MatchesWhereUniqueInput[]
+    connect?: MatchesWhereUniqueInput | MatchesWhereUniqueInput[]
+    update?: MatchesUpdateWithWhereUniqueWithoutUser_Matches_requester_idToUserInput | MatchesUpdateWithWhereUniqueWithoutUser_Matches_requester_idToUserInput[]
+    updateMany?: MatchesUpdateManyWithWhereWithoutUser_Matches_requester_idToUserInput | MatchesUpdateManyWithWhereWithoutUser_Matches_requester_idToUserInput[]
+    deleteMany?: MatchesScalarWhereInput | MatchesScalarWhereInput[]
   }
 
   export type RecruitUncheckedUpdateManyWithoutUserNestedInput = {
@@ -18109,6 +19716,13 @@ export namespace Prisma {
     update?: XOR<XOR<MovieUpdateToOneWithWhereWithoutMovieVodInput, MovieUpdateWithoutMovieVodInput>, MovieUncheckedUpdateWithoutMovieVodInput>
   }
 
+  export type MatchesCreateNestedManyWithoutRecruitInput = {
+    create?: XOR<MatchesCreateWithoutRecruitInput, MatchesUncheckedCreateWithoutRecruitInput> | MatchesCreateWithoutRecruitInput[] | MatchesUncheckedCreateWithoutRecruitInput[]
+    connectOrCreate?: MatchesCreateOrConnectWithoutRecruitInput | MatchesCreateOrConnectWithoutRecruitInput[]
+    createMany?: MatchesCreateManyRecruitInputEnvelope
+    connect?: MatchesWhereUniqueInput | MatchesWhereUniqueInput[]
+  }
+
   export type UserCreateNestedOneWithoutRecruitInput = {
     create?: XOR<UserCreateWithoutRecruitInput, UserUncheckedCreateWithoutRecruitInput>
     connectOrCreate?: UserCreateOrConnectWithoutRecruitInput
@@ -18122,6 +19736,13 @@ export namespace Prisma {
     connect?: RecruitCommentWhereUniqueInput | RecruitCommentWhereUniqueInput[]
   }
 
+  export type MatchesUncheckedCreateNestedManyWithoutRecruitInput = {
+    create?: XOR<MatchesCreateWithoutRecruitInput, MatchesUncheckedCreateWithoutRecruitInput> | MatchesCreateWithoutRecruitInput[] | MatchesUncheckedCreateWithoutRecruitInput[]
+    connectOrCreate?: MatchesCreateOrConnectWithoutRecruitInput | MatchesCreateOrConnectWithoutRecruitInput[]
+    createMany?: MatchesCreateManyRecruitInputEnvelope
+    connect?: MatchesWhereUniqueInput | MatchesWhereUniqueInput[]
+  }
+
   export type RecruitCommentUncheckedCreateNestedManyWithoutRecruitInput = {
     create?: XOR<RecruitCommentCreateWithoutRecruitInput, RecruitCommentUncheckedCreateWithoutRecruitInput> | RecruitCommentCreateWithoutRecruitInput[] | RecruitCommentUncheckedCreateWithoutRecruitInput[]
     connectOrCreate?: RecruitCommentCreateOrConnectWithoutRecruitInput | RecruitCommentCreateOrConnectWithoutRecruitInput[]
@@ -18131,6 +19752,20 @@ export namespace Prisma {
 
   export type EnumRecruit_statusFieldUpdateOperationsInput = {
     set?: $Enums.Recruit_status
+  }
+
+  export type MatchesUpdateManyWithoutRecruitNestedInput = {
+    create?: XOR<MatchesCreateWithoutRecruitInput, MatchesUncheckedCreateWithoutRecruitInput> | MatchesCreateWithoutRecruitInput[] | MatchesUncheckedCreateWithoutRecruitInput[]
+    connectOrCreate?: MatchesCreateOrConnectWithoutRecruitInput | MatchesCreateOrConnectWithoutRecruitInput[]
+    upsert?: MatchesUpsertWithWhereUniqueWithoutRecruitInput | MatchesUpsertWithWhereUniqueWithoutRecruitInput[]
+    createMany?: MatchesCreateManyRecruitInputEnvelope
+    set?: MatchesWhereUniqueInput | MatchesWhereUniqueInput[]
+    disconnect?: MatchesWhereUniqueInput | MatchesWhereUniqueInput[]
+    delete?: MatchesWhereUniqueInput | MatchesWhereUniqueInput[]
+    connect?: MatchesWhereUniqueInput | MatchesWhereUniqueInput[]
+    update?: MatchesUpdateWithWhereUniqueWithoutRecruitInput | MatchesUpdateWithWhereUniqueWithoutRecruitInput[]
+    updateMany?: MatchesUpdateManyWithWhereWithoutRecruitInput | MatchesUpdateManyWithWhereWithoutRecruitInput[]
+    deleteMany?: MatchesScalarWhereInput | MatchesScalarWhereInput[]
   }
 
   export type UserUpdateOneRequiredWithoutRecruitNestedInput = {
@@ -18153,6 +19788,20 @@ export namespace Prisma {
     update?: RecruitCommentUpdateWithWhereUniqueWithoutRecruitInput | RecruitCommentUpdateWithWhereUniqueWithoutRecruitInput[]
     updateMany?: RecruitCommentUpdateManyWithWhereWithoutRecruitInput | RecruitCommentUpdateManyWithWhereWithoutRecruitInput[]
     deleteMany?: RecruitCommentScalarWhereInput | RecruitCommentScalarWhereInput[]
+  }
+
+  export type MatchesUncheckedUpdateManyWithoutRecruitNestedInput = {
+    create?: XOR<MatchesCreateWithoutRecruitInput, MatchesUncheckedCreateWithoutRecruitInput> | MatchesCreateWithoutRecruitInput[] | MatchesUncheckedCreateWithoutRecruitInput[]
+    connectOrCreate?: MatchesCreateOrConnectWithoutRecruitInput | MatchesCreateOrConnectWithoutRecruitInput[]
+    upsert?: MatchesUpsertWithWhereUniqueWithoutRecruitInput | MatchesUpsertWithWhereUniqueWithoutRecruitInput[]
+    createMany?: MatchesCreateManyRecruitInputEnvelope
+    set?: MatchesWhereUniqueInput | MatchesWhereUniqueInput[]
+    disconnect?: MatchesWhereUniqueInput | MatchesWhereUniqueInput[]
+    delete?: MatchesWhereUniqueInput | MatchesWhereUniqueInput[]
+    connect?: MatchesWhereUniqueInput | MatchesWhereUniqueInput[]
+    update?: MatchesUpdateWithWhereUniqueWithoutRecruitInput | MatchesUpdateWithWhereUniqueWithoutRecruitInput[]
+    updateMany?: MatchesUpdateManyWithWhereWithoutRecruitInput | MatchesUpdateManyWithWhereWithoutRecruitInput[]
+    deleteMany?: MatchesScalarWhereInput | MatchesScalarWhereInput[]
   }
 
   export type RecruitCommentUncheckedUpdateManyWithoutRecruitNestedInput = {
@@ -18195,6 +19844,54 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutRecruitCommentInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRecruitCommentInput, UserUpdateWithoutRecruitCommentInput>, UserUncheckedUpdateWithoutRecruitCommentInput>
+  }
+
+  export type UserCreateNestedOneWithoutMatches_Matches_owner_idToUserInput = {
+    create?: XOR<UserCreateWithoutMatches_Matches_owner_idToUserInput, UserUncheckedCreateWithoutMatches_Matches_owner_idToUserInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMatches_Matches_owner_idToUserInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type RecruitCreateNestedOneWithoutMatchesInput = {
+    create?: XOR<RecruitCreateWithoutMatchesInput, RecruitUncheckedCreateWithoutMatchesInput>
+    connectOrCreate?: RecruitCreateOrConnectWithoutMatchesInput
+    connect?: RecruitWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutMatches_Matches_requester_idToUserInput = {
+    create?: XOR<UserCreateWithoutMatches_Matches_requester_idToUserInput, UserUncheckedCreateWithoutMatches_Matches_requester_idToUserInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMatches_Matches_requester_idToUserInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumMatches_statusFieldUpdateOperationsInput = {
+    set?: $Enums.Matches_status
+  }
+
+  export type UserUpdateOneRequiredWithoutMatches_Matches_owner_idToUserNestedInput = {
+    create?: XOR<UserCreateWithoutMatches_Matches_owner_idToUserInput, UserUncheckedCreateWithoutMatches_Matches_owner_idToUserInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMatches_Matches_owner_idToUserInput
+    upsert?: UserUpsertWithoutMatches_Matches_owner_idToUserInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMatches_Matches_owner_idToUserInput, UserUpdateWithoutMatches_Matches_owner_idToUserInput>, UserUncheckedUpdateWithoutMatches_Matches_owner_idToUserInput>
+  }
+
+  export type RecruitUpdateOneWithoutMatchesNestedInput = {
+    create?: XOR<RecruitCreateWithoutMatchesInput, RecruitUncheckedCreateWithoutMatchesInput>
+    connectOrCreate?: RecruitCreateOrConnectWithoutMatchesInput
+    upsert?: RecruitUpsertWithoutMatchesInput
+    disconnect?: RecruitWhereInput | boolean
+    delete?: RecruitWhereInput | boolean
+    connect?: RecruitWhereUniqueInput
+    update?: XOR<XOR<RecruitUpdateToOneWithWhereWithoutMatchesInput, RecruitUpdateWithoutMatchesInput>, RecruitUncheckedUpdateWithoutMatchesInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutMatches_Matches_requester_idToUserNestedInput = {
+    create?: XOR<UserCreateWithoutMatches_Matches_requester_idToUserInput, UserUncheckedCreateWithoutMatches_Matches_requester_idToUserInput>
+    connectOrCreate?: UserCreateOrConnectWithoutMatches_Matches_requester_idToUserInput
+    upsert?: UserUpsertWithoutMatches_Matches_requester_idToUserInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMatches_Matches_requester_idToUserInput, UserUpdateWithoutMatches_Matches_requester_idToUserInput>, UserUncheckedUpdateWithoutMatches_Matches_requester_idToUserInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -18480,6 +20177,23 @@ export namespace Prisma {
     _max?: NestedEnumRecruit_statusFilter<$PrismaModel>
   }
 
+  export type NestedEnumMatches_statusFilter<$PrismaModel = never> = {
+    equals?: $Enums.Matches_status | EnumMatches_statusFieldRefInput<$PrismaModel>
+    in?: $Enums.Matches_status[]
+    notIn?: $Enums.Matches_status[]
+    not?: NestedEnumMatches_statusFilter<$PrismaModel> | $Enums.Matches_status
+  }
+
+  export type NestedEnumMatches_statusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Matches_status | EnumMatches_statusFieldRefInput<$PrismaModel>
+    in?: $Enums.Matches_status[]
+    notIn?: $Enums.Matches_status[]
+    not?: NestedEnumMatches_statusWithAggregatesFilter<$PrismaModel> | $Enums.Matches_status
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumMatches_statusFilter<$PrismaModel>
+    _max?: NestedEnumMatches_statusFilter<$PrismaModel>
+  }
+
   export type MovieCreateWithoutCommentInput = {
     audience?: bigint | number | null
     movieCd: number
@@ -18535,6 +20249,8 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     provider?: string
     image?: string | null
+    Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
+    Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitCreateNestedManyWithoutUserInput
     RecruitComment?: RecruitCommentCreateNestedManyWithoutUserInput
     channelchats?: channelchatsCreateNestedManyWithoutUserInput
@@ -18554,6 +20270,8 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     provider?: string
     image?: string | null
+    Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
+    Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
     RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutUserInput
     channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
@@ -18640,6 +20358,8 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
+    Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUpdateManyWithoutUserNestedInput
     RecruitComment?: RecruitCommentUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUpdateManyWithoutUserNestedInput
@@ -18659,6 +20379,8 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
+    Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
     RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
@@ -18860,6 +20582,68 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type MatchesCreateWithoutUser_Matches_owner_idToUserInput = {
+    acceptedAt?: Date | string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    deletedAt?: string | null
+    status?: $Enums.Matches_status
+    Recruit?: RecruitCreateNestedOneWithoutMatchesInput
+    User_Matches_requester_idToUser: UserCreateNestedOneWithoutMatches_Matches_requester_idToUserInput
+  }
+
+  export type MatchesUncheckedCreateWithoutUser_Matches_owner_idToUserInput = {
+    id?: number
+    recruit_id?: number | null
+    requester_id: number
+    acceptedAt?: Date | string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    deletedAt?: string | null
+    status?: $Enums.Matches_status
+  }
+
+  export type MatchesCreateOrConnectWithoutUser_Matches_owner_idToUserInput = {
+    where: MatchesWhereUniqueInput
+    create: XOR<MatchesCreateWithoutUser_Matches_owner_idToUserInput, MatchesUncheckedCreateWithoutUser_Matches_owner_idToUserInput>
+  }
+
+  export type MatchesCreateManyUser_Matches_owner_idToUserInputEnvelope = {
+    data: MatchesCreateManyUser_Matches_owner_idToUserInput | MatchesCreateManyUser_Matches_owner_idToUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type MatchesCreateWithoutUser_Matches_requester_idToUserInput = {
+    acceptedAt?: Date | string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    deletedAt?: string | null
+    status?: $Enums.Matches_status
+    User_Matches_owner_idToUser: UserCreateNestedOneWithoutMatches_Matches_owner_idToUserInput
+    Recruit?: RecruitCreateNestedOneWithoutMatchesInput
+  }
+
+  export type MatchesUncheckedCreateWithoutUser_Matches_requester_idToUserInput = {
+    id?: number
+    recruit_id?: number | null
+    owner_id: number
+    acceptedAt?: Date | string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    deletedAt?: string | null
+    status?: $Enums.Matches_status
+  }
+
+  export type MatchesCreateOrConnectWithoutUser_Matches_requester_idToUserInput = {
+    where: MatchesWhereUniqueInput
+    create: XOR<MatchesCreateWithoutUser_Matches_requester_idToUserInput, MatchesUncheckedCreateWithoutUser_Matches_requester_idToUserInput>
+  }
+
+  export type MatchesCreateManyUser_Matches_requester_idToUserInputEnvelope = {
+    data: MatchesCreateManyUser_Matches_requester_idToUserInput | MatchesCreateManyUser_Matches_requester_idToUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type RecruitCreateWithoutUserInput = {
     title: string
     content: string
@@ -18870,6 +20654,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     theater_name?: string | null
+    Matches?: MatchesCreateNestedManyWithoutRecruitInput
     RecruitComment?: RecruitCommentCreateNestedManyWithoutRecruitInput
   }
 
@@ -18884,6 +20669,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     theater_name?: string | null
+    Matches?: MatchesUncheckedCreateNestedManyWithoutRecruitInput
     RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutRecruitInput
   }
 
@@ -19065,6 +20851,53 @@ export namespace Prisma {
   export type CommentUpdateManyWithWhereWithoutUserInput = {
     where: CommentScalarWhereInput
     data: XOR<CommentUpdateManyMutationInput, CommentUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type MatchesUpsertWithWhereUniqueWithoutUser_Matches_owner_idToUserInput = {
+    where: MatchesWhereUniqueInput
+    update: XOR<MatchesUpdateWithoutUser_Matches_owner_idToUserInput, MatchesUncheckedUpdateWithoutUser_Matches_owner_idToUserInput>
+    create: XOR<MatchesCreateWithoutUser_Matches_owner_idToUserInput, MatchesUncheckedCreateWithoutUser_Matches_owner_idToUserInput>
+  }
+
+  export type MatchesUpdateWithWhereUniqueWithoutUser_Matches_owner_idToUserInput = {
+    where: MatchesWhereUniqueInput
+    data: XOR<MatchesUpdateWithoutUser_Matches_owner_idToUserInput, MatchesUncheckedUpdateWithoutUser_Matches_owner_idToUserInput>
+  }
+
+  export type MatchesUpdateManyWithWhereWithoutUser_Matches_owner_idToUserInput = {
+    where: MatchesScalarWhereInput
+    data: XOR<MatchesUpdateManyMutationInput, MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserInput>
+  }
+
+  export type MatchesScalarWhereInput = {
+    AND?: MatchesScalarWhereInput | MatchesScalarWhereInput[]
+    OR?: MatchesScalarWhereInput[]
+    NOT?: MatchesScalarWhereInput | MatchesScalarWhereInput[]
+    id?: IntFilter<"Matches"> | number
+    recruit_id?: IntNullableFilter<"Matches"> | number | null
+    requester_id?: IntFilter<"Matches"> | number
+    owner_id?: IntFilter<"Matches"> | number
+    acceptedAt?: DateTimeNullableFilter<"Matches"> | Date | string | null
+    createdAt?: DateTimeFilter<"Matches"> | Date | string
+    updatedAt?: DateTimeFilter<"Matches"> | Date | string
+    deletedAt?: StringNullableFilter<"Matches"> | string | null
+    status?: EnumMatches_statusFilter<"Matches"> | $Enums.Matches_status
+  }
+
+  export type MatchesUpsertWithWhereUniqueWithoutUser_Matches_requester_idToUserInput = {
+    where: MatchesWhereUniqueInput
+    update: XOR<MatchesUpdateWithoutUser_Matches_requester_idToUserInput, MatchesUncheckedUpdateWithoutUser_Matches_requester_idToUserInput>
+    create: XOR<MatchesCreateWithoutUser_Matches_requester_idToUserInput, MatchesUncheckedCreateWithoutUser_Matches_requester_idToUserInput>
+  }
+
+  export type MatchesUpdateWithWhereUniqueWithoutUser_Matches_requester_idToUserInput = {
+    where: MatchesWhereUniqueInput
+    data: XOR<MatchesUpdateWithoutUser_Matches_requester_idToUserInput, MatchesUncheckedUpdateWithoutUser_Matches_requester_idToUserInput>
+  }
+
+  export type MatchesUpdateManyWithWhereWithoutUser_Matches_requester_idToUserInput = {
+    where: MatchesScalarWhereInput
+    data: XOR<MatchesUpdateManyMutationInput, MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserInput>
   }
 
   export type RecruitUpsertWithWhereUniqueWithoutUserInput = {
@@ -19287,6 +21120,8 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     Comment?: CommentCreateNestedManyWithoutUserInput
+    Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
+    Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitCreateNestedManyWithoutUserInput
     RecruitComment?: RecruitCommentCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersCreateNestedManyWithoutUserInput
@@ -19306,6 +21141,8 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
+    Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
+    Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
     RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
@@ -19368,6 +21205,8 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
+    Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
+    Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUpdateManyWithoutUserNestedInput
     RecruitComment?: RecruitCommentUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
@@ -19387,6 +21226,8 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
+    Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
     RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
@@ -19405,6 +21246,8 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     Comment?: CommentCreateNestedManyWithoutUserInput
+    Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
+    Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitCreateNestedManyWithoutUserInput
     RecruitComment?: RecruitCommentCreateNestedManyWithoutUserInput
     channelchats?: channelchatsCreateNestedManyWithoutUserInput
@@ -19424,6 +21267,8 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
+    Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
+    Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
     RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutUserInput
     channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
@@ -19458,6 +21303,8 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
+    Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
+    Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUpdateManyWithoutUserNestedInput
     RecruitComment?: RecruitCommentUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUpdateManyWithoutUserNestedInput
@@ -19477,6 +21324,8 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
+    Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
     RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
@@ -19617,6 +21466,8 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     Comment?: CommentCreateNestedManyWithoutUserInput
+    Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
+    Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitCreateNestedManyWithoutUserInput
     RecruitComment?: RecruitCommentCreateNestedManyWithoutUserInput
     channelchats?: channelchatsCreateNestedManyWithoutUserInput
@@ -19636,6 +21487,8 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
+    Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
+    Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
     RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutUserInput
     channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
@@ -19698,6 +21551,8 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
+    Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
+    Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUpdateManyWithoutUserNestedInput
     RecruitComment?: RecruitCommentUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUpdateManyWithoutUserNestedInput
@@ -19717,6 +21572,8 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
+    Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
     RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
@@ -19735,6 +21592,8 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     Comment?: CommentCreateNestedManyWithoutUserInput
+    Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
+    Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitCreateNestedManyWithoutUserInput
     RecruitComment?: RecruitCommentCreateNestedManyWithoutUserInput
     channelchats?: channelchatsCreateNestedManyWithoutUserInput
@@ -19754,6 +21613,8 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
+    Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
+    Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
     RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutUserInput
     channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
@@ -19788,6 +21649,8 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
+    Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
+    Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUpdateManyWithoutUserNestedInput
     RecruitComment?: RecruitCommentUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUpdateManyWithoutUserNestedInput
@@ -19807,6 +21670,8 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
+    Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
     RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
@@ -19825,6 +21690,8 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     Comment?: CommentCreateNestedManyWithoutUserInput
+    Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
+    Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitCreateNestedManyWithoutUserInput
     RecruitComment?: RecruitCommentCreateNestedManyWithoutUserInput
     channelchats?: channelchatsCreateNestedManyWithoutUserInput
@@ -19844,6 +21711,8 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
+    Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
+    Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
     RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutUserInput
     channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
@@ -19924,6 +21793,8 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
+    Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
+    Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUpdateManyWithoutUserNestedInput
     RecruitComment?: RecruitCommentUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUpdateManyWithoutUserNestedInput
@@ -19943,6 +21814,8 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
+    Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
     RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
@@ -20101,6 +21974,37 @@ export namespace Prisma {
     movieScores?: movieScoreUncheckedUpdateManyWithoutMovieNestedInput
   }
 
+  export type MatchesCreateWithoutRecruitInput = {
+    acceptedAt?: Date | string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    deletedAt?: string | null
+    status?: $Enums.Matches_status
+    User_Matches_owner_idToUser: UserCreateNestedOneWithoutMatches_Matches_owner_idToUserInput
+    User_Matches_requester_idToUser: UserCreateNestedOneWithoutMatches_Matches_requester_idToUserInput
+  }
+
+  export type MatchesUncheckedCreateWithoutRecruitInput = {
+    id?: number
+    requester_id: number
+    owner_id: number
+    acceptedAt?: Date | string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    deletedAt?: string | null
+    status?: $Enums.Matches_status
+  }
+
+  export type MatchesCreateOrConnectWithoutRecruitInput = {
+    where: MatchesWhereUniqueInput
+    create: XOR<MatchesCreateWithoutRecruitInput, MatchesUncheckedCreateWithoutRecruitInput>
+  }
+
+  export type MatchesCreateManyRecruitInputEnvelope = {
+    data: MatchesCreateManyRecruitInput | MatchesCreateManyRecruitInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserCreateWithoutRecruitInput = {
     email: string
     nickname?: string | null
@@ -20111,6 +22015,8 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     Comment?: CommentCreateNestedManyWithoutUserInput
+    Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
+    Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     RecruitComment?: RecruitCommentCreateNestedManyWithoutUserInput
     channelchats?: channelchatsCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersCreateNestedManyWithoutUserInput
@@ -20130,6 +22036,8 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
+    Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
+    Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutUserInput
     channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
@@ -20170,6 +22078,22 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type MatchesUpsertWithWhereUniqueWithoutRecruitInput = {
+    where: MatchesWhereUniqueInput
+    update: XOR<MatchesUpdateWithoutRecruitInput, MatchesUncheckedUpdateWithoutRecruitInput>
+    create: XOR<MatchesCreateWithoutRecruitInput, MatchesUncheckedCreateWithoutRecruitInput>
+  }
+
+  export type MatchesUpdateWithWhereUniqueWithoutRecruitInput = {
+    where: MatchesWhereUniqueInput
+    data: XOR<MatchesUpdateWithoutRecruitInput, MatchesUncheckedUpdateWithoutRecruitInput>
+  }
+
+  export type MatchesUpdateManyWithWhereWithoutRecruitInput = {
+    where: MatchesScalarWhereInput
+    data: XOR<MatchesUpdateManyMutationInput, MatchesUncheckedUpdateManyWithoutRecruitInput>
+  }
+
   export type UserUpsertWithoutRecruitInput = {
     update: XOR<UserUpdateWithoutRecruitInput, UserUncheckedUpdateWithoutRecruitInput>
     create: XOR<UserCreateWithoutRecruitInput, UserUncheckedCreateWithoutRecruitInput>
@@ -20191,6 +22115,8 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
+    Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
+    Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     RecruitComment?: RecruitCommentUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
@@ -20210,6 +22136,8 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
+    Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
@@ -20244,6 +22172,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     theater_name?: string | null
+    Matches?: MatchesCreateNestedManyWithoutRecruitInput
     User: UserCreateNestedOneWithoutRecruitInput
   }
 
@@ -20259,6 +22188,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     deletedAt?: Date | string | null
     theater_name?: string | null
+    Matches?: MatchesUncheckedCreateNestedManyWithoutRecruitInput
   }
 
   export type RecruitCreateOrConnectWithoutRecruitCommentInput = {
@@ -20276,6 +22206,8 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     Comment?: CommentCreateNestedManyWithoutUserInput
+    Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
+    Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitCreateNestedManyWithoutUserInput
     channelchats?: channelchatsCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersCreateNestedManyWithoutUserInput
@@ -20295,6 +22227,8 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
+    Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
+    Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
     channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
@@ -20329,6 +22263,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     theater_name?: NullableStringFieldUpdateOperationsInput | string | null
+    Matches?: MatchesUpdateManyWithoutRecruitNestedInput
     User?: UserUpdateOneRequiredWithoutRecruitNestedInput
   }
 
@@ -20344,6 +22279,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     theater_name?: NullableStringFieldUpdateOperationsInput | string | null
+    Matches?: MatchesUncheckedUpdateManyWithoutRecruitNestedInput
   }
 
   export type UserUpsertWithoutRecruitCommentInput = {
@@ -20367,6 +22303,8 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
+    Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
+    Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
@@ -20386,7 +22324,279 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
+    Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
+    channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
+    channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
+    movieScores?: movieScoreUncheckedUpdateManyWithoutUserNestedInput
+    workspace?: workspaceUncheckedUpdateManyWithoutUserNestedInput
+    workspacemembers?: workspacemembersUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutMatches_Matches_owner_idToUserInput = {
+    email: string
+    nickname?: string | null
+    password?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    provider?: string
+    image?: string | null
+    Comment?: CommentCreateNestedManyWithoutUserInput
+    Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
+    Recruit?: RecruitCreateNestedManyWithoutUserInput
+    RecruitComment?: RecruitCommentCreateNestedManyWithoutUserInput
+    channelchats?: channelchatsCreateNestedManyWithoutUserInput
+    channelmembers?: channelmembersCreateNestedManyWithoutUserInput
+    movieScores?: movieScoreCreateNestedManyWithoutUserInput
+    workspace?: workspaceCreateNestedManyWithoutUserInput
+    workspacemembers?: workspacemembersCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutMatches_Matches_owner_idToUserInput = {
+    id?: number
+    email: string
+    nickname?: string | null
+    password?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    provider?: string
+    image?: string | null
+    Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
+    Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
+    Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
+    RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutUserInput
+    channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
+    channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
+    movieScores?: movieScoreUncheckedCreateNestedManyWithoutUserInput
+    workspace?: workspaceUncheckedCreateNestedManyWithoutUserInput
+    workspacemembers?: workspacemembersUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutMatches_Matches_owner_idToUserInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutMatches_Matches_owner_idToUserInput, UserUncheckedCreateWithoutMatches_Matches_owner_idToUserInput>
+  }
+
+  export type RecruitCreateWithoutMatchesInput = {
+    title: string
+    content: string
+    screening_date?: Date | string | null
+    location?: string | null
+    status?: $Enums.Recruit_status
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    theater_name?: string | null
+    User: UserCreateNestedOneWithoutRecruitInput
+    RecruitComment?: RecruitCommentCreateNestedManyWithoutRecruitInput
+  }
+
+  export type RecruitUncheckedCreateWithoutMatchesInput = {
+    id?: number
+    userno: number
+    title: string
+    content: string
+    screening_date?: Date | string | null
+    location?: string | null
+    status?: $Enums.Recruit_status
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    theater_name?: string | null
+    RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutRecruitInput
+  }
+
+  export type RecruitCreateOrConnectWithoutMatchesInput = {
+    where: RecruitWhereUniqueInput
+    create: XOR<RecruitCreateWithoutMatchesInput, RecruitUncheckedCreateWithoutMatchesInput>
+  }
+
+  export type UserCreateWithoutMatches_Matches_requester_idToUserInput = {
+    email: string
+    nickname?: string | null
+    password?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    provider?: string
+    image?: string | null
+    Comment?: CommentCreateNestedManyWithoutUserInput
+    Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
+    Recruit?: RecruitCreateNestedManyWithoutUserInput
+    RecruitComment?: RecruitCommentCreateNestedManyWithoutUserInput
+    channelchats?: channelchatsCreateNestedManyWithoutUserInput
+    channelmembers?: channelmembersCreateNestedManyWithoutUserInput
+    movieScores?: movieScoreCreateNestedManyWithoutUserInput
+    workspace?: workspaceCreateNestedManyWithoutUserInput
+    workspacemembers?: workspacemembersCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutMatches_Matches_requester_idToUserInput = {
+    id?: number
+    email: string
+    nickname?: string | null
+    password?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    provider?: string
+    image?: string | null
+    Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
+    Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
+    Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
+    RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutUserInput
+    channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
+    channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
+    movieScores?: movieScoreUncheckedCreateNestedManyWithoutUserInput
+    workspace?: workspaceUncheckedCreateNestedManyWithoutUserInput
+    workspacemembers?: workspacemembersUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutMatches_Matches_requester_idToUserInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutMatches_Matches_requester_idToUserInput, UserUncheckedCreateWithoutMatches_Matches_requester_idToUserInput>
+  }
+
+  export type UserUpsertWithoutMatches_Matches_owner_idToUserInput = {
+    update: XOR<UserUpdateWithoutMatches_Matches_owner_idToUserInput, UserUncheckedUpdateWithoutMatches_Matches_owner_idToUserInput>
+    create: XOR<UserCreateWithoutMatches_Matches_owner_idToUserInput, UserUncheckedCreateWithoutMatches_Matches_owner_idToUserInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutMatches_Matches_owner_idToUserInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutMatches_Matches_owner_idToUserInput, UserUncheckedUpdateWithoutMatches_Matches_owner_idToUserInput>
+  }
+
+  export type UserUpdateWithoutMatches_Matches_owner_idToUserInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    Comment?: CommentUpdateManyWithoutUserNestedInput
+    Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
+    Recruit?: RecruitUpdateManyWithoutUserNestedInput
+    RecruitComment?: RecruitCommentUpdateManyWithoutUserNestedInput
+    channelchats?: channelchatsUpdateManyWithoutUserNestedInput
+    channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
+    movieScores?: movieScoreUpdateManyWithoutUserNestedInput
+    workspace?: workspaceUpdateManyWithoutUserNestedInput
+    workspacemembers?: workspacemembersUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutMatches_Matches_owner_idToUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
+    Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
+    RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutUserNestedInput
+    channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
+    channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
+    movieScores?: movieScoreUncheckedUpdateManyWithoutUserNestedInput
+    workspace?: workspaceUncheckedUpdateManyWithoutUserNestedInput
+    workspacemembers?: workspacemembersUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type RecruitUpsertWithoutMatchesInput = {
+    update: XOR<RecruitUpdateWithoutMatchesInput, RecruitUncheckedUpdateWithoutMatchesInput>
+    create: XOR<RecruitCreateWithoutMatchesInput, RecruitUncheckedCreateWithoutMatchesInput>
+    where?: RecruitWhereInput
+  }
+
+  export type RecruitUpdateToOneWithWhereWithoutMatchesInput = {
+    where?: RecruitWhereInput
+    data: XOR<RecruitUpdateWithoutMatchesInput, RecruitUncheckedUpdateWithoutMatchesInput>
+  }
+
+  export type RecruitUpdateWithoutMatchesInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    screening_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumRecruit_statusFieldUpdateOperationsInput | $Enums.Recruit_status
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    theater_name?: NullableStringFieldUpdateOperationsInput | string | null
+    User?: UserUpdateOneRequiredWithoutRecruitNestedInput
+    RecruitComment?: RecruitCommentUpdateManyWithoutRecruitNestedInput
+  }
+
+  export type RecruitUncheckedUpdateWithoutMatchesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userno?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    screening_date?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    location?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumRecruit_statusFieldUpdateOperationsInput | $Enums.Recruit_status
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    theater_name?: NullableStringFieldUpdateOperationsInput | string | null
+    RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutRecruitNestedInput
+  }
+
+  export type UserUpsertWithoutMatches_Matches_requester_idToUserInput = {
+    update: XOR<UserUpdateWithoutMatches_Matches_requester_idToUserInput, UserUncheckedUpdateWithoutMatches_Matches_requester_idToUserInput>
+    create: XOR<UserCreateWithoutMatches_Matches_requester_idToUserInput, UserUncheckedCreateWithoutMatches_Matches_requester_idToUserInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutMatches_Matches_requester_idToUserInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutMatches_Matches_requester_idToUserInput, UserUncheckedUpdateWithoutMatches_Matches_requester_idToUserInput>
+  }
+
+  export type UserUpdateWithoutMatches_Matches_requester_idToUserInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    Comment?: CommentUpdateManyWithoutUserNestedInput
+    Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
+    Recruit?: RecruitUpdateManyWithoutUserNestedInput
+    RecruitComment?: RecruitCommentUpdateManyWithoutUserNestedInput
+    channelchats?: channelchatsUpdateManyWithoutUserNestedInput
+    channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
+    movieScores?: movieScoreUpdateManyWithoutUserNestedInput
+    workspace?: workspaceUpdateManyWithoutUserNestedInput
+    workspacemembers?: workspacemembersUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutMatches_Matches_requester_idToUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
+    Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
+    RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUncheckedUpdateManyWithoutUserNestedInput
@@ -20504,6 +22714,28 @@ export namespace Prisma {
     comment?: string | null
   }
 
+  export type MatchesCreateManyUser_Matches_owner_idToUserInput = {
+    id?: number
+    recruit_id?: number | null
+    requester_id: number
+    acceptedAt?: Date | string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    deletedAt?: string | null
+    status?: $Enums.Matches_status
+  }
+
+  export type MatchesCreateManyUser_Matches_requester_idToUserInput = {
+    id?: number
+    recruit_id?: number | null
+    owner_id: number
+    acceptedAt?: Date | string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    deletedAt?: string | null
+    status?: $Enums.Matches_status
+  }
+
   export type RecruitCreateManyUserInput = {
     id?: number
     title: string
@@ -20591,6 +22823,70 @@ export namespace Prisma {
     comment?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type MatchesUpdateWithoutUser_Matches_owner_idToUserInput = {
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumMatches_statusFieldUpdateOperationsInput | $Enums.Matches_status
+    Recruit?: RecruitUpdateOneWithoutMatchesNestedInput
+    User_Matches_requester_idToUser?: UserUpdateOneRequiredWithoutMatches_Matches_requester_idToUserNestedInput
+  }
+
+  export type MatchesUncheckedUpdateWithoutUser_Matches_owner_idToUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    recruit_id?: NullableIntFieldUpdateOperationsInput | number | null
+    requester_id?: IntFieldUpdateOperationsInput | number
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumMatches_statusFieldUpdateOperationsInput | $Enums.Matches_status
+  }
+
+  export type MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    recruit_id?: NullableIntFieldUpdateOperationsInput | number | null
+    requester_id?: IntFieldUpdateOperationsInput | number
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumMatches_statusFieldUpdateOperationsInput | $Enums.Matches_status
+  }
+
+  export type MatchesUpdateWithoutUser_Matches_requester_idToUserInput = {
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumMatches_statusFieldUpdateOperationsInput | $Enums.Matches_status
+    User_Matches_owner_idToUser?: UserUpdateOneRequiredWithoutMatches_Matches_owner_idToUserNestedInput
+    Recruit?: RecruitUpdateOneWithoutMatchesNestedInput
+  }
+
+  export type MatchesUncheckedUpdateWithoutUser_Matches_requester_idToUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    recruit_id?: NullableIntFieldUpdateOperationsInput | number | null
+    owner_id?: IntFieldUpdateOperationsInput | number
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumMatches_statusFieldUpdateOperationsInput | $Enums.Matches_status
+  }
+
+  export type MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    recruit_id?: NullableIntFieldUpdateOperationsInput | number | null
+    owner_id?: IntFieldUpdateOperationsInput | number
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumMatches_statusFieldUpdateOperationsInput | $Enums.Matches_status
+  }
+
   export type RecruitUpdateWithoutUserInput = {
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
@@ -20601,6 +22897,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     theater_name?: NullableStringFieldUpdateOperationsInput | string | null
+    Matches?: MatchesUpdateManyWithoutRecruitNestedInput
     RecruitComment?: RecruitCommentUpdateManyWithoutRecruitNestedInput
   }
 
@@ -20615,6 +22912,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     theater_name?: NullableStringFieldUpdateOperationsInput | string | null
+    Matches?: MatchesUncheckedUpdateManyWithoutRecruitNestedInput
     RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutRecruitNestedInput
   }
 
@@ -20837,6 +23135,17 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type MatchesCreateManyRecruitInput = {
+    id?: number
+    requester_id: number
+    owner_id: number
+    acceptedAt?: Date | string | null
+    createdAt: Date | string
+    updatedAt: Date | string
+    deletedAt?: string | null
+    status?: $Enums.Matches_status
+  }
+
   export type RecruitCommentCreateManyRecruitInput = {
     id?: number
     userno: number
@@ -20844,6 +23153,38 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
+  }
+
+  export type MatchesUpdateWithoutRecruitInput = {
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumMatches_statusFieldUpdateOperationsInput | $Enums.Matches_status
+    User_Matches_owner_idToUser?: UserUpdateOneRequiredWithoutMatches_Matches_owner_idToUserNestedInput
+    User_Matches_requester_idToUser?: UserUpdateOneRequiredWithoutMatches_Matches_requester_idToUserNestedInput
+  }
+
+  export type MatchesUncheckedUpdateWithoutRecruitInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    requester_id?: IntFieldUpdateOperationsInput | number
+    owner_id?: IntFieldUpdateOperationsInput | number
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumMatches_statusFieldUpdateOperationsInput | $Enums.Matches_status
+  }
+
+  export type MatchesUncheckedUpdateManyWithoutRecruitInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    requester_id?: IntFieldUpdateOperationsInput | number
+    owner_id?: IntFieldUpdateOperationsInput | number
+    acceptedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumMatches_statusFieldUpdateOperationsInput | $Enums.Matches_status
   }
 
   export type RecruitCommentUpdateWithoutRecruitInput = {
@@ -20945,6 +23286,10 @@ export namespace Prisma {
      * @deprecated Use RecruitCommentDefaultArgs instead
      */
     export type RecruitCommentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RecruitCommentDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use MatchesDefaultArgs instead
+     */
+    export type MatchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = MatchesDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

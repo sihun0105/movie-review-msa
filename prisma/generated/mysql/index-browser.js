@@ -234,6 +234,18 @@ exports.Prisma.RecruitCommentScalarFieldEnum = {
   deletedAt: 'deletedAt'
 };
 
+exports.Prisma.MatchesScalarFieldEnum = {
+  id: 'id',
+  recruit_id: 'recruit_id',
+  requester_id: 'requester_id',
+  owner_id: 'owner_id',
+  acceptedAt: 'acceptedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt',
+  status: 'status'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -260,6 +272,12 @@ exports.Recruit_status = exports.$Enums.Recruit_status = {
   closed: 'closed'
 };
 
+exports.Matches_status = exports.$Enums.Matches_status = {
+  pending: 'pending',
+  confirmed: 'confirmed',
+  cancelled: 'cancelled'
+};
+
 exports.Prisma.ModelName = {
   Comment: 'Comment',
   Movie: 'Movie',
@@ -272,7 +290,8 @@ exports.Prisma.ModelName = {
   movieScore: 'movieScore',
   MovieVod: 'MovieVod',
   Recruit: 'Recruit',
-  RecruitComment: 'RecruitComment'
+  RecruitComment: 'RecruitComment',
+  Matches: 'Matches'
 };
 
 /**

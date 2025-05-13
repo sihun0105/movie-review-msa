@@ -48,23 +48,25 @@ model Movie {
 }
 
 model User {
-  id               Int                @id @default(autoincrement())
-  email            String             @unique(map: "uni_User_email")
-  nickname         String?            @db.LongText
-  password         String?            @db.LongText
-  createdAt        DateTime           @default(now()) @db.DateTime(6)
-  updatedAt        DateTime           @default(now()) @db.DateTime(6)
-  deletedAt        DateTime?          @db.DateTime(6)
-  provider         String             @default("credentials") @db.VarChar(45)
-  image            String?            @db.LongText
-  Comment          Comment[]
-  Recruit          Recruit[]
-  RecruitComment   RecruitComment[]
-  channelchats     channelchats[]
-  channelmembers   channelmembers[]
-  movieScores      movieScore[]
-  workspace        workspace[]
-  workspacemembers workspacemembers[]
+  id                                 Int                @id @default(autoincrement())
+  email                              String             @unique(map: "uni_User_email")
+  nickname                           String?            @db.LongText
+  password                           String?            @db.LongText
+  createdAt                          DateTime           @default(now()) @db.DateTime(6)
+  updatedAt                          DateTime           @default(now()) @db.DateTime(6)
+  deletedAt                          DateTime?          @db.DateTime(6)
+  provider                           String             @default("credentials") @db.VarChar(45)
+  image                              String?            @db.LongText
+  Comment                            Comment[]
+  Matches_Matches_owner_idToUser     Matches[]          @relation("Matches_owner_idToUser")
+  Matches_Matches_requester_idToUser Matches[]          @relation("Matches_requester_idToUser")
+  Recruit                            Recruit[]
+  RecruitComment                     RecruitComment[]
+  channelchats                       channelchats[]
+  channelmembers                     channelmembers[]
+  movieScores                        movieScore[]
+  workspace                          workspace[]
+  workspacemembers                   workspacemembers[]
 }
 
 model channelchats {
@@ -169,6 +171,7 @@ model Recruit {
   updatedAt      DateTime         @default(now()) @db.DateTime(6)
   deletedAt      DateTime?        @db.DateTime(6)
   theater_name   String?          @map("theater name") @db.VarChar(45)
+  Matches        Matches[]
   User           User             @relation(fields: [userno], references: [id], onDelete: Cascade)
   RecruitComment RecruitComment[]
 
@@ -190,8 +193,33 @@ model RecruitComment {
   @@index([userno], map: "RecruitComment_userno_fkey_idx")
 }
 
+model Matches {
+  id                              Int            @id @default(autoincrement())
+  recruit_id                      Int?
+  requester_id                    Int
+  owner_id                        Int
+  acceptedAt                      DateTime?      @db.DateTime(6)
+  createdAt                       DateTime       @db.DateTime(6)
+  updatedAt                       DateTime       @db.DateTime(6)
+  deletedAt                       String?        @db.VarChar(45)
+  status                          Matches_status @default(pending)
+  User_Matches_owner_idToUser     User           @relation("Matches_owner_idToUser", fields: [owner_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Matches_owner_fkey")
+  Recruit                         Recruit?       @relation(fields: [recruit_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Matches_recruitid_fkey")
+  User_Matches_requester_idToUser User           @relation("Matches_requester_idToUser", fields: [requester_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Matches_requester_fkey")
+
+  @@index([owner_id], map: "Matches_owner_fkey_idx")
+  @@index([recruit_id], map: "Matches_recruitid_fkey_idx")
+  @@index([requester_id], map: "Matches_requester_fkey_idx")
+}
+
 enum Recruit_status {
   open
   matched
   closed
+}
+
+enum Matches_status {
+  pending
+  confirmed
+  cancelled
 }
