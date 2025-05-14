@@ -1,0 +1,150 @@
+syntax = "proto3";
+
+import "common.proto";
+
+package recruit;
+
+option go_package = "recruit";
+
+service RecruitService {
+// Recruit
+  rpc GetRecruits(GetRecruitsRequest) returns (GetRecruitsResponse) {}
+  rpc GetRecruit(GetRecruitRequest) returns (Recruit) {}
+  rpc PostRecruit(PostRecruitRequest) returns (common.Empty) {}
+  rpc UpdateRecruit(UpdateRecruitRequest) returns (common.Empty) {}
+  rpc DeleteRecruit(DeleteRecruitRequest) returns (common.Empty) {}
+// RecruitComment  
+  rpc GetRecruitComment(GetRecruitCommentRequest) returns (GetRecruitCommentResponse) {}
+  rpc PostRecruitComment(PostRecruitCommentRequest) returns (common.Empty) {}
+  rpc UpdateRecruitComment(UpdateRecruitCommentRequest) returns (common.Empty) {}
+  rpc DeleteRecruitComment(DeleteRecruitCommentRequest) returns (common.Empty) {}
+// Match
+  rpc GetMatch(GetMatchRequest) returns (Match) {}
+  rpc PostMatch(PostMatchRequest) returns (common.Empty) {}
+  rpc UpdateMatch(UpdateMatchRequest) returns (common.Empty) {}
+  rpc DeleteMatch(DeleteMatchRequest) returns (common.Empty) {}
+}
+
+// Recruit
+message Recruit {
+    int32 id = 1;
+    int32 userno = 2;
+    string title = 3;
+    string content = 4;
+    string screening_date = 5;
+    string location = 6;
+    RecruitStatus status = 7;
+    string createdAt = 8;
+    string updatedAt = 9;
+    string deletedAt = 10;
+    string theater_name = 11;
+  }
+  
+  enum RecruitStatus {
+    OPEN = 1;
+    MATCHED = 2;
+    CLOSED = 3;
+  }
+  message GetRecruitsRequest {
+    int32 page = 1;
+    int32 size = 2;
+  }
+    message GetRecruitsResponse {
+        repeated Recruit recruits = 1;
+        bool hasNext = 2;
+    }
+  message GetRecruitRequest {
+    int32 id = 1;
+  }
+  
+  message PostRecruitRequest {
+    int32 userno = 1;
+    string title = 2;
+    string content = 3;
+    string screening_date = 4;
+    string location = 5;
+  }
+  
+  message DeleteRecruitRequest {
+    int32 id = 1;
+  }
+  
+  message UpdateRecruitRequest {
+    int32 id = 1;
+    string title = 2;
+    string content = 3;
+    string screening_date = 4;
+    string location = 5;
+  }
+  
+  // RecruitComment
+  message RecruitComment {
+    int32 id = 1;
+    int32 recruit_id = 2;
+    int32 userno = 3;
+    string content = 4;
+    string created_at = 5;
+    string updated_at = 6;
+    string deleted_at = 7;
+  }
+  
+  message GetRecruitCommentRequest {
+    int32 recruit_id = 1;
+    int32 page = 2;
+    int32 size = 3;
+  }
+  message GetRecruitCommentResponse {
+    repeated RecruitComment comments = 1;
+    bool hasNext = 2;
+  } 
+  
+  message PostRecruitCommentRequest {
+    int32 recruit_id = 1;
+    int32 userno = 2;
+    string content = 3;
+  }
+  
+  message UpdateRecruitCommentRequest {
+    int32 id = 1;
+    string content = 2;
+  }
+  message DeleteRecruitCommentRequest {
+    int32 id = 1;
+  }
+  
+  // Match
+  message Match {
+    int32 id = 1;
+    int32 recruit_id = 2;
+    int32 requester_id = 3;
+    int32 owner_id = 4;
+    string acceptedAt = 5;
+    string createdAt = 6;
+    string updatedAt = 7;
+    string deletedAt = 8;
+    MatchStatus status = 9;
+  }
+  
+  enum MatchStatus {
+    PENDING = 1;
+    CONFIRMED = 2;
+    CANCELLED = 3;
+  }
+  
+  message GetMatchRequest {
+    int32 id = 1;
+  }
+  
+  message PostMatchRequest {
+    int32 recruit_id = 1;
+    int32 requester_id = 2;
+    int32 owner_id = 3;
+  }
+  
+  message UpdateMatchRequest {
+    int32 id = 1;
+    MatchStatus status = 2;
+  }
+  message DeleteMatchRequest {
+    int32 id = 1;
+  }
