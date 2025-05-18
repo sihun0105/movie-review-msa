@@ -13,6 +13,7 @@ service MovieService {
   rpc GetMovieDetailData(RecommendMovieRequest) returns (MovieData) {}
   rpc UpsertMovieScore(UpsertMovieScoreRequest) returns (MovieScore) {}
   rpc GetMovieScore(GetMovieScoreRequest) returns (MovieScore) {}
+  rpc GetAverageMovieScore(RecommendMovieRequest) returns (AverageMovieScore) {}
 }
 
 message UpsertMovieScoreRequest {
@@ -66,4 +67,10 @@ message MovieVod {
 
 message MovieDatas {
   repeated MovieData MovieData = 1;
+}
+
+message AverageMovieScore {
+  int32 movieCd = 1;
+  double averageScore = 2;
+  int32 scoreCount = 3;
 }

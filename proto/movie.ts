@@ -61,6 +61,12 @@ export interface MovieDatas {
   MovieData: MovieData[];
 }
 
+export interface AverageMovieScore {
+  movieCd: number;
+  averageScore: number;
+  scoreCount: number;
+}
+
 export const MOVIE_PACKAGE_NAME = "movie";
 
 export interface MovieServiceClient {
@@ -75,6 +81,8 @@ export interface MovieServiceClient {
   upsertMovieScore(request: UpsertMovieScoreRequest): Observable<MovieScore>;
 
   getMovieScore(request: GetMovieScoreRequest): Observable<MovieScore>;
+
+  getAverageMovieScore(request: RecommendMovieRequest): Observable<AverageMovieScore>;
 }
 
 export interface MovieServiceController {
@@ -89,6 +97,10 @@ export interface MovieServiceController {
   upsertMovieScore(request: UpsertMovieScoreRequest): Promise<MovieScore> | Observable<MovieScore> | MovieScore;
 
   getMovieScore(request: GetMovieScoreRequest): Promise<MovieScore> | Observable<MovieScore> | MovieScore;
+
+  getAverageMovieScore(
+    request: RecommendMovieRequest,
+  ): Promise<AverageMovieScore> | Observable<AverageMovieScore> | AverageMovieScore;
 }
 
 export function MovieServiceControllerMethods() {
@@ -100,6 +112,7 @@ export function MovieServiceControllerMethods() {
       "getMovieDetailData",
       "upsertMovieScore",
       "getMovieScore",
+      "getAverageMovieScore",
     ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);

@@ -40,4 +40,7 @@ export class MovieService implements OnModuleInit {
       userId: userNumber,
     });
   }
+  async getAverageMovieScore({ movieCd }) {
+    return await this.movieService.getAverageMovieScore({ movieCd: +movieCd });
+  }
 }

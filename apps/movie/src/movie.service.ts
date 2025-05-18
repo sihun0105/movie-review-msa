@@ -4,7 +4,12 @@ import {
   KmdbResponse,
   KmdbMovie,
 } from '@app/common/types/movie-response';
-import { MovieData, MovieDatas, MovieScore } from '@app/common/protobuf';
+import {
+  AverageMovieScore,
+  MovieData,
+  MovieDatas,
+  MovieScore,
+} from '@app/common/protobuf';
 import { MySQLPrismaService } from '@app/prisma';
 import { UtilsService } from '@app/utils';
 import { Injectable, OnModuleInit } from '@nestjs/common';
@@ -460,5 +465,31 @@ export class MovieService implements OnModuleInit {
       createdAt,
       updatedAt,
     } as MovieScore;
+  }
+  async getAverageMovieScore(movieCd: number): Promise<AverageMovieScore> {
+    const movieScore = await this.mysqlPrismaService.movieScore.aggregate({
+      where: {
+        movieCd: movieCd,
+      },
+      _avg: {
+        score: true,
+      },
+    });
+
+    if (!movieScore) {
+      return null;
+    }
+
+    const averageScore = movieScore._avg.score ?? 0;
+    const scoreCount = await this.mysqlPrismaService.movieScore.count({
+      where: {
+        movieCd: movieCd,
+      },
+    });
+    return {
+      movieCd: movieCd,
+      averageScore: averageScore,
+      scoreCount: scoreCount,
+    } as AverageMovieScore;
   }
 }

@@ -88,6 +88,23 @@ export class MovieController {
       });
     }
   }
+  @Get('/score/average/:movieCd')
+  async getAverageMovieScore(@Param('movieCd') movieCd: string) {
+    try {
+      const getRepliesObservable = await this.movieService.getAverageMovieScore(
+        {
+          movieCd: +movieCd,
+        },
+      );
+      const data = await firstValueFrom(getRepliesObservable);
+      return data;
+    } catch (error) {
+      throw new RpcException({
+        code: error.code,
+        message: error.details,
+      });
+    }
+  }
 
   @GetMovieSpecDecorator('추천 영화 조회', '추천 영화 조회')
   @Get('/recommend/:movieCd')

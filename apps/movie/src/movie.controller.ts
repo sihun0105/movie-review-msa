@@ -8,6 +8,7 @@ import {
   MovieServiceControllerMethods,
   RecommendMovieRequest,
   UpsertMovieScoreRequest,
+  AverageMovieScore,
 } from '@app/common/protobuf';
 import { Controller } from '@nestjs/common';
 import { MovieService } from './movie.service';
@@ -40,5 +41,10 @@ export class MovieController implements MovieServiceController {
     request: GetMovieScoreRequest,
   ): Promise<MovieScore> | null {
     return await this.movieService.getMovieScore(request);
+  }
+  async getAverageMovieScore(
+    request: RecommendMovieRequest,
+  ): Promise<AverageMovieScore> | null {
+    return await this.movieService.getAverageMovieScore(request.movieCd);
   }
 }
