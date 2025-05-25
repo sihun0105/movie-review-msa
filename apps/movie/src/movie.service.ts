@@ -488,7 +488,11 @@ export class MovieService implements OnModuleInit {
     });
 
     if (!movieScore) {
-      return null;
+      return {
+        movieCd: movieCd,
+        averageScore: 0,
+        scoreCount: 0,
+      };
     }
 
     const averageScore = movieScore._avg.score ?? 0;
