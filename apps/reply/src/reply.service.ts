@@ -47,7 +47,7 @@ export class ReplyService {
     const { commentId, comment } = updateReplyDto;
     const reply = await this.mysqlPrismaService.comment.update({
       where: { id: commentId },
-      data: { comment: comment },
+      data: { comment: comment, updatedAt: new Date() },
     });
     const userData = await this.mysqlPrismaService.user.findUnique({
       where: { id: reply.userno },
