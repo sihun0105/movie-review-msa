@@ -35,7 +35,22 @@ export class MovieService implements OnModuleInit {
   onModuleInit() {
     this.fetchMovies();
   }
-  async fetchTmdbPoster(title: string): Promise<string | null> {
+  async fetchTmdbData(title: string): Promise<{
+    adult: boolean;
+    backdrop_path: string | null;
+    genre_ids: number[];
+    id: number;
+    original_language: string;
+    original_title: string;
+    overview: string;
+    popularity: number;
+    poster_path: string | null;
+    release_date: string;
+    title: string;
+    video: boolean;
+    vote_average: number;
+    vote_count: number;
+  }> {
     try {
       const url = `https://api.themoviedb.org/3/search/movie?query=${title}&language=ko-KR`;
 
@@ -45,12 +60,7 @@ export class MovieService implements OnModuleInit {
           'Content-Type': 'application/json',
         },
       });
-      const movie = response.data.results?.[0];
-
-      if (movie?.poster_path) {
-        return `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
-      }
-      return null;
+      return response.data.results[0];
     } catch (error) {
       console.warn(`fetchTmdbPoster failed for "${title}"`, error);
       return null;
@@ -154,9 +164,10 @@ export class MovieService implements OnModuleInit {
             rating = fetchedData.rating ?? '';
           }
 
-          const tmdbPoster = await this.fetchTmdbPoster(movieData.movieNm);
-          if (tmdbPoster) {
-            poster = tmdbPoster;
+          const tmdbData = await this.fetchTmdbData(movieData.movieNm);
+          if (tmdbData) {
+            poster = `https://image.tmdb.org/t/p/w500${tmdbData.poster_path}`;
+            plot = tmdbData.overview;
           } else if (fetchedData) {
             poster = fetchedData.posters?.split('|')?.[0] ?? '';
           }
