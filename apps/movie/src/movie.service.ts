@@ -181,18 +181,11 @@ export class MovieService implements OnModuleInit {
         await this.mysqlPrismaService.movie.upsert({
           where: { movieCd: +movieData.movieCd },
           update: {
-            title: movieData.movieNm,
             audience: +movieData.audiAcc,
             rank: +movieData.rank,
             updatedAt: new Date(),
-            poster: poster,
             rankInten: movieData.rankInten,
             rankOldAndNew: movieData.rankOldAndNew,
-            openDt: new Date(movieData.openDt),
-            plot,
-            director,
-            genre,
-            ratting: rating,
           },
           create: {
             title: movieData.movieNm,
