@@ -1,0 +1,159 @@
+syntax = "proto3";
+
+package article;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+// ===== Article =====
+message Article {
+  int32 id = 1;
+  int32 userno = 2;
+  string title = 3;
+  string content = 4;
+  int32 like_count = 5;
+  int32 dislike_count = 6;
+  int32 comment_count = 7;
+  google.protobuf.Timestamp createdAt = 8;
+  google.protobuf.Timestamp updatedAt = 9;
+  google.protobuf.Timestamp deletedAt = 10;
+}
+
+message CreateArticleRequest {
+  int32 userno = 1;
+  string title = 2;
+  string content = 3;
+}
+
+message CreateArticleResponse {
+  Article article = 1;
+}
+
+message GetArticleRequest {
+  int32 id = 1;
+}
+
+message GetArticleResponse {
+  Article article = 1;
+}
+
+message ListArticlesRequest {
+  int32 page = 1;
+  int32 pageSize = 2;
+  bool hasNext = 3;
+}
+
+message ListArticlesResponse {
+  repeated Article articles = 1;
+  int32 totalCount = 2;
+  int32 currentPage = 3;
+  int32 totalPages = 4;
+}
+
+message UpdateArticleRequest {
+  int32 id = 1;
+  int32 userno = 2;
+  string title = 3;
+  string content = 4;
+}
+
+message DeleteArticleRequest {
+  int32 id = 1;
+  int32 userno = 2;
+}
+
+// ===== Comment =====
+message ArticleComment {
+  int32 id = 1;
+  int32 articleId = 2;
+  int32 userno = 3;
+  string content = 4;
+  google.protobuf.Timestamp createdAt = 5;
+  google.protobuf.Timestamp updatedAt = 6;
+  google.protobuf.Timestamp deletedAt = 7;
+}
+
+message CreateCommentRequest {
+  int32 articleId = 1;
+  int32 userno = 2;
+  string content = 3;
+}
+
+message GetCommentRequest {
+  int32 id = 1;
+}
+
+message UpdateCommentRequest {
+  int32 id = 1;
+  int32 userno = 2;
+  string content = 3;
+}
+
+message DeleteCommentRequest {
+  int32 id = 1;
+  int32 userno = 2;
+}
+
+message ListCommentsRequest {
+  int32 articleId = 1;
+  int32 page = 2;
+  int32 pageSize = 3;
+  bool hasNext = 4;
+}
+
+message ListCommentsResponse {
+  repeated ArticleComment comments = 1;
+  int32 totalCount = 2;
+  int32 currentPage = 3;
+  int32 totalPages = 4;
+}
+
+// ===== Like =====
+enum LikeType {
+  LIKE = 0;
+  DISLIKE = 1;
+}
+
+message ArticleLike {
+  int32 id = 1;
+  int32 article_id = 2;
+  int32 userno = 3;
+  LikeType type = 4;
+  google.protobuf.Timestamp createdAt = 5;
+}
+
+message LikeArticleRequest {
+  int32 article_id = 1;
+  int32 userno = 2;
+  LikeType type = 3;
+}
+
+message GetArticleLikeStatsRequest {
+  int32 article_id = 1;
+}
+
+message GetArticleLikeStatsResponse {
+  int32 like_count = 1;
+  int32 dislike_count = 2;
+}
+
+// ===== Service =====
+service ArticleService {
+  // Article
+  rpc CreateArticle (CreateArticleRequest) returns (CreateArticleResponse);
+  rpc GetArticle (GetArticleRequest) returns (GetArticleResponse);
+  rpc ListArticles (ListArticlesRequest) returns (ListArticlesResponse);
+  rpc UpdateArticle (UpdateArticleRequest) returns (CreateArticleResponse);
+  rpc DeleteArticle (DeleteArticleRequest) returns (google.protobuf.Empty);
+
+  // Comment
+  rpc CreateComment (CreateCommentRequest) returns (ArticleComment);
+  rpc GetComment (GetCommentRequest) returns (ArticleComment);
+  rpc UpdateComment (UpdateCommentRequest) returns (ArticleComment);
+  rpc DeleteComment (DeleteCommentRequest) returns (google.protobuf.Empty);
+  rpc ListComments (ListCommentsRequest) returns (ListCommentsResponse);
+
+  // Like
+  rpc LikeArticle (LikeArticleRequest) returns (ArticleLike);
+  rpc GetArticleLikeStats (GetArticleLikeStatsRequest) returns (GetArticleLikeStatsResponse);
+}
