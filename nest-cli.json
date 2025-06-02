@@ -18,9 +18,7 @@
       "sourceRoot": "./",
       "compilerOptions": {
         "tsConfigPath": "apps/api-gateway/tsconfig.app.json",
-        "assets": [
-          "proto/*.proto"
-        ],
+        "assets": ["proto/*.proto"],
         "watchAssets": true
       }
     },
@@ -31,9 +29,7 @@
       "sourceRoot": "./",
       "compilerOptions": {
         "tsConfigPath": "apps/auth/tsconfig.app.json",
-        "assets": [
-          "proto/*.proto"
-        ],
+        "assets": ["proto/*.proto"],
         "watchAssets": true
       }
     },
@@ -44,9 +40,7 @@
       "sourceRoot": "./",
       "compilerOptions": {
         "tsConfigPath": "apps/user/tsconfig.app.json",
-        "assets": [
-          "proto/*.proto"
-        ],
+        "assets": ["proto/*.proto"],
         "watchAssets": true
       }
     },
@@ -84,9 +78,7 @@
       "sourceRoot": "./",
       "compilerOptions": {
         "tsConfigPath": "apps/reply/tsconfig.app.json",
-        "assets": [
-          "proto/*.proto"
-        ],
+        "assets": ["proto/*.proto"],
         "watchAssets": true
       }
     },
@@ -97,9 +89,7 @@
       "sourceRoot": "./",
       "compilerOptions": {
         "tsConfigPath": "apps/cron/tsconfig.app.json",
-        "assets": [
-          "proto/*.proto"
-        ],
+        "assets": ["proto/*.proto"],
         "watchAssets": true
       }
     },
@@ -110,9 +100,7 @@
       "sourceRoot": "./",
       "compilerOptions": {
         "tsConfigPath": "apps/movie/tsconfig.app.json",
-        "assets": [
-          "proto/*.proto"
-        ],
+        "assets": ["proto/*.proto"],
         "watchAssets": true
       }
     },
@@ -125,15 +113,6 @@
         "tsConfigPath": "libs/crawling/tsconfig.lib.json"
       }
     },
-    "embedding": {
-      "type": "application",
-      "root": "apps/embedding",
-      "entryFile": "main",
-      "sourceRoot": "apps/embedding/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/embedding/tsconfig.app.json"
-      }
-    },
     "chat": {
       "type": "application",
       "root": "apps/chat",
@@ -142,6 +121,17 @@
       "compilerOptions": {
         "tsConfigPath": "apps/chat/tsconfig.app.json"
       }
+    }
+  },
+  "article": {
+    "type": "application",
+    "root": "apps/article",
+    "entryFile": "src/main",
+    "sourceRoot": "./",
+    "compilerOptions": {
+      "tsConfigPath": "apps/article/tsconfig.app.json",
+      "assets": ["proto/*.proto"],
+      "watchAssets": true
     }
   }
 }

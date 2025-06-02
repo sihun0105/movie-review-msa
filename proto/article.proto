@@ -2,8 +2,7 @@ syntax = "proto3";
 
 package article;
 
-import "google/protobuf/timestamp.proto";
-import "google/protobuf/empty.proto";
+import "common.proto";
 
 // ===== Article =====
 message Article {
@@ -14,9 +13,9 @@ message Article {
   int32 like_count = 5;
   int32 dislike_count = 6;
   int32 comment_count = 7;
-  google.protobuf.Timestamp createdAt = 8;
-  google.protobuf.Timestamp updatedAt = 9;
-  google.protobuf.Timestamp deletedAt = 10;
+  string createdAt = 8;
+  string updatedAt = 9;
+  string deletedAt = 10;
 }
 
 message CreateArticleRequest {
@@ -40,14 +39,11 @@ message GetArticleResponse {
 message ListArticlesRequest {
   int32 page = 1;
   int32 pageSize = 2;
-  bool hasNext = 3;
 }
 
 message ListArticlesResponse {
   repeated Article articles = 1;
-  int32 totalCount = 2;
-  int32 currentPage = 3;
-  int32 totalPages = 4;
+  bool hasNext = 2;
 }
 
 message UpdateArticleRequest {
@@ -68,9 +64,9 @@ message ArticleComment {
   int32 articleId = 2;
   int32 userno = 3;
   string content = 4;
-  google.protobuf.Timestamp createdAt = 5;
-  google.protobuf.Timestamp updatedAt = 6;
-  google.protobuf.Timestamp deletedAt = 7;
+  string createdAt = 5;
+  string updatedAt = 6;
+  string deletedAt = 7;
 }
 
 message CreateCommentRequest {
@@ -98,14 +94,11 @@ message ListCommentsRequest {
   int32 articleId = 1;
   int32 page = 2;
   int32 pageSize = 3;
-  bool hasNext = 4;
 }
 
 message ListCommentsResponse {
   repeated ArticleComment comments = 1;
-  int32 totalCount = 2;
-  int32 currentPage = 3;
-  int32 totalPages = 4;
+  bool hasNext = 2;
 }
 
 // ===== Like =====
@@ -119,7 +112,7 @@ message ArticleLike {
   int32 article_id = 2;
   int32 userno = 3;
   LikeType type = 4;
-  google.protobuf.Timestamp createdAt = 5;
+  string createdAt = 5;
 }
 
 message LikeArticleRequest {
@@ -144,13 +137,13 @@ service ArticleService {
   rpc GetArticle (GetArticleRequest) returns (GetArticleResponse);
   rpc ListArticles (ListArticlesRequest) returns (ListArticlesResponse);
   rpc UpdateArticle (UpdateArticleRequest) returns (CreateArticleResponse);
-  rpc DeleteArticle (DeleteArticleRequest) returns (google.protobuf.Empty);
+  rpc DeleteArticle (DeleteArticleRequest) returns (common.Empty);
 
   // Comment
   rpc CreateComment (CreateCommentRequest) returns (ArticleComment);
   rpc GetComment (GetCommentRequest) returns (ArticleComment);
   rpc UpdateComment (UpdateCommentRequest) returns (ArticleComment);
-  rpc DeleteComment (DeleteCommentRequest) returns (google.protobuf.Empty);
+  rpc DeleteComment (DeleteCommentRequest) returns (common.Empty);
   rpc ListComments (ListCommentsRequest) returns (ListCommentsResponse);
 
   // Like

@@ -8,6 +8,7 @@ import { UserModule } from './user/user.module';
 import { SentryModule } from '@sentry/nestjs/setup';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { ArticleModule } from './article/article.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { join } from 'path';
     UserModule,
     ReplyModule,
     MovieModule,
+    ArticleModule,
   ],
   controllers: [],
   providers: [JwtStrategy],

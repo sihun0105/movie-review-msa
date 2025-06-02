@@ -41,9 +41,9 @@ message Recruit {
   }
   
   enum RecruitStatus {
-    OPEN = 1;
-    MATCHED = 2;
-    CLOSED = 3;
+    OPEN = 0;
+    MATCHED = 1;
+    CLOSED = 2;
   }
   message GetRecruitsRequest {
     int32 page = 1;
@@ -126,9 +126,9 @@ message Recruit {
   }
   
   enum MatchStatus {
-    PENDING = 1;
-    CONFIRMED = 2;
-    CANCELLED = 3;
+    PENDING = 0;
+    CONFIRMED = 1;
+    CANCELLED = 2;
   }
   
   message GetMatchRequest {
