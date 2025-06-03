@@ -62,6 +62,9 @@ model User {
   Matches_Matches_requester_idToUser Matches[]          @relation("Matches_requester_idToUser")
   Recruit                            Recruit[]
   RecruitComment                     RecruitComment[]
+  article                            article[]
+  articleComments                    articleComments[]
+  articleLikes                       articleLikes[]
   channelchats                       channelchats[]
   channelmembers                     channelmembers[]
   movieScores                        movieScore[]
@@ -212,6 +215,53 @@ model Matches {
   @@index([requester_id], map: "Matches_requester_fkey_idx")
 }
 
+model article {
+  id              Int               @id @default(autoincrement())
+  userno          Int
+  title           String            @db.VarChar(255)
+  content         String            @db.Text
+  like_count      Int               @unique(map: "like_count_UNIQUE") @default(0)
+  dislike_count   Int               @default(0)
+  comment_count   Int               @default(0)
+  createdAt       DateTime          @default(now()) @db.DateTime(6)
+  updatedAt       DateTime          @default(now()) @db.DateTime(6)
+  deletedAt       DateTime?         @db.DateTime(6)
+  User            User              @relation(fields: [userno], references: [id], onDelete: Cascade, map: "Article_userno_fkey")
+  articleComments articleComments[]
+  articleLikes    articleLikes[]
+
+  @@index([userno], map: "Article_userno_fkey_idx")
+}
+
+model articleComments {
+  id        Int       @id
+  articleId Int
+  userno    Int
+  content   String    @db.Text
+  createdAt DateTime  @default(now()) @db.DateTime(6)
+  updatedAt DateTime  @default(now()) @db.DateTime(6)
+  deletedAt DateTime? @db.DateTime(6)
+  article   article   @relation(fields: [articleId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ArticleComments_articleId_fkey")
+  User      User      @relation(fields: [userno], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ArticleComments_userno_fkey")
+
+  @@index([articleId], map: "ArticleComments_articleId_fkey_idx")
+  @@index([userno], map: "ArticleComments_userno_fkey_idx")
+}
+
+model articleLikes {
+  id         Int               @id @default(autoincrement())
+  article_id Int
+  userno     Int
+  type       articleLikes_type
+  createdAt  DateTime          @db.DateTime(6)
+  article    article           @relation(fields: [article_id], references: [id], onDelete: Cascade, map: "ArticleLike_articleId_fkey")
+  User       User              @relation(fields: [userno], references: [id], onDelete: Cascade, map: "ArticleLike_userno_fkey")
+
+  @@unique([article_id, userno], map: "unique_like")
+  @@index([article_id], map: "ArticleLike_articleId_fkey_idx")
+  @@index([userno], map: "ArticleLike_userno_fkey_idx")
+}
+
 enum Recruit_status {
   open
   matched
@@ -222,4 +272,9 @@ enum Matches_status {
   pending
   confirmed
   cancelled
+}
+
+enum articleLikes_type {
+  like
+  dislike
 }

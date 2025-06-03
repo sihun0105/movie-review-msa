@@ -246,6 +246,37 @@ exports.Prisma.MatchesScalarFieldEnum = {
   status: 'status'
 };
 
+exports.Prisma.ArticleScalarFieldEnum = {
+  id: 'id',
+  userno: 'userno',
+  title: 'title',
+  content: 'content',
+  like_count: 'like_count',
+  dislike_count: 'dislike_count',
+  comment_count: 'comment_count',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.ArticleCommentsScalarFieldEnum = {
+  id: 'id',
+  articleId: 'articleId',
+  userno: 'userno',
+  content: 'content',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.ArticleLikesScalarFieldEnum = {
+  id: 'id',
+  article_id: 'article_id',
+  userno: 'userno',
+  type: 'type',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -278,6 +309,11 @@ exports.Matches_status = exports.$Enums.Matches_status = {
   cancelled: 'cancelled'
 };
 
+exports.articleLikes_type = exports.$Enums.articleLikes_type = {
+  like: 'like',
+  dislike: 'dislike'
+};
+
 exports.Prisma.ModelName = {
   Comment: 'Comment',
   Movie: 'Movie',
@@ -291,7 +327,10 @@ exports.Prisma.ModelName = {
   MovieVod: 'MovieVod',
   Recruit: 'Recruit',
   RecruitComment: 'RecruitComment',
-  Matches: 'Matches'
+  Matches: 'Matches',
+  article: 'article',
+  articleComments: 'articleComments',
+  articleLikes: 'articleLikes'
 };
 
 /**

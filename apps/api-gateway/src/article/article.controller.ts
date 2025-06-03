@@ -7,6 +7,8 @@ import {
   Patch,
   Post,
   Query,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
 import { ArticleService } from './article.service';
 import {
@@ -15,11 +17,15 @@ import {
   LikeArticleRequest,
   UpdateArticleRequest,
 } from '@app/common/protobuf';
+import { JwtAuthGuard } from '@app/common/guards/jwtauth/jwtauth.guard';
 @Controller('article')
 export class ArticleController {
   constructor(private readonly articleService: ArticleService) {}
   @Post()
-  async createArticle(@Body() body: CreateArticleRequest) {
+  @UseGuards(JwtAuthGuard)
+  async createArticle(@Body() body: CreateArticleRequest, @Req() req) {
+    const userNumber = req.user.userId;
+    body.userno = userNumber;
     return this.articleService.createArticle(body);
   }
 
@@ -40,23 +46,36 @@ export class ArticleController {
   }
 
   @Patch(':id')
+  @UseGuards(JwtAuthGuard)
   async updateArticle(
     @Param('id') id: string,
     @Body() body: Omit<UpdateArticleRequest, 'id'>,
+    @Req() req,
   ) {
+    const userNumber = req.user.userId;
+    body.userno = userNumber;
     return this.articleService.updateArticle({ id: Number(id), ...body });
   }
 
   @Delete(':id')
-  async deleteArticle(@Param('id') id: string, @Body('userno') userno: number) {
-    return this.articleService.deleteArticle({ id: Number(id), userno });
+  @UseGuards(JwtAuthGuard)
+  async deleteArticle(@Param('id') id: string, @Req() req) {
+    const userNumber = req.user.userId;
+    return this.articleService.deleteArticle({
+      id: Number(id),
+      userno: userNumber,
+    });
   }
 
   @Post(':articleId/comments')
+  @UseGuards(JwtAuthGuard)
   async createComment(
     @Param('articleId') articleId: string,
     @Body() body: Omit<CreateCommentRequest, 'articleId'>,
+    @Req() req,
   ) {
+    const userNumber = req.user.userId;
+    body.userno = userNumber;
     return this.articleService.createComment({
       articleId: Number(articleId),
       ...body,
@@ -77,20 +96,27 @@ export class ArticleController {
   }
 
   @Post(':articleId/like')
+  @UseGuards(JwtAuthGuard)
   async likeArticle(
     @Param('articleId') articleId: string,
     @Body() body: Omit<LikeArticleRequest, 'article_id'>,
+    @Req() req,
   ) {
+    const userNumber = req.user.userId;
+    body.userno = userNumber;
     return this.articleService.likeArticle({
-      article_id: Number(articleId),
+      articleId: Number(articleId),
       ...body,
     });
   }
 
   @Get(':articleId/likes')
-  async getLikeStats(@Param('articleId') articleId: string) {
+  @UseGuards(JwtAuthGuard)
+  async getLikeStats(@Param('articleId') articleId: string, @Req() req) {
+    const userNumber = req.user.userId;
     return this.articleService.getArticleLikeStats({
-      article_id: Number(articleId),
+      articleId: Number(articleId),
+      userno: userNumber,
     });
   }
 }

@@ -1,8 +1,367 @@
+import { assertNever } from '@app/common/entity';
+import {
+  ArticleComment,
+  ArticleLike,
+  CreateArticleRequest,
+  CreateArticleResponse,
+  CreateCommentRequest,
+  DeleteArticleRequest,
+  DeleteCommentRequest,
+  GetArticleLikeStatsRequest,
+  GetArticleLikeStatsResponse,
+  GetCommentRequest,
+  LikeArticleRequest,
+  LikeType,
+  ListArticlesRequest,
+  ListArticlesResponse,
+  ListCommentsRequest,
+  ListCommentsResponse,
+  UpdateArticleRequest,
+  UpdateCommentRequest,
+} from '@app/common/protobuf';
+import { MySQLPrismaService } from '@app/prisma';
+import { UtilsService } from '@app/utils';
 import { Injectable } from '@nestjs/common';
+import { Prisma } from 'prisma/generated/mysql';
+import { GetArticleRequest } from 'proto/article';
 
 @Injectable()
 export class ArticleService {
-  getHello(): string {
-    return 'Hello World!';
+  constructor(
+    private readonly mysqlPrismaService: MySQLPrismaService,
+    private readonly utilsService: UtilsService,
+  ) {}
+  async createArticle(
+    request: CreateArticleRequest,
+  ): Promise<CreateArticleResponse> {
+    const { title, content, userno } = request;
+    const article = await this.mysqlPrismaService.article.create({
+      data: {
+        title,
+        content,
+        userno,
+      },
+    });
+    const createdAt = this.utilsService.dateToTimestamp(
+      article.createdAt as Date,
+    );
+    const updatedAt = this.utilsService.dateToTimestamp(
+      article.updatedAt as Date,
+    );
+    const deletedAt = this.utilsService.dateToTimestamp(
+      article.deletedAt as Date,
+    );
+    return {
+      article: {
+        id: article.id,
+        userno: article.userno,
+        title: article.title,
+        content: article.content,
+        likeCount: article.like_count,
+        dislikeCount: article.dislike_count,
+        commentCount: article.comment_count,
+        createdAt: createdAt,
+        updatedAt: updatedAt,
+        deletedAt: deletedAt,
+      },
+    };
+  }
+
+  async getArticle(request: GetArticleRequest): Promise<CreateArticleResponse> {
+    const { id } = request;
+    const article = await this.mysqlPrismaService.article.findUnique({
+      where: { id },
+    });
+    if (!article) {
+      throw new Error('Article not found');
+    }
+    const createdAt = this.utilsService.dateToTimestamp(
+      article.createdAt as Date,
+    );
+    const updatedAt = this.utilsService.dateToTimestamp(
+      article.updatedAt as Date,
+    );
+    const deletedAt = this.utilsService.dateToTimestamp(
+      article.deletedAt as Date,
+    );
+    return {
+      article: {
+        id: article.id,
+        userno: article.userno,
+        title: article.title,
+        content: article.content,
+        likeCount: article.like_count,
+        dislikeCount: article.dislike_count,
+        commentCount: article.comment_count,
+        createdAt: createdAt,
+        updatedAt: updatedAt,
+        deletedAt: deletedAt,
+      },
+    };
+  }
+
+  async listArticles(
+    request: ListArticlesRequest,
+  ): Promise<ListArticlesResponse> {
+    const { page, pageSize } = request;
+    const articles = await this.mysqlPrismaService.article.findMany({
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+      orderBy: { createdAt: 'desc' },
+    });
+    const totalCount = await this.mysqlPrismaService.article.count();
+    const hasNext = totalCount > page * pageSize;
+
+    return {
+      articles: articles.map((article) => ({
+        id: article.id,
+        userno: article.userno,
+        title: article.title,
+        content: article.content,
+        likeCount: article.like_count,
+        dislikeCount: article.dislike_count,
+        commentCount: article.comment_count,
+        createdAt: this.utilsService.dateToTimestamp(article.createdAt as Date),
+        updatedAt: this.utilsService.dateToTimestamp(article.updatedAt as Date),
+        deletedAt: this.utilsService.dateToTimestamp(article.deletedAt as Date),
+      })),
+      hasNext,
+    };
+  }
+
+  async updateArticle(
+    request: UpdateArticleRequest,
+  ): Promise<CreateArticleResponse> {
+    const { id, userno, title, content } = request;
+    const article = await this.mysqlPrismaService.article.update({
+      where: { id },
+      data: {
+        userno,
+        title,
+        content,
+      },
+    });
+    const createdAt = this.utilsService.dateToTimestamp(
+      article.createdAt as Date,
+    );
+    const updatedAt = this.utilsService.dateToTimestamp(
+      article.updatedAt as Date,
+    );
+    const deletedAt = this.utilsService.dateToTimestamp(
+      article.deletedAt as Date,
+    );
+    return {
+      article: {
+        id: article.id,
+        userno: article.userno,
+        title: article.title,
+        content: article.content,
+        likeCount: article.like_count,
+        dislikeCount: article.dislike_count,
+        commentCount: article.comment_count,
+        createdAt: createdAt,
+        updatedAt: updatedAt,
+        deletedAt: deletedAt,
+      },
+    };
+  }
+  async deleteArticle(request: DeleteArticleRequest): Promise<void> {
+    const { id, userno } = request;
+    await this.mysqlPrismaService.article.delete({
+      where: { id, userno },
+    });
+  }
+  async createComment(request: CreateCommentRequest): Promise<ArticleComment> {
+    const { articleId, userno, content } = request;
+    const comment = await this.mysqlPrismaService.articleComments.create({
+      data: {
+        articleId,
+        userno: userno,
+        content,
+      } as Prisma.articleCommentsUncheckedCreateInput,
+    });
+    return {
+      id: comment.id,
+      articleId: comment.articleId,
+      userno: comment.userno,
+      content: comment.content,
+      createdAt: this.utilsService.dateToTimestamp(comment.createdAt as Date),
+      updatedAt: this.utilsService.dateToTimestamp(comment.updatedAt as Date),
+      deletedAt: this.utilsService.dateToTimestamp(comment.deletedAt as Date),
+    };
+  }
+
+  async getComment(request: GetCommentRequest): Promise<ArticleComment> {
+    const { id } = request;
+    const comment = await this.mysqlPrismaService.articleComments.findUnique({
+      where: { id },
+    });
+    if (!comment) {
+      throw new Error('Comment not found');
+    }
+    return {
+      id: comment.id,
+      articleId: comment.articleId,
+      userno: comment.userno,
+      content: comment.content,
+      createdAt: this.utilsService.dateToTimestamp(comment.createdAt as Date),
+      updatedAt: this.utilsService.dateToTimestamp(comment.updatedAt as Date),
+      deletedAt: this.utilsService.dateToTimestamp(comment.deletedAt as Date),
+    };
+  }
+
+  async updateComment(request: UpdateCommentRequest): Promise<ArticleComment> {
+    const { id, userno, content } = request;
+    const comment = await this.mysqlPrismaService.articleComments.update({
+      where: { id, userno },
+      data: { content },
+    });
+    return {
+      id: comment.id,
+      articleId: comment.articleId,
+      userno: comment.userno,
+      content: comment.content,
+      createdAt: this.utilsService.dateToTimestamp(comment.createdAt as Date),
+      updatedAt: this.utilsService.dateToTimestamp(comment.updatedAt as Date),
+      deletedAt: this.utilsService.dateToTimestamp(comment.deletedAt as Date),
+    };
+  }
+
+  async deleteComment(request: DeleteCommentRequest): Promise<void> {
+    const { id, userno } = request;
+    await this.mysqlPrismaService.articleComments.delete({
+      where: { id, userno },
+    });
+  }
+  async listComments(
+    request: ListCommentsRequest,
+  ): Promise<ListCommentsResponse> {
+    const { articleId, page, pageSize } = request;
+    const comments = await this.mysqlPrismaService.articleComments.findMany({
+      where: { articleId },
+      skip: (page - 1) * pageSize,
+      take: pageSize,
+      orderBy: { createdAt: 'desc' },
+    });
+    const totalCount = await this.mysqlPrismaService.articleComments.count({
+      where: { articleId },
+    });
+    const hasNext = totalCount > page * pageSize;
+
+    return {
+      comments: comments.map((comment) => ({
+        id: comment.id,
+        articleId: comment.articleId,
+        userno: comment.userno,
+        content: comment.content,
+        createdAt: this.utilsService.dateToTimestamp(comment.createdAt as Date),
+        updatedAt: this.utilsService.dateToTimestamp(comment.updatedAt as Date),
+        deletedAt: this.utilsService.dateToTimestamp(comment.deletedAt as Date),
+      })),
+      hasNext,
+    };
+  }
+
+  async likeArticle(request: LikeArticleRequest): Promise<ArticleLike> {
+    const { articleId, userno, type } = request;
+    let likedata: 'like' | 'dislike';
+
+    switch (type) {
+      case LikeType.UNRECOGNIZED:
+        throw new Error('Invalid like type');
+      case LikeType.LIKE:
+        likedata = 'like';
+        break;
+      case LikeType.DISLIKE:
+        likedata = 'dislike';
+        break;
+      default:
+        assertNever(type);
+    }
+    const existingLike = await this.mysqlPrismaService.articleLikes.findFirst({
+      where: {
+        article_id: articleId,
+        userno,
+        type: likedata,
+      },
+    });
+    if (existingLike) {
+      const deleteLike = await this.mysqlPrismaService.articleLikes.delete({
+        where: {
+          id: existingLike.id,
+        },
+      });
+      return {
+        id: deleteLike.id,
+        articleId: deleteLike.article_id,
+        userno: deleteLike.userno,
+        type: deleteLike.type === 'like' ? LikeType.LIKE : LikeType.DISLIKE,
+        createdAt: this.utilsService.dateToTimestamp(
+          deleteLike.createdAt as Date,
+        ),
+      };
+    }
+
+    const like = await this.mysqlPrismaService.articleLikes.create({
+      data: {
+        article_id: articleId,
+        userno,
+        type: likedata,
+      } as Prisma.articleLikesUncheckedCreateInput,
+    });
+    if (likedata === 'like') {
+      await this.mysqlPrismaService.article.update({
+        where: { id: articleId },
+        data: {
+          like_count: {
+            increment: 1,
+          },
+        },
+      });
+    } else {
+      await this.mysqlPrismaService.article.update({
+        where: { id: articleId },
+        data: {
+          dislike_count: {
+            increment: 1,
+          },
+        },
+      });
+    }
+
+    const liketype = like.type === 'like' ? LikeType.LIKE : LikeType.DISLIKE;
+    return {
+      id: like.id,
+      articleId: like.article_id,
+      userno: like.userno,
+      type: liketype,
+      createdAt: this.utilsService.dateToTimestamp(like.createdAt as Date),
+    };
+  }
+
+  async getArticleLikeStats(
+    request: GetArticleLikeStatsRequest,
+  ): Promise<GetArticleLikeStatsResponse> {
+    const { articleId, userno } = request;
+    const hasLike = await this.mysqlPrismaService.articleLikes.count({
+      where: {
+        article_id: articleId,
+        type: 'like',
+        userno: userno,
+      },
+    });
+    const hasDislike = await this.mysqlPrismaService.articleLikes.count({
+      where: {
+        article_id: articleId,
+        type: 'dislike',
+        userno: userno,
+      },
+    });
+    return {
+      userno: userno,
+      articleId: articleId,
+      hasLiked: hasLike > 0 ? true : false,
+      hasDisliked: hasDislike > 0 ? true : false,
+    };
   }
 }

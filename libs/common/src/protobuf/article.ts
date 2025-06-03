@@ -1,9 +1,9 @@
 /* eslint-disable */
-import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
-import { Observable } from "rxjs";
-import { Empty } from "./common";
+import { GrpcMethod, GrpcStreamMethod } from '@nestjs/microservices';
+import { Observable } from 'rxjs';
+import { Empty } from './common';
 
-export const protobufPackage = "article";
+export const protobufPackage = 'article';
 
 /** ===== Like ===== */
 export enum LikeType {
@@ -125,27 +125,34 @@ export interface LikeArticleRequest {
 
 export interface GetArticleLikeStatsRequest {
   articleId: number;
+  userno: number;
 }
 
 export interface GetArticleLikeStatsResponse {
-  likeCount: number;
-  dislikeCount: number;
+  userno: number;
+  articleId: number;
+  hasLiked: boolean;
+  hasDisliked: boolean;
 }
 
-export const ARTICLE_PACKAGE_NAME = "article";
+export const ARTICLE_PACKAGE_NAME = 'article';
 
 /** ===== Service ===== */
 
 export interface ArticleServiceClient {
   /** Article */
 
-  createArticle(request: CreateArticleRequest): Observable<CreateArticleResponse>;
+  createArticle(
+    request: CreateArticleRequest,
+  ): Observable<CreateArticleResponse>;
 
   getArticle(request: GetArticleRequest): Observable<GetArticleResponse>;
 
   listArticles(request: ListArticlesRequest): Observable<ListArticlesResponse>;
 
-  updateArticle(request: UpdateArticleRequest): Observable<CreateArticleResponse>;
+  updateArticle(
+    request: UpdateArticleRequest,
+  ): Observable<CreateArticleResponse>;
 
   deleteArticle(request: DeleteArticleRequest): Observable<Empty>;
 
@@ -165,7 +172,9 @@ export interface ArticleServiceClient {
 
   likeArticle(request: LikeArticleRequest): Observable<ArticleLike>;
 
-  getArticleLikeStats(request: GetArticleLikeStatsRequest): Observable<GetArticleLikeStatsResponse>;
+  getArticleLikeStats(
+    request: GetArticleLikeStatsRequest,
+  ): Observable<GetArticleLikeStatsResponse>;
 }
 
 /** ===== Service ===== */
@@ -175,71 +184,115 @@ export interface ArticleServiceController {
 
   createArticle(
     request: CreateArticleRequest,
-  ): Promise<CreateArticleResponse> | Observable<CreateArticleResponse> | CreateArticleResponse;
+  ):
+    | Promise<CreateArticleResponse>
+    | Observable<CreateArticleResponse>
+    | CreateArticleResponse;
 
   getArticle(
     request: GetArticleRequest,
-  ): Promise<GetArticleResponse> | Observable<GetArticleResponse> | GetArticleResponse;
+  ):
+    | Promise<GetArticleResponse>
+    | Observable<GetArticleResponse>
+    | GetArticleResponse;
 
   listArticles(
     request: ListArticlesRequest,
-  ): Promise<ListArticlesResponse> | Observable<ListArticlesResponse> | ListArticlesResponse;
+  ):
+    | Promise<ListArticlesResponse>
+    | Observable<ListArticlesResponse>
+    | ListArticlesResponse;
 
   updateArticle(
     request: UpdateArticleRequest,
-  ): Promise<CreateArticleResponse> | Observable<CreateArticleResponse> | CreateArticleResponse;
+  ):
+    | Promise<CreateArticleResponse>
+    | Observable<CreateArticleResponse>
+    | CreateArticleResponse;
 
-  deleteArticle(request: DeleteArticleRequest): Promise<Empty> | Observable<Empty> | Empty;
+  deleteArticle(
+    request: DeleteArticleRequest,
+  ): Promise<Empty> | Observable<Empty> | Empty;
 
   /** Comment */
 
-  createComment(request: CreateCommentRequest): Promise<ArticleComment> | Observable<ArticleComment> | ArticleComment;
+  createComment(
+    request: CreateCommentRequest,
+  ): Promise<ArticleComment> | Observable<ArticleComment> | ArticleComment;
 
-  getComment(request: GetCommentRequest): Promise<ArticleComment> | Observable<ArticleComment> | ArticleComment;
+  getComment(
+    request: GetCommentRequest,
+  ): Promise<ArticleComment> | Observable<ArticleComment> | ArticleComment;
 
-  updateComment(request: UpdateCommentRequest): Promise<ArticleComment> | Observable<ArticleComment> | ArticleComment;
+  updateComment(
+    request: UpdateCommentRequest,
+  ): Promise<ArticleComment> | Observable<ArticleComment> | ArticleComment;
 
-  deleteComment(request: DeleteCommentRequest): Promise<Empty> | Observable<Empty> | Empty;
+  deleteComment(
+    request: DeleteCommentRequest,
+  ): Promise<Empty> | Observable<Empty> | Empty;
 
   listComments(
     request: ListCommentsRequest,
-  ): Promise<ListCommentsResponse> | Observable<ListCommentsResponse> | ListCommentsResponse;
+  ):
+    | Promise<ListCommentsResponse>
+    | Observable<ListCommentsResponse>
+    | ListCommentsResponse;
 
   /** Like */
 
-  likeArticle(request: LikeArticleRequest): Promise<ArticleLike> | Observable<ArticleLike> | ArticleLike;
+  likeArticle(
+    request: LikeArticleRequest,
+  ): Promise<ArticleLike> | Observable<ArticleLike> | ArticleLike;
 
   getArticleLikeStats(
     request: GetArticleLikeStatsRequest,
-  ): Promise<GetArticleLikeStatsResponse> | Observable<GetArticleLikeStatsResponse> | GetArticleLikeStatsResponse;
+  ):
+    | Promise<GetArticleLikeStatsResponse>
+    | Observable<GetArticleLikeStatsResponse>
+    | GetArticleLikeStatsResponse;
 }
 
 export function ArticleServiceControllerMethods() {
   return function (constructor: Function) {
     const grpcMethods: string[] = [
-      "createArticle",
-      "getArticle",
-      "listArticles",
-      "updateArticle",
-      "deleteArticle",
-      "createComment",
-      "getComment",
-      "updateComment",
-      "deleteComment",
-      "listComments",
-      "likeArticle",
-      "getArticleLikeStats",
+      'createArticle',
+      'getArticle',
+      'listArticles',
+      'updateArticle',
+      'deleteArticle',
+      'createComment',
+      'getComment',
+      'updateComment',
+      'deleteComment',
+      'listComments',
+      'likeArticle',
+      'getArticleLikeStats',
     ];
     for (const method of grpcMethods) {
-      const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcMethod("ArticleService", method)(constructor.prototype[method], method, descriptor);
+      const descriptor: any = Reflect.getOwnPropertyDescriptor(
+        constructor.prototype,
+        method,
+      );
+      GrpcMethod('ArticleService', method)(
+        constructor.prototype[method],
+        method,
+        descriptor,
+      );
     }
     const grpcStreamMethods: string[] = [];
     for (const method of grpcStreamMethods) {
-      const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcStreamMethod("ArticleService", method)(constructor.prototype[method], method, descriptor);
+      const descriptor: any = Reflect.getOwnPropertyDescriptor(
+        constructor.prototype,
+        method,
+      );
+      GrpcStreamMethod('ArticleService', method)(
+        constructor.prototype[method],
+        method,
+        descriptor,
+      );
     }
   };
 }
 
-export const ARTICLE_SERVICE_NAME = "ArticleService";
+export const ARTICLE_SERVICE_NAME = 'ArticleService';

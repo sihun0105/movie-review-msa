@@ -125,11 +125,14 @@ export interface LikeArticleRequest {
 
 export interface GetArticleLikeStatsRequest {
   articleId: number;
+  userno: number;
 }
 
 export interface GetArticleLikeStatsResponse {
-  likeCount: number;
-  dislikeCount: number;
+  userno: number;
+  articleId: number;
+  hasLiked: boolean;
+  hasDisliked: boolean;
 }
 
 export const ARTICLE_PACKAGE_NAME = "article";

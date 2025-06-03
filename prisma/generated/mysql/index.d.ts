@@ -78,6 +78,21 @@ export type RecruitComment = $Result.DefaultSelection<Prisma.$RecruitCommentPayl
  * 
  */
 export type Matches = $Result.DefaultSelection<Prisma.$MatchesPayload>
+/**
+ * Model article
+ * 
+ */
+export type article = $Result.DefaultSelection<Prisma.$articlePayload>
+/**
+ * Model articleComments
+ * 
+ */
+export type articleComments = $Result.DefaultSelection<Prisma.$articleCommentsPayload>
+/**
+ * Model articleLikes
+ * 
+ */
+export type articleLikes = $Result.DefaultSelection<Prisma.$articleLikesPayload>
 
 /**
  * Enums
@@ -100,6 +115,14 @@ export const Matches_status: {
 
 export type Matches_status = (typeof Matches_status)[keyof typeof Matches_status]
 
+
+export const articleLikes_type: {
+  like: 'like',
+  dislike: 'dislike'
+};
+
+export type articleLikes_type = (typeof articleLikes_type)[keyof typeof articleLikes_type]
+
 }
 
 export type Recruit_status = $Enums.Recruit_status
@@ -109,6 +132,10 @@ export const Recruit_status: typeof $Enums.Recruit_status
 export type Matches_status = $Enums.Matches_status
 
 export const Matches_status: typeof $Enums.Matches_status
+
+export type articleLikes_type = $Enums.articleLikes_type
+
+export const articleLikes_type: typeof $Enums.articleLikes_type
 
 /**
  * ##  Prisma Client ʲˢ
@@ -361,6 +388,36 @@ export class PrismaClient<
     * ```
     */
   get matches(): Prisma.MatchesDelegate<ExtArgs>;
+
+  /**
+   * `prisma.article`: Exposes CRUD operations for the **article** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Articles
+    * const articles = await prisma.article.findMany()
+    * ```
+    */
+  get article(): Prisma.articleDelegate<ExtArgs>;
+
+  /**
+   * `prisma.articleComments`: Exposes CRUD operations for the **articleComments** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ArticleComments
+    * const articleComments = await prisma.articleComments.findMany()
+    * ```
+    */
+  get articleComments(): Prisma.articleCommentsDelegate<ExtArgs>;
+
+  /**
+   * `prisma.articleLikes`: Exposes CRUD operations for the **articleLikes** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ArticleLikes
+    * const articleLikes = await prisma.articleLikes.findMany()
+    * ```
+    */
+  get articleLikes(): Prisma.articleLikesDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -843,7 +900,10 @@ export namespace Prisma {
     MovieVod: 'MovieVod',
     Recruit: 'Recruit',
     RecruitComment: 'RecruitComment',
-    Matches: 'Matches'
+    Matches: 'Matches',
+    article: 'article',
+    articleComments: 'articleComments',
+    articleLikes: 'articleLikes'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -860,7 +920,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     meta: {
-      modelProps: 'comment' | 'movie' | 'user' | 'channelchats' | 'channelmembers' | 'channels' | 'workspace' | 'workspacemembers' | 'movieScore' | 'movieVod' | 'recruit' | 'recruitComment' | 'matches'
+      modelProps: 'comment' | 'movie' | 'user' | 'channelchats' | 'channelmembers' | 'channels' | 'workspace' | 'workspacemembers' | 'movieScore' | 'movieVod' | 'recruit' | 'recruitComment' | 'matches' | 'article' | 'articleComments' | 'articleLikes'
       txIsolationLevel: Prisma.TransactionIsolationLevel
     },
     model: {
@@ -1722,6 +1782,204 @@ export namespace Prisma {
           }
         }
       }
+      article: {
+        payload: Prisma.$articlePayload<ExtArgs>
+        fields: Prisma.articleFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.articleFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$articlePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.articleFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$articlePayload>
+          }
+          findFirst: {
+            args: Prisma.articleFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$articlePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.articleFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$articlePayload>
+          }
+          findMany: {
+            args: Prisma.articleFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$articlePayload>[]
+          }
+          create: {
+            args: Prisma.articleCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$articlePayload>
+          }
+          createMany: {
+            args: Prisma.articleCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.articleDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$articlePayload>
+          }
+          update: {
+            args: Prisma.articleUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$articlePayload>
+          }
+          deleteMany: {
+            args: Prisma.articleDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.articleUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.articleUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$articlePayload>
+          }
+          aggregate: {
+            args: Prisma.ArticleAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateArticle>
+          }
+          groupBy: {
+            args: Prisma.articleGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<ArticleGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.articleCountArgs<ExtArgs>,
+            result: $Utils.Optional<ArticleCountAggregateOutputType> | number
+          }
+        }
+      }
+      articleComments: {
+        payload: Prisma.$articleCommentsPayload<ExtArgs>
+        fields: Prisma.articleCommentsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.articleCommentsFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$articleCommentsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.articleCommentsFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$articleCommentsPayload>
+          }
+          findFirst: {
+            args: Prisma.articleCommentsFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$articleCommentsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.articleCommentsFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$articleCommentsPayload>
+          }
+          findMany: {
+            args: Prisma.articleCommentsFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$articleCommentsPayload>[]
+          }
+          create: {
+            args: Prisma.articleCommentsCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$articleCommentsPayload>
+          }
+          createMany: {
+            args: Prisma.articleCommentsCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.articleCommentsDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$articleCommentsPayload>
+          }
+          update: {
+            args: Prisma.articleCommentsUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$articleCommentsPayload>
+          }
+          deleteMany: {
+            args: Prisma.articleCommentsDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.articleCommentsUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.articleCommentsUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$articleCommentsPayload>
+          }
+          aggregate: {
+            args: Prisma.ArticleCommentsAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateArticleComments>
+          }
+          groupBy: {
+            args: Prisma.articleCommentsGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<ArticleCommentsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.articleCommentsCountArgs<ExtArgs>,
+            result: $Utils.Optional<ArticleCommentsCountAggregateOutputType> | number
+          }
+        }
+      }
+      articleLikes: {
+        payload: Prisma.$articleLikesPayload<ExtArgs>
+        fields: Prisma.articleLikesFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.articleLikesFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$articleLikesPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.articleLikesFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$articleLikesPayload>
+          }
+          findFirst: {
+            args: Prisma.articleLikesFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$articleLikesPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.articleLikesFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$articleLikesPayload>
+          }
+          findMany: {
+            args: Prisma.articleLikesFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$articleLikesPayload>[]
+          }
+          create: {
+            args: Prisma.articleLikesCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$articleLikesPayload>
+          }
+          createMany: {
+            args: Prisma.articleLikesCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.articleLikesDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$articleLikesPayload>
+          }
+          update: {
+            args: Prisma.articleLikesUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$articleLikesPayload>
+          }
+          deleteMany: {
+            args: Prisma.articleLikesDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.articleLikesUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.articleLikesUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$articleLikesPayload>
+          }
+          aggregate: {
+            args: Prisma.ArticleLikesAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateArticleLikes>
+          }
+          groupBy: {
+            args: Prisma.articleLikesGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<ArticleLikesGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.articleLikesCountArgs<ExtArgs>,
+            result: $Utils.Optional<ArticleLikesCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1940,6 +2198,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser: number
     Recruit: number
     RecruitComment: number
+    article: number
+    articleComments: number
+    articleLikes: number
     channelchats: number
     channelmembers: number
     movieScores: number
@@ -1953,6 +2214,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: boolean | UserCountOutputTypeCountMatches_Matches_requester_idToUserArgs
     Recruit?: boolean | UserCountOutputTypeCountRecruitArgs
     RecruitComment?: boolean | UserCountOutputTypeCountRecruitCommentArgs
+    article?: boolean | UserCountOutputTypeCountArticleArgs
+    articleComments?: boolean | UserCountOutputTypeCountArticleCommentsArgs
+    articleLikes?: boolean | UserCountOutputTypeCountArticleLikesArgs
     channelchats?: boolean | UserCountOutputTypeCountChannelchatsArgs
     channelmembers?: boolean | UserCountOutputTypeCountChannelmembersArgs
     movieScores?: boolean | UserCountOutputTypeCountMovieScoresArgs
@@ -2010,6 +2274,30 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountRecruitCommentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: RecruitCommentWhereInput
+  }
+
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountArticleArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: articleWhereInput
+  }
+
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountArticleCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: articleCommentsWhereInput
+  }
+
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountArticleLikesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: articleLikesWhereInput
   }
 
 
@@ -2162,6 +2450,50 @@ export namespace Prisma {
    */
   export type RecruitCountOutputTypeCountRecruitCommentArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: RecruitCommentWhereInput
+  }
+
+
+
+  /**
+   * Count Type ArticleCountOutputType
+   */
+
+  export type ArticleCountOutputType = {
+    articleComments: number
+    articleLikes: number
+  }
+
+  export type ArticleCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    articleComments?: boolean | ArticleCountOutputTypeCountArticleCommentsArgs
+    articleLikes?: boolean | ArticleCountOutputTypeCountArticleLikesArgs
+  }
+
+  // Custom InputTypes
+
+  /**
+   * ArticleCountOutputType without action
+   */
+  export type ArticleCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ArticleCountOutputType
+     */
+    select?: ArticleCountOutputTypeSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * ArticleCountOutputType without action
+   */
+  export type ArticleCountOutputTypeCountArticleCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: articleCommentsWhereInput
+  }
+
+
+  /**
+   * ArticleCountOutputType without action
+   */
+  export type ArticleCountOutputTypeCountArticleLikesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: articleLikesWhereInput
   }
 
 
@@ -4548,6 +4880,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: boolean | User$Matches_Matches_requester_idToUserArgs<ExtArgs>
     Recruit?: boolean | User$RecruitArgs<ExtArgs>
     RecruitComment?: boolean | User$RecruitCommentArgs<ExtArgs>
+    article?: boolean | User$articleArgs<ExtArgs>
+    articleComments?: boolean | User$articleCommentsArgs<ExtArgs>
+    articleLikes?: boolean | User$articleLikesArgs<ExtArgs>
     channelchats?: boolean | User$channelchatsArgs<ExtArgs>
     channelmembers?: boolean | User$channelmembersArgs<ExtArgs>
     movieScores?: boolean | User$movieScoresArgs<ExtArgs>
@@ -4574,6 +4909,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: boolean | User$Matches_Matches_requester_idToUserArgs<ExtArgs>
     Recruit?: boolean | User$RecruitArgs<ExtArgs>
     RecruitComment?: boolean | User$RecruitCommentArgs<ExtArgs>
+    article?: boolean | User$articleArgs<ExtArgs>
+    articleComments?: boolean | User$articleCommentsArgs<ExtArgs>
+    articleLikes?: boolean | User$articleLikesArgs<ExtArgs>
     channelchats?: boolean | User$channelchatsArgs<ExtArgs>
     channelmembers?: boolean | User$channelmembersArgs<ExtArgs>
     movieScores?: boolean | User$movieScoresArgs<ExtArgs>
@@ -4591,6 +4929,9 @@ export namespace Prisma {
       Matches_Matches_requester_idToUser: Prisma.$MatchesPayload<ExtArgs>[]
       Recruit: Prisma.$RecruitPayload<ExtArgs>[]
       RecruitComment: Prisma.$RecruitCommentPayload<ExtArgs>[]
+      article: Prisma.$articlePayload<ExtArgs>[]
+      articleComments: Prisma.$articleCommentsPayload<ExtArgs>[]
+      articleLikes: Prisma.$articleLikesPayload<ExtArgs>[]
       channelchats: Prisma.$channelchatsPayload<ExtArgs>[]
       channelmembers: Prisma.$channelmembersPayload<ExtArgs>[]
       movieScores: Prisma.$movieScorePayload<ExtArgs>[]
@@ -4981,6 +5322,12 @@ export namespace Prisma {
     Recruit<T extends User$RecruitArgs<ExtArgs> = {}>(args?: Subset<T, User$RecruitArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecruitPayload<ExtArgs>, T, 'findMany'> | Null>;
 
     RecruitComment<T extends User$RecruitCommentArgs<ExtArgs> = {}>(args?: Subset<T, User$RecruitCommentArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RecruitCommentPayload<ExtArgs>, T, 'findMany'> | Null>;
+
+    article<T extends User$articleArgs<ExtArgs> = {}>(args?: Subset<T, User$articleArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$articlePayload<ExtArgs>, T, 'findMany'> | Null>;
+
+    articleComments<T extends User$articleCommentsArgs<ExtArgs> = {}>(args?: Subset<T, User$articleCommentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$articleCommentsPayload<ExtArgs>, T, 'findMany'> | Null>;
+
+    articleLikes<T extends User$articleLikesArgs<ExtArgs> = {}>(args?: Subset<T, User$articleLikesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$articleLikesPayload<ExtArgs>, T, 'findMany'> | Null>;
 
     channelchats<T extends User$channelchatsArgs<ExtArgs> = {}>(args?: Subset<T, User$channelchatsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$channelchatsPayload<ExtArgs>, T, 'findMany'> | Null>;
 
@@ -5442,6 +5789,69 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: RecruitCommentScalarFieldEnum | RecruitCommentScalarFieldEnum[]
+  }
+
+
+  /**
+   * User.article
+   */
+  export type User$articleArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the article
+     */
+    select?: articleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: articleInclude<ExtArgs> | null
+    where?: articleWhereInput
+    orderBy?: articleOrderByWithRelationInput | articleOrderByWithRelationInput[]
+    cursor?: articleWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ArticleScalarFieldEnum | ArticleScalarFieldEnum[]
+  }
+
+
+  /**
+   * User.articleComments
+   */
+  export type User$articleCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the articleComments
+     */
+    select?: articleCommentsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: articleCommentsInclude<ExtArgs> | null
+    where?: articleCommentsWhereInput
+    orderBy?: articleCommentsOrderByWithRelationInput | articleCommentsOrderByWithRelationInput[]
+    cursor?: articleCommentsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ArticleCommentsScalarFieldEnum | ArticleCommentsScalarFieldEnum[]
+  }
+
+
+  /**
+   * User.articleLikes
+   */
+  export type User$articleLikesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the articleLikes
+     */
+    select?: articleLikesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: articleLikesInclude<ExtArgs> | null
+    where?: articleLikesWhereInput
+    orderBy?: articleLikesOrderByWithRelationInput | articleLikesOrderByWithRelationInput[]
+    cursor?: articleLikesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ArticleLikesScalarFieldEnum | ArticleLikesScalarFieldEnum[]
   }
 
 
@@ -15564,6 +15974,3035 @@ export namespace Prisma {
 
 
   /**
+   * Model article
+   */
+
+  export type AggregateArticle = {
+    _count: ArticleCountAggregateOutputType | null
+    _avg: ArticleAvgAggregateOutputType | null
+    _sum: ArticleSumAggregateOutputType | null
+    _min: ArticleMinAggregateOutputType | null
+    _max: ArticleMaxAggregateOutputType | null
+  }
+
+  export type ArticleAvgAggregateOutputType = {
+    id: number | null
+    userno: number | null
+    like_count: number | null
+    dislike_count: number | null
+    comment_count: number | null
+  }
+
+  export type ArticleSumAggregateOutputType = {
+    id: number | null
+    userno: number | null
+    like_count: number | null
+    dislike_count: number | null
+    comment_count: number | null
+  }
+
+  export type ArticleMinAggregateOutputType = {
+    id: number | null
+    userno: number | null
+    title: string | null
+    content: string | null
+    like_count: number | null
+    dislike_count: number | null
+    comment_count: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deletedAt: Date | null
+  }
+
+  export type ArticleMaxAggregateOutputType = {
+    id: number | null
+    userno: number | null
+    title: string | null
+    content: string | null
+    like_count: number | null
+    dislike_count: number | null
+    comment_count: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deletedAt: Date | null
+  }
+
+  export type ArticleCountAggregateOutputType = {
+    id: number
+    userno: number
+    title: number
+    content: number
+    like_count: number
+    dislike_count: number
+    comment_count: number
+    createdAt: number
+    updatedAt: number
+    deletedAt: number
+    _all: number
+  }
+
+
+  export type ArticleAvgAggregateInputType = {
+    id?: true
+    userno?: true
+    like_count?: true
+    dislike_count?: true
+    comment_count?: true
+  }
+
+  export type ArticleSumAggregateInputType = {
+    id?: true
+    userno?: true
+    like_count?: true
+    dislike_count?: true
+    comment_count?: true
+  }
+
+  export type ArticleMinAggregateInputType = {
+    id?: true
+    userno?: true
+    title?: true
+    content?: true
+    like_count?: true
+    dislike_count?: true
+    comment_count?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+  }
+
+  export type ArticleMaxAggregateInputType = {
+    id?: true
+    userno?: true
+    title?: true
+    content?: true
+    like_count?: true
+    dislike_count?: true
+    comment_count?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+  }
+
+  export type ArticleCountAggregateInputType = {
+    id?: true
+    userno?: true
+    title?: true
+    content?: true
+    like_count?: true
+    dislike_count?: true
+    comment_count?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+    _all?: true
+  }
+
+  export type ArticleAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which article to aggregate.
+     */
+    where?: articleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of articles to fetch.
+     */
+    orderBy?: articleOrderByWithRelationInput | articleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: articleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` articles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` articles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned articles
+    **/
+    _count?: true | ArticleCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ArticleAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ArticleSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ArticleMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ArticleMaxAggregateInputType
+  }
+
+  export type GetArticleAggregateType<T extends ArticleAggregateArgs> = {
+        [P in keyof T & keyof AggregateArticle]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateArticle[P]>
+      : GetScalarType<T[P], AggregateArticle[P]>
+  }
+
+
+
+
+  export type articleGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: articleWhereInput
+    orderBy?: articleOrderByWithAggregationInput | articleOrderByWithAggregationInput[]
+    by: ArticleScalarFieldEnum[] | ArticleScalarFieldEnum
+    having?: articleScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ArticleCountAggregateInputType | true
+    _avg?: ArticleAvgAggregateInputType
+    _sum?: ArticleSumAggregateInputType
+    _min?: ArticleMinAggregateInputType
+    _max?: ArticleMaxAggregateInputType
+  }
+
+  export type ArticleGroupByOutputType = {
+    id: number
+    userno: number
+    title: string
+    content: string
+    like_count: number
+    dislike_count: number
+    comment_count: number
+    createdAt: Date
+    updatedAt: Date
+    deletedAt: Date | null
+    _count: ArticleCountAggregateOutputType | null
+    _avg: ArticleAvgAggregateOutputType | null
+    _sum: ArticleSumAggregateOutputType | null
+    _min: ArticleMinAggregateOutputType | null
+    _max: ArticleMaxAggregateOutputType | null
+  }
+
+  type GetArticleGroupByPayload<T extends articleGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ArticleGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ArticleGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ArticleGroupByOutputType[P]>
+            : GetScalarType<T[P], ArticleGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type articleSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userno?: boolean
+    title?: boolean
+    content?: boolean
+    like_count?: boolean
+    dislike_count?: boolean
+    comment_count?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+    User?: boolean | UserDefaultArgs<ExtArgs>
+    articleComments?: boolean | article$articleCommentsArgs<ExtArgs>
+    articleLikes?: boolean | article$articleLikesArgs<ExtArgs>
+    _count?: boolean | ArticleCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["article"]>
+
+  export type articleSelectScalar = {
+    id?: boolean
+    userno?: boolean
+    title?: boolean
+    content?: boolean
+    like_count?: boolean
+    dislike_count?: boolean
+    comment_count?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+  }
+
+  export type articleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    User?: boolean | UserDefaultArgs<ExtArgs>
+    articleComments?: boolean | article$articleCommentsArgs<ExtArgs>
+    articleLikes?: boolean | article$articleLikesArgs<ExtArgs>
+    _count?: boolean | ArticleCountOutputTypeDefaultArgs<ExtArgs>
+  }
+
+
+  export type $articlePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "article"
+    objects: {
+      User: Prisma.$UserPayload<ExtArgs>
+      articleComments: Prisma.$articleCommentsPayload<ExtArgs>[]
+      articleLikes: Prisma.$articleLikesPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      userno: number
+      title: string
+      content: string
+      like_count: number
+      dislike_count: number
+      comment_count: number
+      createdAt: Date
+      updatedAt: Date
+      deletedAt: Date | null
+    }, ExtArgs["result"]["article"]>
+    composites: {}
+  }
+
+
+  type articleGetPayload<S extends boolean | null | undefined | articleDefaultArgs> = $Result.GetResult<Prisma.$articlePayload, S>
+
+  type articleCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<articleFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ArticleCountAggregateInputType | true
+    }
+
+  export interface articleDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['article'], meta: { name: 'article' } }
+    /**
+     * Find zero or one Article that matches the filter.
+     * @param {articleFindUniqueArgs} args - Arguments to find a Article
+     * @example
+     * // Get one Article
+     * const article = await prisma.article.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends articleFindUniqueArgs<ExtArgs>>(
+      args: SelectSubset<T, articleFindUniqueArgs<ExtArgs>>
+    ): Prisma__articleClient<$Result.GetResult<Prisma.$articlePayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
+
+    /**
+     * Find one Article that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {articleFindUniqueOrThrowArgs} args - Arguments to find a Article
+     * @example
+     * // Get one Article
+     * const article = await prisma.article.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends articleFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, articleFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__articleClient<$Result.GetResult<Prisma.$articlePayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find the first Article that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {articleFindFirstArgs} args - Arguments to find a Article
+     * @example
+     * // Get one Article
+     * const article = await prisma.article.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends articleFindFirstArgs<ExtArgs>>(
+      args?: SelectSubset<T, articleFindFirstArgs<ExtArgs>>
+    ): Prisma__articleClient<$Result.GetResult<Prisma.$articlePayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
+
+    /**
+     * Find the first Article that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {articleFindFirstOrThrowArgs} args - Arguments to find a Article
+     * @example
+     * // Get one Article
+     * const article = await prisma.article.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends articleFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, articleFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__articleClient<$Result.GetResult<Prisma.$articlePayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find zero or more Articles that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {articleFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Articles
+     * const articles = await prisma.article.findMany()
+     * 
+     * // Get first 10 Articles
+     * const articles = await prisma.article.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const articleWithIdOnly = await prisma.article.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends articleFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, articleFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$articlePayload<ExtArgs>, T, 'findMany'>>
+
+    /**
+     * Create a Article.
+     * @param {articleCreateArgs} args - Arguments to create a Article.
+     * @example
+     * // Create one Article
+     * const Article = await prisma.article.create({
+     *   data: {
+     *     // ... data to create a Article
+     *   }
+     * })
+     * 
+    **/
+    create<T extends articleCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, articleCreateArgs<ExtArgs>>
+    ): Prisma__articleClient<$Result.GetResult<Prisma.$articlePayload<ExtArgs>, T, 'create'>, never, ExtArgs>
+
+    /**
+     * Create many Articles.
+     *     @param {articleCreateManyArgs} args - Arguments to create many Articles.
+     *     @example
+     *     // Create many Articles
+     *     const article = await prisma.article.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends articleCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, articleCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Article.
+     * @param {articleDeleteArgs} args - Arguments to delete one Article.
+     * @example
+     * // Delete one Article
+     * const Article = await prisma.article.delete({
+     *   where: {
+     *     // ... filter to delete one Article
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends articleDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, articleDeleteArgs<ExtArgs>>
+    ): Prisma__articleClient<$Result.GetResult<Prisma.$articlePayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
+
+    /**
+     * Update one Article.
+     * @param {articleUpdateArgs} args - Arguments to update one Article.
+     * @example
+     * // Update one Article
+     * const article = await prisma.article.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends articleUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, articleUpdateArgs<ExtArgs>>
+    ): Prisma__articleClient<$Result.GetResult<Prisma.$articlePayload<ExtArgs>, T, 'update'>, never, ExtArgs>
+
+    /**
+     * Delete zero or more Articles.
+     * @param {articleDeleteManyArgs} args - Arguments to filter Articles to delete.
+     * @example
+     * // Delete a few Articles
+     * const { count } = await prisma.article.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends articleDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, articleDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Articles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {articleUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Articles
+     * const article = await prisma.article.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends articleUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, articleUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Article.
+     * @param {articleUpsertArgs} args - Arguments to update or create a Article.
+     * @example
+     * // Update or create a Article
+     * const article = await prisma.article.upsert({
+     *   create: {
+     *     // ... data to create a Article
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Article we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends articleUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, articleUpsertArgs<ExtArgs>>
+    ): Prisma__articleClient<$Result.GetResult<Prisma.$articlePayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
+
+    /**
+     * Count the number of Articles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {articleCountArgs} args - Arguments to filter Articles to count.
+     * @example
+     * // Count the number of Articles
+     * const count = await prisma.article.count({
+     *   where: {
+     *     // ... the filter for the Articles we want to count
+     *   }
+     * })
+    **/
+    count<T extends articleCountArgs>(
+      args?: Subset<T, articleCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ArticleCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Article.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ArticleAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ArticleAggregateArgs>(args: Subset<T, ArticleAggregateArgs>): Prisma.PrismaPromise<GetArticleAggregateType<T>>
+
+    /**
+     * Group by Article.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {articleGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends articleGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: articleGroupByArgs['orderBy'] }
+        : { orderBy?: articleGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, articleGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetArticleGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the article model
+   */
+  readonly fields: articleFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for article.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__articleClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+
+    User<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
+
+    articleComments<T extends article$articleCommentsArgs<ExtArgs> = {}>(args?: Subset<T, article$articleCommentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$articleCommentsPayload<ExtArgs>, T, 'findMany'> | Null>;
+
+    articleLikes<T extends article$articleLikesArgs<ExtArgs> = {}>(args?: Subset<T, article$articleLikesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$articleLikesPayload<ExtArgs>, T, 'findMany'> | Null>;
+
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
+  }
+
+
+
+  /**
+   * Fields of the article model
+   */ 
+  interface articleFieldRefs {
+    readonly id: FieldRef<"article", 'Int'>
+    readonly userno: FieldRef<"article", 'Int'>
+    readonly title: FieldRef<"article", 'String'>
+    readonly content: FieldRef<"article", 'String'>
+    readonly like_count: FieldRef<"article", 'Int'>
+    readonly dislike_count: FieldRef<"article", 'Int'>
+    readonly comment_count: FieldRef<"article", 'Int'>
+    readonly createdAt: FieldRef<"article", 'DateTime'>
+    readonly updatedAt: FieldRef<"article", 'DateTime'>
+    readonly deletedAt: FieldRef<"article", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+
+  /**
+   * article findUnique
+   */
+  export type articleFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the article
+     */
+    select?: articleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: articleInclude<ExtArgs> | null
+    /**
+     * Filter, which article to fetch.
+     */
+    where: articleWhereUniqueInput
+  }
+
+
+  /**
+   * article findUniqueOrThrow
+   */
+  export type articleFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the article
+     */
+    select?: articleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: articleInclude<ExtArgs> | null
+    /**
+     * Filter, which article to fetch.
+     */
+    where: articleWhereUniqueInput
+  }
+
+
+  /**
+   * article findFirst
+   */
+  export type articleFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the article
+     */
+    select?: articleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: articleInclude<ExtArgs> | null
+    /**
+     * Filter, which article to fetch.
+     */
+    where?: articleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of articles to fetch.
+     */
+    orderBy?: articleOrderByWithRelationInput | articleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for articles.
+     */
+    cursor?: articleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` articles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` articles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of articles.
+     */
+    distinct?: ArticleScalarFieldEnum | ArticleScalarFieldEnum[]
+  }
+
+
+  /**
+   * article findFirstOrThrow
+   */
+  export type articleFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the article
+     */
+    select?: articleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: articleInclude<ExtArgs> | null
+    /**
+     * Filter, which article to fetch.
+     */
+    where?: articleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of articles to fetch.
+     */
+    orderBy?: articleOrderByWithRelationInput | articleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for articles.
+     */
+    cursor?: articleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` articles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` articles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of articles.
+     */
+    distinct?: ArticleScalarFieldEnum | ArticleScalarFieldEnum[]
+  }
+
+
+  /**
+   * article findMany
+   */
+  export type articleFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the article
+     */
+    select?: articleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: articleInclude<ExtArgs> | null
+    /**
+     * Filter, which articles to fetch.
+     */
+    where?: articleWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of articles to fetch.
+     */
+    orderBy?: articleOrderByWithRelationInput | articleOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing articles.
+     */
+    cursor?: articleWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` articles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` articles.
+     */
+    skip?: number
+    distinct?: ArticleScalarFieldEnum | ArticleScalarFieldEnum[]
+  }
+
+
+  /**
+   * article create
+   */
+  export type articleCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the article
+     */
+    select?: articleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: articleInclude<ExtArgs> | null
+    /**
+     * The data needed to create a article.
+     */
+    data: XOR<articleCreateInput, articleUncheckedCreateInput>
+  }
+
+
+  /**
+   * article createMany
+   */
+  export type articleCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many articles.
+     */
+    data: articleCreateManyInput | articleCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * article update
+   */
+  export type articleUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the article
+     */
+    select?: articleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: articleInclude<ExtArgs> | null
+    /**
+     * The data needed to update a article.
+     */
+    data: XOR<articleUpdateInput, articleUncheckedUpdateInput>
+    /**
+     * Choose, which article to update.
+     */
+    where: articleWhereUniqueInput
+  }
+
+
+  /**
+   * article updateMany
+   */
+  export type articleUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update articles.
+     */
+    data: XOR<articleUpdateManyMutationInput, articleUncheckedUpdateManyInput>
+    /**
+     * Filter which articles to update
+     */
+    where?: articleWhereInput
+  }
+
+
+  /**
+   * article upsert
+   */
+  export type articleUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the article
+     */
+    select?: articleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: articleInclude<ExtArgs> | null
+    /**
+     * The filter to search for the article to update in case it exists.
+     */
+    where: articleWhereUniqueInput
+    /**
+     * In case the article found by the `where` argument doesn't exist, create a new article with this data.
+     */
+    create: XOR<articleCreateInput, articleUncheckedCreateInput>
+    /**
+     * In case the article was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<articleUpdateInput, articleUncheckedUpdateInput>
+  }
+
+
+  /**
+   * article delete
+   */
+  export type articleDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the article
+     */
+    select?: articleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: articleInclude<ExtArgs> | null
+    /**
+     * Filter which article to delete.
+     */
+    where: articleWhereUniqueInput
+  }
+
+
+  /**
+   * article deleteMany
+   */
+  export type articleDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which articles to delete
+     */
+    where?: articleWhereInput
+  }
+
+
+  /**
+   * article.articleComments
+   */
+  export type article$articleCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the articleComments
+     */
+    select?: articleCommentsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: articleCommentsInclude<ExtArgs> | null
+    where?: articleCommentsWhereInput
+    orderBy?: articleCommentsOrderByWithRelationInput | articleCommentsOrderByWithRelationInput[]
+    cursor?: articleCommentsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ArticleCommentsScalarFieldEnum | ArticleCommentsScalarFieldEnum[]
+  }
+
+
+  /**
+   * article.articleLikes
+   */
+  export type article$articleLikesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the articleLikes
+     */
+    select?: articleLikesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: articleLikesInclude<ExtArgs> | null
+    where?: articleLikesWhereInput
+    orderBy?: articleLikesOrderByWithRelationInput | articleLikesOrderByWithRelationInput[]
+    cursor?: articleLikesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ArticleLikesScalarFieldEnum | ArticleLikesScalarFieldEnum[]
+  }
+
+
+  /**
+   * article without action
+   */
+  export type articleDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the article
+     */
+    select?: articleSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: articleInclude<ExtArgs> | null
+  }
+
+
+
+  /**
+   * Model articleComments
+   */
+
+  export type AggregateArticleComments = {
+    _count: ArticleCommentsCountAggregateOutputType | null
+    _avg: ArticleCommentsAvgAggregateOutputType | null
+    _sum: ArticleCommentsSumAggregateOutputType | null
+    _min: ArticleCommentsMinAggregateOutputType | null
+    _max: ArticleCommentsMaxAggregateOutputType | null
+  }
+
+  export type ArticleCommentsAvgAggregateOutputType = {
+    id: number | null
+    articleId: number | null
+    userno: number | null
+  }
+
+  export type ArticleCommentsSumAggregateOutputType = {
+    id: number | null
+    articleId: number | null
+    userno: number | null
+  }
+
+  export type ArticleCommentsMinAggregateOutputType = {
+    id: number | null
+    articleId: number | null
+    userno: number | null
+    content: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deletedAt: Date | null
+  }
+
+  export type ArticleCommentsMaxAggregateOutputType = {
+    id: number | null
+    articleId: number | null
+    userno: number | null
+    content: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    deletedAt: Date | null
+  }
+
+  export type ArticleCommentsCountAggregateOutputType = {
+    id: number
+    articleId: number
+    userno: number
+    content: number
+    createdAt: number
+    updatedAt: number
+    deletedAt: number
+    _all: number
+  }
+
+
+  export type ArticleCommentsAvgAggregateInputType = {
+    id?: true
+    articleId?: true
+    userno?: true
+  }
+
+  export type ArticleCommentsSumAggregateInputType = {
+    id?: true
+    articleId?: true
+    userno?: true
+  }
+
+  export type ArticleCommentsMinAggregateInputType = {
+    id?: true
+    articleId?: true
+    userno?: true
+    content?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+  }
+
+  export type ArticleCommentsMaxAggregateInputType = {
+    id?: true
+    articleId?: true
+    userno?: true
+    content?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+  }
+
+  export type ArticleCommentsCountAggregateInputType = {
+    id?: true
+    articleId?: true
+    userno?: true
+    content?: true
+    createdAt?: true
+    updatedAt?: true
+    deletedAt?: true
+    _all?: true
+  }
+
+  export type ArticleCommentsAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which articleComments to aggregate.
+     */
+    where?: articleCommentsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of articleComments to fetch.
+     */
+    orderBy?: articleCommentsOrderByWithRelationInput | articleCommentsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: articleCommentsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` articleComments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` articleComments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned articleComments
+    **/
+    _count?: true | ArticleCommentsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ArticleCommentsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ArticleCommentsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ArticleCommentsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ArticleCommentsMaxAggregateInputType
+  }
+
+  export type GetArticleCommentsAggregateType<T extends ArticleCommentsAggregateArgs> = {
+        [P in keyof T & keyof AggregateArticleComments]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateArticleComments[P]>
+      : GetScalarType<T[P], AggregateArticleComments[P]>
+  }
+
+
+
+
+  export type articleCommentsGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: articleCommentsWhereInput
+    orderBy?: articleCommentsOrderByWithAggregationInput | articleCommentsOrderByWithAggregationInput[]
+    by: ArticleCommentsScalarFieldEnum[] | ArticleCommentsScalarFieldEnum
+    having?: articleCommentsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ArticleCommentsCountAggregateInputType | true
+    _avg?: ArticleCommentsAvgAggregateInputType
+    _sum?: ArticleCommentsSumAggregateInputType
+    _min?: ArticleCommentsMinAggregateInputType
+    _max?: ArticleCommentsMaxAggregateInputType
+  }
+
+  export type ArticleCommentsGroupByOutputType = {
+    id: number
+    articleId: number
+    userno: number
+    content: string
+    createdAt: Date
+    updatedAt: Date
+    deletedAt: Date | null
+    _count: ArticleCommentsCountAggregateOutputType | null
+    _avg: ArticleCommentsAvgAggregateOutputType | null
+    _sum: ArticleCommentsSumAggregateOutputType | null
+    _min: ArticleCommentsMinAggregateOutputType | null
+    _max: ArticleCommentsMaxAggregateOutputType | null
+  }
+
+  type GetArticleCommentsGroupByPayload<T extends articleCommentsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ArticleCommentsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ArticleCommentsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ArticleCommentsGroupByOutputType[P]>
+            : GetScalarType<T[P], ArticleCommentsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type articleCommentsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    articleId?: boolean
+    userno?: boolean
+    content?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+    article?: boolean | articleDefaultArgs<ExtArgs>
+    User?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["articleComments"]>
+
+  export type articleCommentsSelectScalar = {
+    id?: boolean
+    articleId?: boolean
+    userno?: boolean
+    content?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    deletedAt?: boolean
+  }
+
+  export type articleCommentsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    article?: boolean | articleDefaultArgs<ExtArgs>
+    User?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+
+  export type $articleCommentsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "articleComments"
+    objects: {
+      article: Prisma.$articlePayload<ExtArgs>
+      User: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      articleId: number
+      userno: number
+      content: string
+      createdAt: Date
+      updatedAt: Date
+      deletedAt: Date | null
+    }, ExtArgs["result"]["articleComments"]>
+    composites: {}
+  }
+
+
+  type articleCommentsGetPayload<S extends boolean | null | undefined | articleCommentsDefaultArgs> = $Result.GetResult<Prisma.$articleCommentsPayload, S>
+
+  type articleCommentsCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<articleCommentsFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ArticleCommentsCountAggregateInputType | true
+    }
+
+  export interface articleCommentsDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['articleComments'], meta: { name: 'articleComments' } }
+    /**
+     * Find zero or one ArticleComments that matches the filter.
+     * @param {articleCommentsFindUniqueArgs} args - Arguments to find a ArticleComments
+     * @example
+     * // Get one ArticleComments
+     * const articleComments = await prisma.articleComments.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends articleCommentsFindUniqueArgs<ExtArgs>>(
+      args: SelectSubset<T, articleCommentsFindUniqueArgs<ExtArgs>>
+    ): Prisma__articleCommentsClient<$Result.GetResult<Prisma.$articleCommentsPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
+
+    /**
+     * Find one ArticleComments that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {articleCommentsFindUniqueOrThrowArgs} args - Arguments to find a ArticleComments
+     * @example
+     * // Get one ArticleComments
+     * const articleComments = await prisma.articleComments.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends articleCommentsFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, articleCommentsFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__articleCommentsClient<$Result.GetResult<Prisma.$articleCommentsPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find the first ArticleComments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {articleCommentsFindFirstArgs} args - Arguments to find a ArticleComments
+     * @example
+     * // Get one ArticleComments
+     * const articleComments = await prisma.articleComments.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends articleCommentsFindFirstArgs<ExtArgs>>(
+      args?: SelectSubset<T, articleCommentsFindFirstArgs<ExtArgs>>
+    ): Prisma__articleCommentsClient<$Result.GetResult<Prisma.$articleCommentsPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
+
+    /**
+     * Find the first ArticleComments that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {articleCommentsFindFirstOrThrowArgs} args - Arguments to find a ArticleComments
+     * @example
+     * // Get one ArticleComments
+     * const articleComments = await prisma.articleComments.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends articleCommentsFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, articleCommentsFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__articleCommentsClient<$Result.GetResult<Prisma.$articleCommentsPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find zero or more ArticleComments that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {articleCommentsFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ArticleComments
+     * const articleComments = await prisma.articleComments.findMany()
+     * 
+     * // Get first 10 ArticleComments
+     * const articleComments = await prisma.articleComments.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const articleCommentsWithIdOnly = await prisma.articleComments.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends articleCommentsFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, articleCommentsFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$articleCommentsPayload<ExtArgs>, T, 'findMany'>>
+
+    /**
+     * Create a ArticleComments.
+     * @param {articleCommentsCreateArgs} args - Arguments to create a ArticleComments.
+     * @example
+     * // Create one ArticleComments
+     * const ArticleComments = await prisma.articleComments.create({
+     *   data: {
+     *     // ... data to create a ArticleComments
+     *   }
+     * })
+     * 
+    **/
+    create<T extends articleCommentsCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, articleCommentsCreateArgs<ExtArgs>>
+    ): Prisma__articleCommentsClient<$Result.GetResult<Prisma.$articleCommentsPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
+
+    /**
+     * Create many ArticleComments.
+     *     @param {articleCommentsCreateManyArgs} args - Arguments to create many ArticleComments.
+     *     @example
+     *     // Create many ArticleComments
+     *     const articleComments = await prisma.articleComments.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends articleCommentsCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, articleCommentsCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a ArticleComments.
+     * @param {articleCommentsDeleteArgs} args - Arguments to delete one ArticleComments.
+     * @example
+     * // Delete one ArticleComments
+     * const ArticleComments = await prisma.articleComments.delete({
+     *   where: {
+     *     // ... filter to delete one ArticleComments
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends articleCommentsDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, articleCommentsDeleteArgs<ExtArgs>>
+    ): Prisma__articleCommentsClient<$Result.GetResult<Prisma.$articleCommentsPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
+
+    /**
+     * Update one ArticleComments.
+     * @param {articleCommentsUpdateArgs} args - Arguments to update one ArticleComments.
+     * @example
+     * // Update one ArticleComments
+     * const articleComments = await prisma.articleComments.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends articleCommentsUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, articleCommentsUpdateArgs<ExtArgs>>
+    ): Prisma__articleCommentsClient<$Result.GetResult<Prisma.$articleCommentsPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
+
+    /**
+     * Delete zero or more ArticleComments.
+     * @param {articleCommentsDeleteManyArgs} args - Arguments to filter ArticleComments to delete.
+     * @example
+     * // Delete a few ArticleComments
+     * const { count } = await prisma.articleComments.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends articleCommentsDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, articleCommentsDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ArticleComments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {articleCommentsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ArticleComments
+     * const articleComments = await prisma.articleComments.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends articleCommentsUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, articleCommentsUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ArticleComments.
+     * @param {articleCommentsUpsertArgs} args - Arguments to update or create a ArticleComments.
+     * @example
+     * // Update or create a ArticleComments
+     * const articleComments = await prisma.articleComments.upsert({
+     *   create: {
+     *     // ... data to create a ArticleComments
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ArticleComments we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends articleCommentsUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, articleCommentsUpsertArgs<ExtArgs>>
+    ): Prisma__articleCommentsClient<$Result.GetResult<Prisma.$articleCommentsPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
+
+    /**
+     * Count the number of ArticleComments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {articleCommentsCountArgs} args - Arguments to filter ArticleComments to count.
+     * @example
+     * // Count the number of ArticleComments
+     * const count = await prisma.articleComments.count({
+     *   where: {
+     *     // ... the filter for the ArticleComments we want to count
+     *   }
+     * })
+    **/
+    count<T extends articleCommentsCountArgs>(
+      args?: Subset<T, articleCommentsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ArticleCommentsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ArticleComments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ArticleCommentsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ArticleCommentsAggregateArgs>(args: Subset<T, ArticleCommentsAggregateArgs>): Prisma.PrismaPromise<GetArticleCommentsAggregateType<T>>
+
+    /**
+     * Group by ArticleComments.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {articleCommentsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends articleCommentsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: articleCommentsGroupByArgs['orderBy'] }
+        : { orderBy?: articleCommentsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, articleCommentsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetArticleCommentsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the articleComments model
+   */
+  readonly fields: articleCommentsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for articleComments.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__articleCommentsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+
+    article<T extends articleDefaultArgs<ExtArgs> = {}>(args?: Subset<T, articleDefaultArgs<ExtArgs>>): Prisma__articleClient<$Result.GetResult<Prisma.$articlePayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
+
+    User<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
+
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
+  }
+
+
+
+  /**
+   * Fields of the articleComments model
+   */ 
+  interface articleCommentsFieldRefs {
+    readonly id: FieldRef<"articleComments", 'Int'>
+    readonly articleId: FieldRef<"articleComments", 'Int'>
+    readonly userno: FieldRef<"articleComments", 'Int'>
+    readonly content: FieldRef<"articleComments", 'String'>
+    readonly createdAt: FieldRef<"articleComments", 'DateTime'>
+    readonly updatedAt: FieldRef<"articleComments", 'DateTime'>
+    readonly deletedAt: FieldRef<"articleComments", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+
+  /**
+   * articleComments findUnique
+   */
+  export type articleCommentsFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the articleComments
+     */
+    select?: articleCommentsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: articleCommentsInclude<ExtArgs> | null
+    /**
+     * Filter, which articleComments to fetch.
+     */
+    where: articleCommentsWhereUniqueInput
+  }
+
+
+  /**
+   * articleComments findUniqueOrThrow
+   */
+  export type articleCommentsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the articleComments
+     */
+    select?: articleCommentsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: articleCommentsInclude<ExtArgs> | null
+    /**
+     * Filter, which articleComments to fetch.
+     */
+    where: articleCommentsWhereUniqueInput
+  }
+
+
+  /**
+   * articleComments findFirst
+   */
+  export type articleCommentsFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the articleComments
+     */
+    select?: articleCommentsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: articleCommentsInclude<ExtArgs> | null
+    /**
+     * Filter, which articleComments to fetch.
+     */
+    where?: articleCommentsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of articleComments to fetch.
+     */
+    orderBy?: articleCommentsOrderByWithRelationInput | articleCommentsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for articleComments.
+     */
+    cursor?: articleCommentsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` articleComments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` articleComments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of articleComments.
+     */
+    distinct?: ArticleCommentsScalarFieldEnum | ArticleCommentsScalarFieldEnum[]
+  }
+
+
+  /**
+   * articleComments findFirstOrThrow
+   */
+  export type articleCommentsFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the articleComments
+     */
+    select?: articleCommentsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: articleCommentsInclude<ExtArgs> | null
+    /**
+     * Filter, which articleComments to fetch.
+     */
+    where?: articleCommentsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of articleComments to fetch.
+     */
+    orderBy?: articleCommentsOrderByWithRelationInput | articleCommentsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for articleComments.
+     */
+    cursor?: articleCommentsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` articleComments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` articleComments.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of articleComments.
+     */
+    distinct?: ArticleCommentsScalarFieldEnum | ArticleCommentsScalarFieldEnum[]
+  }
+
+
+  /**
+   * articleComments findMany
+   */
+  export type articleCommentsFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the articleComments
+     */
+    select?: articleCommentsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: articleCommentsInclude<ExtArgs> | null
+    /**
+     * Filter, which articleComments to fetch.
+     */
+    where?: articleCommentsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of articleComments to fetch.
+     */
+    orderBy?: articleCommentsOrderByWithRelationInput | articleCommentsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing articleComments.
+     */
+    cursor?: articleCommentsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` articleComments from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` articleComments.
+     */
+    skip?: number
+    distinct?: ArticleCommentsScalarFieldEnum | ArticleCommentsScalarFieldEnum[]
+  }
+
+
+  /**
+   * articleComments create
+   */
+  export type articleCommentsCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the articleComments
+     */
+    select?: articleCommentsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: articleCommentsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a articleComments.
+     */
+    data: XOR<articleCommentsCreateInput, articleCommentsUncheckedCreateInput>
+  }
+
+
+  /**
+   * articleComments createMany
+   */
+  export type articleCommentsCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many articleComments.
+     */
+    data: articleCommentsCreateManyInput | articleCommentsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * articleComments update
+   */
+  export type articleCommentsUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the articleComments
+     */
+    select?: articleCommentsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: articleCommentsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a articleComments.
+     */
+    data: XOR<articleCommentsUpdateInput, articleCommentsUncheckedUpdateInput>
+    /**
+     * Choose, which articleComments to update.
+     */
+    where: articleCommentsWhereUniqueInput
+  }
+
+
+  /**
+   * articleComments updateMany
+   */
+  export type articleCommentsUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update articleComments.
+     */
+    data: XOR<articleCommentsUpdateManyMutationInput, articleCommentsUncheckedUpdateManyInput>
+    /**
+     * Filter which articleComments to update
+     */
+    where?: articleCommentsWhereInput
+  }
+
+
+  /**
+   * articleComments upsert
+   */
+  export type articleCommentsUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the articleComments
+     */
+    select?: articleCommentsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: articleCommentsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the articleComments to update in case it exists.
+     */
+    where: articleCommentsWhereUniqueInput
+    /**
+     * In case the articleComments found by the `where` argument doesn't exist, create a new articleComments with this data.
+     */
+    create: XOR<articleCommentsCreateInput, articleCommentsUncheckedCreateInput>
+    /**
+     * In case the articleComments was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<articleCommentsUpdateInput, articleCommentsUncheckedUpdateInput>
+  }
+
+
+  /**
+   * articleComments delete
+   */
+  export type articleCommentsDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the articleComments
+     */
+    select?: articleCommentsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: articleCommentsInclude<ExtArgs> | null
+    /**
+     * Filter which articleComments to delete.
+     */
+    where: articleCommentsWhereUniqueInput
+  }
+
+
+  /**
+   * articleComments deleteMany
+   */
+  export type articleCommentsDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which articleComments to delete
+     */
+    where?: articleCommentsWhereInput
+  }
+
+
+  /**
+   * articleComments without action
+   */
+  export type articleCommentsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the articleComments
+     */
+    select?: articleCommentsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: articleCommentsInclude<ExtArgs> | null
+  }
+
+
+
+  /**
+   * Model articleLikes
+   */
+
+  export type AggregateArticleLikes = {
+    _count: ArticleLikesCountAggregateOutputType | null
+    _avg: ArticleLikesAvgAggregateOutputType | null
+    _sum: ArticleLikesSumAggregateOutputType | null
+    _min: ArticleLikesMinAggregateOutputType | null
+    _max: ArticleLikesMaxAggregateOutputType | null
+  }
+
+  export type ArticleLikesAvgAggregateOutputType = {
+    id: number | null
+    article_id: number | null
+    userno: number | null
+  }
+
+  export type ArticleLikesSumAggregateOutputType = {
+    id: number | null
+    article_id: number | null
+    userno: number | null
+  }
+
+  export type ArticleLikesMinAggregateOutputType = {
+    id: number | null
+    article_id: number | null
+    userno: number | null
+    type: $Enums.articleLikes_type | null
+    createdAt: Date | null
+  }
+
+  export type ArticleLikesMaxAggregateOutputType = {
+    id: number | null
+    article_id: number | null
+    userno: number | null
+    type: $Enums.articleLikes_type | null
+    createdAt: Date | null
+  }
+
+  export type ArticleLikesCountAggregateOutputType = {
+    id: number
+    article_id: number
+    userno: number
+    type: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type ArticleLikesAvgAggregateInputType = {
+    id?: true
+    article_id?: true
+    userno?: true
+  }
+
+  export type ArticleLikesSumAggregateInputType = {
+    id?: true
+    article_id?: true
+    userno?: true
+  }
+
+  export type ArticleLikesMinAggregateInputType = {
+    id?: true
+    article_id?: true
+    userno?: true
+    type?: true
+    createdAt?: true
+  }
+
+  export type ArticleLikesMaxAggregateInputType = {
+    id?: true
+    article_id?: true
+    userno?: true
+    type?: true
+    createdAt?: true
+  }
+
+  export type ArticleLikesCountAggregateInputType = {
+    id?: true
+    article_id?: true
+    userno?: true
+    type?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type ArticleLikesAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which articleLikes to aggregate.
+     */
+    where?: articleLikesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of articleLikes to fetch.
+     */
+    orderBy?: articleLikesOrderByWithRelationInput | articleLikesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: articleLikesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` articleLikes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` articleLikes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned articleLikes
+    **/
+    _count?: true | ArticleLikesCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ArticleLikesAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ArticleLikesSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ArticleLikesMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ArticleLikesMaxAggregateInputType
+  }
+
+  export type GetArticleLikesAggregateType<T extends ArticleLikesAggregateArgs> = {
+        [P in keyof T & keyof AggregateArticleLikes]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateArticleLikes[P]>
+      : GetScalarType<T[P], AggregateArticleLikes[P]>
+  }
+
+
+
+
+  export type articleLikesGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: articleLikesWhereInput
+    orderBy?: articleLikesOrderByWithAggregationInput | articleLikesOrderByWithAggregationInput[]
+    by: ArticleLikesScalarFieldEnum[] | ArticleLikesScalarFieldEnum
+    having?: articleLikesScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ArticleLikesCountAggregateInputType | true
+    _avg?: ArticleLikesAvgAggregateInputType
+    _sum?: ArticleLikesSumAggregateInputType
+    _min?: ArticleLikesMinAggregateInputType
+    _max?: ArticleLikesMaxAggregateInputType
+  }
+
+  export type ArticleLikesGroupByOutputType = {
+    id: number
+    article_id: number
+    userno: number
+    type: $Enums.articleLikes_type
+    createdAt: Date
+    _count: ArticleLikesCountAggregateOutputType | null
+    _avg: ArticleLikesAvgAggregateOutputType | null
+    _sum: ArticleLikesSumAggregateOutputType | null
+    _min: ArticleLikesMinAggregateOutputType | null
+    _max: ArticleLikesMaxAggregateOutputType | null
+  }
+
+  type GetArticleLikesGroupByPayload<T extends articleLikesGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ArticleLikesGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ArticleLikesGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ArticleLikesGroupByOutputType[P]>
+            : GetScalarType<T[P], ArticleLikesGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type articleLikesSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    article_id?: boolean
+    userno?: boolean
+    type?: boolean
+    createdAt?: boolean
+    article?: boolean | articleDefaultArgs<ExtArgs>
+    User?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["articleLikes"]>
+
+  export type articleLikesSelectScalar = {
+    id?: boolean
+    article_id?: boolean
+    userno?: boolean
+    type?: boolean
+    createdAt?: boolean
+  }
+
+  export type articleLikesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    article?: boolean | articleDefaultArgs<ExtArgs>
+    User?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+
+  export type $articleLikesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "articleLikes"
+    objects: {
+      article: Prisma.$articlePayload<ExtArgs>
+      User: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      article_id: number
+      userno: number
+      type: $Enums.articleLikes_type
+      createdAt: Date
+    }, ExtArgs["result"]["articleLikes"]>
+    composites: {}
+  }
+
+
+  type articleLikesGetPayload<S extends boolean | null | undefined | articleLikesDefaultArgs> = $Result.GetResult<Prisma.$articleLikesPayload, S>
+
+  type articleLikesCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<articleLikesFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: ArticleLikesCountAggregateInputType | true
+    }
+
+  export interface articleLikesDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['articleLikes'], meta: { name: 'articleLikes' } }
+    /**
+     * Find zero or one ArticleLikes that matches the filter.
+     * @param {articleLikesFindUniqueArgs} args - Arguments to find a ArticleLikes
+     * @example
+     * // Get one ArticleLikes
+     * const articleLikes = await prisma.articleLikes.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends articleLikesFindUniqueArgs<ExtArgs>>(
+      args: SelectSubset<T, articleLikesFindUniqueArgs<ExtArgs>>
+    ): Prisma__articleLikesClient<$Result.GetResult<Prisma.$articleLikesPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
+
+    /**
+     * Find one ArticleLikes that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {articleLikesFindUniqueOrThrowArgs} args - Arguments to find a ArticleLikes
+     * @example
+     * // Get one ArticleLikes
+     * const articleLikes = await prisma.articleLikes.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends articleLikesFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, articleLikesFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__articleLikesClient<$Result.GetResult<Prisma.$articleLikesPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find the first ArticleLikes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {articleLikesFindFirstArgs} args - Arguments to find a ArticleLikes
+     * @example
+     * // Get one ArticleLikes
+     * const articleLikes = await prisma.articleLikes.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends articleLikesFindFirstArgs<ExtArgs>>(
+      args?: SelectSubset<T, articleLikesFindFirstArgs<ExtArgs>>
+    ): Prisma__articleLikesClient<$Result.GetResult<Prisma.$articleLikesPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
+
+    /**
+     * Find the first ArticleLikes that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {articleLikesFindFirstOrThrowArgs} args - Arguments to find a ArticleLikes
+     * @example
+     * // Get one ArticleLikes
+     * const articleLikes = await prisma.articleLikes.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends articleLikesFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, articleLikesFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__articleLikesClient<$Result.GetResult<Prisma.$articleLikesPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find zero or more ArticleLikes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {articleLikesFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ArticleLikes
+     * const articleLikes = await prisma.articleLikes.findMany()
+     * 
+     * // Get first 10 ArticleLikes
+     * const articleLikes = await prisma.articleLikes.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const articleLikesWithIdOnly = await prisma.articleLikes.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends articleLikesFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, articleLikesFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$articleLikesPayload<ExtArgs>, T, 'findMany'>>
+
+    /**
+     * Create a ArticleLikes.
+     * @param {articleLikesCreateArgs} args - Arguments to create a ArticleLikes.
+     * @example
+     * // Create one ArticleLikes
+     * const ArticleLikes = await prisma.articleLikes.create({
+     *   data: {
+     *     // ... data to create a ArticleLikes
+     *   }
+     * })
+     * 
+    **/
+    create<T extends articleLikesCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, articleLikesCreateArgs<ExtArgs>>
+    ): Prisma__articleLikesClient<$Result.GetResult<Prisma.$articleLikesPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
+
+    /**
+     * Create many ArticleLikes.
+     *     @param {articleLikesCreateManyArgs} args - Arguments to create many ArticleLikes.
+     *     @example
+     *     // Create many ArticleLikes
+     *     const articleLikes = await prisma.articleLikes.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends articleLikesCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, articleLikesCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a ArticleLikes.
+     * @param {articleLikesDeleteArgs} args - Arguments to delete one ArticleLikes.
+     * @example
+     * // Delete one ArticleLikes
+     * const ArticleLikes = await prisma.articleLikes.delete({
+     *   where: {
+     *     // ... filter to delete one ArticleLikes
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends articleLikesDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, articleLikesDeleteArgs<ExtArgs>>
+    ): Prisma__articleLikesClient<$Result.GetResult<Prisma.$articleLikesPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
+
+    /**
+     * Update one ArticleLikes.
+     * @param {articleLikesUpdateArgs} args - Arguments to update one ArticleLikes.
+     * @example
+     * // Update one ArticleLikes
+     * const articleLikes = await prisma.articleLikes.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends articleLikesUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, articleLikesUpdateArgs<ExtArgs>>
+    ): Prisma__articleLikesClient<$Result.GetResult<Prisma.$articleLikesPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
+
+    /**
+     * Delete zero or more ArticleLikes.
+     * @param {articleLikesDeleteManyArgs} args - Arguments to filter ArticleLikes to delete.
+     * @example
+     * // Delete a few ArticleLikes
+     * const { count } = await prisma.articleLikes.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends articleLikesDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, articleLikesDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ArticleLikes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {articleLikesUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ArticleLikes
+     * const articleLikes = await prisma.articleLikes.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends articleLikesUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, articleLikesUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one ArticleLikes.
+     * @param {articleLikesUpsertArgs} args - Arguments to update or create a ArticleLikes.
+     * @example
+     * // Update or create a ArticleLikes
+     * const articleLikes = await prisma.articleLikes.upsert({
+     *   create: {
+     *     // ... data to create a ArticleLikes
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ArticleLikes we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends articleLikesUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, articleLikesUpsertArgs<ExtArgs>>
+    ): Prisma__articleLikesClient<$Result.GetResult<Prisma.$articleLikesPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
+
+    /**
+     * Count the number of ArticleLikes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {articleLikesCountArgs} args - Arguments to filter ArticleLikes to count.
+     * @example
+     * // Count the number of ArticleLikes
+     * const count = await prisma.articleLikes.count({
+     *   where: {
+     *     // ... the filter for the ArticleLikes we want to count
+     *   }
+     * })
+    **/
+    count<T extends articleLikesCountArgs>(
+      args?: Subset<T, articleLikesCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ArticleLikesCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ArticleLikes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ArticleLikesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ArticleLikesAggregateArgs>(args: Subset<T, ArticleLikesAggregateArgs>): Prisma.PrismaPromise<GetArticleLikesAggregateType<T>>
+
+    /**
+     * Group by ArticleLikes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {articleLikesGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends articleLikesGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: articleLikesGroupByArgs['orderBy'] }
+        : { orderBy?: articleLikesGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, articleLikesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetArticleLikesGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the articleLikes model
+   */
+  readonly fields: articleLikesFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for articleLikes.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__articleLikesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+
+    article<T extends articleDefaultArgs<ExtArgs> = {}>(args?: Subset<T, articleDefaultArgs<ExtArgs>>): Prisma__articleClient<$Result.GetResult<Prisma.$articlePayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
+
+    User<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, 'findUniqueOrThrow'> | Null, Null, ExtArgs>;
+
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
+  }
+
+
+
+  /**
+   * Fields of the articleLikes model
+   */ 
+  interface articleLikesFieldRefs {
+    readonly id: FieldRef<"articleLikes", 'Int'>
+    readonly article_id: FieldRef<"articleLikes", 'Int'>
+    readonly userno: FieldRef<"articleLikes", 'Int'>
+    readonly type: FieldRef<"articleLikes", 'articleLikes_type'>
+    readonly createdAt: FieldRef<"articleLikes", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+
+  /**
+   * articleLikes findUnique
+   */
+  export type articleLikesFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the articleLikes
+     */
+    select?: articleLikesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: articleLikesInclude<ExtArgs> | null
+    /**
+     * Filter, which articleLikes to fetch.
+     */
+    where: articleLikesWhereUniqueInput
+  }
+
+
+  /**
+   * articleLikes findUniqueOrThrow
+   */
+  export type articleLikesFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the articleLikes
+     */
+    select?: articleLikesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: articleLikesInclude<ExtArgs> | null
+    /**
+     * Filter, which articleLikes to fetch.
+     */
+    where: articleLikesWhereUniqueInput
+  }
+
+
+  /**
+   * articleLikes findFirst
+   */
+  export type articleLikesFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the articleLikes
+     */
+    select?: articleLikesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: articleLikesInclude<ExtArgs> | null
+    /**
+     * Filter, which articleLikes to fetch.
+     */
+    where?: articleLikesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of articleLikes to fetch.
+     */
+    orderBy?: articleLikesOrderByWithRelationInput | articleLikesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for articleLikes.
+     */
+    cursor?: articleLikesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` articleLikes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` articleLikes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of articleLikes.
+     */
+    distinct?: ArticleLikesScalarFieldEnum | ArticleLikesScalarFieldEnum[]
+  }
+
+
+  /**
+   * articleLikes findFirstOrThrow
+   */
+  export type articleLikesFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the articleLikes
+     */
+    select?: articleLikesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: articleLikesInclude<ExtArgs> | null
+    /**
+     * Filter, which articleLikes to fetch.
+     */
+    where?: articleLikesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of articleLikes to fetch.
+     */
+    orderBy?: articleLikesOrderByWithRelationInput | articleLikesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for articleLikes.
+     */
+    cursor?: articleLikesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` articleLikes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` articleLikes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of articleLikes.
+     */
+    distinct?: ArticleLikesScalarFieldEnum | ArticleLikesScalarFieldEnum[]
+  }
+
+
+  /**
+   * articleLikes findMany
+   */
+  export type articleLikesFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the articleLikes
+     */
+    select?: articleLikesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: articleLikesInclude<ExtArgs> | null
+    /**
+     * Filter, which articleLikes to fetch.
+     */
+    where?: articleLikesWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of articleLikes to fetch.
+     */
+    orderBy?: articleLikesOrderByWithRelationInput | articleLikesOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing articleLikes.
+     */
+    cursor?: articleLikesWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` articleLikes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` articleLikes.
+     */
+    skip?: number
+    distinct?: ArticleLikesScalarFieldEnum | ArticleLikesScalarFieldEnum[]
+  }
+
+
+  /**
+   * articleLikes create
+   */
+  export type articleLikesCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the articleLikes
+     */
+    select?: articleLikesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: articleLikesInclude<ExtArgs> | null
+    /**
+     * The data needed to create a articleLikes.
+     */
+    data: XOR<articleLikesCreateInput, articleLikesUncheckedCreateInput>
+  }
+
+
+  /**
+   * articleLikes createMany
+   */
+  export type articleLikesCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many articleLikes.
+     */
+    data: articleLikesCreateManyInput | articleLikesCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * articleLikes update
+   */
+  export type articleLikesUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the articleLikes
+     */
+    select?: articleLikesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: articleLikesInclude<ExtArgs> | null
+    /**
+     * The data needed to update a articleLikes.
+     */
+    data: XOR<articleLikesUpdateInput, articleLikesUncheckedUpdateInput>
+    /**
+     * Choose, which articleLikes to update.
+     */
+    where: articleLikesWhereUniqueInput
+  }
+
+
+  /**
+   * articleLikes updateMany
+   */
+  export type articleLikesUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update articleLikes.
+     */
+    data: XOR<articleLikesUpdateManyMutationInput, articleLikesUncheckedUpdateManyInput>
+    /**
+     * Filter which articleLikes to update
+     */
+    where?: articleLikesWhereInput
+  }
+
+
+  /**
+   * articleLikes upsert
+   */
+  export type articleLikesUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the articleLikes
+     */
+    select?: articleLikesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: articleLikesInclude<ExtArgs> | null
+    /**
+     * The filter to search for the articleLikes to update in case it exists.
+     */
+    where: articleLikesWhereUniqueInput
+    /**
+     * In case the articleLikes found by the `where` argument doesn't exist, create a new articleLikes with this data.
+     */
+    create: XOR<articleLikesCreateInput, articleLikesUncheckedCreateInput>
+    /**
+     * In case the articleLikes was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<articleLikesUpdateInput, articleLikesUncheckedUpdateInput>
+  }
+
+
+  /**
+   * articleLikes delete
+   */
+  export type articleLikesDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the articleLikes
+     */
+    select?: articleLikesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: articleLikesInclude<ExtArgs> | null
+    /**
+     * Filter which articleLikes to delete.
+     */
+    where: articleLikesWhereUniqueInput
+  }
+
+
+  /**
+   * articleLikes deleteMany
+   */
+  export type articleLikesDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which articleLikes to delete
+     */
+    where?: articleLikesWhereInput
+  }
+
+
+  /**
+   * articleLikes without action
+   */
+  export type articleLikesDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the articleLikes
+     */
+    select?: articleLikesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: articleLikesInclude<ExtArgs> | null
+  }
+
+
+
+  /**
    * Enums
    */
 
@@ -15755,6 +19194,46 @@ export namespace Prisma {
   export type MatchesScalarFieldEnum = (typeof MatchesScalarFieldEnum)[keyof typeof MatchesScalarFieldEnum]
 
 
+  export const ArticleScalarFieldEnum: {
+    id: 'id',
+    userno: 'userno',
+    title: 'title',
+    content: 'content',
+    like_count: 'like_count',
+    dislike_count: 'dislike_count',
+    comment_count: 'comment_count',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deletedAt: 'deletedAt'
+  };
+
+  export type ArticleScalarFieldEnum = (typeof ArticleScalarFieldEnum)[keyof typeof ArticleScalarFieldEnum]
+
+
+  export const ArticleCommentsScalarFieldEnum: {
+    id: 'id',
+    articleId: 'articleId',
+    userno: 'userno',
+    content: 'content',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    deletedAt: 'deletedAt'
+  };
+
+  export type ArticleCommentsScalarFieldEnum = (typeof ArticleCommentsScalarFieldEnum)[keyof typeof ArticleCommentsScalarFieldEnum]
+
+
+  export const ArticleLikesScalarFieldEnum: {
+    id: 'id',
+    article_id: 'article_id',
+    userno: 'userno',
+    type: 'type',
+    createdAt: 'createdAt'
+  };
+
+  export type ArticleLikesScalarFieldEnum = (typeof ArticleLikesScalarFieldEnum)[keyof typeof ArticleLikesScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -15853,6 +19332,13 @@ export namespace Prisma {
    * Reference to a field of type 'Matches_status'
    */
   export type EnumMatches_statusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Matches_status'>
+    
+
+
+  /**
+   * Reference to a field of type 'articleLikes_type'
+   */
+  export type EnumarticleLikes_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'articleLikes_type'>
     
   /**
    * Deep Input Types
@@ -16065,6 +19551,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: MatchesListRelationFilter
     Recruit?: RecruitListRelationFilter
     RecruitComment?: RecruitCommentListRelationFilter
+    article?: ArticleListRelationFilter
+    articleComments?: ArticleCommentsListRelationFilter
+    articleLikes?: ArticleLikesListRelationFilter
     channelchats?: ChannelchatsListRelationFilter
     channelmembers?: ChannelmembersListRelationFilter
     movieScores?: MovieScoreListRelationFilter
@@ -16087,6 +19576,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: MatchesOrderByRelationAggregateInput
     Recruit?: RecruitOrderByRelationAggregateInput
     RecruitComment?: RecruitCommentOrderByRelationAggregateInput
+    article?: articleOrderByRelationAggregateInput
+    articleComments?: articleCommentsOrderByRelationAggregateInput
+    articleLikes?: articleLikesOrderByRelationAggregateInput
     channelchats?: channelchatsOrderByRelationAggregateInput
     channelmembers?: channelmembersOrderByRelationAggregateInput
     movieScores?: movieScoreOrderByRelationAggregateInput
@@ -16112,6 +19604,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: MatchesListRelationFilter
     Recruit?: RecruitListRelationFilter
     RecruitComment?: RecruitCommentListRelationFilter
+    article?: ArticleListRelationFilter
+    articleComments?: ArticleCommentsListRelationFilter
+    articleLikes?: ArticleLikesListRelationFilter
     channelchats?: ChannelchatsListRelationFilter
     channelmembers?: ChannelmembersListRelationFilter
     movieScores?: MovieScoreListRelationFilter
@@ -16841,6 +20336,225 @@ export namespace Prisma {
     status?: EnumMatches_statusWithAggregatesFilter<"Matches"> | $Enums.Matches_status
   }
 
+  export type articleWhereInput = {
+    AND?: articleWhereInput | articleWhereInput[]
+    OR?: articleWhereInput[]
+    NOT?: articleWhereInput | articleWhereInput[]
+    id?: IntFilter<"article"> | number
+    userno?: IntFilter<"article"> | number
+    title?: StringFilter<"article"> | string
+    content?: StringFilter<"article"> | string
+    like_count?: IntFilter<"article"> | number
+    dislike_count?: IntFilter<"article"> | number
+    comment_count?: IntFilter<"article"> | number
+    createdAt?: DateTimeFilter<"article"> | Date | string
+    updatedAt?: DateTimeFilter<"article"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"article"> | Date | string | null
+    User?: XOR<UserRelationFilter, UserWhereInput>
+    articleComments?: ArticleCommentsListRelationFilter
+    articleLikes?: ArticleLikesListRelationFilter
+  }
+
+  export type articleOrderByWithRelationInput = {
+    id?: SortOrder
+    userno?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    like_count?: SortOrder
+    dislike_count?: SortOrder
+    comment_count?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    User?: UserOrderByWithRelationInput
+    articleComments?: articleCommentsOrderByRelationAggregateInput
+    articleLikes?: articleLikesOrderByRelationAggregateInput
+  }
+
+  export type articleWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    like_count?: number
+    AND?: articleWhereInput | articleWhereInput[]
+    OR?: articleWhereInput[]
+    NOT?: articleWhereInput | articleWhereInput[]
+    userno?: IntFilter<"article"> | number
+    title?: StringFilter<"article"> | string
+    content?: StringFilter<"article"> | string
+    dislike_count?: IntFilter<"article"> | number
+    comment_count?: IntFilter<"article"> | number
+    createdAt?: DateTimeFilter<"article"> | Date | string
+    updatedAt?: DateTimeFilter<"article"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"article"> | Date | string | null
+    User?: XOR<UserRelationFilter, UserWhereInput>
+    articleComments?: ArticleCommentsListRelationFilter
+    articleLikes?: ArticleLikesListRelationFilter
+  }, "id" | "like_count">
+
+  export type articleOrderByWithAggregationInput = {
+    id?: SortOrder
+    userno?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    like_count?: SortOrder
+    dislike_count?: SortOrder
+    comment_count?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    _count?: articleCountOrderByAggregateInput
+    _avg?: articleAvgOrderByAggregateInput
+    _max?: articleMaxOrderByAggregateInput
+    _min?: articleMinOrderByAggregateInput
+    _sum?: articleSumOrderByAggregateInput
+  }
+
+  export type articleScalarWhereWithAggregatesInput = {
+    AND?: articleScalarWhereWithAggregatesInput | articleScalarWhereWithAggregatesInput[]
+    OR?: articleScalarWhereWithAggregatesInput[]
+    NOT?: articleScalarWhereWithAggregatesInput | articleScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"article"> | number
+    userno?: IntWithAggregatesFilter<"article"> | number
+    title?: StringWithAggregatesFilter<"article"> | string
+    content?: StringWithAggregatesFilter<"article"> | string
+    like_count?: IntWithAggregatesFilter<"article"> | number
+    dislike_count?: IntWithAggregatesFilter<"article"> | number
+    comment_count?: IntWithAggregatesFilter<"article"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"article"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"article"> | Date | string
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"article"> | Date | string | null
+  }
+
+  export type articleCommentsWhereInput = {
+    AND?: articleCommentsWhereInput | articleCommentsWhereInput[]
+    OR?: articleCommentsWhereInput[]
+    NOT?: articleCommentsWhereInput | articleCommentsWhereInput[]
+    id?: IntFilter<"articleComments"> | number
+    articleId?: IntFilter<"articleComments"> | number
+    userno?: IntFilter<"articleComments"> | number
+    content?: StringFilter<"articleComments"> | string
+    createdAt?: DateTimeFilter<"articleComments"> | Date | string
+    updatedAt?: DateTimeFilter<"articleComments"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"articleComments"> | Date | string | null
+    article?: XOR<ArticleRelationFilter, articleWhereInput>
+    User?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type articleCommentsOrderByWithRelationInput = {
+    id?: SortOrder
+    articleId?: SortOrder
+    userno?: SortOrder
+    content?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    article?: articleOrderByWithRelationInput
+    User?: UserOrderByWithRelationInput
+  }
+
+  export type articleCommentsWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: articleCommentsWhereInput | articleCommentsWhereInput[]
+    OR?: articleCommentsWhereInput[]
+    NOT?: articleCommentsWhereInput | articleCommentsWhereInput[]
+    articleId?: IntFilter<"articleComments"> | number
+    userno?: IntFilter<"articleComments"> | number
+    content?: StringFilter<"articleComments"> | string
+    createdAt?: DateTimeFilter<"articleComments"> | Date | string
+    updatedAt?: DateTimeFilter<"articleComments"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"articleComments"> | Date | string | null
+    article?: XOR<ArticleRelationFilter, articleWhereInput>
+    User?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type articleCommentsOrderByWithAggregationInput = {
+    id?: SortOrder
+    articleId?: SortOrder
+    userno?: SortOrder
+    content?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrderInput | SortOrder
+    _count?: articleCommentsCountOrderByAggregateInput
+    _avg?: articleCommentsAvgOrderByAggregateInput
+    _max?: articleCommentsMaxOrderByAggregateInput
+    _min?: articleCommentsMinOrderByAggregateInput
+    _sum?: articleCommentsSumOrderByAggregateInput
+  }
+
+  export type articleCommentsScalarWhereWithAggregatesInput = {
+    AND?: articleCommentsScalarWhereWithAggregatesInput | articleCommentsScalarWhereWithAggregatesInput[]
+    OR?: articleCommentsScalarWhereWithAggregatesInput[]
+    NOT?: articleCommentsScalarWhereWithAggregatesInput | articleCommentsScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"articleComments"> | number
+    articleId?: IntWithAggregatesFilter<"articleComments"> | number
+    userno?: IntWithAggregatesFilter<"articleComments"> | number
+    content?: StringWithAggregatesFilter<"articleComments"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"articleComments"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"articleComments"> | Date | string
+    deletedAt?: DateTimeNullableWithAggregatesFilter<"articleComments"> | Date | string | null
+  }
+
+  export type articleLikesWhereInput = {
+    AND?: articleLikesWhereInput | articleLikesWhereInput[]
+    OR?: articleLikesWhereInput[]
+    NOT?: articleLikesWhereInput | articleLikesWhereInput[]
+    id?: IntFilter<"articleLikes"> | number
+    article_id?: IntFilter<"articleLikes"> | number
+    userno?: IntFilter<"articleLikes"> | number
+    type?: EnumarticleLikes_typeFilter<"articleLikes"> | $Enums.articleLikes_type
+    createdAt?: DateTimeFilter<"articleLikes"> | Date | string
+    article?: XOR<ArticleRelationFilter, articleWhereInput>
+    User?: XOR<UserRelationFilter, UserWhereInput>
+  }
+
+  export type articleLikesOrderByWithRelationInput = {
+    id?: SortOrder
+    article_id?: SortOrder
+    userno?: SortOrder
+    type?: SortOrder
+    createdAt?: SortOrder
+    article?: articleOrderByWithRelationInput
+    User?: UserOrderByWithRelationInput
+  }
+
+  export type articleLikesWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    article_id_userno?: articleLikesArticle_idUsernoCompoundUniqueInput
+    AND?: articleLikesWhereInput | articleLikesWhereInput[]
+    OR?: articleLikesWhereInput[]
+    NOT?: articleLikesWhereInput | articleLikesWhereInput[]
+    article_id?: IntFilter<"articleLikes"> | number
+    userno?: IntFilter<"articleLikes"> | number
+    type?: EnumarticleLikes_typeFilter<"articleLikes"> | $Enums.articleLikes_type
+    createdAt?: DateTimeFilter<"articleLikes"> | Date | string
+    article?: XOR<ArticleRelationFilter, articleWhereInput>
+    User?: XOR<UserRelationFilter, UserWhereInput>
+  }, "id" | "article_id_userno">
+
+  export type articleLikesOrderByWithAggregationInput = {
+    id?: SortOrder
+    article_id?: SortOrder
+    userno?: SortOrder
+    type?: SortOrder
+    createdAt?: SortOrder
+    _count?: articleLikesCountOrderByAggregateInput
+    _avg?: articleLikesAvgOrderByAggregateInput
+    _max?: articleLikesMaxOrderByAggregateInput
+    _min?: articleLikesMinOrderByAggregateInput
+    _sum?: articleLikesSumOrderByAggregateInput
+  }
+
+  export type articleLikesScalarWhereWithAggregatesInput = {
+    AND?: articleLikesScalarWhereWithAggregatesInput | articleLikesScalarWhereWithAggregatesInput[]
+    OR?: articleLikesScalarWhereWithAggregatesInput[]
+    NOT?: articleLikesScalarWhereWithAggregatesInput | articleLikesScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"articleLikes"> | number
+    article_id?: IntWithAggregatesFilter<"articleLikes"> | number
+    userno?: IntWithAggregatesFilter<"articleLikes"> | number
+    type?: EnumarticleLikes_typeWithAggregatesFilter<"articleLikes"> | $Enums.articleLikes_type
+    createdAt?: DateTimeWithAggregatesFilter<"articleLikes"> | Date | string
+  }
+
   export type CommentCreateInput = {
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -17062,6 +20776,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitCreateNestedManyWithoutUserInput
     RecruitComment?: RecruitCommentCreateNestedManyWithoutUserInput
+    article?: articleCreateNestedManyWithoutUserInput
+    articleComments?: articleCommentsCreateNestedManyWithoutUserInput
+    articleLikes?: articleLikesCreateNestedManyWithoutUserInput
     channelchats?: channelchatsCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersCreateNestedManyWithoutUserInput
     movieScores?: movieScoreCreateNestedManyWithoutUserInput
@@ -17084,6 +20801,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
     RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutUserInput
+    article?: articleUncheckedCreateNestedManyWithoutUserInput
+    articleComments?: articleCommentsUncheckedCreateNestedManyWithoutUserInput
+    articleLikes?: articleLikesUncheckedCreateNestedManyWithoutUserInput
     channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
     movieScores?: movieScoreUncheckedCreateNestedManyWithoutUserInput
@@ -17105,6 +20825,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUpdateManyWithoutUserNestedInput
     RecruitComment?: RecruitCommentUpdateManyWithoutUserNestedInput
+    article?: articleUpdateManyWithoutUserNestedInput
+    articleComments?: articleCommentsUpdateManyWithoutUserNestedInput
+    articleLikes?: articleLikesUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUpdateManyWithoutUserNestedInput
@@ -17127,6 +20850,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
     RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutUserNestedInput
+    article?: articleUncheckedUpdateManyWithoutUserNestedInput
+    articleComments?: articleCommentsUncheckedUpdateManyWithoutUserNestedInput
+    articleLikes?: articleLikesUncheckedUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUncheckedUpdateManyWithoutUserNestedInput
@@ -17832,6 +21558,220 @@ export namespace Prisma {
     status?: EnumMatches_statusFieldUpdateOperationsInput | $Enums.Matches_status
   }
 
+  export type articleCreateInput = {
+    title: string
+    content: string
+    like_count?: number
+    dislike_count?: number
+    comment_count?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    User: UserCreateNestedOneWithoutArticleInput
+    articleComments?: articleCommentsCreateNestedManyWithoutArticleInput
+    articleLikes?: articleLikesCreateNestedManyWithoutArticleInput
+  }
+
+  export type articleUncheckedCreateInput = {
+    id?: number
+    userno: number
+    title: string
+    content: string
+    like_count?: number
+    dislike_count?: number
+    comment_count?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    articleComments?: articleCommentsUncheckedCreateNestedManyWithoutArticleInput
+    articleLikes?: articleLikesUncheckedCreateNestedManyWithoutArticleInput
+  }
+
+  export type articleUpdateInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    like_count?: IntFieldUpdateOperationsInput | number
+    dislike_count?: IntFieldUpdateOperationsInput | number
+    comment_count?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    User?: UserUpdateOneRequiredWithoutArticleNestedInput
+    articleComments?: articleCommentsUpdateManyWithoutArticleNestedInput
+    articleLikes?: articleLikesUpdateManyWithoutArticleNestedInput
+  }
+
+  export type articleUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userno?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    like_count?: IntFieldUpdateOperationsInput | number
+    dislike_count?: IntFieldUpdateOperationsInput | number
+    comment_count?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    articleComments?: articleCommentsUncheckedUpdateManyWithoutArticleNestedInput
+    articleLikes?: articleLikesUncheckedUpdateManyWithoutArticleNestedInput
+  }
+
+  export type articleCreateManyInput = {
+    id?: number
+    userno: number
+    title: string
+    content: string
+    like_count?: number
+    dislike_count?: number
+    comment_count?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type articleUpdateManyMutationInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    like_count?: IntFieldUpdateOperationsInput | number
+    dislike_count?: IntFieldUpdateOperationsInput | number
+    comment_count?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type articleUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userno?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    like_count?: IntFieldUpdateOperationsInput | number
+    dislike_count?: IntFieldUpdateOperationsInput | number
+    comment_count?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type articleCommentsCreateInput = {
+    id: number
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    article: articleCreateNestedOneWithoutArticleCommentsInput
+    User: UserCreateNestedOneWithoutArticleCommentsInput
+  }
+
+  export type articleCommentsUncheckedCreateInput = {
+    id: number
+    articleId: number
+    userno: number
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type articleCommentsUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    article?: articleUpdateOneRequiredWithoutArticleCommentsNestedInput
+    User?: UserUpdateOneRequiredWithoutArticleCommentsNestedInput
+  }
+
+  export type articleCommentsUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    articleId?: IntFieldUpdateOperationsInput | number
+    userno?: IntFieldUpdateOperationsInput | number
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type articleCommentsCreateManyInput = {
+    id: number
+    articleId: number
+    userno: number
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type articleCommentsUpdateManyMutationInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type articleCommentsUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    articleId?: IntFieldUpdateOperationsInput | number
+    userno?: IntFieldUpdateOperationsInput | number
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type articleLikesCreateInput = {
+    type: $Enums.articleLikes_type
+    createdAt: Date | string
+    article: articleCreateNestedOneWithoutArticleLikesInput
+    User: UserCreateNestedOneWithoutArticleLikesInput
+  }
+
+  export type articleLikesUncheckedCreateInput = {
+    id?: number
+    article_id: number
+    userno: number
+    type: $Enums.articleLikes_type
+    createdAt: Date | string
+  }
+
+  export type articleLikesUpdateInput = {
+    type?: EnumarticleLikes_typeFieldUpdateOperationsInput | $Enums.articleLikes_type
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    article?: articleUpdateOneRequiredWithoutArticleLikesNestedInput
+    User?: UserUpdateOneRequiredWithoutArticleLikesNestedInput
+  }
+
+  export type articleLikesUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    article_id?: IntFieldUpdateOperationsInput | number
+    userno?: IntFieldUpdateOperationsInput | number
+    type?: EnumarticleLikes_typeFieldUpdateOperationsInput | $Enums.articleLikes_type
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type articleLikesCreateManyInput = {
+    id?: number
+    article_id: number
+    userno: number
+    type: $Enums.articleLikes_type
+    createdAt: Date | string
+  }
+
+  export type articleLikesUpdateManyMutationInput = {
+    type?: EnumarticleLikes_typeFieldUpdateOperationsInput | $Enums.articleLikes_type
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type articleLikesUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    article_id?: IntFieldUpdateOperationsInput | number
+    userno?: IntFieldUpdateOperationsInput | number
+    type?: EnumarticleLikes_typeFieldUpdateOperationsInput | $Enums.articleLikes_type
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type IntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[]
@@ -18202,6 +22142,24 @@ export namespace Prisma {
     none?: RecruitCommentWhereInput
   }
 
+  export type ArticleListRelationFilter = {
+    every?: articleWhereInput
+    some?: articleWhereInput
+    none?: articleWhereInput
+  }
+
+  export type ArticleCommentsListRelationFilter = {
+    every?: articleCommentsWhereInput
+    some?: articleCommentsWhereInput
+    none?: articleCommentsWhereInput
+  }
+
+  export type ArticleLikesListRelationFilter = {
+    every?: articleLikesWhereInput
+    some?: articleLikesWhereInput
+    none?: articleLikesWhereInput
+  }
+
   export type ChannelchatsListRelationFilter = {
     every?: channelchatsWhereInput
     some?: channelchatsWhereInput
@@ -18235,6 +22193,18 @@ export namespace Prisma {
   }
 
   export type RecruitCommentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type articleOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type articleCommentsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type articleLikesOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -18872,6 +22842,166 @@ export namespace Prisma {
     _max?: NestedEnumMatches_statusFilter<$PrismaModel>
   }
 
+  export type articleCountOrderByAggregateInput = {
+    id?: SortOrder
+    userno?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    like_count?: SortOrder
+    dislike_count?: SortOrder
+    comment_count?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type articleAvgOrderByAggregateInput = {
+    id?: SortOrder
+    userno?: SortOrder
+    like_count?: SortOrder
+    dislike_count?: SortOrder
+    comment_count?: SortOrder
+  }
+
+  export type articleMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userno?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    like_count?: SortOrder
+    dislike_count?: SortOrder
+    comment_count?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type articleMinOrderByAggregateInput = {
+    id?: SortOrder
+    userno?: SortOrder
+    title?: SortOrder
+    content?: SortOrder
+    like_count?: SortOrder
+    dislike_count?: SortOrder
+    comment_count?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type articleSumOrderByAggregateInput = {
+    id?: SortOrder
+    userno?: SortOrder
+    like_count?: SortOrder
+    dislike_count?: SortOrder
+    comment_count?: SortOrder
+  }
+
+  export type ArticleRelationFilter = {
+    is?: articleWhereInput
+    isNot?: articleWhereInput
+  }
+
+  export type articleCommentsCountOrderByAggregateInput = {
+    id?: SortOrder
+    articleId?: SortOrder
+    userno?: SortOrder
+    content?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type articleCommentsAvgOrderByAggregateInput = {
+    id?: SortOrder
+    articleId?: SortOrder
+    userno?: SortOrder
+  }
+
+  export type articleCommentsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    articleId?: SortOrder
+    userno?: SortOrder
+    content?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type articleCommentsMinOrderByAggregateInput = {
+    id?: SortOrder
+    articleId?: SortOrder
+    userno?: SortOrder
+    content?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    deletedAt?: SortOrder
+  }
+
+  export type articleCommentsSumOrderByAggregateInput = {
+    id?: SortOrder
+    articleId?: SortOrder
+    userno?: SortOrder
+  }
+
+  export type EnumarticleLikes_typeFilter<$PrismaModel = never> = {
+    equals?: $Enums.articleLikes_type | EnumarticleLikes_typeFieldRefInput<$PrismaModel>
+    in?: $Enums.articleLikes_type[]
+    notIn?: $Enums.articleLikes_type[]
+    not?: NestedEnumarticleLikes_typeFilter<$PrismaModel> | $Enums.articleLikes_type
+  }
+
+  export type articleLikesArticle_idUsernoCompoundUniqueInput = {
+    article_id: number
+    userno: number
+  }
+
+  export type articleLikesCountOrderByAggregateInput = {
+    id?: SortOrder
+    article_id?: SortOrder
+    userno?: SortOrder
+    type?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type articleLikesAvgOrderByAggregateInput = {
+    id?: SortOrder
+    article_id?: SortOrder
+    userno?: SortOrder
+  }
+
+  export type articleLikesMaxOrderByAggregateInput = {
+    id?: SortOrder
+    article_id?: SortOrder
+    userno?: SortOrder
+    type?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type articleLikesMinOrderByAggregateInput = {
+    id?: SortOrder
+    article_id?: SortOrder
+    userno?: SortOrder
+    type?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type articleLikesSumOrderByAggregateInput = {
+    id?: SortOrder
+    article_id?: SortOrder
+    userno?: SortOrder
+  }
+
+  export type EnumarticleLikes_typeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.articleLikes_type | EnumarticleLikes_typeFieldRefInput<$PrismaModel>
+    in?: $Enums.articleLikes_type[]
+    notIn?: $Enums.articleLikes_type[]
+    not?: NestedEnumarticleLikes_typeWithAggregatesFilter<$PrismaModel> | $Enums.articleLikes_type
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumarticleLikes_typeFilter<$PrismaModel>
+    _max?: NestedEnumarticleLikes_typeFilter<$PrismaModel>
+  }
+
   export type MovieCreateNestedOneWithoutCommentInput = {
     create?: XOR<MovieCreateWithoutCommentInput, MovieUncheckedCreateWithoutCommentInput>
     connectOrCreate?: MovieCreateOrConnectWithoutCommentInput
@@ -19089,6 +23219,27 @@ export namespace Prisma {
     connect?: RecruitCommentWhereUniqueInput | RecruitCommentWhereUniqueInput[]
   }
 
+  export type articleCreateNestedManyWithoutUserInput = {
+    create?: XOR<articleCreateWithoutUserInput, articleUncheckedCreateWithoutUserInput> | articleCreateWithoutUserInput[] | articleUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: articleCreateOrConnectWithoutUserInput | articleCreateOrConnectWithoutUserInput[]
+    createMany?: articleCreateManyUserInputEnvelope
+    connect?: articleWhereUniqueInput | articleWhereUniqueInput[]
+  }
+
+  export type articleCommentsCreateNestedManyWithoutUserInput = {
+    create?: XOR<articleCommentsCreateWithoutUserInput, articleCommentsUncheckedCreateWithoutUserInput> | articleCommentsCreateWithoutUserInput[] | articleCommentsUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: articleCommentsCreateOrConnectWithoutUserInput | articleCommentsCreateOrConnectWithoutUserInput[]
+    createMany?: articleCommentsCreateManyUserInputEnvelope
+    connect?: articleCommentsWhereUniqueInput | articleCommentsWhereUniqueInput[]
+  }
+
+  export type articleLikesCreateNestedManyWithoutUserInput = {
+    create?: XOR<articleLikesCreateWithoutUserInput, articleLikesUncheckedCreateWithoutUserInput> | articleLikesCreateWithoutUserInput[] | articleLikesUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: articleLikesCreateOrConnectWithoutUserInput | articleLikesCreateOrConnectWithoutUserInput[]
+    createMany?: articleLikesCreateManyUserInputEnvelope
+    connect?: articleLikesWhereUniqueInput | articleLikesWhereUniqueInput[]
+  }
+
   export type channelchatsCreateNestedManyWithoutUserInput = {
     create?: XOR<channelchatsCreateWithoutUserInput, channelchatsUncheckedCreateWithoutUserInput> | channelchatsCreateWithoutUserInput[] | channelchatsUncheckedCreateWithoutUserInput[]
     connectOrCreate?: channelchatsCreateOrConnectWithoutUserInput | channelchatsCreateOrConnectWithoutUserInput[]
@@ -19157,6 +23308,27 @@ export namespace Prisma {
     connectOrCreate?: RecruitCommentCreateOrConnectWithoutUserInput | RecruitCommentCreateOrConnectWithoutUserInput[]
     createMany?: RecruitCommentCreateManyUserInputEnvelope
     connect?: RecruitCommentWhereUniqueInput | RecruitCommentWhereUniqueInput[]
+  }
+
+  export type articleUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<articleCreateWithoutUserInput, articleUncheckedCreateWithoutUserInput> | articleCreateWithoutUserInput[] | articleUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: articleCreateOrConnectWithoutUserInput | articleCreateOrConnectWithoutUserInput[]
+    createMany?: articleCreateManyUserInputEnvelope
+    connect?: articleWhereUniqueInput | articleWhereUniqueInput[]
+  }
+
+  export type articleCommentsUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<articleCommentsCreateWithoutUserInput, articleCommentsUncheckedCreateWithoutUserInput> | articleCommentsCreateWithoutUserInput[] | articleCommentsUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: articleCommentsCreateOrConnectWithoutUserInput | articleCommentsCreateOrConnectWithoutUserInput[]
+    createMany?: articleCommentsCreateManyUserInputEnvelope
+    connect?: articleCommentsWhereUniqueInput | articleCommentsWhereUniqueInput[]
+  }
+
+  export type articleLikesUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<articleLikesCreateWithoutUserInput, articleLikesUncheckedCreateWithoutUserInput> | articleLikesCreateWithoutUserInput[] | articleLikesUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: articleLikesCreateOrConnectWithoutUserInput | articleLikesCreateOrConnectWithoutUserInput[]
+    createMany?: articleLikesCreateManyUserInputEnvelope
+    connect?: articleLikesWhereUniqueInput | articleLikesWhereUniqueInput[]
   }
 
   export type channelchatsUncheckedCreateNestedManyWithoutUserInput = {
@@ -19266,6 +23438,48 @@ export namespace Prisma {
     update?: RecruitCommentUpdateWithWhereUniqueWithoutUserInput | RecruitCommentUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: RecruitCommentUpdateManyWithWhereWithoutUserInput | RecruitCommentUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: RecruitCommentScalarWhereInput | RecruitCommentScalarWhereInput[]
+  }
+
+  export type articleUpdateManyWithoutUserNestedInput = {
+    create?: XOR<articleCreateWithoutUserInput, articleUncheckedCreateWithoutUserInput> | articleCreateWithoutUserInput[] | articleUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: articleCreateOrConnectWithoutUserInput | articleCreateOrConnectWithoutUserInput[]
+    upsert?: articleUpsertWithWhereUniqueWithoutUserInput | articleUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: articleCreateManyUserInputEnvelope
+    set?: articleWhereUniqueInput | articleWhereUniqueInput[]
+    disconnect?: articleWhereUniqueInput | articleWhereUniqueInput[]
+    delete?: articleWhereUniqueInput | articleWhereUniqueInput[]
+    connect?: articleWhereUniqueInput | articleWhereUniqueInput[]
+    update?: articleUpdateWithWhereUniqueWithoutUserInput | articleUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: articleUpdateManyWithWhereWithoutUserInput | articleUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: articleScalarWhereInput | articleScalarWhereInput[]
+  }
+
+  export type articleCommentsUpdateManyWithoutUserNestedInput = {
+    create?: XOR<articleCommentsCreateWithoutUserInput, articleCommentsUncheckedCreateWithoutUserInput> | articleCommentsCreateWithoutUserInput[] | articleCommentsUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: articleCommentsCreateOrConnectWithoutUserInput | articleCommentsCreateOrConnectWithoutUserInput[]
+    upsert?: articleCommentsUpsertWithWhereUniqueWithoutUserInput | articleCommentsUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: articleCommentsCreateManyUserInputEnvelope
+    set?: articleCommentsWhereUniqueInput | articleCommentsWhereUniqueInput[]
+    disconnect?: articleCommentsWhereUniqueInput | articleCommentsWhereUniqueInput[]
+    delete?: articleCommentsWhereUniqueInput | articleCommentsWhereUniqueInput[]
+    connect?: articleCommentsWhereUniqueInput | articleCommentsWhereUniqueInput[]
+    update?: articleCommentsUpdateWithWhereUniqueWithoutUserInput | articleCommentsUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: articleCommentsUpdateManyWithWhereWithoutUserInput | articleCommentsUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: articleCommentsScalarWhereInput | articleCommentsScalarWhereInput[]
+  }
+
+  export type articleLikesUpdateManyWithoutUserNestedInput = {
+    create?: XOR<articleLikesCreateWithoutUserInput, articleLikesUncheckedCreateWithoutUserInput> | articleLikesCreateWithoutUserInput[] | articleLikesUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: articleLikesCreateOrConnectWithoutUserInput | articleLikesCreateOrConnectWithoutUserInput[]
+    upsert?: articleLikesUpsertWithWhereUniqueWithoutUserInput | articleLikesUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: articleLikesCreateManyUserInputEnvelope
+    set?: articleLikesWhereUniqueInput | articleLikesWhereUniqueInput[]
+    disconnect?: articleLikesWhereUniqueInput | articleLikesWhereUniqueInput[]
+    delete?: articleLikesWhereUniqueInput | articleLikesWhereUniqueInput[]
+    connect?: articleLikesWhereUniqueInput | articleLikesWhereUniqueInput[]
+    update?: articleLikesUpdateWithWhereUniqueWithoutUserInput | articleLikesUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: articleLikesUpdateManyWithWhereWithoutUserInput | articleLikesUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: articleLikesScalarWhereInput | articleLikesScalarWhereInput[]
   }
 
   export type channelchatsUpdateManyWithoutUserNestedInput = {
@@ -19406,6 +23620,48 @@ export namespace Prisma {
     update?: RecruitCommentUpdateWithWhereUniqueWithoutUserInput | RecruitCommentUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: RecruitCommentUpdateManyWithWhereWithoutUserInput | RecruitCommentUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: RecruitCommentScalarWhereInput | RecruitCommentScalarWhereInput[]
+  }
+
+  export type articleUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<articleCreateWithoutUserInput, articleUncheckedCreateWithoutUserInput> | articleCreateWithoutUserInput[] | articleUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: articleCreateOrConnectWithoutUserInput | articleCreateOrConnectWithoutUserInput[]
+    upsert?: articleUpsertWithWhereUniqueWithoutUserInput | articleUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: articleCreateManyUserInputEnvelope
+    set?: articleWhereUniqueInput | articleWhereUniqueInput[]
+    disconnect?: articleWhereUniqueInput | articleWhereUniqueInput[]
+    delete?: articleWhereUniqueInput | articleWhereUniqueInput[]
+    connect?: articleWhereUniqueInput | articleWhereUniqueInput[]
+    update?: articleUpdateWithWhereUniqueWithoutUserInput | articleUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: articleUpdateManyWithWhereWithoutUserInput | articleUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: articleScalarWhereInput | articleScalarWhereInput[]
+  }
+
+  export type articleCommentsUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<articleCommentsCreateWithoutUserInput, articleCommentsUncheckedCreateWithoutUserInput> | articleCommentsCreateWithoutUserInput[] | articleCommentsUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: articleCommentsCreateOrConnectWithoutUserInput | articleCommentsCreateOrConnectWithoutUserInput[]
+    upsert?: articleCommentsUpsertWithWhereUniqueWithoutUserInput | articleCommentsUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: articleCommentsCreateManyUserInputEnvelope
+    set?: articleCommentsWhereUniqueInput | articleCommentsWhereUniqueInput[]
+    disconnect?: articleCommentsWhereUniqueInput | articleCommentsWhereUniqueInput[]
+    delete?: articleCommentsWhereUniqueInput | articleCommentsWhereUniqueInput[]
+    connect?: articleCommentsWhereUniqueInput | articleCommentsWhereUniqueInput[]
+    update?: articleCommentsUpdateWithWhereUniqueWithoutUserInput | articleCommentsUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: articleCommentsUpdateManyWithWhereWithoutUserInput | articleCommentsUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: articleCommentsScalarWhereInput | articleCommentsScalarWhereInput[]
+  }
+
+  export type articleLikesUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<articleLikesCreateWithoutUserInput, articleLikesUncheckedCreateWithoutUserInput> | articleLikesCreateWithoutUserInput[] | articleLikesUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: articleLikesCreateOrConnectWithoutUserInput | articleLikesCreateOrConnectWithoutUserInput[]
+    upsert?: articleLikesUpsertWithWhereUniqueWithoutUserInput | articleLikesUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: articleLikesCreateManyUserInputEnvelope
+    set?: articleLikesWhereUniqueInput | articleLikesWhereUniqueInput[]
+    disconnect?: articleLikesWhereUniqueInput | articleLikesWhereUniqueInput[]
+    delete?: articleLikesWhereUniqueInput | articleLikesWhereUniqueInput[]
+    connect?: articleLikesWhereUniqueInput | articleLikesWhereUniqueInput[]
+    update?: articleLikesUpdateWithWhereUniqueWithoutUserInput | articleLikesUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: articleLikesUpdateManyWithWhereWithoutUserInput | articleLikesUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: articleLikesScalarWhereInput | articleLikesScalarWhereInput[]
   }
 
   export type channelchatsUncheckedUpdateManyWithoutUserNestedInput = {
@@ -19894,6 +24150,164 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMatches_Matches_requester_idToUserInput, UserUpdateWithoutMatches_Matches_requester_idToUserInput>, UserUncheckedUpdateWithoutMatches_Matches_requester_idToUserInput>
   }
 
+  export type UserCreateNestedOneWithoutArticleInput = {
+    create?: XOR<UserCreateWithoutArticleInput, UserUncheckedCreateWithoutArticleInput>
+    connectOrCreate?: UserCreateOrConnectWithoutArticleInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type articleCommentsCreateNestedManyWithoutArticleInput = {
+    create?: XOR<articleCommentsCreateWithoutArticleInput, articleCommentsUncheckedCreateWithoutArticleInput> | articleCommentsCreateWithoutArticleInput[] | articleCommentsUncheckedCreateWithoutArticleInput[]
+    connectOrCreate?: articleCommentsCreateOrConnectWithoutArticleInput | articleCommentsCreateOrConnectWithoutArticleInput[]
+    createMany?: articleCommentsCreateManyArticleInputEnvelope
+    connect?: articleCommentsWhereUniqueInput | articleCommentsWhereUniqueInput[]
+  }
+
+  export type articleLikesCreateNestedManyWithoutArticleInput = {
+    create?: XOR<articleLikesCreateWithoutArticleInput, articleLikesUncheckedCreateWithoutArticleInput> | articleLikesCreateWithoutArticleInput[] | articleLikesUncheckedCreateWithoutArticleInput[]
+    connectOrCreate?: articleLikesCreateOrConnectWithoutArticleInput | articleLikesCreateOrConnectWithoutArticleInput[]
+    createMany?: articleLikesCreateManyArticleInputEnvelope
+    connect?: articleLikesWhereUniqueInput | articleLikesWhereUniqueInput[]
+  }
+
+  export type articleCommentsUncheckedCreateNestedManyWithoutArticleInput = {
+    create?: XOR<articleCommentsCreateWithoutArticleInput, articleCommentsUncheckedCreateWithoutArticleInput> | articleCommentsCreateWithoutArticleInput[] | articleCommentsUncheckedCreateWithoutArticleInput[]
+    connectOrCreate?: articleCommentsCreateOrConnectWithoutArticleInput | articleCommentsCreateOrConnectWithoutArticleInput[]
+    createMany?: articleCommentsCreateManyArticleInputEnvelope
+    connect?: articleCommentsWhereUniqueInput | articleCommentsWhereUniqueInput[]
+  }
+
+  export type articleLikesUncheckedCreateNestedManyWithoutArticleInput = {
+    create?: XOR<articleLikesCreateWithoutArticleInput, articleLikesUncheckedCreateWithoutArticleInput> | articleLikesCreateWithoutArticleInput[] | articleLikesUncheckedCreateWithoutArticleInput[]
+    connectOrCreate?: articleLikesCreateOrConnectWithoutArticleInput | articleLikesCreateOrConnectWithoutArticleInput[]
+    createMany?: articleLikesCreateManyArticleInputEnvelope
+    connect?: articleLikesWhereUniqueInput | articleLikesWhereUniqueInput[]
+  }
+
+  export type UserUpdateOneRequiredWithoutArticleNestedInput = {
+    create?: XOR<UserCreateWithoutArticleInput, UserUncheckedCreateWithoutArticleInput>
+    connectOrCreate?: UserCreateOrConnectWithoutArticleInput
+    upsert?: UserUpsertWithoutArticleInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutArticleInput, UserUpdateWithoutArticleInput>, UserUncheckedUpdateWithoutArticleInput>
+  }
+
+  export type articleCommentsUpdateManyWithoutArticleNestedInput = {
+    create?: XOR<articleCommentsCreateWithoutArticleInput, articleCommentsUncheckedCreateWithoutArticleInput> | articleCommentsCreateWithoutArticleInput[] | articleCommentsUncheckedCreateWithoutArticleInput[]
+    connectOrCreate?: articleCommentsCreateOrConnectWithoutArticleInput | articleCommentsCreateOrConnectWithoutArticleInput[]
+    upsert?: articleCommentsUpsertWithWhereUniqueWithoutArticleInput | articleCommentsUpsertWithWhereUniqueWithoutArticleInput[]
+    createMany?: articleCommentsCreateManyArticleInputEnvelope
+    set?: articleCommentsWhereUniqueInput | articleCommentsWhereUniqueInput[]
+    disconnect?: articleCommentsWhereUniqueInput | articleCommentsWhereUniqueInput[]
+    delete?: articleCommentsWhereUniqueInput | articleCommentsWhereUniqueInput[]
+    connect?: articleCommentsWhereUniqueInput | articleCommentsWhereUniqueInput[]
+    update?: articleCommentsUpdateWithWhereUniqueWithoutArticleInput | articleCommentsUpdateWithWhereUniqueWithoutArticleInput[]
+    updateMany?: articleCommentsUpdateManyWithWhereWithoutArticleInput | articleCommentsUpdateManyWithWhereWithoutArticleInput[]
+    deleteMany?: articleCommentsScalarWhereInput | articleCommentsScalarWhereInput[]
+  }
+
+  export type articleLikesUpdateManyWithoutArticleNestedInput = {
+    create?: XOR<articleLikesCreateWithoutArticleInput, articleLikesUncheckedCreateWithoutArticleInput> | articleLikesCreateWithoutArticleInput[] | articleLikesUncheckedCreateWithoutArticleInput[]
+    connectOrCreate?: articleLikesCreateOrConnectWithoutArticleInput | articleLikesCreateOrConnectWithoutArticleInput[]
+    upsert?: articleLikesUpsertWithWhereUniqueWithoutArticleInput | articleLikesUpsertWithWhereUniqueWithoutArticleInput[]
+    createMany?: articleLikesCreateManyArticleInputEnvelope
+    set?: articleLikesWhereUniqueInput | articleLikesWhereUniqueInput[]
+    disconnect?: articleLikesWhereUniqueInput | articleLikesWhereUniqueInput[]
+    delete?: articleLikesWhereUniqueInput | articleLikesWhereUniqueInput[]
+    connect?: articleLikesWhereUniqueInput | articleLikesWhereUniqueInput[]
+    update?: articleLikesUpdateWithWhereUniqueWithoutArticleInput | articleLikesUpdateWithWhereUniqueWithoutArticleInput[]
+    updateMany?: articleLikesUpdateManyWithWhereWithoutArticleInput | articleLikesUpdateManyWithWhereWithoutArticleInput[]
+    deleteMany?: articleLikesScalarWhereInput | articleLikesScalarWhereInput[]
+  }
+
+  export type articleCommentsUncheckedUpdateManyWithoutArticleNestedInput = {
+    create?: XOR<articleCommentsCreateWithoutArticleInput, articleCommentsUncheckedCreateWithoutArticleInput> | articleCommentsCreateWithoutArticleInput[] | articleCommentsUncheckedCreateWithoutArticleInput[]
+    connectOrCreate?: articleCommentsCreateOrConnectWithoutArticleInput | articleCommentsCreateOrConnectWithoutArticleInput[]
+    upsert?: articleCommentsUpsertWithWhereUniqueWithoutArticleInput | articleCommentsUpsertWithWhereUniqueWithoutArticleInput[]
+    createMany?: articleCommentsCreateManyArticleInputEnvelope
+    set?: articleCommentsWhereUniqueInput | articleCommentsWhereUniqueInput[]
+    disconnect?: articleCommentsWhereUniqueInput | articleCommentsWhereUniqueInput[]
+    delete?: articleCommentsWhereUniqueInput | articleCommentsWhereUniqueInput[]
+    connect?: articleCommentsWhereUniqueInput | articleCommentsWhereUniqueInput[]
+    update?: articleCommentsUpdateWithWhereUniqueWithoutArticleInput | articleCommentsUpdateWithWhereUniqueWithoutArticleInput[]
+    updateMany?: articleCommentsUpdateManyWithWhereWithoutArticleInput | articleCommentsUpdateManyWithWhereWithoutArticleInput[]
+    deleteMany?: articleCommentsScalarWhereInput | articleCommentsScalarWhereInput[]
+  }
+
+  export type articleLikesUncheckedUpdateManyWithoutArticleNestedInput = {
+    create?: XOR<articleLikesCreateWithoutArticleInput, articleLikesUncheckedCreateWithoutArticleInput> | articleLikesCreateWithoutArticleInput[] | articleLikesUncheckedCreateWithoutArticleInput[]
+    connectOrCreate?: articleLikesCreateOrConnectWithoutArticleInput | articleLikesCreateOrConnectWithoutArticleInput[]
+    upsert?: articleLikesUpsertWithWhereUniqueWithoutArticleInput | articleLikesUpsertWithWhereUniqueWithoutArticleInput[]
+    createMany?: articleLikesCreateManyArticleInputEnvelope
+    set?: articleLikesWhereUniqueInput | articleLikesWhereUniqueInput[]
+    disconnect?: articleLikesWhereUniqueInput | articleLikesWhereUniqueInput[]
+    delete?: articleLikesWhereUniqueInput | articleLikesWhereUniqueInput[]
+    connect?: articleLikesWhereUniqueInput | articleLikesWhereUniqueInput[]
+    update?: articleLikesUpdateWithWhereUniqueWithoutArticleInput | articleLikesUpdateWithWhereUniqueWithoutArticleInput[]
+    updateMany?: articleLikesUpdateManyWithWhereWithoutArticleInput | articleLikesUpdateManyWithWhereWithoutArticleInput[]
+    deleteMany?: articleLikesScalarWhereInput | articleLikesScalarWhereInput[]
+  }
+
+  export type articleCreateNestedOneWithoutArticleCommentsInput = {
+    create?: XOR<articleCreateWithoutArticleCommentsInput, articleUncheckedCreateWithoutArticleCommentsInput>
+    connectOrCreate?: articleCreateOrConnectWithoutArticleCommentsInput
+    connect?: articleWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutArticleCommentsInput = {
+    create?: XOR<UserCreateWithoutArticleCommentsInput, UserUncheckedCreateWithoutArticleCommentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutArticleCommentsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type articleUpdateOneRequiredWithoutArticleCommentsNestedInput = {
+    create?: XOR<articleCreateWithoutArticleCommentsInput, articleUncheckedCreateWithoutArticleCommentsInput>
+    connectOrCreate?: articleCreateOrConnectWithoutArticleCommentsInput
+    upsert?: articleUpsertWithoutArticleCommentsInput
+    connect?: articleWhereUniqueInput
+    update?: XOR<XOR<articleUpdateToOneWithWhereWithoutArticleCommentsInput, articleUpdateWithoutArticleCommentsInput>, articleUncheckedUpdateWithoutArticleCommentsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutArticleCommentsNestedInput = {
+    create?: XOR<UserCreateWithoutArticleCommentsInput, UserUncheckedCreateWithoutArticleCommentsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutArticleCommentsInput
+    upsert?: UserUpsertWithoutArticleCommentsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutArticleCommentsInput, UserUpdateWithoutArticleCommentsInput>, UserUncheckedUpdateWithoutArticleCommentsInput>
+  }
+
+  export type articleCreateNestedOneWithoutArticleLikesInput = {
+    create?: XOR<articleCreateWithoutArticleLikesInput, articleUncheckedCreateWithoutArticleLikesInput>
+    connectOrCreate?: articleCreateOrConnectWithoutArticleLikesInput
+    connect?: articleWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutArticleLikesInput = {
+    create?: XOR<UserCreateWithoutArticleLikesInput, UserUncheckedCreateWithoutArticleLikesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutArticleLikesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type EnumarticleLikes_typeFieldUpdateOperationsInput = {
+    set?: $Enums.articleLikes_type
+  }
+
+  export type articleUpdateOneRequiredWithoutArticleLikesNestedInput = {
+    create?: XOR<articleCreateWithoutArticleLikesInput, articleUncheckedCreateWithoutArticleLikesInput>
+    connectOrCreate?: articleCreateOrConnectWithoutArticleLikesInput
+    upsert?: articleUpsertWithoutArticleLikesInput
+    connect?: articleWhereUniqueInput
+    update?: XOR<XOR<articleUpdateToOneWithWhereWithoutArticleLikesInput, articleUpdateWithoutArticleLikesInput>, articleUncheckedUpdateWithoutArticleLikesInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutArticleLikesNestedInput = {
+    create?: XOR<UserCreateWithoutArticleLikesInput, UserUncheckedCreateWithoutArticleLikesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutArticleLikesInput
+    upsert?: UserUpsertWithoutArticleLikesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutArticleLikesInput, UserUpdateWithoutArticleLikesInput>, UserUncheckedUpdateWithoutArticleLikesInput>
+  }
+
   export type NestedIntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[]
@@ -20194,6 +24608,23 @@ export namespace Prisma {
     _max?: NestedEnumMatches_statusFilter<$PrismaModel>
   }
 
+  export type NestedEnumarticleLikes_typeFilter<$PrismaModel = never> = {
+    equals?: $Enums.articleLikes_type | EnumarticleLikes_typeFieldRefInput<$PrismaModel>
+    in?: $Enums.articleLikes_type[]
+    notIn?: $Enums.articleLikes_type[]
+    not?: NestedEnumarticleLikes_typeFilter<$PrismaModel> | $Enums.articleLikes_type
+  }
+
+  export type NestedEnumarticleLikes_typeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.articleLikes_type | EnumarticleLikes_typeFieldRefInput<$PrismaModel>
+    in?: $Enums.articleLikes_type[]
+    notIn?: $Enums.articleLikes_type[]
+    not?: NestedEnumarticleLikes_typeWithAggregatesFilter<$PrismaModel> | $Enums.articleLikes_type
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumarticleLikes_typeFilter<$PrismaModel>
+    _max?: NestedEnumarticleLikes_typeFilter<$PrismaModel>
+  }
+
   export type MovieCreateWithoutCommentInput = {
     audience?: bigint | number | null
     movieCd: number
@@ -20253,6 +24684,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitCreateNestedManyWithoutUserInput
     RecruitComment?: RecruitCommentCreateNestedManyWithoutUserInput
+    article?: articleCreateNestedManyWithoutUserInput
+    articleComments?: articleCommentsCreateNestedManyWithoutUserInput
+    articleLikes?: articleLikesCreateNestedManyWithoutUserInput
     channelchats?: channelchatsCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersCreateNestedManyWithoutUserInput
     movieScores?: movieScoreCreateNestedManyWithoutUserInput
@@ -20274,6 +24708,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
     RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutUserInput
+    article?: articleUncheckedCreateNestedManyWithoutUserInput
+    articleComments?: articleCommentsUncheckedCreateNestedManyWithoutUserInput
+    articleLikes?: articleLikesUncheckedCreateNestedManyWithoutUserInput
     channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
     movieScores?: movieScoreUncheckedCreateNestedManyWithoutUserInput
@@ -20362,6 +24799,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUpdateManyWithoutUserNestedInput
     RecruitComment?: RecruitCommentUpdateManyWithoutUserNestedInput
+    article?: articleUpdateManyWithoutUserNestedInput
+    articleComments?: articleCommentsUpdateManyWithoutUserNestedInput
+    articleLikes?: articleLikesUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUpdateManyWithoutUserNestedInput
@@ -20383,6 +24823,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
     RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutUserNestedInput
+    article?: articleUncheckedUpdateManyWithoutUserNestedInput
+    articleComments?: articleCommentsUncheckedUpdateManyWithoutUserNestedInput
+    articleLikes?: articleLikesUncheckedUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUncheckedUpdateManyWithoutUserNestedInput
@@ -20710,6 +25153,94 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type articleCreateWithoutUserInput = {
+    title: string
+    content: string
+    like_count?: number
+    dislike_count?: number
+    comment_count?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    articleComments?: articleCommentsCreateNestedManyWithoutArticleInput
+    articleLikes?: articleLikesCreateNestedManyWithoutArticleInput
+  }
+
+  export type articleUncheckedCreateWithoutUserInput = {
+    id?: number
+    title: string
+    content: string
+    like_count?: number
+    dislike_count?: number
+    comment_count?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    articleComments?: articleCommentsUncheckedCreateNestedManyWithoutArticleInput
+    articleLikes?: articleLikesUncheckedCreateNestedManyWithoutArticleInput
+  }
+
+  export type articleCreateOrConnectWithoutUserInput = {
+    where: articleWhereUniqueInput
+    create: XOR<articleCreateWithoutUserInput, articleUncheckedCreateWithoutUserInput>
+  }
+
+  export type articleCreateManyUserInputEnvelope = {
+    data: articleCreateManyUserInput | articleCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type articleCommentsCreateWithoutUserInput = {
+    id: number
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    article: articleCreateNestedOneWithoutArticleCommentsInput
+  }
+
+  export type articleCommentsUncheckedCreateWithoutUserInput = {
+    id: number
+    articleId: number
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type articleCommentsCreateOrConnectWithoutUserInput = {
+    where: articleCommentsWhereUniqueInput
+    create: XOR<articleCommentsCreateWithoutUserInput, articleCommentsUncheckedCreateWithoutUserInput>
+  }
+
+  export type articleCommentsCreateManyUserInputEnvelope = {
+    data: articleCommentsCreateManyUserInput | articleCommentsCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type articleLikesCreateWithoutUserInput = {
+    type: $Enums.articleLikes_type
+    createdAt: Date | string
+    article: articleCreateNestedOneWithoutArticleLikesInput
+  }
+
+  export type articleLikesUncheckedCreateWithoutUserInput = {
+    id?: number
+    article_id: number
+    type: $Enums.articleLikes_type
+    createdAt: Date | string
+  }
+
+  export type articleLikesCreateOrConnectWithoutUserInput = {
+    where: articleLikesWhereUniqueInput
+    create: XOR<articleLikesCreateWithoutUserInput, articleLikesUncheckedCreateWithoutUserInput>
+  }
+
+  export type articleLikesCreateManyUserInputEnvelope = {
+    data: articleLikesCreateManyUserInput | articleLikesCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type channelchatsCreateWithoutUserInput = {
     content: string
     createdAt?: Date | string
@@ -20962,6 +25493,94 @@ export namespace Prisma {
     deletedAt?: DateTimeNullableFilter<"RecruitComment"> | Date | string | null
   }
 
+  export type articleUpsertWithWhereUniqueWithoutUserInput = {
+    where: articleWhereUniqueInput
+    update: XOR<articleUpdateWithoutUserInput, articleUncheckedUpdateWithoutUserInput>
+    create: XOR<articleCreateWithoutUserInput, articleUncheckedCreateWithoutUserInput>
+  }
+
+  export type articleUpdateWithWhereUniqueWithoutUserInput = {
+    where: articleWhereUniqueInput
+    data: XOR<articleUpdateWithoutUserInput, articleUncheckedUpdateWithoutUserInput>
+  }
+
+  export type articleUpdateManyWithWhereWithoutUserInput = {
+    where: articleScalarWhereInput
+    data: XOR<articleUpdateManyMutationInput, articleUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type articleScalarWhereInput = {
+    AND?: articleScalarWhereInput | articleScalarWhereInput[]
+    OR?: articleScalarWhereInput[]
+    NOT?: articleScalarWhereInput | articleScalarWhereInput[]
+    id?: IntFilter<"article"> | number
+    userno?: IntFilter<"article"> | number
+    title?: StringFilter<"article"> | string
+    content?: StringFilter<"article"> | string
+    like_count?: IntFilter<"article"> | number
+    dislike_count?: IntFilter<"article"> | number
+    comment_count?: IntFilter<"article"> | number
+    createdAt?: DateTimeFilter<"article"> | Date | string
+    updatedAt?: DateTimeFilter<"article"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"article"> | Date | string | null
+  }
+
+  export type articleCommentsUpsertWithWhereUniqueWithoutUserInput = {
+    where: articleCommentsWhereUniqueInput
+    update: XOR<articleCommentsUpdateWithoutUserInput, articleCommentsUncheckedUpdateWithoutUserInput>
+    create: XOR<articleCommentsCreateWithoutUserInput, articleCommentsUncheckedCreateWithoutUserInput>
+  }
+
+  export type articleCommentsUpdateWithWhereUniqueWithoutUserInput = {
+    where: articleCommentsWhereUniqueInput
+    data: XOR<articleCommentsUpdateWithoutUserInput, articleCommentsUncheckedUpdateWithoutUserInput>
+  }
+
+  export type articleCommentsUpdateManyWithWhereWithoutUserInput = {
+    where: articleCommentsScalarWhereInput
+    data: XOR<articleCommentsUpdateManyMutationInput, articleCommentsUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type articleCommentsScalarWhereInput = {
+    AND?: articleCommentsScalarWhereInput | articleCommentsScalarWhereInput[]
+    OR?: articleCommentsScalarWhereInput[]
+    NOT?: articleCommentsScalarWhereInput | articleCommentsScalarWhereInput[]
+    id?: IntFilter<"articleComments"> | number
+    articleId?: IntFilter<"articleComments"> | number
+    userno?: IntFilter<"articleComments"> | number
+    content?: StringFilter<"articleComments"> | string
+    createdAt?: DateTimeFilter<"articleComments"> | Date | string
+    updatedAt?: DateTimeFilter<"articleComments"> | Date | string
+    deletedAt?: DateTimeNullableFilter<"articleComments"> | Date | string | null
+  }
+
+  export type articleLikesUpsertWithWhereUniqueWithoutUserInput = {
+    where: articleLikesWhereUniqueInput
+    update: XOR<articleLikesUpdateWithoutUserInput, articleLikesUncheckedUpdateWithoutUserInput>
+    create: XOR<articleLikesCreateWithoutUserInput, articleLikesUncheckedCreateWithoutUserInput>
+  }
+
+  export type articleLikesUpdateWithWhereUniqueWithoutUserInput = {
+    where: articleLikesWhereUniqueInput
+    data: XOR<articleLikesUpdateWithoutUserInput, articleLikesUncheckedUpdateWithoutUserInput>
+  }
+
+  export type articleLikesUpdateManyWithWhereWithoutUserInput = {
+    where: articleLikesScalarWhereInput
+    data: XOR<articleLikesUpdateManyMutationInput, articleLikesUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type articleLikesScalarWhereInput = {
+    AND?: articleLikesScalarWhereInput | articleLikesScalarWhereInput[]
+    OR?: articleLikesScalarWhereInput[]
+    NOT?: articleLikesScalarWhereInput | articleLikesScalarWhereInput[]
+    id?: IntFilter<"articleLikes"> | number
+    article_id?: IntFilter<"articleLikes"> | number
+    userno?: IntFilter<"articleLikes"> | number
+    type?: EnumarticleLikes_typeFilter<"articleLikes"> | $Enums.articleLikes_type
+    createdAt?: DateTimeFilter<"articleLikes"> | Date | string
+  }
+
   export type channelchatsUpsertWithWhereUniqueWithoutUserInput = {
     where: channelchatsWhereUniqueInput
     update: XOR<channelchatsUpdateWithoutUserInput, channelchatsUncheckedUpdateWithoutUserInput>
@@ -21124,6 +25743,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitCreateNestedManyWithoutUserInput
     RecruitComment?: RecruitCommentCreateNestedManyWithoutUserInput
+    article?: articleCreateNestedManyWithoutUserInput
+    articleComments?: articleCommentsCreateNestedManyWithoutUserInput
+    articleLikes?: articleLikesCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersCreateNestedManyWithoutUserInput
     movieScores?: movieScoreCreateNestedManyWithoutUserInput
     workspace?: workspaceCreateNestedManyWithoutUserInput
@@ -21145,6 +25767,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
     RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutUserInput
+    article?: articleUncheckedCreateNestedManyWithoutUserInput
+    articleComments?: articleCommentsUncheckedCreateNestedManyWithoutUserInput
+    articleLikes?: articleLikesUncheckedCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
     movieScores?: movieScoreUncheckedCreateNestedManyWithoutUserInput
     workspace?: workspaceUncheckedCreateNestedManyWithoutUserInput
@@ -21209,6 +25834,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUpdateManyWithoutUserNestedInput
     RecruitComment?: RecruitCommentUpdateManyWithoutUserNestedInput
+    article?: articleUpdateManyWithoutUserNestedInput
+    articleComments?: articleCommentsUpdateManyWithoutUserNestedInput
+    articleLikes?: articleLikesUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUpdateManyWithoutUserNestedInput
     workspace?: workspaceUpdateManyWithoutUserNestedInput
@@ -21230,6 +25858,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
     RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutUserNestedInput
+    article?: articleUncheckedUpdateManyWithoutUserNestedInput
+    articleComments?: articleCommentsUncheckedUpdateManyWithoutUserNestedInput
+    articleLikes?: articleLikesUncheckedUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUncheckedUpdateManyWithoutUserNestedInput
     workspace?: workspaceUncheckedUpdateManyWithoutUserNestedInput
@@ -21250,6 +25881,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitCreateNestedManyWithoutUserInput
     RecruitComment?: RecruitCommentCreateNestedManyWithoutUserInput
+    article?: articleCreateNestedManyWithoutUserInput
+    articleComments?: articleCommentsCreateNestedManyWithoutUserInput
+    articleLikes?: articleLikesCreateNestedManyWithoutUserInput
     channelchats?: channelchatsCreateNestedManyWithoutUserInput
     movieScores?: movieScoreCreateNestedManyWithoutUserInput
     workspace?: workspaceCreateNestedManyWithoutUserInput
@@ -21271,6 +25905,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
     RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutUserInput
+    article?: articleUncheckedCreateNestedManyWithoutUserInput
+    articleComments?: articleCommentsUncheckedCreateNestedManyWithoutUserInput
+    articleLikes?: articleLikesUncheckedCreateNestedManyWithoutUserInput
     channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
     movieScores?: movieScoreUncheckedCreateNestedManyWithoutUserInput
     workspace?: workspaceUncheckedCreateNestedManyWithoutUserInput
@@ -21307,6 +25944,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUpdateManyWithoutUserNestedInput
     RecruitComment?: RecruitCommentUpdateManyWithoutUserNestedInput
+    article?: articleUpdateManyWithoutUserNestedInput
+    articleComments?: articleCommentsUpdateManyWithoutUserNestedInput
+    articleLikes?: articleLikesUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUpdateManyWithoutUserNestedInput
     workspace?: workspaceUpdateManyWithoutUserNestedInput
@@ -21328,6 +25968,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
     RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutUserNestedInput
+    article?: articleUncheckedUpdateManyWithoutUserNestedInput
+    articleComments?: articleCommentsUncheckedUpdateManyWithoutUserNestedInput
+    articleLikes?: articleLikesUncheckedUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUncheckedUpdateManyWithoutUserNestedInput
     workspace?: workspaceUncheckedUpdateManyWithoutUserNestedInput
@@ -21470,6 +26113,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitCreateNestedManyWithoutUserInput
     RecruitComment?: RecruitCommentCreateNestedManyWithoutUserInput
+    article?: articleCreateNestedManyWithoutUserInput
+    articleComments?: articleCommentsCreateNestedManyWithoutUserInput
+    articleLikes?: articleLikesCreateNestedManyWithoutUserInput
     channelchats?: channelchatsCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersCreateNestedManyWithoutUserInput
     movieScores?: movieScoreCreateNestedManyWithoutUserInput
@@ -21491,6 +26137,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
     RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutUserInput
+    article?: articleUncheckedCreateNestedManyWithoutUserInput
+    articleComments?: articleCommentsUncheckedCreateNestedManyWithoutUserInput
+    articleLikes?: articleLikesUncheckedCreateNestedManyWithoutUserInput
     channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
     movieScores?: movieScoreUncheckedCreateNestedManyWithoutUserInput
@@ -21555,6 +26204,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUpdateManyWithoutUserNestedInput
     RecruitComment?: RecruitCommentUpdateManyWithoutUserNestedInput
+    article?: articleUpdateManyWithoutUserNestedInput
+    articleComments?: articleCommentsUpdateManyWithoutUserNestedInput
+    articleLikes?: articleLikesUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUpdateManyWithoutUserNestedInput
@@ -21576,6 +26228,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
     RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutUserNestedInput
+    article?: articleUncheckedUpdateManyWithoutUserNestedInput
+    articleComments?: articleCommentsUncheckedUpdateManyWithoutUserNestedInput
+    articleLikes?: articleLikesUncheckedUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUncheckedUpdateManyWithoutUserNestedInput
@@ -21596,6 +26251,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitCreateNestedManyWithoutUserInput
     RecruitComment?: RecruitCommentCreateNestedManyWithoutUserInput
+    article?: articleCreateNestedManyWithoutUserInput
+    articleComments?: articleCommentsCreateNestedManyWithoutUserInput
+    articleLikes?: articleLikesCreateNestedManyWithoutUserInput
     channelchats?: channelchatsCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersCreateNestedManyWithoutUserInput
     movieScores?: movieScoreCreateNestedManyWithoutUserInput
@@ -21617,6 +26275,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
     RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutUserInput
+    article?: articleUncheckedCreateNestedManyWithoutUserInput
+    articleComments?: articleCommentsUncheckedCreateNestedManyWithoutUserInput
+    articleLikes?: articleLikesUncheckedCreateNestedManyWithoutUserInput
     channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
     movieScores?: movieScoreUncheckedCreateNestedManyWithoutUserInput
@@ -21653,6 +26314,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUpdateManyWithoutUserNestedInput
     RecruitComment?: RecruitCommentUpdateManyWithoutUserNestedInput
+    article?: articleUpdateManyWithoutUserNestedInput
+    articleComments?: articleCommentsUpdateManyWithoutUserNestedInput
+    articleLikes?: articleLikesUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUpdateManyWithoutUserNestedInput
@@ -21674,6 +26338,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
     RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutUserNestedInput
+    article?: articleUncheckedUpdateManyWithoutUserNestedInput
+    articleComments?: articleCommentsUncheckedUpdateManyWithoutUserNestedInput
+    articleLikes?: articleLikesUncheckedUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUncheckedUpdateManyWithoutUserNestedInput
@@ -21694,6 +26361,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitCreateNestedManyWithoutUserInput
     RecruitComment?: RecruitCommentCreateNestedManyWithoutUserInput
+    article?: articleCreateNestedManyWithoutUserInput
+    articleComments?: articleCommentsCreateNestedManyWithoutUserInput
+    articleLikes?: articleLikesCreateNestedManyWithoutUserInput
     channelchats?: channelchatsCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersCreateNestedManyWithoutUserInput
     workspace?: workspaceCreateNestedManyWithoutUserInput
@@ -21715,6 +26385,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
     RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutUserInput
+    article?: articleUncheckedCreateNestedManyWithoutUserInput
+    articleComments?: articleCommentsUncheckedCreateNestedManyWithoutUserInput
+    articleLikes?: articleLikesUncheckedCreateNestedManyWithoutUserInput
     channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
     workspace?: workspaceUncheckedCreateNestedManyWithoutUserInput
@@ -21797,6 +26470,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUpdateManyWithoutUserNestedInput
     RecruitComment?: RecruitCommentUpdateManyWithoutUserNestedInput
+    article?: articleUpdateManyWithoutUserNestedInput
+    articleComments?: articleCommentsUpdateManyWithoutUserNestedInput
+    articleLikes?: articleLikesUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
     workspace?: workspaceUpdateManyWithoutUserNestedInput
@@ -21818,6 +26494,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
     RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutUserNestedInput
+    article?: articleUncheckedUpdateManyWithoutUserNestedInput
+    articleComments?: articleCommentsUncheckedUpdateManyWithoutUserNestedInput
+    articleLikes?: articleLikesUncheckedUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
     workspace?: workspaceUncheckedUpdateManyWithoutUserNestedInput
@@ -22018,6 +26697,9 @@ export namespace Prisma {
     Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     RecruitComment?: RecruitCommentCreateNestedManyWithoutUserInput
+    article?: articleCreateNestedManyWithoutUserInput
+    articleComments?: articleCommentsCreateNestedManyWithoutUserInput
+    articleLikes?: articleLikesCreateNestedManyWithoutUserInput
     channelchats?: channelchatsCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersCreateNestedManyWithoutUserInput
     movieScores?: movieScoreCreateNestedManyWithoutUserInput
@@ -22039,6 +26721,9 @@ export namespace Prisma {
     Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutUserInput
+    article?: articleUncheckedCreateNestedManyWithoutUserInput
+    articleComments?: articleCommentsUncheckedCreateNestedManyWithoutUserInput
+    articleLikes?: articleLikesUncheckedCreateNestedManyWithoutUserInput
     channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
     movieScores?: movieScoreUncheckedCreateNestedManyWithoutUserInput
@@ -22118,6 +26803,9 @@ export namespace Prisma {
     Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     RecruitComment?: RecruitCommentUpdateManyWithoutUserNestedInput
+    article?: articleUpdateManyWithoutUserNestedInput
+    articleComments?: articleCommentsUpdateManyWithoutUserNestedInput
+    articleLikes?: articleLikesUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUpdateManyWithoutUserNestedInput
@@ -22139,6 +26827,9 @@ export namespace Prisma {
     Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutUserNestedInput
+    article?: articleUncheckedUpdateManyWithoutUserNestedInput
+    articleComments?: articleCommentsUncheckedUpdateManyWithoutUserNestedInput
+    articleLikes?: articleLikesUncheckedUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUncheckedUpdateManyWithoutUserNestedInput
@@ -22209,6 +26900,9 @@ export namespace Prisma {
     Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitCreateNestedManyWithoutUserInput
+    article?: articleCreateNestedManyWithoutUserInput
+    articleComments?: articleCommentsCreateNestedManyWithoutUserInput
+    articleLikes?: articleLikesCreateNestedManyWithoutUserInput
     channelchats?: channelchatsCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersCreateNestedManyWithoutUserInput
     movieScores?: movieScoreCreateNestedManyWithoutUserInput
@@ -22230,6 +26924,9 @@ export namespace Prisma {
     Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
+    article?: articleUncheckedCreateNestedManyWithoutUserInput
+    articleComments?: articleCommentsUncheckedCreateNestedManyWithoutUserInput
+    articleLikes?: articleLikesUncheckedCreateNestedManyWithoutUserInput
     channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
     movieScores?: movieScoreUncheckedCreateNestedManyWithoutUserInput
@@ -22306,6 +27003,9 @@ export namespace Prisma {
     Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUpdateManyWithoutUserNestedInput
+    article?: articleUpdateManyWithoutUserNestedInput
+    articleComments?: articleCommentsUpdateManyWithoutUserNestedInput
+    articleLikes?: articleLikesUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUpdateManyWithoutUserNestedInput
@@ -22327,6 +27027,9 @@ export namespace Prisma {
     Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
+    article?: articleUncheckedUpdateManyWithoutUserNestedInput
+    articleComments?: articleCommentsUncheckedUpdateManyWithoutUserNestedInput
+    articleLikes?: articleLikesUncheckedUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUncheckedUpdateManyWithoutUserNestedInput
@@ -22347,6 +27050,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitCreateNestedManyWithoutUserInput
     RecruitComment?: RecruitCommentCreateNestedManyWithoutUserInput
+    article?: articleCreateNestedManyWithoutUserInput
+    articleComments?: articleCommentsCreateNestedManyWithoutUserInput
+    articleLikes?: articleLikesCreateNestedManyWithoutUserInput
     channelchats?: channelchatsCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersCreateNestedManyWithoutUserInput
     movieScores?: movieScoreCreateNestedManyWithoutUserInput
@@ -22368,6 +27074,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
     RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutUserInput
+    article?: articleUncheckedCreateNestedManyWithoutUserInput
+    articleComments?: articleCommentsUncheckedCreateNestedManyWithoutUserInput
+    articleLikes?: articleLikesUncheckedCreateNestedManyWithoutUserInput
     channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
     movieScores?: movieScoreUncheckedCreateNestedManyWithoutUserInput
@@ -22427,6 +27136,9 @@ export namespace Prisma {
     Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Recruit?: RecruitCreateNestedManyWithoutUserInput
     RecruitComment?: RecruitCommentCreateNestedManyWithoutUserInput
+    article?: articleCreateNestedManyWithoutUserInput
+    articleComments?: articleCommentsCreateNestedManyWithoutUserInput
+    articleLikes?: articleLikesCreateNestedManyWithoutUserInput
     channelchats?: channelchatsCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersCreateNestedManyWithoutUserInput
     movieScores?: movieScoreCreateNestedManyWithoutUserInput
@@ -22448,6 +27160,9 @@ export namespace Prisma {
     Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
     RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutUserInput
+    article?: articleUncheckedCreateNestedManyWithoutUserInput
+    articleComments?: articleCommentsUncheckedCreateNestedManyWithoutUserInput
+    articleLikes?: articleLikesUncheckedCreateNestedManyWithoutUserInput
     channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
     channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
     movieScores?: movieScoreUncheckedCreateNestedManyWithoutUserInput
@@ -22484,6 +27199,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUpdateManyWithoutUserNestedInput
     RecruitComment?: RecruitCommentUpdateManyWithoutUserNestedInput
+    article?: articleUpdateManyWithoutUserNestedInput
+    articleComments?: articleCommentsUpdateManyWithoutUserNestedInput
+    articleLikes?: articleLikesUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUpdateManyWithoutUserNestedInput
@@ -22505,6 +27223,9 @@ export namespace Prisma {
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
     RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutUserNestedInput
+    article?: articleUncheckedUpdateManyWithoutUserNestedInput
+    articleComments?: articleCommentsUncheckedUpdateManyWithoutUserNestedInput
+    articleLikes?: articleLikesUncheckedUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUncheckedUpdateManyWithoutUserNestedInput
@@ -22576,6 +27297,9 @@ export namespace Prisma {
     Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Recruit?: RecruitUpdateManyWithoutUserNestedInput
     RecruitComment?: RecruitCommentUpdateManyWithoutUserNestedInput
+    article?: articleUpdateManyWithoutUserNestedInput
+    articleComments?: articleCommentsUpdateManyWithoutUserNestedInput
+    articleLikes?: articleLikesUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUpdateManyWithoutUserNestedInput
@@ -22597,6 +27321,562 @@ export namespace Prisma {
     Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
     RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutUserNestedInput
+    article?: articleUncheckedUpdateManyWithoutUserNestedInput
+    articleComments?: articleCommentsUncheckedUpdateManyWithoutUserNestedInput
+    articleLikes?: articleLikesUncheckedUpdateManyWithoutUserNestedInput
+    channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
+    channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
+    movieScores?: movieScoreUncheckedUpdateManyWithoutUserNestedInput
+    workspace?: workspaceUncheckedUpdateManyWithoutUserNestedInput
+    workspacemembers?: workspacemembersUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutArticleInput = {
+    email: string
+    nickname?: string | null
+    password?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    provider?: string
+    image?: string | null
+    Comment?: CommentCreateNestedManyWithoutUserInput
+    Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
+    Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
+    Recruit?: RecruitCreateNestedManyWithoutUserInput
+    RecruitComment?: RecruitCommentCreateNestedManyWithoutUserInput
+    articleComments?: articleCommentsCreateNestedManyWithoutUserInput
+    articleLikes?: articleLikesCreateNestedManyWithoutUserInput
+    channelchats?: channelchatsCreateNestedManyWithoutUserInput
+    channelmembers?: channelmembersCreateNestedManyWithoutUserInput
+    movieScores?: movieScoreCreateNestedManyWithoutUserInput
+    workspace?: workspaceCreateNestedManyWithoutUserInput
+    workspacemembers?: workspacemembersCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutArticleInput = {
+    id?: number
+    email: string
+    nickname?: string | null
+    password?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    provider?: string
+    image?: string | null
+    Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
+    Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
+    Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
+    Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
+    RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutUserInput
+    articleComments?: articleCommentsUncheckedCreateNestedManyWithoutUserInput
+    articleLikes?: articleLikesUncheckedCreateNestedManyWithoutUserInput
+    channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
+    channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
+    movieScores?: movieScoreUncheckedCreateNestedManyWithoutUserInput
+    workspace?: workspaceUncheckedCreateNestedManyWithoutUserInput
+    workspacemembers?: workspacemembersUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutArticleInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutArticleInput, UserUncheckedCreateWithoutArticleInput>
+  }
+
+  export type articleCommentsCreateWithoutArticleInput = {
+    id: number
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    User: UserCreateNestedOneWithoutArticleCommentsInput
+  }
+
+  export type articleCommentsUncheckedCreateWithoutArticleInput = {
+    id: number
+    userno: number
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type articleCommentsCreateOrConnectWithoutArticleInput = {
+    where: articleCommentsWhereUniqueInput
+    create: XOR<articleCommentsCreateWithoutArticleInput, articleCommentsUncheckedCreateWithoutArticleInput>
+  }
+
+  export type articleCommentsCreateManyArticleInputEnvelope = {
+    data: articleCommentsCreateManyArticleInput | articleCommentsCreateManyArticleInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type articleLikesCreateWithoutArticleInput = {
+    type: $Enums.articleLikes_type
+    createdAt: Date | string
+    User: UserCreateNestedOneWithoutArticleLikesInput
+  }
+
+  export type articleLikesUncheckedCreateWithoutArticleInput = {
+    id?: number
+    userno: number
+    type: $Enums.articleLikes_type
+    createdAt: Date | string
+  }
+
+  export type articleLikesCreateOrConnectWithoutArticleInput = {
+    where: articleLikesWhereUniqueInput
+    create: XOR<articleLikesCreateWithoutArticleInput, articleLikesUncheckedCreateWithoutArticleInput>
+  }
+
+  export type articleLikesCreateManyArticleInputEnvelope = {
+    data: articleLikesCreateManyArticleInput | articleLikesCreateManyArticleInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UserUpsertWithoutArticleInput = {
+    update: XOR<UserUpdateWithoutArticleInput, UserUncheckedUpdateWithoutArticleInput>
+    create: XOR<UserCreateWithoutArticleInput, UserUncheckedCreateWithoutArticleInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutArticleInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutArticleInput, UserUncheckedUpdateWithoutArticleInput>
+  }
+
+  export type UserUpdateWithoutArticleInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    Comment?: CommentUpdateManyWithoutUserNestedInput
+    Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
+    Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
+    Recruit?: RecruitUpdateManyWithoutUserNestedInput
+    RecruitComment?: RecruitCommentUpdateManyWithoutUserNestedInput
+    articleComments?: articleCommentsUpdateManyWithoutUserNestedInput
+    articleLikes?: articleLikesUpdateManyWithoutUserNestedInput
+    channelchats?: channelchatsUpdateManyWithoutUserNestedInput
+    channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
+    movieScores?: movieScoreUpdateManyWithoutUserNestedInput
+    workspace?: workspaceUpdateManyWithoutUserNestedInput
+    workspacemembers?: workspacemembersUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutArticleInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
+    Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
+    Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
+    RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutUserNestedInput
+    articleComments?: articleCommentsUncheckedUpdateManyWithoutUserNestedInput
+    articleLikes?: articleLikesUncheckedUpdateManyWithoutUserNestedInput
+    channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
+    channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
+    movieScores?: movieScoreUncheckedUpdateManyWithoutUserNestedInput
+    workspace?: workspaceUncheckedUpdateManyWithoutUserNestedInput
+    workspacemembers?: workspacemembersUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type articleCommentsUpsertWithWhereUniqueWithoutArticleInput = {
+    where: articleCommentsWhereUniqueInput
+    update: XOR<articleCommentsUpdateWithoutArticleInput, articleCommentsUncheckedUpdateWithoutArticleInput>
+    create: XOR<articleCommentsCreateWithoutArticleInput, articleCommentsUncheckedCreateWithoutArticleInput>
+  }
+
+  export type articleCommentsUpdateWithWhereUniqueWithoutArticleInput = {
+    where: articleCommentsWhereUniqueInput
+    data: XOR<articleCommentsUpdateWithoutArticleInput, articleCommentsUncheckedUpdateWithoutArticleInput>
+  }
+
+  export type articleCommentsUpdateManyWithWhereWithoutArticleInput = {
+    where: articleCommentsScalarWhereInput
+    data: XOR<articleCommentsUpdateManyMutationInput, articleCommentsUncheckedUpdateManyWithoutArticleInput>
+  }
+
+  export type articleLikesUpsertWithWhereUniqueWithoutArticleInput = {
+    where: articleLikesWhereUniqueInput
+    update: XOR<articleLikesUpdateWithoutArticleInput, articleLikesUncheckedUpdateWithoutArticleInput>
+    create: XOR<articleLikesCreateWithoutArticleInput, articleLikesUncheckedCreateWithoutArticleInput>
+  }
+
+  export type articleLikesUpdateWithWhereUniqueWithoutArticleInput = {
+    where: articleLikesWhereUniqueInput
+    data: XOR<articleLikesUpdateWithoutArticleInput, articleLikesUncheckedUpdateWithoutArticleInput>
+  }
+
+  export type articleLikesUpdateManyWithWhereWithoutArticleInput = {
+    where: articleLikesScalarWhereInput
+    data: XOR<articleLikesUpdateManyMutationInput, articleLikesUncheckedUpdateManyWithoutArticleInput>
+  }
+
+  export type articleCreateWithoutArticleCommentsInput = {
+    title: string
+    content: string
+    like_count?: number
+    dislike_count?: number
+    comment_count?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    User: UserCreateNestedOneWithoutArticleInput
+    articleLikes?: articleLikesCreateNestedManyWithoutArticleInput
+  }
+
+  export type articleUncheckedCreateWithoutArticleCommentsInput = {
+    id?: number
+    userno: number
+    title: string
+    content: string
+    like_count?: number
+    dislike_count?: number
+    comment_count?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    articleLikes?: articleLikesUncheckedCreateNestedManyWithoutArticleInput
+  }
+
+  export type articleCreateOrConnectWithoutArticleCommentsInput = {
+    where: articleWhereUniqueInput
+    create: XOR<articleCreateWithoutArticleCommentsInput, articleUncheckedCreateWithoutArticleCommentsInput>
+  }
+
+  export type UserCreateWithoutArticleCommentsInput = {
+    email: string
+    nickname?: string | null
+    password?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    provider?: string
+    image?: string | null
+    Comment?: CommentCreateNestedManyWithoutUserInput
+    Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
+    Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
+    Recruit?: RecruitCreateNestedManyWithoutUserInput
+    RecruitComment?: RecruitCommentCreateNestedManyWithoutUserInput
+    article?: articleCreateNestedManyWithoutUserInput
+    articleLikes?: articleLikesCreateNestedManyWithoutUserInput
+    channelchats?: channelchatsCreateNestedManyWithoutUserInput
+    channelmembers?: channelmembersCreateNestedManyWithoutUserInput
+    movieScores?: movieScoreCreateNestedManyWithoutUserInput
+    workspace?: workspaceCreateNestedManyWithoutUserInput
+    workspacemembers?: workspacemembersCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutArticleCommentsInput = {
+    id?: number
+    email: string
+    nickname?: string | null
+    password?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    provider?: string
+    image?: string | null
+    Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
+    Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
+    Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
+    Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
+    RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutUserInput
+    article?: articleUncheckedCreateNestedManyWithoutUserInput
+    articleLikes?: articleLikesUncheckedCreateNestedManyWithoutUserInput
+    channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
+    channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
+    movieScores?: movieScoreUncheckedCreateNestedManyWithoutUserInput
+    workspace?: workspaceUncheckedCreateNestedManyWithoutUserInput
+    workspacemembers?: workspacemembersUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutArticleCommentsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutArticleCommentsInput, UserUncheckedCreateWithoutArticleCommentsInput>
+  }
+
+  export type articleUpsertWithoutArticleCommentsInput = {
+    update: XOR<articleUpdateWithoutArticleCommentsInput, articleUncheckedUpdateWithoutArticleCommentsInput>
+    create: XOR<articleCreateWithoutArticleCommentsInput, articleUncheckedCreateWithoutArticleCommentsInput>
+    where?: articleWhereInput
+  }
+
+  export type articleUpdateToOneWithWhereWithoutArticleCommentsInput = {
+    where?: articleWhereInput
+    data: XOR<articleUpdateWithoutArticleCommentsInput, articleUncheckedUpdateWithoutArticleCommentsInput>
+  }
+
+  export type articleUpdateWithoutArticleCommentsInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    like_count?: IntFieldUpdateOperationsInput | number
+    dislike_count?: IntFieldUpdateOperationsInput | number
+    comment_count?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    User?: UserUpdateOneRequiredWithoutArticleNestedInput
+    articleLikes?: articleLikesUpdateManyWithoutArticleNestedInput
+  }
+
+  export type articleUncheckedUpdateWithoutArticleCommentsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userno?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    like_count?: IntFieldUpdateOperationsInput | number
+    dislike_count?: IntFieldUpdateOperationsInput | number
+    comment_count?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    articleLikes?: articleLikesUncheckedUpdateManyWithoutArticleNestedInput
+  }
+
+  export type UserUpsertWithoutArticleCommentsInput = {
+    update: XOR<UserUpdateWithoutArticleCommentsInput, UserUncheckedUpdateWithoutArticleCommentsInput>
+    create: XOR<UserCreateWithoutArticleCommentsInput, UserUncheckedCreateWithoutArticleCommentsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutArticleCommentsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutArticleCommentsInput, UserUncheckedUpdateWithoutArticleCommentsInput>
+  }
+
+  export type UserUpdateWithoutArticleCommentsInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    Comment?: CommentUpdateManyWithoutUserNestedInput
+    Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
+    Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
+    Recruit?: RecruitUpdateManyWithoutUserNestedInput
+    RecruitComment?: RecruitCommentUpdateManyWithoutUserNestedInput
+    article?: articleUpdateManyWithoutUserNestedInput
+    articleLikes?: articleLikesUpdateManyWithoutUserNestedInput
+    channelchats?: channelchatsUpdateManyWithoutUserNestedInput
+    channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
+    movieScores?: movieScoreUpdateManyWithoutUserNestedInput
+    workspace?: workspaceUpdateManyWithoutUserNestedInput
+    workspacemembers?: workspacemembersUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutArticleCommentsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
+    Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
+    Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
+    RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutUserNestedInput
+    article?: articleUncheckedUpdateManyWithoutUserNestedInput
+    articleLikes?: articleLikesUncheckedUpdateManyWithoutUserNestedInput
+    channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
+    channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
+    movieScores?: movieScoreUncheckedUpdateManyWithoutUserNestedInput
+    workspace?: workspaceUncheckedUpdateManyWithoutUserNestedInput
+    workspacemembers?: workspacemembersUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type articleCreateWithoutArticleLikesInput = {
+    title: string
+    content: string
+    like_count?: number
+    dislike_count?: number
+    comment_count?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    User: UserCreateNestedOneWithoutArticleInput
+    articleComments?: articleCommentsCreateNestedManyWithoutArticleInput
+  }
+
+  export type articleUncheckedCreateWithoutArticleLikesInput = {
+    id?: number
+    userno: number
+    title: string
+    content: string
+    like_count?: number
+    dislike_count?: number
+    comment_count?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    articleComments?: articleCommentsUncheckedCreateNestedManyWithoutArticleInput
+  }
+
+  export type articleCreateOrConnectWithoutArticleLikesInput = {
+    where: articleWhereUniqueInput
+    create: XOR<articleCreateWithoutArticleLikesInput, articleUncheckedCreateWithoutArticleLikesInput>
+  }
+
+  export type UserCreateWithoutArticleLikesInput = {
+    email: string
+    nickname?: string | null
+    password?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    provider?: string
+    image?: string | null
+    Comment?: CommentCreateNestedManyWithoutUserInput
+    Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
+    Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
+    Recruit?: RecruitCreateNestedManyWithoutUserInput
+    RecruitComment?: RecruitCommentCreateNestedManyWithoutUserInput
+    article?: articleCreateNestedManyWithoutUserInput
+    articleComments?: articleCommentsCreateNestedManyWithoutUserInput
+    channelchats?: channelchatsCreateNestedManyWithoutUserInput
+    channelmembers?: channelmembersCreateNestedManyWithoutUserInput
+    movieScores?: movieScoreCreateNestedManyWithoutUserInput
+    workspace?: workspaceCreateNestedManyWithoutUserInput
+    workspacemembers?: workspacemembersCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutArticleLikesInput = {
+    id?: number
+    email: string
+    nickname?: string | null
+    password?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+    provider?: string
+    image?: string | null
+    Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
+    Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
+    Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
+    Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
+    RecruitComment?: RecruitCommentUncheckedCreateNestedManyWithoutUserInput
+    article?: articleUncheckedCreateNestedManyWithoutUserInput
+    articleComments?: articleCommentsUncheckedCreateNestedManyWithoutUserInput
+    channelchats?: channelchatsUncheckedCreateNestedManyWithoutUserInput
+    channelmembers?: channelmembersUncheckedCreateNestedManyWithoutUserInput
+    movieScores?: movieScoreUncheckedCreateNestedManyWithoutUserInput
+    workspace?: workspaceUncheckedCreateNestedManyWithoutUserInput
+    workspacemembers?: workspacemembersUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutArticleLikesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutArticleLikesInput, UserUncheckedCreateWithoutArticleLikesInput>
+  }
+
+  export type articleUpsertWithoutArticleLikesInput = {
+    update: XOR<articleUpdateWithoutArticleLikesInput, articleUncheckedUpdateWithoutArticleLikesInput>
+    create: XOR<articleCreateWithoutArticleLikesInput, articleUncheckedCreateWithoutArticleLikesInput>
+    where?: articleWhereInput
+  }
+
+  export type articleUpdateToOneWithWhereWithoutArticleLikesInput = {
+    where?: articleWhereInput
+    data: XOR<articleUpdateWithoutArticleLikesInput, articleUncheckedUpdateWithoutArticleLikesInput>
+  }
+
+  export type articleUpdateWithoutArticleLikesInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    like_count?: IntFieldUpdateOperationsInput | number
+    dislike_count?: IntFieldUpdateOperationsInput | number
+    comment_count?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    User?: UserUpdateOneRequiredWithoutArticleNestedInput
+    articleComments?: articleCommentsUpdateManyWithoutArticleNestedInput
+  }
+
+  export type articleUncheckedUpdateWithoutArticleLikesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userno?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    like_count?: IntFieldUpdateOperationsInput | number
+    dislike_count?: IntFieldUpdateOperationsInput | number
+    comment_count?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    articleComments?: articleCommentsUncheckedUpdateManyWithoutArticleNestedInput
+  }
+
+  export type UserUpsertWithoutArticleLikesInput = {
+    update: XOR<UserUpdateWithoutArticleLikesInput, UserUncheckedUpdateWithoutArticleLikesInput>
+    create: XOR<UserCreateWithoutArticleLikesInput, UserUncheckedCreateWithoutArticleLikesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutArticleLikesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutArticleLikesInput, UserUncheckedUpdateWithoutArticleLikesInput>
+  }
+
+  export type UserUpdateWithoutArticleLikesInput = {
+    email?: StringFieldUpdateOperationsInput | string
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    Comment?: CommentUpdateManyWithoutUserNestedInput
+    Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
+    Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
+    Recruit?: RecruitUpdateManyWithoutUserNestedInput
+    RecruitComment?: RecruitCommentUpdateManyWithoutUserNestedInput
+    article?: articleUpdateManyWithoutUserNestedInput
+    articleComments?: articleCommentsUpdateManyWithoutUserNestedInput
+    channelchats?: channelchatsUpdateManyWithoutUserNestedInput
+    channelmembers?: channelmembersUpdateManyWithoutUserNestedInput
+    movieScores?: movieScoreUpdateManyWithoutUserNestedInput
+    workspace?: workspaceUpdateManyWithoutUserNestedInput
+    workspacemembers?: workspacemembersUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutArticleLikesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    email?: StringFieldUpdateOperationsInput | string
+    nickname?: NullableStringFieldUpdateOperationsInput | string | null
+    password?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    provider?: StringFieldUpdateOperationsInput | string
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
+    Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
+    Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
+    RecruitComment?: RecruitCommentUncheckedUpdateManyWithoutUserNestedInput
+    article?: articleUncheckedUpdateManyWithoutUserNestedInput
+    articleComments?: articleCommentsUncheckedUpdateManyWithoutUserNestedInput
     channelchats?: channelchatsUncheckedUpdateManyWithoutUserNestedInput
     channelmembers?: channelmembersUncheckedUpdateManyWithoutUserNestedInput
     movieScores?: movieScoreUncheckedUpdateManyWithoutUserNestedInput
@@ -22756,6 +28036,34 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
+  }
+
+  export type articleCreateManyUserInput = {
+    id?: number
+    title: string
+    content: string
+    like_count?: number
+    dislike_count?: number
+    comment_count?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type articleCommentsCreateManyUserInput = {
+    id: number
+    articleId: number
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type articleLikesCreateManyUserInput = {
+    id?: number
+    article_id: number
+    type: $Enums.articleLikes_type
+    createdAt: Date | string
   }
 
   export type channelchatsCreateManyUserInput = {
@@ -22953,6 +28261,92 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type articleUpdateWithoutUserInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    like_count?: IntFieldUpdateOperationsInput | number
+    dislike_count?: IntFieldUpdateOperationsInput | number
+    comment_count?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    articleComments?: articleCommentsUpdateManyWithoutArticleNestedInput
+    articleLikes?: articleLikesUpdateManyWithoutArticleNestedInput
+  }
+
+  export type articleUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    like_count?: IntFieldUpdateOperationsInput | number
+    dislike_count?: IntFieldUpdateOperationsInput | number
+    comment_count?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    articleComments?: articleCommentsUncheckedUpdateManyWithoutArticleNestedInput
+    articleLikes?: articleLikesUncheckedUpdateManyWithoutArticleNestedInput
+  }
+
+  export type articleUncheckedUpdateManyWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    like_count?: IntFieldUpdateOperationsInput | number
+    dislike_count?: IntFieldUpdateOperationsInput | number
+    comment_count?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type articleCommentsUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    article?: articleUpdateOneRequiredWithoutArticleCommentsNestedInput
+  }
+
+  export type articleCommentsUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    articleId?: IntFieldUpdateOperationsInput | number
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type articleCommentsUncheckedUpdateManyWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    articleId?: IntFieldUpdateOperationsInput | number
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type articleLikesUpdateWithoutUserInput = {
+    type?: EnumarticleLikes_typeFieldUpdateOperationsInput | $Enums.articleLikes_type
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    article?: articleUpdateOneRequiredWithoutArticleLikesNestedInput
+  }
+
+  export type articleLikesUncheckedUpdateWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    article_id?: IntFieldUpdateOperationsInput | number
+    type?: EnumarticleLikes_typeFieldUpdateOperationsInput | $Enums.articleLikes_type
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type articleLikesUncheckedUpdateManyWithoutUserInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    article_id?: IntFieldUpdateOperationsInput | number
+    type?: EnumarticleLikes_typeFieldUpdateOperationsInput | $Enums.articleLikes_type
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type channelchatsUpdateWithoutUserInput = {
@@ -23213,6 +28607,69 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
+  export type articleCommentsCreateManyArticleInput = {
+    id: number
+    userno: number
+    content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    deletedAt?: Date | string | null
+  }
+
+  export type articleLikesCreateManyArticleInput = {
+    id?: number
+    userno: number
+    type: $Enums.articleLikes_type
+    createdAt: Date | string
+  }
+
+  export type articleCommentsUpdateWithoutArticleInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    User?: UserUpdateOneRequiredWithoutArticleCommentsNestedInput
+  }
+
+  export type articleCommentsUncheckedUpdateWithoutArticleInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userno?: IntFieldUpdateOperationsInput | number
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type articleCommentsUncheckedUpdateManyWithoutArticleInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userno?: IntFieldUpdateOperationsInput | number
+    content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type articleLikesUpdateWithoutArticleInput = {
+    type?: EnumarticleLikes_typeFieldUpdateOperationsInput | $Enums.articleLikes_type
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    User?: UserUpdateOneRequiredWithoutArticleLikesNestedInput
+  }
+
+  export type articleLikesUncheckedUpdateWithoutArticleInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userno?: IntFieldUpdateOperationsInput | number
+    type?: EnumarticleLikes_typeFieldUpdateOperationsInput | $Enums.articleLikes_type
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type articleLikesUncheckedUpdateManyWithoutArticleInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    userno?: IntFieldUpdateOperationsInput | number
+    type?: EnumarticleLikes_typeFieldUpdateOperationsInput | $Enums.articleLikes_type
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
 
 
   /**
@@ -23238,6 +28695,10 @@ export namespace Prisma {
      * @deprecated Use RecruitCountOutputTypeDefaultArgs instead
      */
     export type RecruitCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = RecruitCountOutputTypeDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use ArticleCountOutputTypeDefaultArgs instead
+     */
+    export type ArticleCountOutputTypeArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = ArticleCountOutputTypeDefaultArgs<ExtArgs>
     /**
      * @deprecated Use CommentDefaultArgs instead
      */
@@ -23290,6 +28751,18 @@ export namespace Prisma {
      * @deprecated Use MatchesDefaultArgs instead
      */
     export type MatchesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = MatchesDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use articleDefaultArgs instead
+     */
+    export type articleArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = articleDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use articleCommentsDefaultArgs instead
+     */
+    export type articleCommentsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = articleCommentsDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use articleLikesDefaultArgs instead
+     */
+    export type articleLikesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = articleLikesDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany
