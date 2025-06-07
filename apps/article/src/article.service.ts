@@ -41,6 +41,9 @@ export class ArticleService {
         content,
         userno,
       },
+      include: {
+        User: true,
+      },
     });
     const createdAt = this.utilsService.dateToTimestamp(
       article.createdAt as Date,
@@ -56,6 +59,7 @@ export class ArticleService {
         id: article.id,
         userno: article.userno,
         title: article.title,
+        author: article.User.nickname,
         content: article.content,
         likeCount: article.like_count,
         dislikeCount: article.dislike_count,
@@ -71,6 +75,9 @@ export class ArticleService {
     const { id } = request;
     const article = await this.mysqlPrismaService.article.findUnique({
       where: { id },
+      include: {
+        User: true,
+      },
     });
     if (!article) {
       throw new Error('Article not found');
@@ -89,6 +96,7 @@ export class ArticleService {
         id: article.id,
         userno: article.userno,
         title: article.title,
+        author: article.User.nickname,
         content: article.content,
         likeCount: article.like_count,
         dislikeCount: article.dislike_count,
@@ -107,6 +115,9 @@ export class ArticleService {
     const articles = await this.mysqlPrismaService.article.findMany({
       skip: (page - 1) * pageSize,
       take: pageSize,
+      include: {
+        User: true,
+      },
       orderBy: { createdAt: 'desc' },
     });
     const totalCount = await this.mysqlPrismaService.article.count();
@@ -116,14 +127,15 @@ export class ArticleService {
       articles: articles.map((article) => ({
         id: article.id,
         userno: article.userno,
+        author: article.User.nickname,
         title: article.title,
         content: article.content,
         likeCount: article.like_count,
         dislikeCount: article.dislike_count,
         commentCount: article.comment_count,
-        createdAt: this.utilsService.dateToTimestamp(article.createdAt as Date),
-        updatedAt: this.utilsService.dateToTimestamp(article.updatedAt as Date),
-        deletedAt: this.utilsService.dateToTimestamp(article.deletedAt as Date),
+        createdAt: article.createdAt.toISOString(),
+        updatedAt: article.updatedAt.toISOString(),
+        deletedAt: article.deletedAt?.toISOString() ?? null,
       })),
       hasNext,
     };
@@ -140,6 +152,9 @@ export class ArticleService {
         title,
         content,
       },
+      include: {
+        User: true,
+      },
     });
     const createdAt = this.utilsService.dateToTimestamp(
       article.createdAt as Date,
@@ -153,6 +168,7 @@ export class ArticleService {
     return {
       article: {
         id: article.id,
+        author: article.User.nickname,
         userno: article.userno,
         title: article.title,
         content: article.content,

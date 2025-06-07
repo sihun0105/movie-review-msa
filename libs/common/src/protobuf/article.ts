@@ -24,6 +24,7 @@ export interface Article {
   createdAt: string;
   updatedAt: string;
   deletedAt: string;
+  author: string;
 }
 
 export interface CreateArticleRequest {

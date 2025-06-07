@@ -8,6 +8,7 @@
     pm2 delete cron
     pm2 delete movie
     pm2 delete reply
+    pm2 delete article
 
     echo "All services stopped!"
 

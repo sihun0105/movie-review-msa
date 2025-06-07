@@ -3,7 +3,7 @@ import { ArticleService } from './article.service';
 import { ArticleController } from './article.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { join } from 'path';
-import { ARTICLE_PACKAGE_NAME } from 'proto/article';
+import { ARTICLE_PACKAGE_NAME } from '@app/common/protobuf';
 
 @Module({
   imports: [

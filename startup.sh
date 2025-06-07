@@ -8,6 +8,7 @@
     pm2 start pnpm --name cron -- dev cron --time
     pm2 start pnpm --name movie -- dev movie --time
     pm2 start pnpm --name reply -- dev reply --time
+    pm2 start pnpm --name article -- dev article --time
 
     echo "All services started with PM2!"
 

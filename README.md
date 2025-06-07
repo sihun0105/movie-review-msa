@@ -21,6 +21,7 @@ pnpm dev movie
 pnpm dev reply
 pnpm dev user
 pnpm dev movie
+pnpm dev article
 ```
 
 ### generate protobuf

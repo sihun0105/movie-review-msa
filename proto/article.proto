@@ -16,6 +16,7 @@ message Article {
   string createdAt = 8;
   string updatedAt = 9;
   string deletedAt = 10;
+  string author = 11;
 }
 
 message CreateArticleRequest {
