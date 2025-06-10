@@ -45,15 +45,6 @@ export class ArticleService {
         User: true,
       },
     });
-    const createdAt = this.utilsService.dateToTimestamp(
-      article.createdAt as Date,
-    );
-    const updatedAt = this.utilsService.dateToTimestamp(
-      article.updatedAt as Date,
-    );
-    const deletedAt = this.utilsService.dateToTimestamp(
-      article.deletedAt as Date,
-    );
     return {
       article: {
         id: article.id,
@@ -64,9 +55,9 @@ export class ArticleService {
         likeCount: article.like_count,
         dislikeCount: article.dislike_count,
         commentCount: article.comment_count,
-        createdAt: createdAt,
-        updatedAt: updatedAt,
-        deletedAt: deletedAt,
+        createdAt: article.createdAt.toISOString(),
+        updatedAt: article.updatedAt.toISOString(),
+        deletedAt: article.deletedAt?.toISOString() ?? null,
       },
     };
   }

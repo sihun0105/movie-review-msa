@@ -220,7 +220,7 @@ model article {
   userno          Int
   title           String            @db.VarChar(255)
   content         String            @db.Text
-  like_count      Int               @unique(map: "like_count_UNIQUE") @default(0)
+  like_count      Int               @default(0)
   dislike_count   Int               @default(0)
   comment_count   Int               @default(0)
   createdAt       DateTime          @default(now()) @db.DateTime(6)

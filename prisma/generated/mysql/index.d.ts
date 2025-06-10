@@ -20373,13 +20373,13 @@ export namespace Prisma {
 
   export type articleWhereUniqueInput = Prisma.AtLeast<{
     id?: number
-    like_count?: number
     AND?: articleWhereInput | articleWhereInput[]
     OR?: articleWhereInput[]
     NOT?: articleWhereInput | articleWhereInput[]
     userno?: IntFilter<"article"> | number
     title?: StringFilter<"article"> | string
     content?: StringFilter<"article"> | string
+    like_count?: IntFilter<"article"> | number
     dislike_count?: IntFilter<"article"> | number
     comment_count?: IntFilter<"article"> | number
     createdAt?: DateTimeFilter<"article"> | Date | string
@@ -20388,7 +20388,7 @@ export namespace Prisma {
     User?: XOR<UserRelationFilter, UserWhereInput>
     articleComments?: ArticleCommentsListRelationFilter
     articleLikes?: ArticleLikesListRelationFilter
-  }, "id" | "like_count">
+  }, "id">
 
   export type articleOrderByWithAggregationInput = {
     id?: SortOrder
