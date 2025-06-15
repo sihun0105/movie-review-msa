@@ -31,6 +31,7 @@ export class ArticleController {
 
   @Get(':id')
   async getArticle(@Param('id') id: string) {
+    console.log('getArticle id', id);
     return this.articleService.getArticle({ id: Number(id) });
   }
 
@@ -39,6 +40,7 @@ export class ArticleController {
     @Query('page') page: string,
     @Query('pageSize') pageSize: string,
   ) {
+    console.log('page', page, 'pageSize', pageSize);
     return this.articleService.listArticles({
       page: Number(page) || 1,
       pageSize: Number(pageSize) || 10,

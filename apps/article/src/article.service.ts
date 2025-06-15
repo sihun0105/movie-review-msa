@@ -73,15 +73,6 @@ export class ArticleService {
     if (!article) {
       throw new Error('Article not found');
     }
-    const createdAt = this.utilsService.dateToTimestamp(
-      article.createdAt as Date,
-    );
-    const updatedAt = this.utilsService.dateToTimestamp(
-      article.updatedAt as Date,
-    );
-    const deletedAt = this.utilsService.dateToTimestamp(
-      article.deletedAt as Date,
-    );
     return {
       article: {
         id: article.id,
@@ -92,9 +83,9 @@ export class ArticleService {
         likeCount: article.like_count,
         dislikeCount: article.dislike_count,
         commentCount: article.comment_count,
-        createdAt: createdAt,
-        updatedAt: updatedAt,
-        deletedAt: deletedAt,
+        createdAt: article.createdAt.toISOString(),
+        updatedAt: article.updatedAt.toISOString(),
+        deletedAt: article.deletedAt?.toISOString() ?? null,
       },
     };
   }
@@ -147,15 +138,6 @@ export class ArticleService {
         User: true,
       },
     });
-    const createdAt = this.utilsService.dateToTimestamp(
-      article.createdAt as Date,
-    );
-    const updatedAt = this.utilsService.dateToTimestamp(
-      article.updatedAt as Date,
-    );
-    const deletedAt = this.utilsService.dateToTimestamp(
-      article.deletedAt as Date,
-    );
     return {
       article: {
         id: article.id,
@@ -166,9 +148,9 @@ export class ArticleService {
         likeCount: article.like_count,
         dislikeCount: article.dislike_count,
         commentCount: article.comment_count,
-        createdAt: createdAt,
-        updatedAt: updatedAt,
-        deletedAt: deletedAt,
+        createdAt: article.createdAt.toISOString(),
+        updatedAt: article.updatedAt.toISOString(),
+        deletedAt: article.deletedAt?.toISOString() ?? null,
       },
     };
   }
@@ -192,9 +174,9 @@ export class ArticleService {
       articleId: comment.articleId,
       userno: comment.userno,
       content: comment.content,
-      createdAt: this.utilsService.dateToTimestamp(comment.createdAt as Date),
-      updatedAt: this.utilsService.dateToTimestamp(comment.updatedAt as Date),
-      deletedAt: this.utilsService.dateToTimestamp(comment.deletedAt as Date),
+      createdAt: comment.createdAt.toISOString(),
+      updatedAt: comment.updatedAt.toISOString(),
+      deletedAt: comment.deletedAt?.toISOString() ?? null,
     };
   }
 
@@ -211,9 +193,9 @@ export class ArticleService {
       articleId: comment.articleId,
       userno: comment.userno,
       content: comment.content,
-      createdAt: this.utilsService.dateToTimestamp(comment.createdAt as Date),
-      updatedAt: this.utilsService.dateToTimestamp(comment.updatedAt as Date),
-      deletedAt: this.utilsService.dateToTimestamp(comment.deletedAt as Date),
+      createdAt: comment.createdAt.toISOString(),
+      updatedAt: comment.updatedAt.toISOString(),
+      deletedAt: comment.deletedAt?.toISOString() ?? null,
     };
   }
 
@@ -228,9 +210,9 @@ export class ArticleService {
       articleId: comment.articleId,
       userno: comment.userno,
       content: comment.content,
-      createdAt: this.utilsService.dateToTimestamp(comment.createdAt as Date),
-      updatedAt: this.utilsService.dateToTimestamp(comment.updatedAt as Date),
-      deletedAt: this.utilsService.dateToTimestamp(comment.deletedAt as Date),
+      createdAt: comment.createdAt.toISOString(),
+      updatedAt: comment.updatedAt.toISOString(),
+      deletedAt: comment.deletedAt?.toISOString() ?? null,
     };
   }
 
@@ -261,9 +243,9 @@ export class ArticleService {
         articleId: comment.articleId,
         userno: comment.userno,
         content: comment.content,
-        createdAt: this.utilsService.dateToTimestamp(comment.createdAt as Date),
-        updatedAt: this.utilsService.dateToTimestamp(comment.updatedAt as Date),
-        deletedAt: this.utilsService.dateToTimestamp(comment.deletedAt as Date),
+        createdAt: comment.createdAt.toISOString(),
+        updatedAt: comment.updatedAt.toISOString(),
+        deletedAt: comment.deletedAt?.toISOString() ?? null,
       })),
       hasNext,
     };
