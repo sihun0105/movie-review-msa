@@ -234,7 +234,7 @@ model article {
 }
 
 model articleComments {
-  id        Int       @id
+  id        Int       @id @default(autoincrement())
   articleId Int
   userno    Int
   content   String    @db.Text

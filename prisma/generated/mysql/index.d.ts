@@ -21654,7 +21654,6 @@ export namespace Prisma {
   }
 
   export type articleCommentsCreateInput = {
-    id: number
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -21664,7 +21663,7 @@ export namespace Prisma {
   }
 
   export type articleCommentsUncheckedCreateInput = {
-    id: number
+    id?: number
     articleId: number
     userno: number
     content: string
@@ -21674,7 +21673,6 @@ export namespace Prisma {
   }
 
   export type articleCommentsUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -21694,7 +21692,7 @@ export namespace Prisma {
   }
 
   export type articleCommentsCreateManyInput = {
-    id: number
+    id?: number
     articleId: number
     userno: number
     content: string
@@ -21704,7 +21702,6 @@ export namespace Prisma {
   }
 
   export type articleCommentsUpdateManyMutationInput = {
-    id?: IntFieldUpdateOperationsInput | number
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -25191,7 +25188,6 @@ export namespace Prisma {
   }
 
   export type articleCommentsCreateWithoutUserInput = {
-    id: number
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -25200,7 +25196,7 @@ export namespace Prisma {
   }
 
   export type articleCommentsUncheckedCreateWithoutUserInput = {
-    id: number
+    id?: number
     articleId: number
     content: string
     createdAt?: Date | string
@@ -27384,7 +27380,6 @@ export namespace Prisma {
   }
 
   export type articleCommentsCreateWithoutArticleInput = {
-    id: number
     content: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -27393,7 +27388,7 @@ export namespace Prisma {
   }
 
   export type articleCommentsUncheckedCreateWithoutArticleInput = {
-    id: number
+    id?: number
     userno: number
     content: string
     createdAt?: Date | string
@@ -28051,7 +28046,7 @@ export namespace Prisma {
   }
 
   export type articleCommentsCreateManyUserInput = {
-    id: number
+    id?: number
     articleId: number
     content: string
     createdAt?: Date | string
@@ -28303,7 +28298,6 @@ export namespace Prisma {
   }
 
   export type articleCommentsUpdateWithoutUserInput = {
-    id?: IntFieldUpdateOperationsInput | number
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28608,7 +28602,7 @@ export namespace Prisma {
   }
 
   export type articleCommentsCreateManyArticleInput = {
-    id: number
+    id?: number
     userno: number
     content: string
     createdAt?: Date | string
@@ -28624,7 +28618,6 @@ export namespace Prisma {
   }
 
   export type articleCommentsUpdateWithoutArticleInput = {
-    id?: IntFieldUpdateOperationsInput | number
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
