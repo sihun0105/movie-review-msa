@@ -169,6 +169,25 @@ export class ArticleService {
         content,
       } as Prisma.articleCommentsUncheckedCreateInput,
     });
+    const article = await this.mysqlPrismaService.article.update({
+      where: { id: articleId },
+      data: {
+        comment_count: {
+          increment: 1,
+        },
+      },
+    });
+    if (!article) {
+      throw new Error('Article not found');
+    }
+    const user = await this.mysqlPrismaService.user.findUnique({
+      where: { id: userno },
+    });
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    // Return the comment object
     return {
       id: comment.id,
       articleId: comment.articleId,
@@ -177,6 +196,8 @@ export class ArticleService {
       createdAt: comment.createdAt.toISOString(),
       updatedAt: comment.updatedAt.toISOString(),
       deletedAt: comment.deletedAt?.toISOString() ?? null,
+      nickname: user.nickname,
+      avatar: user.image,
     };
   }
 
@@ -184,6 +205,7 @@ export class ArticleService {
     const { id } = request;
     const comment = await this.mysqlPrismaService.articleComments.findUnique({
       where: { id },
+      include: { User: true },
     });
     if (!comment) {
       throw new Error('Comment not found');
@@ -196,6 +218,8 @@ export class ArticleService {
       createdAt: comment.createdAt.toISOString(),
       updatedAt: comment.updatedAt.toISOString(),
       deletedAt: comment.deletedAt?.toISOString() ?? null,
+      nickname: comment.User.nickname,
+      avatar: comment.User.image,
     };
   }
 
@@ -205,6 +229,19 @@ export class ArticleService {
       where: { id, userno },
       data: { content },
     });
+    if (!comment) {
+      throw new Error(
+        'Comment not found or you do not have permission to update it',
+      );
+    }
+    const user = await this.mysqlPrismaService.user.findUnique({
+      where: { id: userno },
+    });
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    // Return the updated comment object
     return {
       id: comment.id,
       articleId: comment.articleId,
@@ -213,6 +250,8 @@ export class ArticleService {
       createdAt: comment.createdAt.toISOString(),
       updatedAt: comment.updatedAt.toISOString(),
       deletedAt: comment.deletedAt?.toISOString() ?? null,
+      nickname: user.nickname,
+      avatar: user.image,
     };
   }
 
@@ -228,6 +267,7 @@ export class ArticleService {
     const { articleId, page, pageSize } = request;
     const comments = await this.mysqlPrismaService.articleComments.findMany({
       where: { articleId },
+      include: { User: true },
       skip: (page - 1) * pageSize,
       take: pageSize,
       orderBy: { createdAt: 'desc' },
@@ -246,6 +286,8 @@ export class ArticleService {
         createdAt: comment.createdAt.toISOString(),
         updatedAt: comment.updatedAt.toISOString(),
         deletedAt: comment.deletedAt?.toISOString() ?? null,
+        nickname: comment.User.nickname,
+        avatar: comment.User.image,
       })),
       hasNext,
     };

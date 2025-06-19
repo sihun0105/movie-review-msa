@@ -68,6 +68,8 @@ message ArticleComment {
   string createdAt = 5;
   string updatedAt = 6;
   string deletedAt = 7;
+  string nickname = 8;
+  string avatar = 9;
 }
 
 message CreateCommentRequest {

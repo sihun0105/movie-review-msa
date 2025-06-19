@@ -76,6 +76,8 @@ export interface ArticleComment {
   createdAt: string;
   updatedAt: string;
   deletedAt: string;
+  nickname: string;
+  avatar: string;
 }
 
 export interface CreateCommentRequest {
