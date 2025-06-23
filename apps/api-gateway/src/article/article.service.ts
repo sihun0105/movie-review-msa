@@ -5,12 +5,14 @@ import {
   CreateArticleRequest,
   CreateCommentRequest,
   DeleteArticleRequest,
+  DeleteCommentRequest,
   GetArticleLikeStatsRequest,
   GetArticleRequest,
   LikeArticleRequest,
   ListArticlesRequest,
   ListCommentsRequest,
   UpdateArticleRequest,
+  UpdateCommentRequest,
 } from '@app/common/protobuf';
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
@@ -49,6 +51,12 @@ export class ArticleService implements OnModuleInit {
   }
   async createComment(request: CreateCommentRequest) {
     return this.articleService.createComment(request);
+  }
+  async updateComment(request: UpdateCommentRequest) {
+    return this.articleService.updateComment(request);
+  }
+  async deleteComment(request: DeleteCommentRequest) {
+    return this.articleService.deleteComment(request);
   }
   async listComments(request: ListCommentsRequest) {
     return this.articleService.listComments(request);

@@ -96,7 +96,30 @@ export class ArticleController {
       pageSize: Number(pageSize) || 10,
     });
   }
-
+  @Patch('/comments/:commentId')
+  @UseGuards(JwtAuthGuard)
+  async updateComment(
+    @Param('commentId') commentId: string,
+    @Body() body: Omit<CreateCommentRequest, 'articleId'>,
+    @Req() req,
+  ) {
+    const userNumber = req.user.userId;
+    body.userno = userNumber;
+    return this.articleService.updateComment({
+      id: Number(commentId),
+      userno: userNumber,
+      ...body,
+    });
+  }
+  @Delete('/comments/:commentId')
+  @UseGuards(JwtAuthGuard)
+  async deleteComment(@Param('commentId') commentId: string, @Req() req) {
+    const userNumber = req.user.userId;
+    return this.articleService.deleteComment({
+      id: Number(commentId),
+      userno: userNumber,
+    });
+  }
   @Post(':articleId/like')
   @UseGuards(JwtAuthGuard)
   async likeArticle(
