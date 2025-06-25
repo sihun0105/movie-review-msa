@@ -253,11 +253,12 @@ model articleLikes {
   article_id Int
   userno     Int
   type       articleLikes_type
-  createdAt  DateTime          @db.DateTime(6)
+  createdAt  DateTime          @default(now()) @db.DateTime(6)
+  updatedAt  DateTime          @default(now()) @db.DateTime(6)
   article    article           @relation(fields: [article_id], references: [id], onDelete: Cascade, map: "ArticleLike_articleId_fkey")
   User       User              @relation(fields: [userno], references: [id], onDelete: Cascade, map: "ArticleLike_userno_fkey")
 
-  @@unique([article_id, userno], map: "unique_like")
+  @@unique([article_id, userno, type], map: "unique_like")
   @@index([article_id], map: "ArticleLike_articleId_fkey_idx")
   @@index([userno], map: "ArticleLike_userno_fkey_idx")
 }

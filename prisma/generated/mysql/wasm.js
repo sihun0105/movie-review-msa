@@ -274,7 +274,8 @@ exports.Prisma.ArticleLikesScalarFieldEnum = {
   article_id: 'article_id',
   userno: 'userno',
   type: 'type',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {

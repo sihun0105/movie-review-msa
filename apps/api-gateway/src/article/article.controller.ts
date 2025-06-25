@@ -129,6 +129,7 @@ export class ArticleController {
   ) {
     const userNumber = req.user.userId;
     body.userno = userNumber;
+    console.log('likeArticle body', body);
     return this.articleService.likeArticle({
       articleId: Number(articleId),
       ...body,

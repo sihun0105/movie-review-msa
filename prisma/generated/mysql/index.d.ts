@@ -18067,6 +18067,7 @@ export namespace Prisma {
     userno: number | null
     type: $Enums.articleLikes_type | null
     createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type ArticleLikesMaxAggregateOutputType = {
@@ -18075,6 +18076,7 @@ export namespace Prisma {
     userno: number | null
     type: $Enums.articleLikes_type | null
     createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type ArticleLikesCountAggregateOutputType = {
@@ -18083,6 +18085,7 @@ export namespace Prisma {
     userno: number
     type: number
     createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -18105,6 +18108,7 @@ export namespace Prisma {
     userno?: true
     type?: true
     createdAt?: true
+    updatedAt?: true
   }
 
   export type ArticleLikesMaxAggregateInputType = {
@@ -18113,6 +18117,7 @@ export namespace Prisma {
     userno?: true
     type?: true
     createdAt?: true
+    updatedAt?: true
   }
 
   export type ArticleLikesCountAggregateInputType = {
@@ -18121,6 +18126,7 @@ export namespace Prisma {
     userno?: true
     type?: true
     createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -18216,6 +18222,7 @@ export namespace Prisma {
     userno: number
     type: $Enums.articleLikes_type
     createdAt: Date
+    updatedAt: Date
     _count: ArticleLikesCountAggregateOutputType | null
     _avg: ArticleLikesAvgAggregateOutputType | null
     _sum: ArticleLikesSumAggregateOutputType | null
@@ -18243,6 +18250,7 @@ export namespace Prisma {
     userno?: boolean
     type?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
     article?: boolean | articleDefaultArgs<ExtArgs>
     User?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["articleLikes"]>
@@ -18253,6 +18261,7 @@ export namespace Prisma {
     userno?: boolean
     type?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
   }
 
   export type articleLikesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -18273,6 +18282,7 @@ export namespace Prisma {
       userno: number
       type: $Enums.articleLikes_type
       createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["articleLikes"]>
     composites: {}
   }
@@ -18675,6 +18685,7 @@ export namespace Prisma {
     readonly userno: FieldRef<"articleLikes", 'Int'>
     readonly type: FieldRef<"articleLikes", 'articleLikes_type'>
     readonly createdAt: FieldRef<"articleLikes", 'DateTime'>
+    readonly updatedAt: FieldRef<"articleLikes", 'DateTime'>
   }
     
 
@@ -19228,7 +19239,8 @@ export namespace Prisma {
     article_id: 'article_id',
     userno: 'userno',
     type: 'type',
-    createdAt: 'createdAt'
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type ArticleLikesScalarFieldEnum = (typeof ArticleLikesScalarFieldEnum)[keyof typeof ArticleLikesScalarFieldEnum]
@@ -20503,6 +20515,7 @@ export namespace Prisma {
     userno?: IntFilter<"articleLikes"> | number
     type?: EnumarticleLikes_typeFilter<"articleLikes"> | $Enums.articleLikes_type
     createdAt?: DateTimeFilter<"articleLikes"> | Date | string
+    updatedAt?: DateTimeFilter<"articleLikes"> | Date | string
     article?: XOR<ArticleRelationFilter, articleWhereInput>
     User?: XOR<UserRelationFilter, UserWhereInput>
   }
@@ -20513,13 +20526,14 @@ export namespace Prisma {
     userno?: SortOrder
     type?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
     article?: articleOrderByWithRelationInput
     User?: UserOrderByWithRelationInput
   }
 
   export type articleLikesWhereUniqueInput = Prisma.AtLeast<{
     id?: number
-    article_id_userno?: articleLikesArticle_idUsernoCompoundUniqueInput
+    article_id_userno_type?: articleLikesArticle_idUsernoTypeCompoundUniqueInput
     AND?: articleLikesWhereInput | articleLikesWhereInput[]
     OR?: articleLikesWhereInput[]
     NOT?: articleLikesWhereInput | articleLikesWhereInput[]
@@ -20527,9 +20541,10 @@ export namespace Prisma {
     userno?: IntFilter<"articleLikes"> | number
     type?: EnumarticleLikes_typeFilter<"articleLikes"> | $Enums.articleLikes_type
     createdAt?: DateTimeFilter<"articleLikes"> | Date | string
+    updatedAt?: DateTimeFilter<"articleLikes"> | Date | string
     article?: XOR<ArticleRelationFilter, articleWhereInput>
     User?: XOR<UserRelationFilter, UserWhereInput>
-  }, "id" | "article_id_userno">
+  }, "id" | "article_id_userno_type">
 
   export type articleLikesOrderByWithAggregationInput = {
     id?: SortOrder
@@ -20537,6 +20552,7 @@ export namespace Prisma {
     userno?: SortOrder
     type?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: articleLikesCountOrderByAggregateInput
     _avg?: articleLikesAvgOrderByAggregateInput
     _max?: articleLikesMaxOrderByAggregateInput
@@ -20553,6 +20569,7 @@ export namespace Prisma {
     userno?: IntWithAggregatesFilter<"articleLikes"> | number
     type?: EnumarticleLikes_typeWithAggregatesFilter<"articleLikes"> | $Enums.articleLikes_type
     createdAt?: DateTimeWithAggregatesFilter<"articleLikes"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"articleLikes"> | Date | string
   }
 
   export type CommentCreateInput = {
@@ -21720,7 +21737,8 @@ export namespace Prisma {
 
   export type articleLikesCreateInput = {
     type: $Enums.articleLikes_type
-    createdAt: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     article: articleCreateNestedOneWithoutArticleLikesInput
     User: UserCreateNestedOneWithoutArticleLikesInput
   }
@@ -21730,12 +21748,14 @@ export namespace Prisma {
     article_id: number
     userno: number
     type: $Enums.articleLikes_type
-    createdAt: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type articleLikesUpdateInput = {
     type?: EnumarticleLikes_typeFieldUpdateOperationsInput | $Enums.articleLikes_type
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     article?: articleUpdateOneRequiredWithoutArticleLikesNestedInput
     User?: UserUpdateOneRequiredWithoutArticleLikesNestedInput
   }
@@ -21746,6 +21766,7 @@ export namespace Prisma {
     userno?: IntFieldUpdateOperationsInput | number
     type?: EnumarticleLikes_typeFieldUpdateOperationsInput | $Enums.articleLikes_type
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type articleLikesCreateManyInput = {
@@ -21753,12 +21774,14 @@ export namespace Prisma {
     article_id: number
     userno: number
     type: $Enums.articleLikes_type
-    createdAt: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type articleLikesUpdateManyMutationInput = {
     type?: EnumarticleLikes_typeFieldUpdateOperationsInput | $Enums.articleLikes_type
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type articleLikesUncheckedUpdateManyInput = {
@@ -21767,6 +21790,7 @@ export namespace Prisma {
     userno?: IntFieldUpdateOperationsInput | number
     type?: EnumarticleLikes_typeFieldUpdateOperationsInput | $Enums.articleLikes_type
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -22948,9 +22972,10 @@ export namespace Prisma {
     not?: NestedEnumarticleLikes_typeFilter<$PrismaModel> | $Enums.articleLikes_type
   }
 
-  export type articleLikesArticle_idUsernoCompoundUniqueInput = {
+  export type articleLikesArticle_idUsernoTypeCompoundUniqueInput = {
     article_id: number
     userno: number
+    type: $Enums.articleLikes_type
   }
 
   export type articleLikesCountOrderByAggregateInput = {
@@ -22959,6 +22984,7 @@ export namespace Prisma {
     userno?: SortOrder
     type?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type articleLikesAvgOrderByAggregateInput = {
@@ -22973,6 +22999,7 @@ export namespace Prisma {
     userno?: SortOrder
     type?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type articleLikesMinOrderByAggregateInput = {
@@ -22981,6 +23008,7 @@ export namespace Prisma {
     userno?: SortOrder
     type?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type articleLikesSumOrderByAggregateInput = {
@@ -25216,7 +25244,8 @@ export namespace Prisma {
 
   export type articleLikesCreateWithoutUserInput = {
     type: $Enums.articleLikes_type
-    createdAt: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     article: articleCreateNestedOneWithoutArticleLikesInput
   }
 
@@ -25224,7 +25253,8 @@ export namespace Prisma {
     id?: number
     article_id: number
     type: $Enums.articleLikes_type
-    createdAt: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type articleLikesCreateOrConnectWithoutUserInput = {
@@ -25575,6 +25605,7 @@ export namespace Prisma {
     userno?: IntFilter<"articleLikes"> | number
     type?: EnumarticleLikes_typeFilter<"articleLikes"> | $Enums.articleLikes_type
     createdAt?: DateTimeFilter<"articleLikes"> | Date | string
+    updatedAt?: DateTimeFilter<"articleLikes"> | Date | string
   }
 
   export type channelchatsUpsertWithWhereUniqueWithoutUserInput = {
@@ -27408,7 +27439,8 @@ export namespace Prisma {
 
   export type articleLikesCreateWithoutArticleInput = {
     type: $Enums.articleLikes_type
-    createdAt: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     User: UserCreateNestedOneWithoutArticleLikesInput
   }
 
@@ -27416,7 +27448,8 @@ export namespace Prisma {
     id?: number
     userno: number
     type: $Enums.articleLikes_type
-    createdAt: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type articleLikesCreateOrConnectWithoutArticleInput = {
@@ -28058,7 +28091,8 @@ export namespace Prisma {
     id?: number
     article_id: number
     type: $Enums.articleLikes_type
-    createdAt: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type channelchatsCreateManyUserInput = {
@@ -28326,6 +28360,7 @@ export namespace Prisma {
   export type articleLikesUpdateWithoutUserInput = {
     type?: EnumarticleLikes_typeFieldUpdateOperationsInput | $Enums.articleLikes_type
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     article?: articleUpdateOneRequiredWithoutArticleLikesNestedInput
   }
 
@@ -28334,6 +28369,7 @@ export namespace Prisma {
     article_id?: IntFieldUpdateOperationsInput | number
     type?: EnumarticleLikes_typeFieldUpdateOperationsInput | $Enums.articleLikes_type
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type articleLikesUncheckedUpdateManyWithoutUserInput = {
@@ -28341,6 +28377,7 @@ export namespace Prisma {
     article_id?: IntFieldUpdateOperationsInput | number
     type?: EnumarticleLikes_typeFieldUpdateOperationsInput | $Enums.articleLikes_type
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type channelchatsUpdateWithoutUserInput = {
@@ -28614,7 +28651,8 @@ export namespace Prisma {
     id?: number
     userno: number
     type: $Enums.articleLikes_type
-    createdAt: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type articleCommentsUpdateWithoutArticleInput = {
@@ -28646,6 +28684,7 @@ export namespace Prisma {
   export type articleLikesUpdateWithoutArticleInput = {
     type?: EnumarticleLikes_typeFieldUpdateOperationsInput | $Enums.articleLikes_type
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     User?: UserUpdateOneRequiredWithoutArticleLikesNestedInput
   }
 
@@ -28654,6 +28693,7 @@ export namespace Prisma {
     userno?: IntFieldUpdateOperationsInput | number
     type?: EnumarticleLikes_typeFieldUpdateOperationsInput | $Enums.articleLikes_type
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type articleLikesUncheckedUpdateManyWithoutArticleInput = {
@@ -28661,6 +28701,7 @@ export namespace Prisma {
     userno?: IntFieldUpdateOperationsInput | number
     type?: EnumarticleLikes_typeFieldUpdateOperationsInput | $Enums.articleLikes_type
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

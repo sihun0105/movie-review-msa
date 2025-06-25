@@ -295,6 +295,7 @@ export class ArticleService {
 
   async likeArticle(request: LikeArticleRequest): Promise<ArticleLike> {
     const { articleId, userno, type } = request;
+
     let likedata: 'like' | 'dislike';
 
     switch (type) {
@@ -317,19 +318,37 @@ export class ArticleService {
       },
     });
     if (existingLike) {
-      const deleteLike = await this.mysqlPrismaService.articleLikes.delete({
+      // 좋아요/싫어요 취소: 레코드 삭제 및 카운트 감소
+      await this.mysqlPrismaService.articleLikes.delete({
         where: {
           id: existingLike.id,
         },
       });
+      if (likedata === 'like') {
+        await this.mysqlPrismaService.article.update({
+          where: { id: articleId },
+          data: {
+            like_count: {
+              decrement: 1,
+            },
+          },
+        });
+      } else {
+        await this.mysqlPrismaService.article.update({
+          where: { id: articleId },
+          data: {
+            dislike_count: {
+              decrement: 1,
+            },
+          },
+        });
+      }
       return {
-        id: deleteLike.id,
-        articleId: deleteLike.article_id,
-        userno: deleteLike.userno,
-        type: deleteLike.type === 'like' ? LikeType.LIKE : LikeType.DISLIKE,
-        createdAt: this.utilsService.dateToTimestamp(
-          deleteLike.createdAt as Date,
-        ),
+        id: existingLike.id,
+        articleId: existingLike.article_id,
+        userno: existingLike.userno,
+        type: existingLike.type === 'like' ? LikeType.LIKE : LikeType.DISLIKE,
+        createdAt: existingLike.createdAt.toISOString(),
       };
     }
 
@@ -366,7 +385,7 @@ export class ArticleService {
       articleId: like.article_id,
       userno: like.userno,
       type: liketype,
-      createdAt: this.utilsService.dateToTimestamp(like.createdAt as Date),
+      createdAt: like.createdAt.toISOString(),
     };
   }
 
