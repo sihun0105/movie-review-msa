@@ -95,6 +95,7 @@ export class ArticleService {
   ): Promise<ListArticlesResponse> {
     const { page, pageSize } = request;
     const articles = await this.mysqlPrismaService.article.findMany({
+      where: { deletedAt: null },
       skip: (page - 1) * pageSize,
       take: pageSize,
       include: {
@@ -102,7 +103,9 @@ export class ArticleService {
       },
       orderBy: { createdAt: 'desc' },
     });
-    const totalCount = await this.mysqlPrismaService.article.count();
+    const totalCount = await this.mysqlPrismaService.article.count({
+      where: { deletedAt: null },
+    });
     const hasNext = totalCount > page * pageSize;
 
     return {
@@ -156,8 +159,12 @@ export class ArticleService {
   }
   async deleteArticle(request: DeleteArticleRequest): Promise<void> {
     const { id, userno } = request;
-    await this.mysqlPrismaService.article.delete({
+    console.log('Deleting article with ID:', id, 'for user:', userno);
+
+    // soft delete
+    await this.mysqlPrismaService.article.update({
       where: { id, userno },
+      data: { deletedAt: new Date() },
     });
   }
   async createComment(request: CreateCommentRequest): Promise<ArticleComment> {

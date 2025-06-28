@@ -241,7 +241,7 @@ model articleComments {
   createdAt DateTime  @default(now()) @db.DateTime(6)
   updatedAt DateTime  @default(now()) @db.DateTime(6)
   deletedAt DateTime? @db.DateTime(6)
-  article   article   @relation(fields: [articleId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ArticleComments_articleId_fkey")
+  article   article   @relation(fields: [articleId], references: [id], onDelete: Cascade, map: "ArticleComments_articleId_fkey")
   User      User      @relation(fields: [userno], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ArticleComments_userno_fkey")
 
   @@index([articleId], map: "ArticleComments_articleId_fkey_idx")
