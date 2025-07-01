@@ -21,6 +21,7 @@ message Reply {
     string comment = 5;
     string createdAt = 6;
     string updatedAt = 7;
+    string avatar = 8;
 }
 
 message RepliesResult {

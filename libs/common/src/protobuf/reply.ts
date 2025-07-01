@@ -13,6 +13,7 @@ export interface Reply {
   comment: string;
   createdAt: string;
   updatedAt: string;
+  avatar: string;
 }
 
 export interface RepliesResult {

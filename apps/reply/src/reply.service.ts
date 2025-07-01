@@ -36,6 +36,7 @@ export class ReplyService {
       comment: reply.comment,
       createdAt: reply.createdAt.toISOString(),
       updatedAt: reply.updatedAt.toISOString(),
+      avatar: userData.image,
       email: userData.email,
       nickname: userData.nickname,
       userId: userData.id,
@@ -67,6 +68,7 @@ export class ReplyService {
       comment: reply.comment,
       createdAt: createdAt,
       updatedAt: updatedAt,
+      avatar: userData.image,
       email: userData.email,
       nickname: userData.nickname,
       userId: userData.id,
@@ -92,6 +94,7 @@ export class ReplyService {
       comment: reply.comment,
       createdAt: reply.createdAt.toISOString(),
       updatedAt: reply.updatedAt.toISOString(),
+      avatar: userData.image,
       email: userData.email,
       nickname: userData.nickname,
       userId: userData.id,
@@ -118,12 +121,13 @@ export class ReplyService {
         where: { movieId, deletedAt: null },
       }),
     ]);
-
+    console.log('Replies:', replies);
     const replyObjects: Reply[] = replies.map((reply) => ({
       replyId: reply.id,
       comment: reply.comment,
       email: reply.User.email,
       nickname: reply.User.nickname,
+      avatar: reply.User.image ?? '',
       userId: reply.User.id,
       createdAt: reply.createdAt.toISOString(),
       updatedAt: reply.updatedAt.toISOString(),
