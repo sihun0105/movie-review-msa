@@ -292,7 +292,7 @@ export class ArticleService {
   ): Promise<ListCommentsResponse> {
     const { articleId, page, pageSize } = request;
     const comments = await this.mysqlPrismaService.articleComments.findMany({
-      where: { articleId },
+      where: { articleId, deletedAt: null },
       include: { User: true },
       skip: (page - 1) * pageSize,
       take: pageSize,
