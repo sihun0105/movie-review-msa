@@ -264,15 +264,7 @@ export class ArticleService {
 
   async deleteComment(request: DeleteCommentRequest): Promise<void> {
     const { id, userno } = request;
-    await this.mysqlPrismaService.article.update({
-      where: { id: id },
-      data: {
-        comment_count: {
-          decrement: 1,
-        },
-      },
-    });
-    // soft delete
+
     const comment = await this.mysqlPrismaService.articleComments.findUnique({
       where: { id, userno },
     });
@@ -281,11 +273,20 @@ export class ArticleService {
         'Comment not found or you do not have permission to delete it',
       );
     }
+
+    await this.mysqlPrismaService.article.update({
+      where: { id: comment.articleId },
+      data: {
+        comment_count: {
+          decrement: 1,
+        },
+      },
+    });
+
     await this.mysqlPrismaService.articleComments.update({
       where: { id, userno },
       data: { deletedAt: new Date() },
     });
-    return;
   }
   async listComments(
     request: ListCommentsRequest,
