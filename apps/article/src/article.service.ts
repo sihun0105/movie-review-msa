@@ -316,6 +316,7 @@ export class ArticleService {
         nickname: comment.User.nickname,
         avatar: comment.User.image,
       })),
+      totalCount,
       hasNext,
     };
   }

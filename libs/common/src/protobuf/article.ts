@@ -110,6 +110,7 @@ export interface ListCommentsRequest {
 export interface ListCommentsResponse {
   comments: ArticleComment[];
   hasNext: boolean;
+  totalCount: number;
 }
 
 export interface ArticleLike {

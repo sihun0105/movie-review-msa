@@ -102,6 +102,7 @@ message ListCommentsRequest {
 message ListCommentsResponse {
   repeated ArticleComment comments = 1;
   bool hasNext = 2;
+  int32 totalCount = 3;
 }
 
 // ===== Like =====
