@@ -300,7 +300,7 @@ export class ArticleService {
       orderBy: { createdAt: 'desc' },
     });
     const totalCount = await this.mysqlPrismaService.articleComments.count({
-      where: { articleId },
+      where: { articleId, deletedAt: null },
     });
     const hasNext = totalCount > page * pageSize;
 
