@@ -9,6 +9,9 @@ import {
   RecommendMovieRequest,
   UpsertMovieScoreRequest,
   AverageMovieScore,
+  GetCGVTheatersRequest,
+  GetCGVTheatersByRegionRequest,
+  CGVTheaterList,
 } from '@app/common/protobuf';
 import { Controller } from '@nestjs/common';
 import { MovieService } from './movie.service';
@@ -46,5 +49,18 @@ export class MovieController implements MovieServiceController {
     request: RecommendMovieRequest,
   ): Promise<AverageMovieScore> | null {
     return await this.movieService.getAverageMovieScore(request.movieCd);
+  }
+
+  async getCgvTheaters(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _request: GetCGVTheatersRequest,
+  ): Promise<CGVTheaterList> {
+    return await this.movieService.getCGVTheaters();
+  }
+
+  async getCgvTheatersByRegion(
+    request: GetCGVTheatersByRegionRequest,
+  ): Promise<CGVTheaterList> {
+    return await this.movieService.getCGVTheatersByRegion(request.region);
   }
 }

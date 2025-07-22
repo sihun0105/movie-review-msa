@@ -93,6 +93,11 @@ export type articleComments = $Result.DefaultSelection<Prisma.$articleCommentsPa
  * 
  */
 export type articleLikes = $Result.DefaultSelection<Prisma.$articleLikesPayload>
+/**
+ * Model CGVTheater
+ * 
+ */
+export type CGVTheater = $Result.DefaultSelection<Prisma.$CGVTheaterPayload>
 
 /**
  * Enums
@@ -418,6 +423,16 @@ export class PrismaClient<
     * ```
     */
   get articleLikes(): Prisma.articleLikesDelegate<ExtArgs>;
+
+  /**
+   * `prisma.cGVTheater`: Exposes CRUD operations for the **CGVTheater** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more CGVTheaters
+    * const cGVTheaters = await prisma.cGVTheater.findMany()
+    * ```
+    */
+  get cGVTheater(): Prisma.CGVTheaterDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -903,7 +918,8 @@ export namespace Prisma {
     Matches: 'Matches',
     article: 'article',
     articleComments: 'articleComments',
-    articleLikes: 'articleLikes'
+    articleLikes: 'articleLikes',
+    CGVTheater: 'CGVTheater'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -920,7 +936,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     meta: {
-      modelProps: 'comment' | 'movie' | 'user' | 'channelchats' | 'channelmembers' | 'channels' | 'workspace' | 'workspacemembers' | 'movieScore' | 'movieVod' | 'recruit' | 'recruitComment' | 'matches' | 'article' | 'articleComments' | 'articleLikes'
+      modelProps: 'comment' | 'movie' | 'user' | 'channelchats' | 'channelmembers' | 'channels' | 'workspace' | 'workspacemembers' | 'movieScore' | 'movieVod' | 'recruit' | 'recruitComment' | 'matches' | 'article' | 'articleComments' | 'articleLikes' | 'cGVTheater'
       txIsolationLevel: Prisma.TransactionIsolationLevel
     },
     model: {
@@ -1977,6 +1993,72 @@ export namespace Prisma {
           count: {
             args: Prisma.articleLikesCountArgs<ExtArgs>,
             result: $Utils.Optional<ArticleLikesCountAggregateOutputType> | number
+          }
+        }
+      }
+      CGVTheater: {
+        payload: Prisma.$CGVTheaterPayload<ExtArgs>
+        fields: Prisma.CGVTheaterFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.CGVTheaterFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$CGVTheaterPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.CGVTheaterFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$CGVTheaterPayload>
+          }
+          findFirst: {
+            args: Prisma.CGVTheaterFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$CGVTheaterPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.CGVTheaterFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$CGVTheaterPayload>
+          }
+          findMany: {
+            args: Prisma.CGVTheaterFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$CGVTheaterPayload>[]
+          }
+          create: {
+            args: Prisma.CGVTheaterCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$CGVTheaterPayload>
+          }
+          createMany: {
+            args: Prisma.CGVTheaterCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.CGVTheaterDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$CGVTheaterPayload>
+          }
+          update: {
+            args: Prisma.CGVTheaterUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$CGVTheaterPayload>
+          }
+          deleteMany: {
+            args: Prisma.CGVTheaterDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.CGVTheaterUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.CGVTheaterUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<Prisma.$CGVTheaterPayload>
+          }
+          aggregate: {
+            args: Prisma.CGVTheaterAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateCGVTheater>
+          }
+          groupBy: {
+            args: Prisma.CGVTheaterGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<CGVTheaterGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.CGVTheaterCountArgs<ExtArgs>,
+            result: $Utils.Optional<CGVTheaterCountAggregateOutputType> | number
           }
         }
       }
@@ -19014,6 +19096,973 @@ export namespace Prisma {
 
 
   /**
+   * Model CGVTheater
+   */
+
+  export type AggregateCGVTheater = {
+    _count: CGVTheaterCountAggregateOutputType | null
+    _avg: CGVTheaterAvgAggregateOutputType | null
+    _sum: CGVTheaterSumAggregateOutputType | null
+    _min: CGVTheaterMinAggregateOutputType | null
+    _max: CGVTheaterMaxAggregateOutputType | null
+  }
+
+  export type CGVTheaterAvgAggregateOutputType = {
+    id: number | null
+    latitude: Decimal | null
+    longitude: Decimal | null
+  }
+
+  export type CGVTheaterSumAggregateOutputType = {
+    id: number | null
+    latitude: Decimal | null
+    longitude: Decimal | null
+  }
+
+  export type CGVTheaterMinAggregateOutputType = {
+    id: number | null
+    name: string | null
+    region: string | null
+    address: string | null
+    phone: string | null
+    website: string | null
+    latitude: Decimal | null
+    longitude: Decimal | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CGVTheaterMaxAggregateOutputType = {
+    id: number | null
+    name: string | null
+    region: string | null
+    address: string | null
+    phone: string | null
+    website: string | null
+    latitude: Decimal | null
+    longitude: Decimal | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type CGVTheaterCountAggregateOutputType = {
+    id: number
+    name: number
+    region: number
+    address: number
+    phone: number
+    website: number
+    latitude: number
+    longitude: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type CGVTheaterAvgAggregateInputType = {
+    id?: true
+    latitude?: true
+    longitude?: true
+  }
+
+  export type CGVTheaterSumAggregateInputType = {
+    id?: true
+    latitude?: true
+    longitude?: true
+  }
+
+  export type CGVTheaterMinAggregateInputType = {
+    id?: true
+    name?: true
+    region?: true
+    address?: true
+    phone?: true
+    website?: true
+    latitude?: true
+    longitude?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CGVTheaterMaxAggregateInputType = {
+    id?: true
+    name?: true
+    region?: true
+    address?: true
+    phone?: true
+    website?: true
+    latitude?: true
+    longitude?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type CGVTheaterCountAggregateInputType = {
+    id?: true
+    name?: true
+    region?: true
+    address?: true
+    phone?: true
+    website?: true
+    latitude?: true
+    longitude?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type CGVTheaterAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CGVTheater to aggregate.
+     */
+    where?: CGVTheaterWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CGVTheaters to fetch.
+     */
+    orderBy?: CGVTheaterOrderByWithRelationInput | CGVTheaterOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: CGVTheaterWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CGVTheaters from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CGVTheaters.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned CGVTheaters
+    **/
+    _count?: true | CGVTheaterCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: CGVTheaterAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: CGVTheaterSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: CGVTheaterMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: CGVTheaterMaxAggregateInputType
+  }
+
+  export type GetCGVTheaterAggregateType<T extends CGVTheaterAggregateArgs> = {
+        [P in keyof T & keyof AggregateCGVTheater]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateCGVTheater[P]>
+      : GetScalarType<T[P], AggregateCGVTheater[P]>
+  }
+
+
+
+
+  export type CGVTheaterGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: CGVTheaterWhereInput
+    orderBy?: CGVTheaterOrderByWithAggregationInput | CGVTheaterOrderByWithAggregationInput[]
+    by: CGVTheaterScalarFieldEnum[] | CGVTheaterScalarFieldEnum
+    having?: CGVTheaterScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: CGVTheaterCountAggregateInputType | true
+    _avg?: CGVTheaterAvgAggregateInputType
+    _sum?: CGVTheaterSumAggregateInputType
+    _min?: CGVTheaterMinAggregateInputType
+    _max?: CGVTheaterMaxAggregateInputType
+  }
+
+  export type CGVTheaterGroupByOutputType = {
+    id: number
+    name: string
+    region: string
+    address: string | null
+    phone: string | null
+    website: string | null
+    latitude: Decimal | null
+    longitude: Decimal | null
+    createdAt: Date
+    updatedAt: Date
+    _count: CGVTheaterCountAggregateOutputType | null
+    _avg: CGVTheaterAvgAggregateOutputType | null
+    _sum: CGVTheaterSumAggregateOutputType | null
+    _min: CGVTheaterMinAggregateOutputType | null
+    _max: CGVTheaterMaxAggregateOutputType | null
+  }
+
+  type GetCGVTheaterGroupByPayload<T extends CGVTheaterGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<CGVTheaterGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof CGVTheaterGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], CGVTheaterGroupByOutputType[P]>
+            : GetScalarType<T[P], CGVTheaterGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type CGVTheaterSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    region?: boolean
+    address?: boolean
+    phone?: boolean
+    website?: boolean
+    latitude?: boolean
+    longitude?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["cGVTheater"]>
+
+  export type CGVTheaterSelectScalar = {
+    id?: boolean
+    name?: boolean
+    region?: boolean
+    address?: boolean
+    phone?: boolean
+    website?: boolean
+    latitude?: boolean
+    longitude?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+
+  export type $CGVTheaterPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "CGVTheater"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      name: string
+      region: string
+      address: string | null
+      phone: string | null
+      website: string | null
+      latitude: Prisma.Decimal | null
+      longitude: Prisma.Decimal | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["cGVTheater"]>
+    composites: {}
+  }
+
+
+  type CGVTheaterGetPayload<S extends boolean | null | undefined | CGVTheaterDefaultArgs> = $Result.GetResult<Prisma.$CGVTheaterPayload, S>
+
+  type CGVTheaterCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<CGVTheaterFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: CGVTheaterCountAggregateInputType | true
+    }
+
+  export interface CGVTheaterDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['CGVTheater'], meta: { name: 'CGVTheater' } }
+    /**
+     * Find zero or one CGVTheater that matches the filter.
+     * @param {CGVTheaterFindUniqueArgs} args - Arguments to find a CGVTheater
+     * @example
+     * // Get one CGVTheater
+     * const cGVTheater = await prisma.cGVTheater.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends CGVTheaterFindUniqueArgs<ExtArgs>>(
+      args: SelectSubset<T, CGVTheaterFindUniqueArgs<ExtArgs>>
+    ): Prisma__CGVTheaterClient<$Result.GetResult<Prisma.$CGVTheaterPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
+
+    /**
+     * Find one CGVTheater that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {CGVTheaterFindUniqueOrThrowArgs} args - Arguments to find a CGVTheater
+     * @example
+     * // Get one CGVTheater
+     * const cGVTheater = await prisma.cGVTheater.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends CGVTheaterFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, CGVTheaterFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__CGVTheaterClient<$Result.GetResult<Prisma.$CGVTheaterPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find the first CGVTheater that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CGVTheaterFindFirstArgs} args - Arguments to find a CGVTheater
+     * @example
+     * // Get one CGVTheater
+     * const cGVTheater = await prisma.cGVTheater.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends CGVTheaterFindFirstArgs<ExtArgs>>(
+      args?: SelectSubset<T, CGVTheaterFindFirstArgs<ExtArgs>>
+    ): Prisma__CGVTheaterClient<$Result.GetResult<Prisma.$CGVTheaterPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
+
+    /**
+     * Find the first CGVTheater that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CGVTheaterFindFirstOrThrowArgs} args - Arguments to find a CGVTheater
+     * @example
+     * // Get one CGVTheater
+     * const cGVTheater = await prisma.cGVTheater.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends CGVTheaterFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, CGVTheaterFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__CGVTheaterClient<$Result.GetResult<Prisma.$CGVTheaterPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find zero or more CGVTheaters that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CGVTheaterFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all CGVTheaters
+     * const cGVTheaters = await prisma.cGVTheater.findMany()
+     * 
+     * // Get first 10 CGVTheaters
+     * const cGVTheaters = await prisma.cGVTheater.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const cGVTheaterWithIdOnly = await prisma.cGVTheater.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends CGVTheaterFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, CGVTheaterFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CGVTheaterPayload<ExtArgs>, T, 'findMany'>>
+
+    /**
+     * Create a CGVTheater.
+     * @param {CGVTheaterCreateArgs} args - Arguments to create a CGVTheater.
+     * @example
+     * // Create one CGVTheater
+     * const CGVTheater = await prisma.cGVTheater.create({
+     *   data: {
+     *     // ... data to create a CGVTheater
+     *   }
+     * })
+     * 
+    **/
+    create<T extends CGVTheaterCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, CGVTheaterCreateArgs<ExtArgs>>
+    ): Prisma__CGVTheaterClient<$Result.GetResult<Prisma.$CGVTheaterPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
+
+    /**
+     * Create many CGVTheaters.
+     *     @param {CGVTheaterCreateManyArgs} args - Arguments to create many CGVTheaters.
+     *     @example
+     *     // Create many CGVTheaters
+     *     const cGVTheater = await prisma.cGVTheater.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends CGVTheaterCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, CGVTheaterCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a CGVTheater.
+     * @param {CGVTheaterDeleteArgs} args - Arguments to delete one CGVTheater.
+     * @example
+     * // Delete one CGVTheater
+     * const CGVTheater = await prisma.cGVTheater.delete({
+     *   where: {
+     *     // ... filter to delete one CGVTheater
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends CGVTheaterDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, CGVTheaterDeleteArgs<ExtArgs>>
+    ): Prisma__CGVTheaterClient<$Result.GetResult<Prisma.$CGVTheaterPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
+
+    /**
+     * Update one CGVTheater.
+     * @param {CGVTheaterUpdateArgs} args - Arguments to update one CGVTheater.
+     * @example
+     * // Update one CGVTheater
+     * const cGVTheater = await prisma.cGVTheater.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends CGVTheaterUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, CGVTheaterUpdateArgs<ExtArgs>>
+    ): Prisma__CGVTheaterClient<$Result.GetResult<Prisma.$CGVTheaterPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
+
+    /**
+     * Delete zero or more CGVTheaters.
+     * @param {CGVTheaterDeleteManyArgs} args - Arguments to filter CGVTheaters to delete.
+     * @example
+     * // Delete a few CGVTheaters
+     * const { count } = await prisma.cGVTheater.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends CGVTheaterDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, CGVTheaterDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more CGVTheaters.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CGVTheaterUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many CGVTheaters
+     * const cGVTheater = await prisma.cGVTheater.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends CGVTheaterUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, CGVTheaterUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one CGVTheater.
+     * @param {CGVTheaterUpsertArgs} args - Arguments to update or create a CGVTheater.
+     * @example
+     * // Update or create a CGVTheater
+     * const cGVTheater = await prisma.cGVTheater.upsert({
+     *   create: {
+     *     // ... data to create a CGVTheater
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the CGVTheater we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends CGVTheaterUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, CGVTheaterUpsertArgs<ExtArgs>>
+    ): Prisma__CGVTheaterClient<$Result.GetResult<Prisma.$CGVTheaterPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
+
+    /**
+     * Count the number of CGVTheaters.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CGVTheaterCountArgs} args - Arguments to filter CGVTheaters to count.
+     * @example
+     * // Count the number of CGVTheaters
+     * const count = await prisma.cGVTheater.count({
+     *   where: {
+     *     // ... the filter for the CGVTheaters we want to count
+     *   }
+     * })
+    **/
+    count<T extends CGVTheaterCountArgs>(
+      args?: Subset<T, CGVTheaterCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], CGVTheaterCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a CGVTheater.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CGVTheaterAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends CGVTheaterAggregateArgs>(args: Subset<T, CGVTheaterAggregateArgs>): Prisma.PrismaPromise<GetCGVTheaterAggregateType<T>>
+
+    /**
+     * Group by CGVTheater.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {CGVTheaterGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends CGVTheaterGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: CGVTheaterGroupByArgs['orderBy'] }
+        : { orderBy?: CGVTheaterGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, CGVTheaterGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCGVTheaterGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the CGVTheater model
+   */
+  readonly fields: CGVTheaterFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for CGVTheater.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__CGVTheaterClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+
+
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>;
+  }
+
+
+
+  /**
+   * Fields of the CGVTheater model
+   */ 
+  interface CGVTheaterFieldRefs {
+    readonly id: FieldRef<"CGVTheater", 'Int'>
+    readonly name: FieldRef<"CGVTheater", 'String'>
+    readonly region: FieldRef<"CGVTheater", 'String'>
+    readonly address: FieldRef<"CGVTheater", 'String'>
+    readonly phone: FieldRef<"CGVTheater", 'String'>
+    readonly website: FieldRef<"CGVTheater", 'String'>
+    readonly latitude: FieldRef<"CGVTheater", 'Decimal'>
+    readonly longitude: FieldRef<"CGVTheater", 'Decimal'>
+    readonly createdAt: FieldRef<"CGVTheater", 'DateTime'>
+    readonly updatedAt: FieldRef<"CGVTheater", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+
+  /**
+   * CGVTheater findUnique
+   */
+  export type CGVTheaterFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CGVTheater
+     */
+    select?: CGVTheaterSelect<ExtArgs> | null
+    /**
+     * Filter, which CGVTheater to fetch.
+     */
+    where: CGVTheaterWhereUniqueInput
+  }
+
+
+  /**
+   * CGVTheater findUniqueOrThrow
+   */
+  export type CGVTheaterFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CGVTheater
+     */
+    select?: CGVTheaterSelect<ExtArgs> | null
+    /**
+     * Filter, which CGVTheater to fetch.
+     */
+    where: CGVTheaterWhereUniqueInput
+  }
+
+
+  /**
+   * CGVTheater findFirst
+   */
+  export type CGVTheaterFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CGVTheater
+     */
+    select?: CGVTheaterSelect<ExtArgs> | null
+    /**
+     * Filter, which CGVTheater to fetch.
+     */
+    where?: CGVTheaterWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CGVTheaters to fetch.
+     */
+    orderBy?: CGVTheaterOrderByWithRelationInput | CGVTheaterOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CGVTheaters.
+     */
+    cursor?: CGVTheaterWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CGVTheaters from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CGVTheaters.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CGVTheaters.
+     */
+    distinct?: CGVTheaterScalarFieldEnum | CGVTheaterScalarFieldEnum[]
+  }
+
+
+  /**
+   * CGVTheater findFirstOrThrow
+   */
+  export type CGVTheaterFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CGVTheater
+     */
+    select?: CGVTheaterSelect<ExtArgs> | null
+    /**
+     * Filter, which CGVTheater to fetch.
+     */
+    where?: CGVTheaterWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CGVTheaters to fetch.
+     */
+    orderBy?: CGVTheaterOrderByWithRelationInput | CGVTheaterOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for CGVTheaters.
+     */
+    cursor?: CGVTheaterWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CGVTheaters from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CGVTheaters.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of CGVTheaters.
+     */
+    distinct?: CGVTheaterScalarFieldEnum | CGVTheaterScalarFieldEnum[]
+  }
+
+
+  /**
+   * CGVTheater findMany
+   */
+  export type CGVTheaterFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CGVTheater
+     */
+    select?: CGVTheaterSelect<ExtArgs> | null
+    /**
+     * Filter, which CGVTheaters to fetch.
+     */
+    where?: CGVTheaterWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of CGVTheaters to fetch.
+     */
+    orderBy?: CGVTheaterOrderByWithRelationInput | CGVTheaterOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing CGVTheaters.
+     */
+    cursor?: CGVTheaterWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` CGVTheaters from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` CGVTheaters.
+     */
+    skip?: number
+    distinct?: CGVTheaterScalarFieldEnum | CGVTheaterScalarFieldEnum[]
+  }
+
+
+  /**
+   * CGVTheater create
+   */
+  export type CGVTheaterCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CGVTheater
+     */
+    select?: CGVTheaterSelect<ExtArgs> | null
+    /**
+     * The data needed to create a CGVTheater.
+     */
+    data: XOR<CGVTheaterCreateInput, CGVTheaterUncheckedCreateInput>
+  }
+
+
+  /**
+   * CGVTheater createMany
+   */
+  export type CGVTheaterCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many CGVTheaters.
+     */
+    data: CGVTheaterCreateManyInput | CGVTheaterCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * CGVTheater update
+   */
+  export type CGVTheaterUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CGVTheater
+     */
+    select?: CGVTheaterSelect<ExtArgs> | null
+    /**
+     * The data needed to update a CGVTheater.
+     */
+    data: XOR<CGVTheaterUpdateInput, CGVTheaterUncheckedUpdateInput>
+    /**
+     * Choose, which CGVTheater to update.
+     */
+    where: CGVTheaterWhereUniqueInput
+  }
+
+
+  /**
+   * CGVTheater updateMany
+   */
+  export type CGVTheaterUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update CGVTheaters.
+     */
+    data: XOR<CGVTheaterUpdateManyMutationInput, CGVTheaterUncheckedUpdateManyInput>
+    /**
+     * Filter which CGVTheaters to update
+     */
+    where?: CGVTheaterWhereInput
+  }
+
+
+  /**
+   * CGVTheater upsert
+   */
+  export type CGVTheaterUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CGVTheater
+     */
+    select?: CGVTheaterSelect<ExtArgs> | null
+    /**
+     * The filter to search for the CGVTheater to update in case it exists.
+     */
+    where: CGVTheaterWhereUniqueInput
+    /**
+     * In case the CGVTheater found by the `where` argument doesn't exist, create a new CGVTheater with this data.
+     */
+    create: XOR<CGVTheaterCreateInput, CGVTheaterUncheckedCreateInput>
+    /**
+     * In case the CGVTheater was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<CGVTheaterUpdateInput, CGVTheaterUncheckedUpdateInput>
+  }
+
+
+  /**
+   * CGVTheater delete
+   */
+  export type CGVTheaterDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CGVTheater
+     */
+    select?: CGVTheaterSelect<ExtArgs> | null
+    /**
+     * Filter which CGVTheater to delete.
+     */
+    where: CGVTheaterWhereUniqueInput
+  }
+
+
+  /**
+   * CGVTheater deleteMany
+   */
+  export type CGVTheaterDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which CGVTheaters to delete
+     */
+    where?: CGVTheaterWhereInput
+  }
+
+
+  /**
+   * CGVTheater without action
+   */
+  export type CGVTheaterDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the CGVTheater
+     */
+    select?: CGVTheaterSelect<ExtArgs> | null
+  }
+
+
+
+  /**
    * Enums
    */
 
@@ -19246,6 +20295,22 @@ export namespace Prisma {
   export type ArticleLikesScalarFieldEnum = (typeof ArticleLikesScalarFieldEnum)[keyof typeof ArticleLikesScalarFieldEnum]
 
 
+  export const CGVTheaterScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    region: 'region',
+    address: 'address',
+    phone: 'phone',
+    website: 'website',
+    latitude: 'latitude',
+    longitude: 'longitude',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type CGVTheaterScalarFieldEnum = (typeof CGVTheaterScalarFieldEnum)[keyof typeof CGVTheaterScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -19351,6 +20416,13 @@ export namespace Prisma {
    * Reference to a field of type 'articleLikes_type'
    */
   export type EnumarticleLikes_typeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'articleLikes_type'>
+    
+
+
+  /**
+   * Reference to a field of type 'Decimal'
+   */
+  export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
     
   /**
    * Deep Input Types
@@ -20572,6 +21644,85 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"articleLikes"> | Date | string
   }
 
+  export type CGVTheaterWhereInput = {
+    AND?: CGVTheaterWhereInput | CGVTheaterWhereInput[]
+    OR?: CGVTheaterWhereInput[]
+    NOT?: CGVTheaterWhereInput | CGVTheaterWhereInput[]
+    id?: IntFilter<"CGVTheater"> | number
+    name?: StringFilter<"CGVTheater"> | string
+    region?: StringFilter<"CGVTheater"> | string
+    address?: StringNullableFilter<"CGVTheater"> | string | null
+    phone?: StringNullableFilter<"CGVTheater"> | string | null
+    website?: StringNullableFilter<"CGVTheater"> | string | null
+    latitude?: DecimalNullableFilter<"CGVTheater"> | Decimal | DecimalJsLike | number | string | null
+    longitude?: DecimalNullableFilter<"CGVTheater"> | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFilter<"CGVTheater"> | Date | string
+    updatedAt?: DateTimeFilter<"CGVTheater"> | Date | string
+  }
+
+  export type CGVTheaterOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    region?: SortOrder
+    address?: SortOrderInput | SortOrder
+    phone?: SortOrderInput | SortOrder
+    website?: SortOrderInput | SortOrder
+    latitude?: SortOrderInput | SortOrder
+    longitude?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CGVTheaterWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: CGVTheaterWhereInput | CGVTheaterWhereInput[]
+    OR?: CGVTheaterWhereInput[]
+    NOT?: CGVTheaterWhereInput | CGVTheaterWhereInput[]
+    name?: StringFilter<"CGVTheater"> | string
+    region?: StringFilter<"CGVTheater"> | string
+    address?: StringNullableFilter<"CGVTheater"> | string | null
+    phone?: StringNullableFilter<"CGVTheater"> | string | null
+    website?: StringNullableFilter<"CGVTheater"> | string | null
+    latitude?: DecimalNullableFilter<"CGVTheater"> | Decimal | DecimalJsLike | number | string | null
+    longitude?: DecimalNullableFilter<"CGVTheater"> | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFilter<"CGVTheater"> | Date | string
+    updatedAt?: DateTimeFilter<"CGVTheater"> | Date | string
+  }, "id">
+
+  export type CGVTheaterOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    region?: SortOrder
+    address?: SortOrderInput | SortOrder
+    phone?: SortOrderInput | SortOrder
+    website?: SortOrderInput | SortOrder
+    latitude?: SortOrderInput | SortOrder
+    longitude?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: CGVTheaterCountOrderByAggregateInput
+    _avg?: CGVTheaterAvgOrderByAggregateInput
+    _max?: CGVTheaterMaxOrderByAggregateInput
+    _min?: CGVTheaterMinOrderByAggregateInput
+    _sum?: CGVTheaterSumOrderByAggregateInput
+  }
+
+  export type CGVTheaterScalarWhereWithAggregatesInput = {
+    AND?: CGVTheaterScalarWhereWithAggregatesInput | CGVTheaterScalarWhereWithAggregatesInput[]
+    OR?: CGVTheaterScalarWhereWithAggregatesInput[]
+    NOT?: CGVTheaterScalarWhereWithAggregatesInput | CGVTheaterScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"CGVTheater"> | number
+    name?: StringWithAggregatesFilter<"CGVTheater"> | string
+    region?: StringWithAggregatesFilter<"CGVTheater"> | string
+    address?: StringNullableWithAggregatesFilter<"CGVTheater"> | string | null
+    phone?: StringNullableWithAggregatesFilter<"CGVTheater"> | string | null
+    website?: StringNullableWithAggregatesFilter<"CGVTheater"> | string | null
+    latitude?: DecimalNullableWithAggregatesFilter<"CGVTheater"> | Decimal | DecimalJsLike | number | string | null
+    longitude?: DecimalNullableWithAggregatesFilter<"CGVTheater"> | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"CGVTheater"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"CGVTheater"> | Date | string
+  }
+
   export type CommentCreateInput = {
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -21789,6 +22940,94 @@ export namespace Prisma {
     article_id?: IntFieldUpdateOperationsInput | number
     userno?: IntFieldUpdateOperationsInput | number
     type?: EnumarticleLikes_typeFieldUpdateOperationsInput | $Enums.articleLikes_type
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CGVTheaterCreateInput = {
+    name: string
+    region: string
+    address?: string | null
+    phone?: string | null
+    website?: string | null
+    latitude?: Decimal | DecimalJsLike | number | string | null
+    longitude?: Decimal | DecimalJsLike | number | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CGVTheaterUncheckedCreateInput = {
+    id?: number
+    name: string
+    region: string
+    address?: string | null
+    phone?: string | null
+    website?: string | null
+    latitude?: Decimal | DecimalJsLike | number | string | null
+    longitude?: Decimal | DecimalJsLike | number | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CGVTheaterUpdateInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    region?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CGVTheaterUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    region?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CGVTheaterCreateManyInput = {
+    id?: number
+    name: string
+    region: string
+    address?: string | null
+    phone?: string | null
+    website?: string | null
+    latitude?: Decimal | DecimalJsLike | number | string | null
+    longitude?: Decimal | DecimalJsLike | number | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type CGVTheaterUpdateManyMutationInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    region?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type CGVTheaterUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    region?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    phone?: NullableStringFieldUpdateOperationsInput | string | null
+    website?: NullableStringFieldUpdateOperationsInput | string | null
+    latitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    longitude?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -23025,6 +24264,84 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumarticleLikes_typeFilter<$PrismaModel>
     _max?: NestedEnumarticleLikes_typeFilter<$PrismaModel>
+  }
+
+  export type DecimalNullableFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+  }
+
+  export type CGVTheaterCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    region?: SortOrder
+    address?: SortOrder
+    phone?: SortOrder
+    website?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CGVTheaterAvgOrderByAggregateInput = {
+    id?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+  }
+
+  export type CGVTheaterMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    region?: SortOrder
+    address?: SortOrder
+    phone?: SortOrder
+    website?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CGVTheaterMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    region?: SortOrder
+    address?: SortOrder
+    phone?: SortOrder
+    website?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type CGVTheaterSumOrderByAggregateInput = {
+    id?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+  }
+
+  export type DecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedDecimalNullableFilter<$PrismaModel>
+    _sum?: NestedDecimalNullableFilter<$PrismaModel>
+    _min?: NestedDecimalNullableFilter<$PrismaModel>
+    _max?: NestedDecimalNullableFilter<$PrismaModel>
   }
 
   export type MovieCreateNestedOneWithoutCommentInput = {
@@ -24333,6 +25650,14 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutArticleLikesInput, UserUpdateWithoutArticleLikesInput>, UserUncheckedUpdateWithoutArticleLikesInput>
   }
 
+  export type NullableDecimalFieldUpdateOperationsInput = {
+    set?: Decimal | DecimalJsLike | number | string | null
+    increment?: Decimal | DecimalJsLike | number | string
+    decrement?: Decimal | DecimalJsLike | number | string
+    multiply?: Decimal | DecimalJsLike | number | string
+    divide?: Decimal | DecimalJsLike | number | string
+  }
+
   export type NestedIntFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[]
@@ -24648,6 +25973,33 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumarticleLikes_typeFilter<$PrismaModel>
     _max?: NestedEnumarticleLikes_typeFilter<$PrismaModel>
+  }
+
+  export type NestedDecimalNullableFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+  }
+
+  export type NestedDecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedDecimalNullableFilter<$PrismaModel>
+    _sum?: NestedDecimalNullableFilter<$PrismaModel>
+    _min?: NestedDecimalNullableFilter<$PrismaModel>
+    _max?: NestedDecimalNullableFilter<$PrismaModel>
   }
 
   export type MovieCreateWithoutCommentInput = {
@@ -28797,6 +30149,10 @@ export namespace Prisma {
      * @deprecated Use articleLikesDefaultArgs instead
      */
     export type articleLikesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = articleLikesDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use CGVTheaterDefaultArgs instead
+     */
+    export type CGVTheaterArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = CGVTheaterDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

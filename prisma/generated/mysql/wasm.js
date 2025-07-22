@@ -278,6 +278,19 @@ exports.Prisma.ArticleLikesScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.CGVTheaterScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  region: 'region',
+  address: 'address',
+  phone: 'phone',
+  website: 'website',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -331,7 +344,8 @@ exports.Prisma.ModelName = {
   Matches: 'Matches',
   article: 'article',
   articleComments: 'articleComments',
-  articleLikes: 'articleLikes'
+  articleLikes: 'articleLikes',
+  CGVTheater: 'CGVTheater'
 };
 
 /**

@@ -279,3 +279,18 @@ enum articleLikes_type {
   like
   dislike
 }
+
+model CGVTheater {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(255)
+  region    String   @db.VarChar(100)
+  address   String?  @db.Text
+  phone     String?  @db.VarChar(50)
+  website   String?  @db.VarChar(255)
+  latitude  Decimal? @db.Decimal(10, 8)
+  longitude Decimal? @db.Decimal(11, 8)
+  createdAt DateTime @default(now()) @db.DateTime(6)
+  updatedAt DateTime @default(now()) @db.DateTime(6)
+
+  @@map("cgv_theaters")
+}

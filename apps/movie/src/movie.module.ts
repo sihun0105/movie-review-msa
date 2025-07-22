@@ -3,9 +3,10 @@ import { MovieController } from './movie.controller';
 import { MovieService } from './movie.service';
 import { PrismaModule } from '@app/prisma';
 import { UtilsModule } from '@app/utils';
+import { CrawlingModule } from '@app/crawling';
 
 @Module({
-  imports: [PrismaModule, UtilsModule],
+  imports: [PrismaModule, UtilsModule, CrawlingModule],
   controllers: [MovieController],
   providers: [MovieService],
 })

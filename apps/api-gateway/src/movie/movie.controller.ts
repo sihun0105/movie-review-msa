@@ -122,4 +122,36 @@ export class MovieController {
       });
     }
   }
+
+  @GetMovieSpecDecorator('CGV 영화관 목록 조회', 'CGV 영화관 목록 조회')
+  @Get('/cgv/theaters')
+  async getCGVTheaters() {
+    try {
+      console.log(123);
+      const getTheatersObservable = await this.movieService.getCGVTheaters();
+      const data = await firstValueFrom(getTheatersObservable);
+      return data;
+    } catch (error) {
+      throw new RpcException({
+        code: error.code,
+        message: error.details,
+      });
+    }
+  }
+
+  @GetMovieSpecDecorator('지역별 CGV 영화관 조회', '지역별 CGV 영화관 조회')
+  @Get('/cgv/theaters/:region')
+  async getCGVTheatersByRegion(@Param('region') region: string) {
+    try {
+      const getTheatersObservable =
+        await this.movieService.getCGVTheatersByRegion(region);
+      const data = await firstValueFrom(getTheatersObservable);
+      return data;
+    } catch (error) {
+      throw new RpcException({
+        code: error.code,
+        message: error.details,
+      });
+    }
+  }
 }

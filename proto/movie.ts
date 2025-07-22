@@ -67,6 +67,30 @@ export interface AverageMovieScore {
   scoreCount: number;
 }
 
+export interface GetCGVTheatersRequest {
+}
+
+export interface GetCGVTheatersByRegionRequest {
+  region: string;
+}
+
+export interface CGVTheater {
+  id: number;
+  name: string;
+  region: string;
+  address: string;
+  phone: string;
+  website: string;
+  latitude: number;
+  longitude: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CGVTheaterList {
+  theaters: CGVTheater[];
+}
+
 export const MOVIE_PACKAGE_NAME = "movie";
 
 export interface MovieServiceClient {
@@ -83,6 +107,10 @@ export interface MovieServiceClient {
   getMovieScore(request: GetMovieScoreRequest): Observable<MovieScore>;
 
   getAverageMovieScore(request: RecommendMovieRequest): Observable<AverageMovieScore>;
+
+  getCgvTheaters(request: GetCGVTheatersRequest): Observable<CGVTheaterList>;
+
+  getCgvTheatersByRegion(request: GetCGVTheatersByRegionRequest): Observable<CGVTheaterList>;
 }
 
 export interface MovieServiceController {
@@ -101,6 +129,12 @@ export interface MovieServiceController {
   getAverageMovieScore(
     request: RecommendMovieRequest,
   ): Promise<AverageMovieScore> | Observable<AverageMovieScore> | AverageMovieScore;
+
+  getCgvTheaters(request: GetCGVTheatersRequest): Promise<CGVTheaterList> | Observable<CGVTheaterList> | CGVTheaterList;
+
+  getCgvTheatersByRegion(
+    request: GetCGVTheatersByRegionRequest,
+  ): Promise<CGVTheaterList> | Observable<CGVTheaterList> | CGVTheaterList;
 }
 
 export function MovieServiceControllerMethods() {
@@ -113,6 +147,8 @@ export function MovieServiceControllerMethods() {
       "upsertMovieScore",
       "getMovieScore",
       "getAverageMovieScore",
+      "getCgvTheaters",
+      "getCgvTheatersByRegion",
     ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);

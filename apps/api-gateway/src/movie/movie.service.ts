@@ -43,4 +43,12 @@ export class MovieService implements OnModuleInit {
   async getAverageMovieScore({ movieCd }) {
     return await this.movieService.getAverageMovieScore({ movieCd: +movieCd });
   }
+
+  async getCGVTheaters() {
+    return await this.movieService.getCgvTheaters({});
+  }
+
+  async getCGVTheatersByRegion(region: string) {
+    return await this.movieService.getCgvTheatersByRegion({ region });
+  }
 }
