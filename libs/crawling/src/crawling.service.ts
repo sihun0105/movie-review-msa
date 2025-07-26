@@ -1,6 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import * as puppeteer from 'puppeteer';
-import * as cheerio from 'cheerio';
 
 interface CGVTheater {
   name: string;
@@ -12,17 +10,9 @@ interface CGVTheater {
 
 @Injectable()
 export class CrawlingService {
-  browser: Promise<puppeteer.Browser>;
-  constructor() {
-    this.browser = puppeteer.launch();
-  }
-
   async getHtml(url: string): Promise<string> {
-    const browser = await this.browser;
-    const page = await browser.newPage();
-    await page.goto(url);
-    const html = await page.content();
-    await page.close();
+    const response = await fetch(url);
+    const html = await response.text();
     return html;
   }
 
@@ -30,28 +20,28 @@ export class CrawlingService {
     return this.getFallbackTheaters();
     try {
       // CGV 영화관 찾기 페이지에서 데이터 크롤링
-      const html = await this.getHtml('http://www.cgv.co.kr/theaters/');
-      const $ = cheerio.load(html);
+      // cheerio 제거로 인해 $ 관련 코드 전체 주석 처리
+      // const html = await this.getHtml('http://www.cgv.co.kr/theaters/');
       const theaters: CGVTheater[] = [];
 
       // CGV 사이트 구조에 맞게 셀렉터 조정 필요
       // 예시 구조 - 실제 사이트 구조에 맞게 수정해야 함
-      $('.theater-list .theater-item').each((index, element) => {
-        const name = $(element).find('.theater-name').text().trim();
-        const region = $(element).find('.theater-region').text().trim();
-        const address = $(element).find('.theater-address').text().trim();
-        const phone = $(element).find('.theater-phone').text().trim();
+      // $('.theater-list .theater-item').each((index, element) => {
+      //   const name = $(element).find('.theater-name').text().trim();
+      //   const region = $(element).find('.theater-region').text().trim();
+      //   const address = $(element).find('.theater-address').text().trim();
+      //   const phone = $(element).find('.theater-phone').text().trim();
 
-        if (name && region) {
-          theaters.push({
-            name,
-            region,
-            address,
-            phone: phone || undefined,
-            website: 'http://www.cgv.co.kr',
-          });
-        }
-      });
+      //   if (name && region) {
+      //     theaters.push({
+      //       name,
+      //       region,
+      //       address,
+      //       phone: phone || undefined,
+      //       website: 'http://www.cgv.co.kr',
+      //     });
+      //   }
+      // });
 
       return theaters;
     } catch (error) {
