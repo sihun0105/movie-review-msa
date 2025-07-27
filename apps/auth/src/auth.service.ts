@@ -1,5 +1,5 @@
 import { OutOfRangeException } from '@app/common/filters/rpcexception/rpc-exception';
-import { User } from '@app/common/protobuf';
+import { User, ValidationResponse } from '@app/common/protobuf';
 import { MySQLPrismaService } from '@app/prisma';
 import { UtilsService } from '@app/utils';
 import { Injectable } from '@nestjs/common';
@@ -100,6 +100,42 @@ export class AuthService {
       createdAt: user.createdAt.toISOString(),
       updatedAt: user.updatedAt.toISOString(),
       deletedAt: user.deletedAt ? user.deletedAt.toISOString() : null,
+    };
+  }
+
+  async validateEmail(email: string): Promise<ValidationResponse> {
+    const existingUser = await this.mysqlPrismaService.user.findUnique({
+      where: { email },
+    });
+
+    if (existingUser) {
+      return {
+        isAvailable: false,
+        message: '이미 사용 중인 이메일입니다.',
+      };
+    }
+
+    return {
+      isAvailable: true,
+      message: '사용 가능한 이메일입니다.',
+    };
+  }
+
+  async validateNickname(nickname: string): Promise<ValidationResponse> {
+    const existingUser = await this.mysqlPrismaService.user.findFirst({
+      where: { nickname },
+    });
+
+    if (existingUser) {
+      return {
+        isAvailable: false,
+        message: '이미 사용 중인 닉네임입니다.',
+      };
+    }
+
+    return {
+      isAvailable: true,
+      message: '사용 가능한 닉네임입니다.',
     };
   }
 }

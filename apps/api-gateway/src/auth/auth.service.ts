@@ -41,4 +41,20 @@ export class AuthService implements OnModuleInit {
       providerId: accessToken,
     });
   }
+
+  validateEmail({ email }: { email: string }) {
+    if (!this.authService) {
+      console.log('Auth service is not initialized.');
+      return;
+    }
+    return this.authService.validateEmail({ email });
+  }
+
+  validateNickname({ nickname }: { nickname: string }) {
+    if (!this.authService) {
+      console.log('Auth service is not initialized.');
+      return;
+    }
+    return this.authService.validateNickname({ nickname });
+  }
 }

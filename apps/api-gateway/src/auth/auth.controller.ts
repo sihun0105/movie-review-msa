@@ -40,4 +40,36 @@ export class AuthController {
       });
     }
   }
+
+  @Post('validate/email')
+  async validateEmail(@Body() validateDto: { email: string }) {
+    try {
+      const validationObservable = this.authService.validateEmail({
+        ...validateDto,
+      });
+      const result = await firstValueFrom(validationObservable);
+      return result;
+    } catch (error) {
+      throw new RpcException({
+        code: error.code,
+        message: error.details,
+      });
+    }
+  }
+
+  @Post('validate/nickname')
+  async validateNickname(@Body() validateDto: { nickname: string }) {
+    try {
+      const validationObservable = this.authService.validateNickname({
+        ...validateDto,
+      });
+      const result = await firstValueFrom(validationObservable);
+      return result;
+    } catch (error) {
+      throw new RpcException({
+        code: error.code,
+        message: error.details,
+      });
+    }
+  }
 }

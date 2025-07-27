@@ -5,6 +5,9 @@ import {
   LoginUserDto,
   OauthLoginDto,
   User,
+  ValidateEmailDto,
+  ValidateNicknameDto,
+  ValidationResponse,
 } from '@app/common/protobuf';
 import { Controller } from '@nestjs/common';
 import { AuthService } from './auth.service';
@@ -32,5 +35,17 @@ export class AuthController implements AuthServiceController {
       throw new OutOfRangeException('Invalid credentials');
     }
     return user;
+  }
+
+  async validateEmail(request: ValidateEmailDto): Promise<ValidationResponse> {
+    const result = await this.usersService.validateEmail(request.email);
+    return result;
+  }
+
+  async validateNickname(
+    request: ValidateNicknameDto,
+  ): Promise<ValidationResponse> {
+    const result = await this.usersService.validateNickname(request.nickname);
+    return result;
   }
 }

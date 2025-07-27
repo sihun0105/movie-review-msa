@@ -9,6 +9,8 @@ option go_package = "auth";
 service AuthService {
     rpc LoginUser (LoginUserDto) returns (user.User) {}
     rpc OauthLogin (OauthLoginDto) returns (user.User) {}
+    rpc ValidateEmail (ValidateEmailDto) returns (ValidationResponse) {}
+    rpc ValidateNickname (ValidateNicknameDto) returns (ValidationResponse) {}
 }
 
 message LoginUserDto {
@@ -19,4 +21,17 @@ message LoginUserDto {
 message OauthLoginDto {
     string provider = 1;
     string providerId = 2;
+}
+
+message ValidateEmailDto {
+    string email = 1;
+}
+
+message ValidateNicknameDto {
+    string nickname = 1;
+}
+
+message ValidationResponse {
+    bool isAvailable = 1;
+    string message = 2;
 }
