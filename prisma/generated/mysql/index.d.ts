@@ -4757,6 +4757,7 @@ export namespace Prisma {
     deletedAt: Date | null
     provider: string | null
     image: string | null
+    marketing_agreed: boolean | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -4769,6 +4770,7 @@ export namespace Prisma {
     deletedAt: Date | null
     provider: string | null
     image: string | null
+    marketing_agreed: boolean | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -4781,6 +4783,7 @@ export namespace Prisma {
     deletedAt: number
     provider: number
     image: number
+    marketing_agreed: number
     _all: number
   }
 
@@ -4803,6 +4806,7 @@ export namespace Prisma {
     deletedAt?: true
     provider?: true
     image?: true
+    marketing_agreed?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -4815,6 +4819,7 @@ export namespace Prisma {
     deletedAt?: true
     provider?: true
     image?: true
+    marketing_agreed?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -4827,6 +4832,7 @@ export namespace Prisma {
     deletedAt?: true
     provider?: true
     image?: true
+    marketing_agreed?: true
     _all?: true
   }
 
@@ -4926,6 +4932,7 @@ export namespace Prisma {
     deletedAt: Date | null
     provider: string
     image: string | null
+    marketing_agreed: boolean
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -4957,6 +4964,7 @@ export namespace Prisma {
     deletedAt?: boolean
     provider?: boolean
     image?: boolean
+    marketing_agreed?: boolean
     Comment?: boolean | User$CommentArgs<ExtArgs>
     Matches_Matches_owner_idToUser?: boolean | User$Matches_Matches_owner_idToUserArgs<ExtArgs>
     Matches_Matches_requester_idToUser?: boolean | User$Matches_Matches_requester_idToUserArgs<ExtArgs>
@@ -4983,6 +4991,7 @@ export namespace Prisma {
     deletedAt?: boolean
     provider?: boolean
     image?: boolean
+    marketing_agreed?: boolean
   }
 
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5030,6 +5039,7 @@ export namespace Prisma {
       deletedAt: Date | null
       provider: string
       image: string | null
+      marketing_agreed: boolean
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -5458,6 +5468,7 @@ export namespace Prisma {
     readonly deletedAt: FieldRef<"User", 'DateTime'>
     readonly provider: FieldRef<"User", 'String'>
     readonly image: FieldRef<"User", 'String'>
+    readonly marketing_agreed: FieldRef<"User", 'Boolean'>
   }
     
 
@@ -20120,7 +20131,8 @@ export namespace Prisma {
     updatedAt: 'updatedAt',
     deletedAt: 'deletedAt',
     provider: 'provider',
-    image: 'image'
+    image: 'image',
+    marketing_agreed: 'marketing_agreed'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -20630,6 +20642,7 @@ export namespace Prisma {
     deletedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     provider?: StringFilter<"User"> | string
     image?: StringNullableFilter<"User"> | string | null
+    marketing_agreed?: BoolFilter<"User"> | boolean
     Comment?: CommentListRelationFilter
     Matches_Matches_owner_idToUser?: MatchesListRelationFilter
     Matches_Matches_requester_idToUser?: MatchesListRelationFilter
@@ -20655,6 +20668,7 @@ export namespace Prisma {
     deletedAt?: SortOrderInput | SortOrder
     provider?: SortOrder
     image?: SortOrderInput | SortOrder
+    marketing_agreed?: SortOrder
     Comment?: CommentOrderByRelationAggregateInput
     Matches_Matches_owner_idToUser?: MatchesOrderByRelationAggregateInput
     Matches_Matches_requester_idToUser?: MatchesOrderByRelationAggregateInput
@@ -20683,6 +20697,7 @@ export namespace Prisma {
     deletedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     provider?: StringFilter<"User"> | string
     image?: StringNullableFilter<"User"> | string | null
+    marketing_agreed?: BoolFilter<"User"> | boolean
     Comment?: CommentListRelationFilter
     Matches_Matches_owner_idToUser?: MatchesListRelationFilter
     Matches_Matches_requester_idToUser?: MatchesListRelationFilter
@@ -20708,6 +20723,7 @@ export namespace Prisma {
     deletedAt?: SortOrderInput | SortOrder
     provider?: SortOrder
     image?: SortOrderInput | SortOrder
+    marketing_agreed?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -20728,6 +20744,7 @@ export namespace Prisma {
     deletedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     provider?: StringWithAggregatesFilter<"User"> | string
     image?: StringNullableWithAggregatesFilter<"User"> | string | null
+    marketing_agreed?: BoolWithAggregatesFilter<"User"> | boolean
   }
 
   export type channelchatsWhereInput = {
@@ -21939,6 +21956,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     provider?: string
     image?: string | null
+    marketing_agreed?: boolean
     Comment?: CommentCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -21964,6 +21982,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     provider?: string
     image?: string | null
+    marketing_agreed?: boolean
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -21988,6 +22007,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
     Comment?: CommentUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -22013,6 +22033,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -22038,6 +22059,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     provider?: string
     image?: string | null
+    marketing_agreed?: boolean
   }
 
   export type UserUpdateManyMutationInput = {
@@ -22049,6 +22071,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -22061,6 +22084,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type channelchatsCreateInput = {
@@ -23384,6 +23408,11 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type MatchesListRelationFilter = {
     every?: MatchesWhereInput
     some?: MatchesWhereInput
@@ -23494,6 +23523,7 @@ export namespace Prisma {
     deletedAt?: SortOrder
     provider?: SortOrder
     image?: SortOrder
+    marketing_agreed?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
@@ -23510,6 +23540,7 @@ export namespace Prisma {
     deletedAt?: SortOrder
     provider?: SortOrder
     image?: SortOrder
+    marketing_agreed?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -23522,6 +23553,7 @@ export namespace Prisma {
     deletedAt?: SortOrder
     provider?: SortOrder
     image?: SortOrder
+    marketing_agreed?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
@@ -23543,6 +23575,14 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type IntNullableFilter<$PrismaModel = never> = {
@@ -24712,6 +24752,10 @@ export namespace Prisma {
     set?: string
   }
 
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
   export type CommentUpdateManyWithoutUserNestedInput = {
     create?: XOR<CommentCreateWithoutUserInput, CommentUncheckedCreateWithoutUserInput> | CommentCreateWithoutUserInput[] | CommentUncheckedCreateWithoutUserInput[]
     connectOrCreate?: CommentCreateOrConnectWithoutUserInput | CommentCreateOrConnectWithoutUserInput[]
@@ -25862,6 +25906,11 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -25877,6 +25926,14 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -26057,6 +26114,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     provider?: string
     image?: string | null
+    marketing_agreed?: boolean
     Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitCreateNestedManyWithoutUserInput
@@ -26081,6 +26139,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     provider?: string
     image?: string | null
+    marketing_agreed?: boolean
     Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
@@ -26172,6 +26231,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
     Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUpdateManyWithoutUserNestedInput
@@ -26196,6 +26256,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
     Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
@@ -27117,6 +27178,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     provider?: string
     image?: string | null
+    marketing_agreed?: boolean
     Comment?: CommentCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -27141,6 +27203,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     provider?: string
     image?: string | null
+    marketing_agreed?: boolean
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -27208,6 +27271,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
     Comment?: CommentUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -27232,6 +27296,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -27255,6 +27320,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     provider?: string
     image?: string | null
+    marketing_agreed?: boolean
     Comment?: CommentCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -27279,6 +27345,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     provider?: string
     image?: string | null
+    marketing_agreed?: boolean
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -27318,6 +27385,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
     Comment?: CommentUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -27342,6 +27410,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -27487,6 +27556,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     provider?: string
     image?: string | null
+    marketing_agreed?: boolean
     Comment?: CommentCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -27511,6 +27581,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     provider?: string
     image?: string | null
+    marketing_agreed?: boolean
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -27578,6 +27649,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
     Comment?: CommentUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -27602,6 +27674,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -27625,6 +27698,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     provider?: string
     image?: string | null
+    marketing_agreed?: boolean
     Comment?: CommentCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -27649,6 +27723,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     provider?: string
     image?: string | null
+    marketing_agreed?: boolean
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -27688,6 +27763,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
     Comment?: CommentUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -27712,6 +27788,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -27735,6 +27812,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     provider?: string
     image?: string | null
+    marketing_agreed?: boolean
     Comment?: CommentCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -27759,6 +27837,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     provider?: string
     image?: string | null
+    marketing_agreed?: boolean
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -27844,6 +27923,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
     Comment?: CommentUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -27868,6 +27948,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -28072,6 +28153,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     provider?: string
     image?: string | null
+    marketing_agreed?: boolean
     Comment?: CommentCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -28096,6 +28178,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     provider?: string
     image?: string | null
+    marketing_agreed?: boolean
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -28178,6 +28261,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
     Comment?: CommentUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -28202,6 +28286,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -28275,6 +28360,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     provider?: string
     image?: string | null
+    marketing_agreed?: boolean
     Comment?: CommentCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -28299,6 +28385,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     provider?: string
     image?: string | null
+    marketing_agreed?: boolean
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -28378,6 +28465,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
     Comment?: CommentUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -28402,6 +28490,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -28425,6 +28514,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     provider?: string
     image?: string | null
+    marketing_agreed?: boolean
     Comment?: CommentCreateNestedManyWithoutUserInput
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitCreateNestedManyWithoutUserInput
@@ -28449,6 +28539,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     provider?: string
     image?: string | null
+    marketing_agreed?: boolean
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
@@ -28511,6 +28602,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     provider?: string
     image?: string | null
+    marketing_agreed?: boolean
     Comment?: CommentCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Recruit?: RecruitCreateNestedManyWithoutUserInput
@@ -28535,6 +28627,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     provider?: string
     image?: string | null
+    marketing_agreed?: boolean
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
@@ -28574,6 +28667,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
     Comment?: CommentUpdateManyWithoutUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUpdateManyWithoutUserNestedInput
@@ -28598,6 +28692,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
@@ -28672,6 +28767,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
     Comment?: CommentUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Recruit?: RecruitUpdateManyWithoutUserNestedInput
@@ -28696,6 +28792,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
@@ -28719,6 +28816,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     provider?: string
     image?: string | null
+    marketing_agreed?: boolean
     Comment?: CommentCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -28743,6 +28841,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     provider?: string
     image?: string | null
+    marketing_agreed?: boolean
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -28834,6 +28933,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
     Comment?: CommentUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -28858,6 +28958,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -28945,6 +29046,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     provider?: string
     image?: string | null
+    marketing_agreed?: boolean
     Comment?: CommentCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -28969,6 +29071,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     provider?: string
     image?: string | null
+    marketing_agreed?: boolean
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -29046,6 +29149,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
     Comment?: CommentUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -29070,6 +29174,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -29125,6 +29230,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     provider?: string
     image?: string | null
+    marketing_agreed?: boolean
     Comment?: CommentCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -29149,6 +29255,7 @@ export namespace Prisma {
     deletedAt?: Date | string | null
     provider?: string
     image?: string | null
+    marketing_agreed?: boolean
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -29226,6 +29333,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
     Comment?: CommentUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -29250,6 +29358,7 @@ export namespace Prisma {
     deletedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput

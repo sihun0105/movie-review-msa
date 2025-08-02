@@ -57,6 +57,7 @@ model User {
   deletedAt                          DateTime?          @db.DateTime(6)
   provider                           String             @default("credentials") @db.VarChar(45)
   image                              String?            @db.LongText
+  marketing_agreed                   Boolean            @default(false)
   Comment                            Comment[]
   Matches_Matches_owner_idToUser     Matches[]          @relation("Matches_owner_idToUser")
   Matches_Matches_requester_idToUser Matches[]          @relation("Matches_requester_idToUser")
@@ -263,6 +264,21 @@ model articleLikes {
   @@index([userno], map: "ArticleLike_userno_fkey_idx")
 }
 
+model CGVTheater {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(255)
+  region    String   @db.VarChar(100)
+  address   String?  @db.Text
+  phone     String?  @db.VarChar(50)
+  website   String?  @db.VarChar(255)
+  latitude  Decimal? @db.Decimal(10, 8)
+  longitude Decimal? @db.Decimal(11, 8)
+  createdAt DateTime @default(now()) @db.DateTime(6)
+  updatedAt DateTime @default(now()) @db.DateTime(6)
+
+  @@map("cgv_theaters")
+}
+
 enum Recruit_status {
   open
   matched
@@ -278,19 +294,4 @@ enum Matches_status {
 enum articleLikes_type {
   like
   dislike
-}
-
-model CGVTheater {
-  id        Int      @id @default(autoincrement())
-  name      String   @db.VarChar(255)
-  region    String   @db.VarChar(100)
-  address   String?  @db.Text
-  phone     String?  @db.VarChar(50)
-  website   String?  @db.VarChar(255)
-  latitude  Decimal? @db.Decimal(10, 8)
-  longitude Decimal? @db.Decimal(11, 8)
-  createdAt DateTime @default(now()) @db.DateTime(6)
-  updatedAt DateTime @default(now()) @db.DateTime(6)
-
-  @@map("cgv_theaters")
 }

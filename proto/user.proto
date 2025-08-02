@@ -30,6 +30,7 @@ message CreateUserDto {
     string email =1;
     string password = 2;
     string nickname = 3;
+    bool marketingAgreed = 4;
 }
 message UpdateUserDto {
     int32 id =1;

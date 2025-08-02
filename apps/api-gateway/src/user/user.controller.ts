@@ -29,7 +29,6 @@ export class UserController {
   @Post('/')
   async create(@Body() createUserDto: CreateUserDto) {
     try {
-      console.log(createUserDto.nickname);
       const createUserObservable = this.userService.create(createUserDto);
       const data = await firstValueFrom(createUserObservable);
       return data;

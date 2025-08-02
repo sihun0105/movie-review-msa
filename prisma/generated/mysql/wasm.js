@@ -145,7 +145,8 @@ exports.Prisma.UserScalarFieldEnum = {
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt',
   provider: 'provider',
-  image: 'image'
+  image: 'image',
+  marketing_agreed: 'marketing_agreed'
 };
 
 exports.Prisma.ChannelchatsScalarFieldEnum = {

@@ -22,6 +22,7 @@ export interface CreateUserDto {
   email: string;
   password: string;
   nickname: string;
+  marketingAgreed: boolean;
 }
 
 export interface UpdateUserDto {

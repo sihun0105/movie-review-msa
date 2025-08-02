@@ -8,10 +8,16 @@ export function CreateUserSpecDecorator(summary: string, description: string) {
       schema: {
         type: 'object',
         properties: {
-          email: { type: 'string', example: 'test' },
-          password: { type: 'string', example: 'test' },
-          nickname: { type: 'string', example: 'test' },
+          email: { type: 'string', example: 'test@example.com' },
+          password: { type: 'string', example: 'test1234' },
+          nickname: { type: 'string', example: 'testuser' },
+          marketingAgreed: {
+            type: 'boolean',
+            example: true,
+            description: '마케팅 수신 동의 여부',
+          },
         },
+        required: ['email', 'password', 'nickname', 'marketingAgreed'],
       },
     }),
     ApiResponse({
