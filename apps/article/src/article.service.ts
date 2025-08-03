@@ -21,7 +21,11 @@ import {
 } from '@app/common/protobuf';
 import { MySQLPrismaService } from '@app/prisma';
 import { UtilsService } from '@app/utils';
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ForbiddenException,
+} from '@nestjs/common';
 import { Prisma } from 'prisma/generated/mysql';
 import { GetArticleRequest } from 'proto/article';
 
@@ -130,12 +134,26 @@ export class ArticleService {
     request: UpdateArticleRequest,
   ): Promise<CreateArticleResponse> {
     const { id, userno, title, content } = request;
+
+    // 기존 게시글 조회 및 권한 확인
+    const existingArticle = await this.mysqlPrismaService.article.findUnique({
+      where: { id },
+    });
+
+    if (!existingArticle) {
+      throw new NotFoundException('Article not found');
+    }
+
+    if (existingArticle.userno !== userno) {
+      throw new ForbiddenException('You can only update your own articles');
+    }
+
     const article = await this.mysqlPrismaService.article.update({
       where: { id },
       data: {
-        userno,
         title,
         content,
+        updatedAt: new Date(),
       },
       include: {
         User: true,
@@ -161,9 +179,22 @@ export class ArticleService {
     const { id, userno } = request;
     console.log('Deleting article with ID:', id, 'for user:', userno);
 
+    // 기존 게시글 조회 및 권한 확인
+    const existingArticle = await this.mysqlPrismaService.article.findUnique({
+      where: { id },
+    });
+
+    if (!existingArticle) {
+      throw new NotFoundException('Article not found');
+    }
+
+    if (existingArticle.userno !== userno) {
+      throw new ForbiddenException('You can only delete your own articles');
+    }
+
     // soft delete
     await this.mysqlPrismaService.article.update({
-      where: { id, userno },
+      where: { id },
       data: { deletedAt: new Date() },
     });
   }

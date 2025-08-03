@@ -1,8 +1,13 @@
-import { CreateReplyDto, Reply, UpdateReplyDto } from '@app/common/protobuf';
+import {
+  CreateReplyDto,
+  Reply,
+  UpdateReplyDto,
+  DeleteReplyDto,
+} from '@app/common/protobuf';
 import { NotFoundException } from '@app/common/filters/rpcexception/rpc-exception';
 import { MySQLPrismaService } from '@app/prisma';
 import { UtilsService } from '@app/utils';
-import { Injectable } from '@nestjs/common';
+import { Injectable, ForbiddenException } from '@nestjs/common';
 
 @Injectable()
 export class ReplyService {
@@ -45,7 +50,21 @@ export class ReplyService {
   }
 
   async update(updateReplyDto: UpdateReplyDto): Promise<Reply> {
-    const { commentId, comment } = updateReplyDto;
+    const { commentId, comment, userId } = updateReplyDto;
+
+    // 기존 댓글 조회 및 권한 확인
+    const existingReply = await this.mysqlPrismaService.comment.findUnique({
+      where: { id: commentId },
+    });
+
+    if (!existingReply) {
+      throw new NotFoundException('댓글이 존재하지 않습니다.');
+    }
+
+    if (existingReply.userno !== userId) {
+      throw new ForbiddenException('자신의 댓글만 수정할 수 있습니다.');
+    }
+
     const reply = await this.mysqlPrismaService.comment.update({
       where: { id: commentId },
       data: { comment: comment, updatedAt: new Date() },
@@ -76,8 +95,22 @@ export class ReplyService {
     return replyObject;
   }
 
-  async delete(deleteReplyDto: { commentId: number }): Promise<Reply> {
-    const { commentId } = deleteReplyDto;
+  async delete(deleteReplyDto: DeleteReplyDto): Promise<Reply> {
+    const { commentId, userId } = deleteReplyDto;
+
+    // 기존 댓글 조회 및 권한 확인
+    const existingReply = await this.mysqlPrismaService.comment.findUnique({
+      where: { id: commentId },
+    });
+
+    if (!existingReply) {
+      throw new NotFoundException('댓글이 존재하지 않습니다.');
+    }
+
+    if (existingReply.userno !== userId) {
+      throw new ForbiddenException('자신의 댓글만 삭제할 수 있습니다.');
+    }
+
     const reply = await this.mysqlPrismaService.comment.update({
       where: { id: commentId },
       data: { deletedAt: new Date() },

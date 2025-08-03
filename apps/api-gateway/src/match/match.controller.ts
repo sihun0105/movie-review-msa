@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Put,
   Query,
   Req,
   UseGuards,
@@ -51,6 +52,7 @@ export class MatchController {
 
   @Get(':matchId')
   async getMatchPost(@Param('matchId') matchId: string) {
+    console.log('Fetching match post with ID:', matchId);
     return this.matchService.getMatchPost({ matchId });
   }
 
@@ -106,7 +108,7 @@ export class MatchController {
     });
   }
 
-  @Patch(':matchId/applications/:applicationId')
+  @Put(':matchId/applications/:applicationId')
   @UseGuards(JwtAuthGuard)
   async updateApplicationStatus(
     @Param('matchId') matchId: string,
@@ -115,6 +117,12 @@ export class MatchController {
     @Req() req,
   ) {
     const userNumber = req.user.userId;
+    console.log('Updating application status:', {
+      matchId,
+      applicationId,
+      status: body.status,
+      userno: userNumber,
+    });
     return this.matchService.updateApplicationStatus({
       matchId,
       applicationId,
@@ -122,4 +130,6 @@ export class MatchController {
       userno: userNumber,
     });
   }
+  //TODO: my-applications
+  //TODO: getMyPosts
 }

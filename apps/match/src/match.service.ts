@@ -183,7 +183,7 @@ export class MatchService {
         },
       },
     });
-
+    console.log(matchPost);
     if (!matchPost) {
       throw new NotFoundException('Match post not found');
     }
@@ -326,6 +326,7 @@ export class MatchService {
 
   async applyToMatch(request: ApplyToMatchRequest): Promise<CommonResponse> {
     const { matchId, applicantUserno, applicantName, message } = request;
+    console.log(matchId, applicantUserno, applicantName, message);
 
     // 게시글 존재 여부 확인
     const matchPost = await this.mysqlPrismaService.matchPost.findFirst({
@@ -395,8 +396,14 @@ export class MatchService {
     request: GetMatchApplicationsRequest,
   ): Promise<MatchApplicationsResponse> {
     const { matchId, userno } = request;
+    console.log(
+      'Fetching applications for matchId:',
+      matchId,
+      'by userno:',
+      userno,
+    );
 
-    // 게시글 존재 여부 및 권한 확인
+    // 게시글 존재 여부 확인
     const matchPost = await this.mysqlPrismaService.matchPost.findFirst({
       where: {
         id: matchId,
@@ -408,12 +415,14 @@ export class MatchService {
       throw new NotFoundException('Match post not found');
     }
 
+    // 권한이 없으면 빈 배열 반환 (에러를 내지 않음)
     if (matchPost.userno !== userno) {
-      throw new ForbiddenException(
-        'You can only view applications for your own posts',
-      );
+      return {
+        applications: [],
+      };
     }
 
+    console.log(matchId);
     const applications =
       await this.mysqlPrismaService.matchApplication.findMany({
         where: {
@@ -423,7 +432,7 @@ export class MatchService {
           createdAt: 'desc',
         },
       });
-
+    console.log('Applications found:', applications.length);
     const formattedApplications: MatchApplication[] = applications.map(
       (app) => ({
         id: app.id,
@@ -445,6 +454,7 @@ export class MatchService {
     request: UpdateApplicationStatusRequest,
   ): Promise<ApplicationResponse> {
     const { matchId, applicationId, status, userno } = request;
+    console.log(matchId, applicationId, status, userno);
 
     // 게시글 존재 여부 및 권한 확인
     const matchPost = await this.mysqlPrismaService.matchPost.findFirst({
