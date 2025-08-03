@@ -9,6 +9,7 @@ import { SentryModule } from '@sentry/nestjs/setup';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { ArticleModule } from './article/article.module';
+import { MatchModule } from './match/match.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { ArticleModule } from './article/article.module';
     ReplyModule,
     MovieModule,
     ArticleModule,
+    MatchModule,
   ],
   controllers: [],
   providers: [JwtStrategy],

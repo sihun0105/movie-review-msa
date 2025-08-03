@@ -6,3 +6,5 @@ generate_grpc_code:
 	protoc -I./proto --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=nestJs=true:./proto ./proto/common.proto
 	protoc -I./proto --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=nestJs=true:./proto ./proto/recruit.proto
 	protoc -I./proto --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=nestJs=true:./proto ./proto/article.proto
+	protoc -I./proto --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=nestJs=true:./proto ./proto/match.proto
+	protoc -I./proto --plugin=./node_modules/.bin/protoc-gen-ts_proto --ts_proto_out=nestJs=true:./proto ./proto/chat.proto

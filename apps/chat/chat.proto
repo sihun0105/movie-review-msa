@@ -1,0 +1,89 @@
+syntax = "proto3";
+
+package chat;
+
+// Chat Room Messages
+message ChatRoom {
+  string id = 1;
+  string name = 2;
+  string type = 3; // "direct" or "group"
+  repeated int32 memberIds = 4;
+  string createdAt = 5;
+  string updatedAt = 6;
+}
+
+message ChatMessage {
+  string id = 1;
+  string chatRoomId = 2;
+  int32 senderId = 3;
+  string content = 4;
+  string createdAt = 5;
+}
+
+// Request Messages
+message CreateChatRoomRequest {
+  repeated int32 memberIds = 1;
+  string roomName = 2;
+  string type = 3; // "direct" or "group"
+}
+
+message GetChatRoomRequest {
+  string chatRoomId = 1;
+  int32 userId = 2;
+}
+
+message GetChatRoomsRequest {
+  int32 userId = 1;
+  int32 page = 2;
+  int32 pageSize = 3;
+}
+
+message SendMessageRequest {
+  string chatRoomId = 1;
+  int32 senderId = 2;
+  string content = 3;
+}
+
+message GetMessagesRequest {
+  string chatRoomId = 1;
+  int32 userId = 2;
+  int32 page = 3;
+  int32 pageSize = 4;
+}
+
+// Response Messages
+message CreateChatRoomResponse {
+  ChatRoom chatRoom = 1;
+}
+
+message GetChatRoomResponse {
+  ChatRoom chatRoom = 1;
+}
+
+message GetChatRoomsResponse {
+  repeated ChatRoom chatRooms = 1;
+  bool hasNext = 2;
+}
+
+message SendMessageResponse {
+  ChatMessage message = 1;
+}
+
+message GetMessagesResponse {
+  repeated ChatMessage messages = 1;
+  bool hasNext = 2;
+}
+
+message CommonResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// Service Definition
+service ChatService {
+  rpc CreateChatRoom(CreateChatRoomRequest) returns (CreateChatRoomResponse);
+  rpc GetChatRoom(GetChatRoomRequest) returns (GetChatRoomResponse);
+  rpc GetChatRooms(GetChatRoomsRequest) returns (GetChatRoomsResponse);
+  rpc SendMessage(SendMessageRequest) returns (SendMessageResponse);
+  rpc GetMessages(GetMessagesRequest) returns (GetMessagesResponse);
+}

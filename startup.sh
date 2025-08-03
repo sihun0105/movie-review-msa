@@ -9,6 +9,7 @@
     pm2 start pnpm --name movie -- dev movie --time
     pm2 start pnpm --name reply -- dev reply --time
     pm2 start pnpm --name article -- dev article --time
+    pm2 start pnpm --name match -- dev match --time
 
     echo "All services started with PM2!"
 

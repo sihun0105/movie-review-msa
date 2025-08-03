@@ -181,6 +181,31 @@ services:
       - |
         ./wait-for-it.sh mysql:3306 -s -t 100
         node dist/apps/cron/src/main.js
+  match-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - APP=match
+    container_name: match-service
+    ports:
+      - 50059:50059
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - .env.production
+    networks:
+      - app-network
+    depends_on:
+      - mysql
+      - api-gateway
+    restart: 'no'
+    command:
+      - bash
+      - -c
+      - |
+        ./wait-for-it.sh mysql:3306 -s -t 100
+        node dist/apps/match/src/main.js
 networks:
   app-network:
     driver: bridge

@@ -71,6 +71,10 @@ model User {
   movieScores                        movieScore[]
   workspace                          workspace[]
   workspacemembers                   workspacemembers[]
+  MatchPost                          MatchPost[]
+  MatchApplication                   MatchApplication[]
+  ChatRoomMember                     ChatRoomMember[]
+  ChatMessage                        ChatMessage[]
 }
 
 model channelchats {
@@ -279,6 +283,88 @@ model CGVTheater {
   @@map("cgv_theaters")
 }
 
+model MatchPost {
+  id                String             @id @default(cuid())
+  title             String             @db.VarChar(255)
+  content           String             @db.LongText
+  movieTitle        String             @db.VarChar(255)
+  theaterName       String             @db.VarChar(255)
+  showTime          String             @db.VarChar(100)
+  maxParticipants   Int
+  location          String             @db.VarChar(255)
+  userno            Int
+  createdAt         DateTime           @default(now()) @db.DateTime(6)
+  updatedAt         DateTime?          @db.DateTime(6)
+  deletedAt         DateTime?          @db.DateTime(6)
+  User              User               @relation(fields: [userno], references: [id], onDelete: Cascade)
+  MatchApplication  MatchApplication[]
+
+  @@index([userno], map: "MatchPost_userno_fkey_idx")
+  @@index([createdAt], map: "MatchPost_createdAt_idx")
+  @@map("match_posts")
+}
+
+model MatchApplication {
+  id              String                    @id @default(cuid())
+  matchPostId     String
+  applicantUserno Int
+  applicantName   String                    @db.VarChar(100)
+  message         String                    @db.LongText
+  status          MatchApplication_status   @default(pending)
+  createdAt       DateTime                  @default(now()) @db.DateTime(6)
+  MatchPost       MatchPost                 @relation(fields: [matchPostId], references: [id], onDelete: Cascade)
+  User            User                      @relation(fields: [applicantUserno], references: [id], onDelete: Cascade)
+
+  @@unique([matchPostId, applicantUserno], map: "unique_match_application")
+  @@index([matchPostId], map: "MatchApplication_matchPostId_fkey_idx")
+  @@index([applicantUserno], map: "MatchApplication_applicantUserno_fkey_idx")
+  @@map("match_applications")
+}
+
+model ChatRoom {
+  id              String              @id @default(cuid())
+  name            String              @db.VarChar(255)
+  type            ChatRoom_type       @default(direct)
+  createdAt       DateTime            @default(now()) @db.DateTime(6)
+  updatedAt       DateTime            @updatedAt @db.DateTime(6)
+  ChatMessage     ChatMessage[]
+  ChatRoomMember  ChatRoomMember[]
+
+  @@map("chat_rooms")
+}
+
+model ChatRoomMember {
+  id          String    @id @default(cuid())
+  chatRoomId  String
+  userId      Int
+  joinedAt    DateTime  @default(now()) @db.DateTime(6)
+  leftAt      DateTime? @db.DateTime(6)
+  ChatRoom    ChatRoom  @relation(fields: [chatRoomId], references: [id], onDelete: Cascade)
+  User        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([chatRoomId, userId], map: "unique_chat_room_member")
+  @@index([chatRoomId], map: "ChatRoomMember_chatRoomId_fkey_idx")
+  @@index([userId], map: "ChatRoomMember_userId_fkey_idx")
+  @@map("chat_room_members")
+}
+
+model ChatMessage {
+  id          String    @id @default(cuid())
+  chatRoomId  String
+  senderId    Int
+  content     String    @db.LongText
+  createdAt   DateTime  @default(now()) @db.DateTime(6)
+  updatedAt   DateTime  @updatedAt @db.DateTime(6)
+  deletedAt   DateTime? @db.DateTime(6)
+  ChatRoom    ChatRoom  @relation(fields: [chatRoomId], references: [id], onDelete: Cascade)
+  User        User      @relation(fields: [senderId], references: [id], onDelete: Cascade)
+
+  @@index([chatRoomId], map: "ChatMessage_chatRoomId_fkey_idx")
+  @@index([senderId], map: "ChatMessage_senderId_fkey_idx")
+  @@index([createdAt], map: "ChatMessage_createdAt_idx")
+  @@map("chat_messages")
+}
+
 enum Recruit_status {
   open
   matched
@@ -294,4 +380,15 @@ enum Matches_status {
 enum articleLikes_type {
   like
   dislike
+}
+
+enum MatchApplication_status {
+  pending
+  accepted
+  rejected
+}
+
+enum ChatRoom_type {
+  direct
+  group
 }

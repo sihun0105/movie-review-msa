@@ -292,6 +292,57 @@ exports.Prisma.CGVTheaterScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.MatchPostScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  content: 'content',
+  movieTitle: 'movieTitle',
+  theaterName: 'theaterName',
+  showTime: 'showTime',
+  maxParticipants: 'maxParticipants',
+  location: 'location',
+  userno: 'userno',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
+};
+
+exports.Prisma.MatchApplicationScalarFieldEnum = {
+  id: 'id',
+  matchPostId: 'matchPostId',
+  applicantUserno: 'applicantUserno',
+  applicantName: 'applicantName',
+  message: 'message',
+  status: 'status',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ChatRoomScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  type: 'type',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ChatRoomMemberScalarFieldEnum = {
+  id: 'id',
+  chatRoomId: 'chatRoomId',
+  userId: 'userId',
+  joinedAt: 'joinedAt',
+  leftAt: 'leftAt'
+};
+
+exports.Prisma.ChatMessageScalarFieldEnum = {
+  id: 'id',
+  chatRoomId: 'chatRoomId',
+  senderId: 'senderId',
+  content: 'content',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -329,6 +380,17 @@ exports.articleLikes_type = exports.$Enums.articleLikes_type = {
   dislike: 'dislike'
 };
 
+exports.MatchApplication_status = exports.$Enums.MatchApplication_status = {
+  pending: 'pending',
+  accepted: 'accepted',
+  rejected: 'rejected'
+};
+
+exports.ChatRoom_type = exports.$Enums.ChatRoom_type = {
+  direct: 'direct',
+  group: 'group'
+};
+
 exports.Prisma.ModelName = {
   Comment: 'Comment',
   Movie: 'Movie',
@@ -346,7 +408,12 @@ exports.Prisma.ModelName = {
   article: 'article',
   articleComments: 'articleComments',
   articleLikes: 'articleLikes',
-  CGVTheater: 'CGVTheater'
+  CGVTheater: 'CGVTheater',
+  MatchPost: 'MatchPost',
+  MatchApplication: 'MatchApplication',
+  ChatRoom: 'ChatRoom',
+  ChatRoomMember: 'ChatRoomMember',
+  ChatMessage: 'ChatMessage'
 };
 
 /**

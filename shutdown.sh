@@ -9,6 +9,7 @@
     pm2 delete movie
     pm2 delete reply
     pm2 delete article
+    pm2 delete match
 
     echo "All services stopped!"
 
