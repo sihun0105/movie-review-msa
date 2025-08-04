@@ -88,6 +88,23 @@ message UpdateApplicationStatusRequest {
   int32 userno = 4;
 }
 
+message GetMyPostsRequest {
+  int32 userno = 1;
+  int32 page = 2;
+  int32 pageSize = 3;
+}
+
+message GetMyApplicationsRequest {
+  int32 userno = 1;
+  int32 page = 2;
+  int32 pageSize = 3;
+}
+
+message GetMyApplicationStatusRequest {
+  string matchId = 1;
+  int32 userno = 2;
+}
+
 // Response Messages
 message MatchPostResponse {
   repeated MatchPost matchPosts = 1;
@@ -113,6 +130,11 @@ message ApplicationResponse {
   string chatRoomId = 3; // 수락된 경우 채팅방 ID 반환
 }
 
+message MyApplicationStatusResponse {
+  MatchApplication application = 1;
+  bool hasApplication = 2; // 신청했는지 여부
+}
+
 // Service Definition
 service MatchService {
   rpc GetMatchPosts(GetMatchPostsRequest) returns (MatchPostResponse);
@@ -123,4 +145,7 @@ service MatchService {
   rpc ApplyToMatch(ApplyToMatchRequest) returns (CommonResponse);
   rpc GetMatchApplications(GetMatchApplicationsRequest) returns (MatchApplicationsResponse);
   rpc UpdateApplicationStatus(UpdateApplicationStatusRequest) returns (ApplicationResponse);
+  rpc GetMyPosts(GetMyPostsRequest) returns (MatchPostResponse);
+  rpc GetMyApplications(GetMyApplicationsRequest) returns (MatchApplicationsResponse);
+  rpc GetMyApplicationStatus(GetMyApplicationStatusRequest) returns (MyApplicationStatusResponse);
 }

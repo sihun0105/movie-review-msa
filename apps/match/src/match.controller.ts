@@ -9,6 +9,8 @@ import {
   ApplyToMatchRequest,
   GetMatchApplicationsRequest,
   UpdateApplicationStatusRequest,
+  GetMyPostsRequest,
+  GetMyApplicationsRequest,
   MatchPostResponse,
   SingleMatchPostResponse,
   MatchApplicationsResponse,
@@ -68,5 +70,19 @@ export class MatchController implements MatchServiceController {
     request: UpdateApplicationStatusRequest,
   ): Promise<ApplicationResponse> {
     return this.matchService.updateApplicationStatus(request);
+  }
+
+  async getMyPosts(request: GetMyPostsRequest): Promise<MatchPostResponse> {
+    return this.matchService.getMyPosts(request);
+  }
+
+  async getMyApplications(
+    request: GetMyApplicationsRequest,
+  ): Promise<MatchApplicationsResponse> {
+    return this.matchService.getMyApplications(request);
+  }
+
+  async getMyApplicationStatus(request: any): Promise<any> {
+    return this.matchService.getMyApplicationStatus(request);
   }
 }

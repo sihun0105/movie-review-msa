@@ -52,7 +52,6 @@ export class MatchController {
 
   @Get(':matchId')
   async getMatchPost(@Param('matchId') matchId: string) {
-    console.log('Fetching match post with ID:', matchId);
     return this.matchService.getMatchPost({ matchId });
   }
 
@@ -130,6 +129,45 @@ export class MatchController {
       userno: userNumber,
     });
   }
-  //TODO: my-applications
-  //TODO: getMyPosts
+
+  @Get('my-posts')
+  @UseGuards(JwtAuthGuard)
+  async getMyPosts(
+    @Query('page') page: string,
+    @Query('pageSize') pageSize: string,
+    @Req() req,
+  ) {
+    const userNumber = req.user.userId;
+    return this.matchService.getMyPosts({
+      userno: userNumber,
+      page: Number(page) || 1,
+      pageSize: Number(pageSize) || 10,
+    });
+  }
+
+  @Get('my-applications')
+  @UseGuards(JwtAuthGuard)
+  async getMyApplications(
+    @Query('page') page: string,
+    @Query('pageSize') pageSize: string,
+    @Req() req,
+  ) {
+    const userNumber = req.user.userId;
+    console.log('Fetching my applications for userno:', userNumber);
+    return this.matchService.getMyApplications({
+      userno: userNumber,
+      page: Number(page) || 1,
+      pageSize: Number(pageSize) || 10,
+    });
+  }
+
+  @Get(':matchId/my-application')
+  @UseGuards(JwtAuthGuard)
+  async getMyApplicationStatus(@Param('matchId') matchId: string, @Req() req) {
+    const userNumber = req.user.userId;
+    return this.matchService.getMyApplicationStatus({
+      matchId,
+      userno: userNumber,
+    });
+  }
 }

@@ -92,6 +92,23 @@ export interface UpdateApplicationStatusRequest {
   userno: number;
 }
 
+export interface GetMyPostsRequest {
+  userno: number;
+  page: number;
+  pageSize: number;
+}
+
+export interface GetMyApplicationsRequest {
+  userno: number;
+  page: number;
+  pageSize: number;
+}
+
+export interface GetMyApplicationStatusRequest {
+  matchId: string;
+  userno: number;
+}
+
 /** Response Messages */
 export interface MatchPostResponse {
   matchPosts: MatchPost[];
@@ -118,6 +135,14 @@ export interface ApplicationResponse {
   chatRoomId: string;
 }
 
+export interface MyApplicationStatusResponse {
+  application:
+    | MatchApplication
+    | undefined;
+  /** 신청했는지 여부 */
+  hasApplication: boolean;
+}
+
 export const MATCH_PACKAGE_NAME = "match";
 
 /** Service Definition */
@@ -138,6 +163,12 @@ export interface MatchServiceClient {
   getMatchApplications(request: GetMatchApplicationsRequest): Observable<MatchApplicationsResponse>;
 
   updateApplicationStatus(request: UpdateApplicationStatusRequest): Observable<ApplicationResponse>;
+
+  getMyPosts(request: GetMyPostsRequest): Observable<MatchPostResponse>;
+
+  getMyApplications(request: GetMyApplicationsRequest): Observable<MatchApplicationsResponse>;
+
+  getMyApplicationStatus(request: GetMyApplicationStatusRequest): Observable<MyApplicationStatusResponse>;
 }
 
 /** Service Definition */
@@ -172,6 +203,18 @@ export interface MatchServiceController {
   updateApplicationStatus(
     request: UpdateApplicationStatusRequest,
   ): Promise<ApplicationResponse> | Observable<ApplicationResponse> | ApplicationResponse;
+
+  getMyPosts(
+    request: GetMyPostsRequest,
+  ): Promise<MatchPostResponse> | Observable<MatchPostResponse> | MatchPostResponse;
+
+  getMyApplications(
+    request: GetMyApplicationsRequest,
+  ): Promise<MatchApplicationsResponse> | Observable<MatchApplicationsResponse> | MatchApplicationsResponse;
+
+  getMyApplicationStatus(
+    request: GetMyApplicationStatusRequest,
+  ): Promise<MyApplicationStatusResponse> | Observable<MyApplicationStatusResponse> | MyApplicationStatusResponse;
 }
 
 export function MatchServiceControllerMethods() {
@@ -185,6 +228,9 @@ export function MatchServiceControllerMethods() {
       "applyToMatch",
       "getMatchApplications",
       "updateApplicationStatus",
+      "getMyPosts",
+      "getMyApplications",
+      "getMyApplicationStatus",
     ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);

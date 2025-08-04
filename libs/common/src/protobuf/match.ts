@@ -2,7 +2,7 @@
 import { GrpcMethod, GrpcStreamMethod } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
 
-export const matchProtobufPackage = 'match';
+export const matchprotobufPackage = 'match';
 
 /** Match Post Messages */
 export interface MatchPost {
@@ -92,6 +92,23 @@ export interface UpdateApplicationStatusRequest {
   userno: number;
 }
 
+export interface GetMyPostsRequest {
+  userno: number;
+  page: number;
+  pageSize: number;
+}
+
+export interface GetMyApplicationsRequest {
+  userno: number;
+  page: number;
+  pageSize: number;
+}
+
+export interface GetMyApplicationStatusRequest {
+  matchId: string;
+  userno: number;
+}
+
 /** Response Messages */
 export interface MatchPostResponse {
   matchPosts: MatchPost[];
@@ -118,11 +135,17 @@ export interface ApplicationResponse {
   chatRoomId: string;
 }
 
+export interface MyApplicationStatusResponse {
+  application: MatchApplication | undefined;
+  /** 신청했는지 여부 */
+  hasApplication: boolean;
+}
+
 export const MATCH_PACKAGE_NAME = 'match';
 
 /** Service Definition */
 
-export interface MatchService {
+export interface MatchServiceClient {
   getMatchPosts(request: GetMatchPostsRequest): Observable<MatchPostResponse>;
 
   createMatchPost(
@@ -148,6 +171,16 @@ export interface MatchService {
   updateApplicationStatus(
     request: UpdateApplicationStatusRequest,
   ): Observable<ApplicationResponse>;
+
+  getMyPosts(request: GetMyPostsRequest): Observable<MatchPostResponse>;
+
+  getMyApplications(
+    request: GetMyApplicationsRequest,
+  ): Observable<MatchApplicationsResponse>;
+
+  getMyApplicationStatus(
+    request: GetMyApplicationStatusRequest,
+  ): Observable<MyApplicationStatusResponse>;
 }
 
 /** Service Definition */
@@ -202,6 +235,27 @@ export interface MatchServiceController {
     | Promise<ApplicationResponse>
     | Observable<ApplicationResponse>
     | ApplicationResponse;
+
+  getMyPosts(
+    request: GetMyPostsRequest,
+  ):
+    | Promise<MatchPostResponse>
+    | Observable<MatchPostResponse>
+    | MatchPostResponse;
+
+  getMyApplications(
+    request: GetMyApplicationsRequest,
+  ):
+    | Promise<MatchApplicationsResponse>
+    | Observable<MatchApplicationsResponse>
+    | MatchApplicationsResponse;
+
+  getMyApplicationStatus(
+    request: GetMyApplicationStatusRequest,
+  ):
+    | Promise<MyApplicationStatusResponse>
+    | Observable<MyApplicationStatusResponse>
+    | MyApplicationStatusResponse;
 }
 
 export function MatchServiceControllerMethods() {
@@ -215,6 +269,9 @@ export function MatchServiceControllerMethods() {
       'applyToMatch',
       'getMatchApplications',
       'updateApplicationStatus',
+      'getMyPosts',
+      'getMyApplications',
+      'getMyApplicationStatus',
     ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(

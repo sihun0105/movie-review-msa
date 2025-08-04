@@ -1,7 +1,7 @@
 import {
   MATCH_PACKAGE_NAME,
   MATCH_SERVICE_NAME,
-  MatchService as MatchServiceClient,
+  MatchServiceClient,
   GetMatchPostsRequest,
   CreateMatchPostRequest,
   GetMatchPostRequest,
@@ -10,6 +10,8 @@ import {
   ApplyToMatchRequest,
   GetMatchApplicationsRequest,
   UpdateApplicationStatusRequest,
+  GetMyPostsRequest,
+  GetMyApplicationsRequest,
 } from '@app/common/protobuf';
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
@@ -57,5 +59,17 @@ export class MatchService implements OnModuleInit {
 
   async updateApplicationStatus(request: UpdateApplicationStatusRequest) {
     return this.matchService.updateApplicationStatus(request);
+  }
+
+  async getMyPosts(request: GetMyPostsRequest) {
+    return this.matchService.getMyPosts(request);
+  }
+
+  async getMyApplications(request: GetMyApplicationsRequest) {
+    return this.matchService.getMyApplications(request);
+  }
+
+  async getMyApplicationStatus(request: any) {
+    return this.matchService.getMyApplicationStatus(request);
   }
 }

@@ -20,6 +20,8 @@ import {
   ApplyToMatchRequest,
   GetMatchApplicationsRequest,
   UpdateApplicationStatusRequest,
+  GetMyApplicationsRequest,
+  GetMyPostsRequest,
   MatchPostResponse,
   SingleMatchPostResponse,
   MatchApplicationsResponse,
@@ -185,7 +187,9 @@ export class MatchService {
     });
     console.log(matchPost);
     if (!matchPost) {
-      throw new NotFoundException('Match post not found');
+      return {
+        matchPost: null,
+      };
     }
 
     return {
@@ -556,5 +560,159 @@ export class MatchService {
       console.error('Failed to create chat room:', error);
       throw new BadRequestException('Failed to create chat room');
     }
+  }
+
+  // 내가 작성한 매치 게시글 조회
+  async getMyPosts(request: GetMyPostsRequest): Promise<MatchPostResponse> {
+    const { userno, page = 1, pageSize = 10 } = request;
+    const skip = (page - 1) * pageSize;
+
+    const matchPosts = await this.mysqlPrismaService.matchPost.findMany({
+      where: {
+        userno: userno,
+        deletedAt: null,
+      },
+      include: {
+        User: true,
+        _count: {
+          select: {
+            MatchApplication: {
+              where: {
+                status: 'accepted',
+              },
+            },
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      skip,
+      take: pageSize + 1, // 하나 더 가져와서 hasNext 확인
+    });
+
+    const hasNext = matchPosts.length > pageSize;
+    if (hasNext) {
+      matchPosts.pop(); // 마지막 요소 제거
+    }
+
+    const formattedPosts: MatchPost[] = matchPosts.map((post) => ({
+      id: post.id,
+      title: post.title,
+      userno: post.userno,
+      author: post.User.nickname || 'Unknown',
+      content: post.content,
+      movieTitle: post.movieTitle,
+      theaterName: post.theaterName,
+      showTime: post.showTime,
+      maxParticipants: post.maxParticipants,
+      currentParticipants: post._count.MatchApplication,
+      location: post.location,
+      createdAt: post.createdAt.toISOString(),
+      updatedAt: post.updatedAt?.toISOString() || '',
+      deletedAt: post.deletedAt?.toISOString() || '',
+    }));
+
+    return {
+      matchPosts: formattedPosts,
+      hasNext,
+    };
+  }
+
+  // 내가 신청한 매치 신청서 조회
+  async getMyApplications(
+    request: GetMyApplicationsRequest,
+  ): Promise<MatchApplicationsResponse> {
+    const { userno, page = 1, pageSize = 10 } = request;
+    const skip = (page - 1) * pageSize;
+    console.log('Fetching applications for userno:', userno);
+
+    const applications =
+      await this.mysqlPrismaService.matchApplication.findMany({
+        where: {
+          applicantUserno: userno,
+        },
+        include: {
+          MatchPost: {
+            include: {
+              User: true,
+            },
+          },
+        },
+        orderBy: {
+          createdAt: 'desc',
+        },
+        skip,
+        take: pageSize,
+      });
+
+    const formattedApplications: MatchApplication[] = applications.map(
+      (app) => ({
+        id: app.id,
+        matchPostId: app.matchPostId,
+        applicantUserno: app.applicantUserno,
+        applicantName: app.applicantName,
+        message: app.message,
+        status: app.status,
+        createdAt: app.createdAt.toISOString(),
+      }),
+    );
+
+    return {
+      applications: formattedApplications,
+    };
+  }
+
+  // 특정 매치에 대한 내 신청 상태 조회
+  async getMyApplicationStatus(request: {
+    matchId: string;
+    userno: number;
+  }): Promise<{
+    application?: MatchApplication;
+    hasApplication: boolean;
+  }> {
+    const { matchId, userno } = request;
+
+    // 게시글 존재 여부 확인
+    const matchPost = await this.mysqlPrismaService.matchPost.findFirst({
+      where: {
+        id: matchId,
+        deletedAt: null,
+      },
+    });
+
+    if (!matchPost) {
+      throw new NotFoundException('Match post not found');
+    }
+
+    // 내 신청서 조회
+    const application =
+      await this.mysqlPrismaService.matchApplication.findFirst({
+        where: {
+          matchPostId: matchId,
+          applicantUserno: userno,
+        },
+      });
+
+    if (!application) {
+      return {
+        hasApplication: false,
+      };
+    }
+
+    const formattedApplication: MatchApplication = {
+      id: application.id,
+      matchPostId: application.matchPostId,
+      applicantUserno: application.applicantUserno,
+      applicantName: application.applicantName,
+      message: application.message,
+      status: application.status,
+      createdAt: application.createdAt.toISOString(),
+    };
+
+    return {
+      application: formattedApplication,
+      hasApplication: true,
+    };
   }
 }
