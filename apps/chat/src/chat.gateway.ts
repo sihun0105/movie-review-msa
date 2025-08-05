@@ -32,15 +32,22 @@ export class ChatGateway
   ) {
     const isAnonymous = typeof data.userId !== 'number';
     const userId = isAnonymous ? 1 : data.userId;
+    console.log('handleMessage', data, socket.nsp.name, userId);
     await this.chatService.saveMessage(data.channel, userId, data.message);
     const nickName = !isAnonymous
       ? await this.chatService.getNickName(userId)
       : 'Anonymous';
-    socket.to(`${socket.nsp.name}-${data.channel}`).emit('message', {
+    // 수정된 코드 (본인 포함)
+    socket.nsp.to(`${socket.nsp.name}-${data.channel}`).emit('message', {
       id: onlineMap[socket.nsp.name][socket.id],
       nickName: nickName,
       message: data.message,
     });
+    // socket.to(`${socket.nsp.name}-${data.channel}`).emit('message', {
+    //   id: onlineMap[socket.nsp.name][socket.id],
+    //   nickName: nickName,
+    //   message: data.message,
+    // });
   }
 
   @SubscribeMessage('login')

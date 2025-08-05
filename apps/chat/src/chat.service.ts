@@ -33,12 +33,18 @@ export class ChatService {
       },
     });
   }
+  // 수정된 코드
   async getNickName(userId: number) {
-    return this.prisma.user.findUnique({
+    console.log('getNickName', userId);
+    const user = await this.prisma.user.findUnique({
       where: {
         id: userId,
       },
+      select: {
+        nickname: true,
+      },
     });
+    return user?.nickname || 'Unknown';
   }
 
   async getChat(nowDate: string) {
@@ -86,6 +92,7 @@ export class ChatService {
     request: CreateChatRoomRequest,
   ): Promise<CreateChatRoomResponse> {
     const { memberIds, roomName, type = 'direct' } = request;
+    console.log(request);
 
     // direct 타입인 경우 2명만 허용
     if (type === 'direct' && memberIds.length !== 2) {

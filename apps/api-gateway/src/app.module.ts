@@ -10,6 +10,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { ArticleModule } from './article/article.module';
 import { MatchModule } from './match/match.module';
+import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { MatchModule } from './match/match.module';
     MovieModule,
     ArticleModule,
     MatchModule,
+    ChatModule,
   ],
   controllers: [],
   providers: [JwtStrategy],
