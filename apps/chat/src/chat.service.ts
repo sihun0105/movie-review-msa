@@ -259,6 +259,7 @@ export class ChatService {
   // 메시지 전송
   async sendMessage(request: SendMessageRequest): Promise<SendMessageResponse> {
     const { chatRoomId, senderId, content } = request;
+    console.log('Sending message:', request);
 
     // 채팅방 멤버인지 확인
     const membership = await this.prisma.chatRoomMember.findFirst({

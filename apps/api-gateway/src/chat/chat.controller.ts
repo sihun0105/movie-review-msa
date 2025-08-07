@@ -83,6 +83,10 @@ export class ChatController {
     @Req() req,
   ) {
     const userId = req.user.userId;
+    console.log('Sending message in chat room:', chatRoomId);
+    console.log('Request body:', body);
+
+    // 채팅방 ID와 사용자 ID를 포함하여 메시지 전송 요청
     return this.chatService.sendMessage({
       chatRoomId,
       senderId: userId,
