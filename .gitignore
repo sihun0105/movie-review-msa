@@ -42,3 +42,4 @@ lerna-debug.log*
 .env
 # Sentry Config File
 .sentryclirc
+nginx.conf
