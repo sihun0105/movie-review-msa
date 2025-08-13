@@ -17,7 +17,8 @@ export class UserService {
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
-    const { email, password, nickname, marketingAgreed } = createUserDto;
+    const { email, password, nickname, marketingAgreed, gender } =
+      createUserDto;
     console.log('createUserDto', createUserDto);
     const hashedPassword = await hash(password, 10);
     const existedNickname = await this.mysqlPrismaService.user.findFirst({
@@ -38,6 +39,7 @@ export class UserService {
         password: hashedPassword,
         nickname,
         marketing_agreed: marketingAgreed,
+        gender: gender as 'male' | 'female',
       },
     });
     const createdAt = this.utilsService.dateToTimestamp(user.createdAt as Date);
@@ -54,6 +56,7 @@ export class UserService {
       createdAt,
       updatedAt,
       deletedAt,
+      gender: user.gender,
     };
     return userObject;
   }
@@ -86,6 +89,7 @@ export class UserService {
       createdAt,
       updatedAt,
       deletedAt,
+      gender: deletedUser.gender,
     };
     return userObject;
   }

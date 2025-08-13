@@ -146,7 +146,8 @@ exports.Prisma.UserScalarFieldEnum = {
   deletedAt: 'deletedAt',
   provider: 'provider',
   image: 'image',
-  marketing_agreed: 'marketing_agreed'
+  marketing_agreed: 'marketing_agreed',
+  gender: 'gender'
 };
 
 exports.Prisma.ChannelchatsScalarFieldEnum = {
@@ -363,6 +364,11 @@ exports.Prisma.JsonNullValueFilter = {
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
+exports.User_gender = exports.$Enums.User_gender = {
+  male: 'male',
+  female: 'female'
+};
+
 exports.Recruit_status = exports.$Enums.Recruit_status = {
   open: 'open',
   matched: 'matched',

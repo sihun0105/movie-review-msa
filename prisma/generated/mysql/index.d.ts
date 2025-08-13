@@ -128,7 +128,15 @@ export type ChatMessage = $Result.DefaultSelection<Prisma.$ChatMessagePayload>
  * Enums
  */
 export namespace $Enums {
-  export const Recruit_status: {
+  export const User_gender: {
+  male: 'male',
+  female: 'female'
+};
+
+export type User_gender = (typeof User_gender)[keyof typeof User_gender]
+
+
+export const Recruit_status: {
   open: 'open',
   matched: 'matched',
   closed: 'closed'
@@ -171,6 +179,10 @@ export const ChatRoom_type: {
 export type ChatRoom_type = (typeof ChatRoom_type)[keyof typeof ChatRoom_type]
 
 }
+
+export type User_gender = $Enums.User_gender
+
+export const User_gender: typeof $Enums.User_gender
 
 export type Recruit_status = $Enums.Recruit_status
 
@@ -5311,6 +5323,7 @@ export namespace Prisma {
     provider: string | null
     image: string | null
     marketing_agreed: boolean | null
+    gender: $Enums.User_gender | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -5324,6 +5337,7 @@ export namespace Prisma {
     provider: string | null
     image: string | null
     marketing_agreed: boolean | null
+    gender: $Enums.User_gender | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -5337,6 +5351,7 @@ export namespace Prisma {
     provider: number
     image: number
     marketing_agreed: number
+    gender: number
     _all: number
   }
 
@@ -5360,6 +5375,7 @@ export namespace Prisma {
     provider?: true
     image?: true
     marketing_agreed?: true
+    gender?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -5373,6 +5389,7 @@ export namespace Prisma {
     provider?: true
     image?: true
     marketing_agreed?: true
+    gender?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -5386,6 +5403,7 @@ export namespace Prisma {
     provider?: true
     image?: true
     marketing_agreed?: true
+    gender?: true
     _all?: true
   }
 
@@ -5486,6 +5504,7 @@ export namespace Prisma {
     provider: string
     image: string | null
     marketing_agreed: boolean
+    gender: $Enums.User_gender | null
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -5518,6 +5537,7 @@ export namespace Prisma {
     provider?: boolean
     image?: boolean
     marketing_agreed?: boolean
+    gender?: boolean
     Comment?: boolean | User$CommentArgs<ExtArgs>
     Matches_Matches_owner_idToUser?: boolean | User$Matches_Matches_owner_idToUserArgs<ExtArgs>
     Matches_Matches_requester_idToUser?: boolean | User$Matches_Matches_requester_idToUserArgs<ExtArgs>
@@ -5549,6 +5569,7 @@ export namespace Prisma {
     provider?: boolean
     image?: boolean
     marketing_agreed?: boolean
+    gender?: boolean
   }
 
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5605,6 +5626,7 @@ export namespace Prisma {
       provider: string
       image: string | null
       marketing_agreed: boolean
+      gender: $Enums.User_gender | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -6042,6 +6064,7 @@ export namespace Prisma {
     readonly provider: FieldRef<"User", 'String'>
     readonly image: FieldRef<"User", 'String'>
     readonly marketing_agreed: FieldRef<"User", 'Boolean'>
+    readonly gender: FieldRef<"User", 'User_gender'>
   }
     
 
@@ -25732,7 +25755,8 @@ export namespace Prisma {
     deletedAt: 'deletedAt',
     provider: 'provider',
     image: 'image',
-    marketing_agreed: 'marketing_agreed'
+    marketing_agreed: 'marketing_agreed',
+    gender: 'gender'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -26070,6 +26094,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'User_gender'
+   */
+  export type EnumUser_genderFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'User_gender'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -26323,6 +26354,7 @@ export namespace Prisma {
     provider?: StringFilter<"User"> | string
     image?: StringNullableFilter<"User"> | string | null
     marketing_agreed?: BoolFilter<"User"> | boolean
+    gender?: EnumUser_genderNullableFilter<"User"> | $Enums.User_gender | null
     Comment?: CommentListRelationFilter
     Matches_Matches_owner_idToUser?: MatchesListRelationFilter
     Matches_Matches_requester_idToUser?: MatchesListRelationFilter
@@ -26353,6 +26385,7 @@ export namespace Prisma {
     provider?: SortOrder
     image?: SortOrderInput | SortOrder
     marketing_agreed?: SortOrder
+    gender?: SortOrderInput | SortOrder
     Comment?: CommentOrderByRelationAggregateInput
     Matches_Matches_owner_idToUser?: MatchesOrderByRelationAggregateInput
     Matches_Matches_requester_idToUser?: MatchesOrderByRelationAggregateInput
@@ -26386,6 +26419,7 @@ export namespace Prisma {
     provider?: StringFilter<"User"> | string
     image?: StringNullableFilter<"User"> | string | null
     marketing_agreed?: BoolFilter<"User"> | boolean
+    gender?: EnumUser_genderNullableFilter<"User"> | $Enums.User_gender | null
     Comment?: CommentListRelationFilter
     Matches_Matches_owner_idToUser?: MatchesListRelationFilter
     Matches_Matches_requester_idToUser?: MatchesListRelationFilter
@@ -26416,6 +26450,7 @@ export namespace Prisma {
     provider?: SortOrder
     image?: SortOrderInput | SortOrder
     marketing_agreed?: SortOrder
+    gender?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -26437,6 +26472,7 @@ export namespace Prisma {
     provider?: StringWithAggregatesFilter<"User"> | string
     image?: StringNullableWithAggregatesFilter<"User"> | string | null
     marketing_agreed?: BoolWithAggregatesFilter<"User"> | boolean
+    gender?: EnumUser_genderNullableWithAggregatesFilter<"User"> | $Enums.User_gender | null
   }
 
   export type channelchatsWhereInput = {
@@ -28004,6 +28040,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Comment?: CommentCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -28034,6 +28071,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -28063,6 +28101,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -28093,6 +28132,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -28123,6 +28163,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -28135,6 +28176,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -28148,6 +28190,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
   }
 
   export type channelchatsCreateInput = {
@@ -29838,6 +29881,13 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type EnumUser_genderNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.User_gender | EnumUser_genderFieldRefInput<$PrismaModel> | null
+    in?: $Enums.User_gender[] | null
+    notIn?: $Enums.User_gender[] | null
+    not?: NestedEnumUser_genderNullableFilter<$PrismaModel> | $Enums.User_gender | null
+  }
+
   export type MatchesListRelationFilter = {
     every?: MatchesWhereInput
     some?: MatchesWhereInput
@@ -29989,6 +30039,7 @@ export namespace Prisma {
     provider?: SortOrder
     image?: SortOrder
     marketing_agreed?: SortOrder
+    gender?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
@@ -30006,6 +30057,7 @@ export namespace Prisma {
     provider?: SortOrder
     image?: SortOrder
     marketing_agreed?: SortOrder
+    gender?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -30019,6 +30071,7 @@ export namespace Prisma {
     provider?: SortOrder
     image?: SortOrder
     marketing_agreed?: SortOrder
+    gender?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
@@ -30048,6 +30101,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type EnumUser_genderNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.User_gender | EnumUser_genderFieldRefInput<$PrismaModel> | null
+    in?: $Enums.User_gender[] | null
+    notIn?: $Enums.User_gender[] | null
+    not?: NestedEnumUser_genderNullableWithAggregatesFilter<$PrismaModel> | $Enums.User_gender | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumUser_genderNullableFilter<$PrismaModel>
+    _max?: NestedEnumUser_genderNullableFilter<$PrismaModel>
   }
 
   export type IntNullableFilter<$PrismaModel = never> = {
@@ -31516,6 +31579,10 @@ export namespace Prisma {
 
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
+  }
+
+  export type NullableEnumUser_genderFieldUpdateOperationsInput = {
+    set?: $Enums.User_gender | null
   }
 
   export type CommentUpdateManyWithoutUserNestedInput = {
@@ -33017,6 +33084,13 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type NestedEnumUser_genderNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.User_gender | EnumUser_genderFieldRefInput<$PrismaModel> | null
+    in?: $Enums.User_gender[] | null
+    notIn?: $Enums.User_gender[] | null
+    not?: NestedEnumUser_genderNullableFilter<$PrismaModel> | $Enums.User_gender | null
+  }
+
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[]
@@ -33040,6 +33114,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedEnumUser_genderNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.User_gender | EnumUser_genderFieldRefInput<$PrismaModel> | null
+    in?: $Enums.User_gender[] | null
+    notIn?: $Enums.User_gender[] | null
+    not?: NestedEnumUser_genderNullableWithAggregatesFilter<$PrismaModel> | $Enums.User_gender | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumUser_genderNullableFilter<$PrismaModel>
+    _max?: NestedEnumUser_genderNullableFilter<$PrismaModel>
   }
 
   export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -33255,6 +33339,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitCreateNestedManyWithoutUserInput
@@ -33284,6 +33369,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
@@ -33380,6 +33466,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUpdateManyWithoutUserNestedInput
@@ -33409,6 +33496,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
@@ -34574,6 +34662,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Comment?: CommentCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -34603,6 +34692,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -34675,6 +34765,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -34704,6 +34795,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -34732,6 +34824,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Comment?: CommentCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -34761,6 +34854,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -34805,6 +34899,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -34834,6 +34929,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -34984,6 +35080,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Comment?: CommentCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -35013,6 +35110,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -35085,6 +35183,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -35114,6 +35213,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -35142,6 +35242,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Comment?: CommentCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -35171,6 +35272,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -35215,6 +35317,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -35244,6 +35347,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -35272,6 +35376,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Comment?: CommentCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -35301,6 +35406,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -35391,6 +35497,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -35420,6 +35527,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -35629,6 +35737,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Comment?: CommentCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -35658,6 +35767,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -35745,6 +35855,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -35774,6 +35885,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -35852,6 +35964,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Comment?: CommentCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -35881,6 +35994,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -35965,6 +36079,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -35994,6 +36109,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -36022,6 +36138,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Comment?: CommentCreateNestedManyWithoutUserInput
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitCreateNestedManyWithoutUserInput
@@ -36051,6 +36168,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
     Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
@@ -36118,6 +36236,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Comment?: CommentCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Recruit?: RecruitCreateNestedManyWithoutUserInput
@@ -36147,6 +36266,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Recruit?: RecruitUncheckedCreateNestedManyWithoutUserInput
@@ -36191,6 +36311,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUpdateManyWithoutUserNestedInput
@@ -36220,6 +36341,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
     Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
@@ -36299,6 +36421,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Recruit?: RecruitUpdateManyWithoutUserNestedInput
@@ -36328,6 +36451,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Recruit?: RecruitUncheckedUpdateManyWithoutUserNestedInput
@@ -36356,6 +36480,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Comment?: CommentCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -36385,6 +36510,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -36481,6 +36607,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -36510,6 +36637,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -36602,6 +36730,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Comment?: CommentCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -36631,6 +36760,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -36713,6 +36843,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -36742,6 +36873,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -36802,6 +36934,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Comment?: CommentCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -36831,6 +36964,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -36913,6 +37047,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -36942,6 +37077,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -36970,6 +37106,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Comment?: CommentCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -36999,6 +37136,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -37071,6 +37209,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -37100,6 +37239,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -37179,6 +37319,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Comment?: CommentCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -37208,6 +37349,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -37293,6 +37435,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -37322,6 +37465,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -37457,6 +37601,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Comment?: CommentCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -37486,6 +37631,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -37559,6 +37705,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -37588,6 +37735,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -37639,6 +37787,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Comment?: CommentCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -37668,6 +37817,7 @@ export namespace Prisma {
     provider?: string
     image?: string | null
     marketing_agreed?: boolean
+    gender?: $Enums.User_gender | null
     Comment?: CommentUncheckedCreateNestedManyWithoutUserInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_owner_idToUserInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedCreateNestedManyWithoutUser_Matches_requester_idToUserInput
@@ -37741,6 +37891,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Comment?: CommentUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUpdateManyWithoutUser_Matches_requester_idToUserNestedInput
@@ -37770,6 +37921,7 @@ export namespace Prisma {
     provider?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     marketing_agreed?: BoolFieldUpdateOperationsInput | boolean
+    gender?: NullableEnumUser_genderFieldUpdateOperationsInput | $Enums.User_gender | null
     Comment?: CommentUncheckedUpdateManyWithoutUserNestedInput
     Matches_Matches_owner_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_owner_idToUserNestedInput
     Matches_Matches_requester_idToUser?: MatchesUncheckedUpdateManyWithoutUser_Matches_requester_idToUserNestedInput

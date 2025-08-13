@@ -58,6 +58,7 @@ model User {
   provider                           String             @default("credentials") @db.VarChar(45)
   image                              String?            @db.LongText
   marketing_agreed                   Boolean            @default(false)
+  gender                             User_gender?
   Comment                            Comment[]
   Matches_Matches_owner_idToUser     Matches[]          @relation("Matches_owner_idToUser")
   Matches_Matches_requester_idToUser Matches[]          @relation("Matches_requester_idToUser")
@@ -391,4 +392,9 @@ enum MatchApplication_status {
 enum ChatRoom_type {
   direct
   group
+}
+
+enum User_gender {
+  male
+  female
 }

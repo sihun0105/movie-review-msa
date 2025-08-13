@@ -12,6 +12,7 @@ export interface User {
   createdAt: string;
   updatedAt: string;
   deletedAt: string;
+  gender: string;
 }
 
 export interface Users {
@@ -23,6 +24,7 @@ export interface CreateUserDto {
   password: string;
   nickname: string;
   marketingAgreed: boolean;
+  gender: string;
 }
 
 export interface UpdateUserDto {
