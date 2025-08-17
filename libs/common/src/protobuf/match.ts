@@ -10,6 +10,7 @@ export interface MatchPost {
   title: string;
   userno: number;
   author: string;
+  authorGender: string;
   content: string;
   movieTitle: string;
   theaterName: string;

@@ -8,16 +8,17 @@ message MatchPost {
   string title = 2;
   int32 userno = 3;
   string author = 4;
-  string content = 5;
-  string movieTitle = 6;
-  string theaterName = 7;
-  string showTime = 8;
-  int32 maxParticipants = 9;
-  int32 currentParticipants = 10;
-  string location = 11;
-  string createdAt = 12;
-  string updatedAt = 13;
-  string deletedAt = 14;
+  string authorGender = 5;
+  string content = 6;
+  string movieTitle = 7;
+  string theaterName = 8;
+  string showTime = 9;
+  int32 maxParticipants = 10;
+  int32 currentParticipants = 11;
+  string location = 12;
+  string createdAt = 13;
+  string updatedAt = 14;
+  string deletedAt = 15;
 }
 
 message MatchApplication {

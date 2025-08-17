@@ -1,8 +1,8 @@
 /* eslint-disable */
-import { GrpcMethod, GrpcStreamMethod } from "@nestjs/microservices";
-import { Observable } from "rxjs";
+import { GrpcMethod, GrpcStreamMethod } from '@nestjs/microservices';
+import { Observable } from 'rxjs';
 
-export const protobufPackage = "match";
+export const protobufPackage = 'match';
 
 /** Match Post Messages */
 export interface MatchPost {
@@ -10,6 +10,7 @@ export interface MatchPost {
   title: string;
   userno: number;
   author: string;
+  authorGender: string;
   content: string;
   movieTitle: string;
   theaterName: string;
@@ -136,39 +137,51 @@ export interface ApplicationResponse {
 }
 
 export interface MyApplicationStatusResponse {
-  application:
-    | MatchApplication
-    | undefined;
+  application: MatchApplication | undefined;
   /** 신청했는지 여부 */
   hasApplication: boolean;
 }
 
-export const MATCH_PACKAGE_NAME = "match";
+export const MATCH_PACKAGE_NAME = 'match';
 
 /** Service Definition */
 
 export interface MatchServiceClient {
   getMatchPosts(request: GetMatchPostsRequest): Observable<MatchPostResponse>;
 
-  createMatchPost(request: CreateMatchPostRequest): Observable<SingleMatchPostResponse>;
+  createMatchPost(
+    request: CreateMatchPostRequest,
+  ): Observable<SingleMatchPostResponse>;
 
-  getMatchPost(request: GetMatchPostRequest): Observable<SingleMatchPostResponse>;
+  getMatchPost(
+    request: GetMatchPostRequest,
+  ): Observable<SingleMatchPostResponse>;
 
-  updateMatchPost(request: UpdateMatchPostRequest): Observable<SingleMatchPostResponse>;
+  updateMatchPost(
+    request: UpdateMatchPostRequest,
+  ): Observable<SingleMatchPostResponse>;
 
   deleteMatchPost(request: DeleteMatchPostRequest): Observable<CommonResponse>;
 
   applyToMatch(request: ApplyToMatchRequest): Observable<CommonResponse>;
 
-  getMatchApplications(request: GetMatchApplicationsRequest): Observable<MatchApplicationsResponse>;
+  getMatchApplications(
+    request: GetMatchApplicationsRequest,
+  ): Observable<MatchApplicationsResponse>;
 
-  updateApplicationStatus(request: UpdateApplicationStatusRequest): Observable<ApplicationResponse>;
+  updateApplicationStatus(
+    request: UpdateApplicationStatusRequest,
+  ): Observable<ApplicationResponse>;
 
   getMyPosts(request: GetMyPostsRequest): Observable<MatchPostResponse>;
 
-  getMyApplications(request: GetMyApplicationsRequest): Observable<MatchApplicationsResponse>;
+  getMyApplications(
+    request: GetMyApplicationsRequest,
+  ): Observable<MatchApplicationsResponse>;
 
-  getMyApplicationStatus(request: GetMyApplicationStatusRequest): Observable<MyApplicationStatusResponse>;
+  getMyApplicationStatus(
+    request: GetMyApplicationStatusRequest,
+  ): Observable<MyApplicationStatusResponse>;
 }
 
 /** Service Definition */
@@ -176,72 +189,115 @@ export interface MatchServiceClient {
 export interface MatchServiceController {
   getMatchPosts(
     request: GetMatchPostsRequest,
-  ): Promise<MatchPostResponse> | Observable<MatchPostResponse> | MatchPostResponse;
+  ):
+    | Promise<MatchPostResponse>
+    | Observable<MatchPostResponse>
+    | MatchPostResponse;
 
   createMatchPost(
     request: CreateMatchPostRequest,
-  ): Promise<SingleMatchPostResponse> | Observable<SingleMatchPostResponse> | SingleMatchPostResponse;
+  ):
+    | Promise<SingleMatchPostResponse>
+    | Observable<SingleMatchPostResponse>
+    | SingleMatchPostResponse;
 
   getMatchPost(
     request: GetMatchPostRequest,
-  ): Promise<SingleMatchPostResponse> | Observable<SingleMatchPostResponse> | SingleMatchPostResponse;
+  ):
+    | Promise<SingleMatchPostResponse>
+    | Observable<SingleMatchPostResponse>
+    | SingleMatchPostResponse;
 
   updateMatchPost(
     request: UpdateMatchPostRequest,
-  ): Promise<SingleMatchPostResponse> | Observable<SingleMatchPostResponse> | SingleMatchPostResponse;
+  ):
+    | Promise<SingleMatchPostResponse>
+    | Observable<SingleMatchPostResponse>
+    | SingleMatchPostResponse;
 
   deleteMatchPost(
     request: DeleteMatchPostRequest,
   ): Promise<CommonResponse> | Observable<CommonResponse> | CommonResponse;
 
-  applyToMatch(request: ApplyToMatchRequest): Promise<CommonResponse> | Observable<CommonResponse> | CommonResponse;
+  applyToMatch(
+    request: ApplyToMatchRequest,
+  ): Promise<CommonResponse> | Observable<CommonResponse> | CommonResponse;
 
   getMatchApplications(
     request: GetMatchApplicationsRequest,
-  ): Promise<MatchApplicationsResponse> | Observable<MatchApplicationsResponse> | MatchApplicationsResponse;
+  ):
+    | Promise<MatchApplicationsResponse>
+    | Observable<MatchApplicationsResponse>
+    | MatchApplicationsResponse;
 
   updateApplicationStatus(
     request: UpdateApplicationStatusRequest,
-  ): Promise<ApplicationResponse> | Observable<ApplicationResponse> | ApplicationResponse;
+  ):
+    | Promise<ApplicationResponse>
+    | Observable<ApplicationResponse>
+    | ApplicationResponse;
 
   getMyPosts(
     request: GetMyPostsRequest,
-  ): Promise<MatchPostResponse> | Observable<MatchPostResponse> | MatchPostResponse;
+  ):
+    | Promise<MatchPostResponse>
+    | Observable<MatchPostResponse>
+    | MatchPostResponse;
 
   getMyApplications(
     request: GetMyApplicationsRequest,
-  ): Promise<MatchApplicationsResponse> | Observable<MatchApplicationsResponse> | MatchApplicationsResponse;
+  ):
+    | Promise<MatchApplicationsResponse>
+    | Observable<MatchApplicationsResponse>
+    | MatchApplicationsResponse;
 
   getMyApplicationStatus(
     request: GetMyApplicationStatusRequest,
-  ): Promise<MyApplicationStatusResponse> | Observable<MyApplicationStatusResponse> | MyApplicationStatusResponse;
+  ):
+    | Promise<MyApplicationStatusResponse>
+    | Observable<MyApplicationStatusResponse>
+    | MyApplicationStatusResponse;
 }
 
 export function MatchServiceControllerMethods() {
   return function (constructor: Function) {
     const grpcMethods: string[] = [
-      "getMatchPosts",
-      "createMatchPost",
-      "getMatchPost",
-      "updateMatchPost",
-      "deleteMatchPost",
-      "applyToMatch",
-      "getMatchApplications",
-      "updateApplicationStatus",
-      "getMyPosts",
-      "getMyApplications",
-      "getMyApplicationStatus",
+      'getMatchPosts',
+      'createMatchPost',
+      'getMatchPost',
+      'updateMatchPost',
+      'deleteMatchPost',
+      'applyToMatch',
+      'getMatchApplications',
+      'updateApplicationStatus',
+      'getMyPosts',
+      'getMyApplications',
+      'getMyApplicationStatus',
     ];
     for (const method of grpcMethods) {
-      const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcMethod("MatchService", method)(constructor.prototype[method], method, descriptor);
+      const descriptor: any = Reflect.getOwnPropertyDescriptor(
+        constructor.prototype,
+        method,
+      );
+      GrpcMethod('MatchService', method)(
+        constructor.prototype[method],
+        method,
+        descriptor,
+      );
     }
     const grpcStreamMethods: string[] = [];
     for (const method of grpcStreamMethods) {
-      const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
-      GrpcStreamMethod("MatchService", method)(constructor.prototype[method], method, descriptor);
+      const descriptor: any = Reflect.getOwnPropertyDescriptor(
+        constructor.prototype,
+        method,
+      );
+      GrpcStreamMethod('MatchService', method)(
+        constructor.prototype[method],
+        method,
+        descriptor,
+      );
     }
   };
 }
 
-export const MATCH_SERVICE_NAME = "MatchService";
+export const MATCH_SERVICE_NAME = 'MatchService';
