@@ -441,15 +441,22 @@ export class MatchService {
         },
       });
     console.log('Applications found:', applications.length);
-    const formattedApplications: MatchApplication[] = applications.map(
-      (app) => ({
-        id: app.id,
-        matchPostId: app.matchPostId,
-        applicantUserno: app.applicantUserno,
-        applicantName: app.applicantName,
-        message: app.message,
-        status: app.status,
-        createdAt: app.createdAt.toISOString(),
+    const formattedApplications: MatchApplication[] = await Promise.all(
+      applications.map(async (app) => {
+        // 지원자 User 정보 조회
+        const user = await this.mysqlPrismaService.user.findUnique({
+          where: { id: app.applicantUserno },
+        });
+        return {
+          id: app.id,
+          matchPostId: app.matchPostId,
+          applicantUserno: app.applicantUserno,
+          applicantName: app.applicantName,
+          message: app.message,
+          status: app.status,
+          createdAt: app.createdAt.toISOString(),
+          gender: user?.gender || '',
+        };
       }),
     );
 
@@ -651,15 +658,22 @@ export class MatchService {
         take: pageSize,
       });
 
-    const formattedApplications: MatchApplication[] = applications.map(
-      (app) => ({
-        id: app.id,
-        matchPostId: app.matchPostId,
-        applicantUserno: app.applicantUserno,
-        applicantName: app.applicantName,
-        message: app.message,
-        status: app.status,
-        createdAt: app.createdAt.toISOString(),
+    const formattedApplications: MatchApplication[] = await Promise.all(
+      applications.map(async (app) => {
+        // 지원자 User 정보 조회
+        const user = await this.mysqlPrismaService.user.findUnique({
+          where: { id: app.applicantUserno },
+        });
+        return {
+          id: app.id,
+          matchPostId: app.matchPostId,
+          applicantUserno: app.applicantUserno,
+          applicantName: app.applicantName,
+          message: app.message,
+          status: app.status,
+          createdAt: app.createdAt.toISOString(),
+          gender: user?.gender || '',
+        };
       }),
     );
 
@@ -705,6 +719,11 @@ export class MatchService {
       };
     }
 
+    // 지원자 User 정보 조회
+    const user = await this.mysqlPrismaService.user.findUnique({
+      where: { id: application.applicantUserno },
+    });
+
     const formattedApplication: MatchApplication = {
       id: application.id,
       matchPostId: application.matchPostId,
@@ -713,6 +732,7 @@ export class MatchService {
       message: application.message,
       status: application.status,
       createdAt: application.createdAt.toISOString(),
+      gender: user?.gender || '',
     };
 
     return {

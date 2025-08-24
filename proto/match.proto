@@ -29,6 +29,7 @@ message MatchApplication {
   string message = 5;
   string status = 6; // pending, accepted, rejected
   string createdAt = 7;
+  string gender = 8;
 }
 
 // Request Messages

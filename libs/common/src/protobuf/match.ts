@@ -32,6 +32,7 @@ export interface MatchApplication {
   /** pending, accepted, rejected */
   status: string;
   createdAt: string;
+  gender: string;
 }
 
 /** Request Messages */
