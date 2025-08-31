@@ -257,6 +257,15 @@ export class MovieService implements OnModuleInit {
           gte: new Date(dateObject),
         },
       },
+      include: {
+        _count: {
+          select: {
+            Comment: true,
+            movieScores: true,
+          },
+        },
+        MovieVod: true,
+      },
       take: 10,
       orderBy: [
         {
@@ -265,7 +274,7 @@ export class MovieService implements OnModuleInit {
       ],
     });
     const convertedMovieList = movieList.map((movieData) =>
-      this.convertMovieData(movieData),
+      this.convertMovieDataWithCounts(movieData),
     );
     return {
       MovieData: convertedMovieList,
@@ -340,6 +349,33 @@ export class MovieService implements OnModuleInit {
       director: unknown.director ?? '',
       ratting: unknown.ratting ?? '',
       vods: unknown.MovieVod ?? [],
+      commentCount: 0,
+      scoreCount: 0,
+    };
+  }
+
+  private convertMovieDataWithCounts(
+    movieData: any,
+  ): Omit<MovieData, 'vector'> {
+    return {
+      title: movieData.title ?? '',
+      audience: Number(movieData.audience) ?? 0,
+      rank: Number(movieData.rank) ?? 0,
+      createdAt: movieData.createdAt ?? new Date(0),
+      updatedAt: movieData.updatedAt ?? new Date(0),
+      id: Number(movieData.id) ?? 0,
+      movieCd: Number(movieData.movieCd) ?? 0,
+      poster: movieData.poster ?? '',
+      rankInten: movieData.rankInten ?? 0,
+      plot: movieData.plot ?? '',
+      rankOldAndNew: movieData.rankOldAndNew ?? '',
+      openDt: movieData.openDt ?? new Date(0),
+      genre: movieData.genre ?? '',
+      director: movieData.director ?? '',
+      ratting: movieData.ratting ?? '',
+      vods: movieData.MovieVod ?? [],
+      commentCount: movieData._count?.Comment ?? 0,
+      scoreCount: movieData._count?.movieScores ?? 0,
     };
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -380,13 +416,19 @@ export class MovieService implements OnModuleInit {
       where: { movieCd },
       include: {
         MovieVod: true,
+        _count: {
+          select: {
+            Comment: true,
+            movieScores: true,
+          },
+        },
       },
     });
     if (!movie) {
       throw new Error(`Movie with movieCd ${movieCd} not found`);
     }
 
-    return this.convertMovieData(movie);
+    return this.convertMovieDataWithCounts(movie);
   }
 
   async upsertMovieScore({

@@ -46,6 +46,8 @@ export interface MovieData {
   director: string;
   ratting: string;
   vods: MovieVod[];
+  commentCount: number;
+  scoreCount: number;
 }
 
 export interface MovieVod {

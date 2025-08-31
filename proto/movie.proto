@@ -56,6 +56,8 @@ message MovieData {
   string director = 14;
   string ratting = 15;
   repeated MovieVod vods = 16;
+  int32 commentCount = 17;
+  int32 scoreCount = 18;
 }
 
 message MovieVod {
