@@ -265,6 +265,7 @@ export class MovieService implements OnModuleInit {
           },
         },
         MovieVod: true,
+        movieScores: true, // Include movieScores for average calculation
       },
       take: 10,
       orderBy: [
@@ -351,12 +352,21 @@ export class MovieService implements OnModuleInit {
       vods: unknown.MovieVod ?? [],
       commentCount: 0,
       scoreCount: 0,
+      averageScore: 0,
     };
   }
 
   private convertMovieDataWithCounts(
     movieData: any,
   ): Omit<MovieData, 'vector'> {
+    const scoreSum =
+      movieData.movieScores?.reduce((sum, score) => sum + score.score, 0) || 0; // score.value -> score.score로 수정
+    const scoreCount = movieData._count?.movieScores || 0;
+
+    // 소수점 1번자리 올림으로 표현
+    const averageScore =
+      Math.round((scoreCount > 0 ? scoreSum / scoreCount : 0) * 10) / 10;
+
     return {
       title: movieData.title ?? '',
       audience: Number(movieData.audience) ?? 0,
@@ -375,8 +385,9 @@ export class MovieService implements OnModuleInit {
       ratting: movieData.ratting ?? '',
       vods: movieData.MovieVod ?? [],
       commentCount: movieData._count?.Comment ?? 0,
-      scoreCount: movieData._count?.movieScores ?? 0,
-    };
+      scoreCount: scoreCount,
+      averageScore: averageScore,
+    } as Omit<MovieData, 'vector'>;
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async recommendMovies(movieCd: number): Promise<any> {

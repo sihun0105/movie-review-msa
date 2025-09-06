@@ -48,6 +48,7 @@ export interface MovieData {
   vods: MovieVod[];
   commentCount: number;
   scoreCount: number;
+  averageScore: number; // 추가된 필드
 }
 
 export interface MovieVod {
