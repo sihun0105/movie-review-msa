@@ -258,12 +258,6 @@ export class MovieService implements OnModuleInit {
         },
       },
       include: {
-        _count: {
-          select: {
-            Comment: true,
-            movieScores: true,
-          },
-        },
         MovieVod: true,
         movieScores: true, // Include movieScores for average calculation
       },
@@ -274,8 +268,27 @@ export class MovieService implements OnModuleInit {
         },
       ],
     });
-    const convertedMovieList = movieList.map((movieData) =>
-      this.convertMovieDataWithCounts(movieData),
+
+    // soft delete되지 않은 댓글 개수 병렬 조회
+    const commentCounts = await Promise.all(
+      movieList.map((movie) =>
+        this.mysqlPrismaService.comment.count({
+          where: {
+            movieId: movie.movieCd,
+            deletedAt: null,
+          },
+        }),
+      ),
+    );
+
+    const convertedMovieList = movieList.map((movieData, idx) =>
+      this.convertMovieDataWithCounts({
+        ...movieData,
+        _count: {
+          Comment: commentCounts[idx],
+          movieScores: movieData.movieScores?.length ?? 0,
+        },
+      }),
     );
     return {
       MovieData: convertedMovieList,
@@ -427,19 +440,28 @@ export class MovieService implements OnModuleInit {
       where: { movieCd },
       include: {
         MovieVod: true,
-        _count: {
-          select: {
-            Comment: true,
-            movieScores: true,
-          },
-        },
+        movieScores: true,
       },
     });
     if (!movie) {
       throw new Error(`Movie with movieCd ${movieCd} not found`);
     }
 
-    return this.convertMovieDataWithCounts(movie);
+    // soft delete되지 않은 댓글 개수 구하기
+    const commentCount = await this.mysqlPrismaService.comment.count({
+      where: {
+        movieId: movie.movieCd,
+        deletedAt: null,
+      },
+    });
+    // convertMovieDataWithCounts에 commentCount를 전달하도록 수정
+    return this.convertMovieDataWithCounts({
+      ...movie,
+      _count: {
+        Comment: commentCount,
+        movieScores: movie.movieScores?.length ?? 0,
+      },
+    });
   }
 
   async upsertMovieScore({
