@@ -15,13 +15,15 @@ Nest를 사용한 영화평론 프로젝트입니다.
 First, run the development server:
 
 ```bash
-pnpm dev api-gateway
-pnpm dev auth
-pnpm dev movie
-pnpm dev reply
-pnpm dev user
-pnpm dev movie
-pnpm dev article
+ pnpm  dev api-gateway
+ pnpm  dev user
+ pnpm  dev auth
+ pnpm  dev chat
+ pnpm  dev cron
+ pnpm  dev movie
+ pnpm  dev reply
+ pnpm  dev article
+ pnpm  dev match
 ```
 
 ### generate protobuf
