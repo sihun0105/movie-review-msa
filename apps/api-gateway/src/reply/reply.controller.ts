@@ -69,7 +69,7 @@ export class ReplyController {
   @UseGuards(JwtAuthGuard, RateLimitGuard)
   async update(@Req() req, @Body() updateReplyDto: UpdateReplyDto) {
     try {
-      const userNumber = req.user.id;
+      const userNumber = req.user.userId;
       const updateReplyObservable = this.replyService.update({
         ...updateReplyDto,
         userId: userNumber,
@@ -88,7 +88,7 @@ export class ReplyController {
   @UseGuards(JwtAuthGuard, RateLimitGuard)
   async delete(@Req() req, @Param() replyId: { replyId: number }) {
     try {
-      const userNumber = req.user.id;
+      const userNumber = req.user.userId;
       const $replyId = replyId.replyId;
       const deleteReplyObservable = this.replyService.delete({
         commentId: $replyId,
