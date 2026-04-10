@@ -15,6 +15,18 @@ export class RateLimitGuard implements CanActivate {
     { tokens: number; resetTime: number }
   >();
 
+  constructor() {
+    // 만료된 버킷을 60초마다 정리하여 메모리 누수 방지
+    setInterval(() => {
+      const now = Date.now();
+      for (const [key, bucket] of this.buckets.entries()) {
+        if (now >= bucket.resetTime) {
+          this.buckets.delete(key);
+        }
+      }
+    }, 60_000);
+  }
+
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {

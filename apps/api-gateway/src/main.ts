@@ -17,9 +17,13 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
   /**CORS 설정 */
+  const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',').map((o) =>
+    o.trim(),
+  ) ?? [];
   app.enableCors({
-    origin: '*',
+    origin: allowedOrigins.length > 0 ? allowedOrigins : false,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
     preflightContinue: false,
   });
   await app.listen(3030);

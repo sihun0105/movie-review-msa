@@ -3,16 +3,13 @@ import { User, ValidationResponse } from '@app/common/protobuf';
 import { MySQLPrismaService } from '@app/prisma';
 import { UtilsService } from '@app/utils';
 import { Injectable } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { compare, hash } from 'bcryptjs';
 @Injectable()
 export class AuthService {
   constructor(
     private readonly mysqlPrismaService: MySQLPrismaService,
     private readonly utilsService: UtilsService,
-    private jwtService: JwtService,
   ) {}
-  private readonly users: User[] = [];
 
   async validateUser(email: string, password: string) {
     if (!email || !password)
@@ -40,17 +37,6 @@ export class AuthService {
   }
 
   async login(user: Omit<User, 'password'>) {
-    const payload = { username: user.email, userid: user.id };
-    const acc = this.jwtService.sign(payload, {
-      secret: process.env.JWT_ACCESS_SECRET,
-      expiresIn: process.env.ACCESS_TOKEN_EXPIRE_TIME,
-    });
-    const refreshPayload = { payload, acc };
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const ref = this.jwtService.sign(refreshPayload, {
-      secret: process.env.JWT_REFRESH_SECRET,
-      expiresIn: process.env.REFRESH_TOKEN_EXPIRE_TIME,
-    });
     return user;
   }
 
