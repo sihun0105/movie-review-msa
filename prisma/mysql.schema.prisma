@@ -48,97 +48,28 @@ model Movie {
 }
 
 model User {
-  id                                 Int                @id @default(autoincrement())
-  email                              String             @unique(map: "uni_User_email")
-  nickname                           String?            @db.LongText
-  password                           String?            @db.LongText
-  createdAt                          DateTime           @default(now()) @db.DateTime(6)
-  updatedAt                          DateTime           @default(now()) @db.DateTime(6)
-  deletedAt                          DateTime?          @db.DateTime(6)
-  provider                           String             @default("credentials") @db.VarChar(45)
-  image                              String?            @db.LongText
-  marketing_agreed                   Boolean            @default(false)
-  gender                             User_gender?
-  Comment                            Comment[]
-  Matches_Matches_owner_idToUser     Matches[]          @relation("Matches_owner_idToUser")
-  Matches_Matches_requester_idToUser Matches[]          @relation("Matches_requester_idToUser")
-  Recruit                            Recruit[]
-  RecruitComment                     RecruitComment[]
-  article                            article[]
-  articleComments                    articleComments[]
-  articleLikes                       articleLikes[]
-  channelchats                       channelchats[]
-  channelmembers                     channelmembers[]
-  movieScores                        movieScore[]
-  workspace                          workspace[]
-  workspacemembers                   workspacemembers[]
-  MatchPost                          MatchPost[]
-  MatchApplication                   MatchApplication[]
-  ChatRoomMember                     ChatRoomMember[]
-  ChatMessage                        ChatMessage[]
+  id               Int                @id @default(autoincrement())
+  email            String             @unique(map: "uni_User_email")
+  nickname         String?            @db.LongText
+  password         String?            @db.LongText
+  createdAt        DateTime           @default(now()) @db.DateTime(6)
+  updatedAt        DateTime           @default(now()) @db.DateTime(6)
+  deletedAt        DateTime?          @db.DateTime(6)
+  provider         String             @default("credentials") @db.VarChar(45)
+  image            String?            @db.LongText
+  marketing_agreed Boolean            @default(false)
+  gender           User_gender?
+  Comment          Comment[]
+  article          article[]
+  articleComments  articleComments[]
+  articleLikes     articleLikes[]
+  movieScores      movieScore[]
+  MatchPost        MatchPost[]
+  MatchApplication MatchApplication[]
+  ChatRoomMember   ChatRoomMember[]
+  ChatMessage      ChatMessage[]
 }
 
-model channelchats {
-  id        Int       @id @default(autoincrement())
-  content   String    @db.Text
-  createdAt DateTime  @default(now()) @db.DateTime(6)
-  updatedAt DateTime  @default(now()) @db.DateTime(6)
-  UserId    Int?
-  ChannelId Int?
-  channels  channels? @relation(fields: [ChannelId], references: [id], map: "FK_channelchats_channles")
-  User      User?     @relation(fields: [UserId], references: [id], map: "FK_channelchats_user")
-
-  @@index([UserId], map: "FK_8494e7d49237c46d648fbab8cf4_idx")
-  @@index([ChannelId], map: "FK_8494e7d49237c46d648fbab8cf4_idx1")
-}
-
-model channelmembers {
-  ChannelId Int
-  UserId    Int
-  createdAt DateTime @default(now()) @db.DateTime(6)
-  updatedAt DateTime @default(now()) @db.DateTime(6)
-  User      User     @relation(fields: [UserId], references: [id], onDelete: Cascade, map: "FK_channelmembers_user")
-
-  @@id([UserId, ChannelId])
-}
-
-model channels {
-  id           Int            @id @default(autoincrement())
-  name         String         @db.VarChar(30)
-  private      Boolean?       @default(false)
-  createdAt    DateTime       @default(now()) @db.DateTime(6)
-  updatedAt    DateTime       @default(now()) @db.DateTime(6)
-  WorkspaceId  Int?
-  channelchats channelchats[]
-  workspace    workspace?     @relation(fields: [WorkspaceId], references: [id], map: "FK_channels_workspaces")
-
-  @@index([WorkspaceId], map: "FK_channels_workspaces_idx")
-}
-
-model workspace {
-  id        Int        @id @default(autoincrement())
-  name      String     @db.VarChar(30)
-  url       String     @db.VarChar(30)
-  createdAt DateTime   @default(now()) @db.DateTime(6)
-  updatedAt DateTime   @default(now()) @db.DateTime(6)
-  deletedAt DateTime?  @db.DateTime(6)
-  OwnerId   Int?
-  channels  channels[]
-  User      User?      @relation(fields: [OwnerId], references: [id], map: "FK_workspace_user")
-
-  @@index([OwnerId], map: "FK_workspace_user_idx")
-}
-
-model workspacemembers {
-  WorkspaceId Int
-  UserId      Int
-  createdAt   DateTime  @default(now()) @db.DateTime(6)
-  updatedAt   DateTime  @default(now()) @db.DateTime(6)
-  loggedInAt  DateTime? @db.DateTime(0)
-  User        User      @relation(fields: [UserId], references: [id], onDelete: Cascade, map: "FK_workspacemembers_user")
-
-  @@id([UserId, WorkspaceId])
-}
 
 model movieScore {
   id        Int       @id @default(autoincrement())
@@ -168,58 +99,6 @@ model MovieVod {
   @@index([movieCd], map: "MovieVod_movieCd_fkey_idx")
 }
 
-model Recruit {
-  id             Int              @id @default(autoincrement())
-  userno         Int
-  title          String           @db.VarChar(256)
-  content        String           @db.VarChar(1024)
-  screening_date DateTime?        @db.DateTime(6)
-  location       String?          @db.VarChar(255)
-  status         Recruit_status   @default(open)
-  createdAt      DateTime         @default(now()) @db.DateTime(6)
-  updatedAt      DateTime         @default(now()) @db.DateTime(6)
-  deletedAt      DateTime?        @db.DateTime(6)
-  theater_name   String?          @map("theater name") @db.VarChar(45)
-  Matches        Matches[]
-  User           User             @relation(fields: [userno], references: [id], onDelete: Cascade)
-  RecruitComment RecruitComment[]
-
-  @@index([userno], map: "Recruit_userno_fkey_idx")
-}
-
-model RecruitComment {
-  id         Int       @id @default(autoincrement())
-  recruit_id Int
-  userno     Int
-  content    String    @db.VarChar(256)
-  createdAt  DateTime  @default(now()) @db.DateTime(6)
-  updatedAt  DateTime  @default(now()) @db.DateTime(6)
-  deletedAt  DateTime? @db.DateTime(6)
-  Recruit    Recruit   @relation(fields: [recruit_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "RecruitComment_recruitno_fkey")
-  User       User      @relation(fields: [userno], references: [id], onDelete: Cascade)
-
-  @@index([recruit_id], map: "RecruitComment_recruitno_fkey_idx")
-  @@index([userno], map: "RecruitComment_userno_fkey_idx")
-}
-
-model Matches {
-  id                              Int            @id @default(autoincrement())
-  recruit_id                      Int?
-  requester_id                    Int
-  owner_id                        Int
-  acceptedAt                      DateTime?      @db.DateTime(6)
-  createdAt                       DateTime       @db.DateTime(6)
-  updatedAt                       DateTime       @db.DateTime(6)
-  deletedAt                       String?        @db.VarChar(45)
-  status                          Matches_status @default(pending)
-  User_Matches_owner_idToUser     User           @relation("Matches_owner_idToUser", fields: [owner_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Matches_owner_fkey")
-  Recruit                         Recruit?       @relation(fields: [recruit_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Matches_recruitid_fkey")
-  User_Matches_requester_idToUser User           @relation("Matches_requester_idToUser", fields: [requester_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "Matches_requester_fkey")
-
-  @@index([owner_id], map: "Matches_owner_fkey_idx")
-  @@index([recruit_id], map: "Matches_recruitid_fkey_idx")
-  @@index([requester_id], map: "Matches_requester_fkey_idx")
-}
 
 model article {
   id              Int               @id @default(autoincrement())
@@ -366,17 +245,6 @@ model ChatMessage {
   @@map("chat_messages")
 }
 
-enum Recruit_status {
-  open
-  matched
-  closed
-}
-
-enum Matches_status {
-  pending
-  confirmed
-  cancelled
-}
 
 enum articleLikes_type {
   like

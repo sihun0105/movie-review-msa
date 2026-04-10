@@ -150,49 +150,6 @@ exports.Prisma.UserScalarFieldEnum = {
   gender: 'gender'
 };
 
-exports.Prisma.ChannelchatsScalarFieldEnum = {
-  id: 'id',
-  content: 'content',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  UserId: 'UserId',
-  ChannelId: 'ChannelId'
-};
-
-exports.Prisma.ChannelmembersScalarFieldEnum = {
-  ChannelId: 'ChannelId',
-  UserId: 'UserId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.ChannelsScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  private: 'private',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  WorkspaceId: 'WorkspaceId'
-};
-
-exports.Prisma.WorkspaceScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  url: 'url',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  deletedAt: 'deletedAt',
-  OwnerId: 'OwnerId'
-};
-
-exports.Prisma.WorkspacemembersScalarFieldEnum = {
-  WorkspaceId: 'WorkspaceId',
-  UserId: 'UserId',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  loggedInAt: 'loggedInAt'
-};
-
 exports.Prisma.MovieScoreScalarFieldEnum = {
   id: 'id',
   movieCd: 'movieCd',
@@ -210,42 +167,6 @@ exports.Prisma.MovieVodScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   deletedAt: 'deletedAt'
-};
-
-exports.Prisma.RecruitScalarFieldEnum = {
-  id: 'id',
-  userno: 'userno',
-  title: 'title',
-  content: 'content',
-  screening_date: 'screening_date',
-  location: 'location',
-  status: 'status',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  deletedAt: 'deletedAt',
-  theater_name: 'theater_name'
-};
-
-exports.Prisma.RecruitCommentScalarFieldEnum = {
-  id: 'id',
-  recruit_id: 'recruit_id',
-  userno: 'userno',
-  content: 'content',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  deletedAt: 'deletedAt'
-};
-
-exports.Prisma.MatchesScalarFieldEnum = {
-  id: 'id',
-  recruit_id: 'recruit_id',
-  requester_id: 'requester_id',
-  owner_id: 'owner_id',
-  acceptedAt: 'acceptedAt',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  deletedAt: 'deletedAt',
-  status: 'status'
 };
 
 exports.Prisma.ArticleScalarFieldEnum = {
@@ -369,18 +290,6 @@ exports.User_gender = exports.$Enums.User_gender = {
   female: 'female'
 };
 
-exports.Recruit_status = exports.$Enums.Recruit_status = {
-  open: 'open',
-  matched: 'matched',
-  closed: 'closed'
-};
-
-exports.Matches_status = exports.$Enums.Matches_status = {
-  pending: 'pending',
-  confirmed: 'confirmed',
-  cancelled: 'cancelled'
-};
-
 exports.articleLikes_type = exports.$Enums.articleLikes_type = {
   like: 'like',
   dislike: 'dislike'
@@ -401,16 +310,8 @@ exports.Prisma.ModelName = {
   Comment: 'Comment',
   Movie: 'Movie',
   User: 'User',
-  channelchats: 'channelchats',
-  channelmembers: 'channelmembers',
-  channels: 'channels',
-  workspace: 'workspace',
-  workspacemembers: 'workspacemembers',
   movieScore: 'movieScore',
   MovieVod: 'MovieVod',
-  Recruit: 'Recruit',
-  RecruitComment: 'RecruitComment',
-  Matches: 'Matches',
   article: 'article',
   articleComments: 'articleComments',
   articleLikes: 'articleLikes',

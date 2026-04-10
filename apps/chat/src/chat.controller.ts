@@ -43,17 +43,4 @@ export class ChatController implements ChatServiceController {
   async getMessages(request: GetMessagesRequest): Promise<GetMessagesResponse> {
     return this.chatService.getMessages(request);
   }
-
-  // 기존 메서드 유지
-  getChat(nowDate: string): Promise<
-    {
-      id: number;
-      message: string;
-      createdAt: Date;
-      updatedAt: Date;
-      nickname: string;
-    }[]
-  > {
-    return this.chatService.getChat(nowDate);
-  }
 }
