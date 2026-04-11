@@ -5,25 +5,18 @@ services:
     build:
       context: ./rabbitmq
       dockerfile: Dockerfile
-      args:
-        - APP=rabbitmq
     container_name: rabbitmq
     ports:
       - '5672:5672'
       - '15672:15672'
     networks:
       - app-network
-    depends_on:
-      - mysql
-      - api-gateway
     restart: 'no'
 
   mysql:
     build:
       context: ./mysql
       dockerfile: Dockerfile
-      args:
-        - APP=mysql
     container_name: mysql
     ports:
       - '3306:3306'
