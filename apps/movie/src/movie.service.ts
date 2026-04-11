@@ -178,7 +178,6 @@ export class MovieService implements OnModuleInit {
         }
 
         const vector = [];
-        // const vector = await this.utilsService.generateEmbedding(plot);
 
         await this.mysqlPrismaService.movie.upsert({
           where: { movieCd: +movieData.movieCd },
@@ -402,37 +401,9 @@ export class MovieService implements OnModuleInit {
       averageScore: averageScore,
     } as Omit<MovieData, 'vector'>;
   }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async recommendMovies(movieCd: number): Promise<any> {
+  async recommendMovies(_movieCd: number): Promise<any> {
+    // TODO: 벡터 유사도 검색 미구현 — Milvus 또는 pgvector 연동 후 활성화
     return [];
-    // const movie = await this.mysqlPrismaService.movie.findUnique({
-    //   where: { movieCd },
-    // });
-    // if (!movie) {
-    //   throw new Error(`Movie with movieCd ${movieCd} not found`);
-    // }
-    // const vector = movie.vector;
-
-    // const similarMovies: { movieCd: number; similarity: number }[] = await this
-    //   .postgresPrismaService.$queryRaw`SELECT "movieCd",
-    // (SELECT SUM(a * b)
-    //  FROM unnest("vector") AS a, unnest(ARRAY[${vector}]) AS b) AS similarity
-    //   FROM public."MovieVector"
-    //   WHERE "movieCd" != ${movieCd}
-    //   ORDER BY similarity DESC
-    //   LIMIT 10;`;
-    // if (!similarMovies) {
-    //   throw new Error('No similar movies found');
-    // }
-
-    // const recommendedMovies = await this.mysqlPrismaService.movie.findMany({
-    //   where: {
-    //     movieCd: {
-    //       in: similarMovies.map((movie) => movie.movieCd),
-    //     },
-    //   },
-    // });
-    // return recommendedMovies;
   }
 
   async getMovieDetail(movieCd: number): Promise<MovieData> {
@@ -696,23 +667,25 @@ export class MovieService implements OnModuleInit {
     try {
       console.log('CGV 영화관 데이터 동기화 시작...');
       const crawledTheaters = await this.crawlingService.getCGVTheaters();
-      console.log(crawledTheaters);
 
-      // 기존 데이터 삭제
-      await this.mysqlPrismaService.cGVTheater.deleteMany();
+      if (!crawledTheaters || crawledTheaters.length === 0) {
+        console.warn('크롤링 결과가 없어 동기화를 건너뜁니다.');
+        return;
+      }
 
-      // 새 데이터 삽입
-      for (const theater of crawledTheaters) {
-        await this.mysqlPrismaService.cGVTheater.create({
-          data: {
+      // 트랜잭션으로 묶어 크롤링 실패 시 기존 데이터 보존
+      await this.mysqlPrismaService.$transaction(async (tx) => {
+        await tx.cGVTheater.deleteMany();
+        await tx.cGVTheater.createMany({
+          data: crawledTheaters.map((theater) => ({
             name: theater.name,
             region: theater.region,
-            address: theater.address,
-            phone: theater.phone,
-            website: theater.website,
-          },
+            address: theater.address ?? null,
+            phone: theater.phone ?? null,
+            website: theater.website ?? null,
+          })),
         });
-      }
+      });
 
       console.log(`CGV 영화관 ${crawledTheaters.length}개 동기화 완료`);
     } catch (error) {
