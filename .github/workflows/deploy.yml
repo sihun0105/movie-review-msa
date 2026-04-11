@@ -1,0 +1,107 @@
+name: Deploy Backend to Production
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  IMAGE_PREFIX: ghcr.io/sihun0105/movie-review-msa
+
+jobs:
+  # ─────────────────────────────────────────────
+  # Job 1: 서비스별 Docker 이미지 병렬 빌드 & GHCR push
+  # ─────────────────────────────────────────────
+  build-and-push:
+    name: Build & Push (${{ matrix.service }})
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        service:
+          - api-gateway
+          - auth
+          - user
+          - reply
+          - movie
+          - article
+          - chat
+          - match
+          - cron
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push ${{ matrix.service }}
+        uses: docker/build-push-action@v5
+        with:
+          context: ./nest-msa
+          file: ./nest-msa/Dockerfile
+          build-args: APP=${{ matrix.service }}
+          target: production
+          push: true
+          tags: |
+            ${{ env.IMAGE_PREFIX }}/${{ matrix.service }}:latest
+            ${{ env.IMAGE_PREFIX }}/${{ matrix.service }}:${{ github.sha }}
+          cache-from: type=gha,scope=${{ matrix.service }}
+          cache-to: type=gha,mode=max,scope=${{ matrix.service }}
+
+  # ─────────────────────────────────────────────
+  # Job 2: 서버에 배포 (빌드 완료 후 실행)
+  # ─────────────────────────────────────────────
+  deploy:
+    name: Deploy to Production
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        env:
+          GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
+          GITHUB_ACTOR: ${{ github.actor }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          envs: GHCR_TOKEN,GITHUB_ACTOR
+          script: |
+            set -e
+
+            echo "▶ 코드 업데이트"
+            cd /app/movie-review-msa/nest-msa
+            git pull origin master
+
+            echo "▶ GHCR 로그인"
+            echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+
+            echo "▶ 최신 이미지 Pull"
+            docker compose -f docker-compose.prod.yml pull
+
+            echo "▶ DB 마이그레이션"
+            docker compose -f docker-compose.prod.yml run --rm \
+              api-gateway \
+              sh -c "prisma migrate deploy --schema prisma/mysql.schema.prisma"
+
+            echo "▶ 서비스 재시작"
+            docker compose -f docker-compose.prod.yml up -d
+
+            echo "▶ 미사용 이미지 정리"
+            docker image prune -f
+
+            echo "✅ 배포 완료"

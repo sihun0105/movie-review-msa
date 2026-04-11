@@ -1,0 +1,218 @@
+version: '3.7'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  api-gateway:
+    image: ghcr.io/sihun0105/movie-review-msa/api-gateway:latest
+    container_name: api-gateway
+    ports:
+      - '3030:3030'
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - .env.production
+    networks:
+      - app-network
+    depends_on:
+      - mysql
+    restart: unless-stopped
+
+  auth-service:
+    image: ghcr.io/sihun0105/movie-review-msa/auth:latest
+    container_name: auth-service
+    ports:
+      - '50051:50051'
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - .env.production
+    networks:
+      - app-network
+    depends_on:
+      - mysql
+      - api-gateway
+    restart: unless-stopped
+    command:
+      - bash
+      - -c
+      - |
+        ./wait-for-it.sh mysql:3306 -s -t 100
+        node dist/apps/auth/src/main.js
+
+  user-service:
+    image: ghcr.io/sihun0105/movie-review-msa/user:latest
+    container_name: user-service
+    ports:
+      - '50052:50052'
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - .env.production
+    networks:
+      - app-network
+    depends_on:
+      - mysql
+      - api-gateway
+    restart: unless-stopped
+    command:
+      - bash
+      - -c
+      - |
+        ./wait-for-it.sh mysql:3306 -s -t 100
+        node dist/apps/user/src/main.js
+
+  reply-service:
+    image: ghcr.io/sihun0105/movie-review-msa/reply:latest
+    container_name: reply-service
+    ports:
+      - '50053:50053'
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - .env.production
+    networks:
+      - app-network
+    depends_on:
+      - mysql
+      - api-gateway
+    restart: unless-stopped
+    command:
+      - bash
+      - -c
+      - |
+        ./wait-for-it.sh mysql:3306 -s -t 100
+        node dist/apps/reply/src/main.js
+
+  movie-service:
+    image: ghcr.io/sihun0105/movie-review-msa/movie:latest
+    container_name: movie-service
+    ports:
+      - '50054:50054'
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - .env.production
+    networks:
+      - app-network
+    depends_on:
+      - mysql
+      - api-gateway
+    restart: unless-stopped
+    command:
+      - bash
+      - -c
+      - |
+        ./wait-for-it.sh mysql:3306 -s -t 100
+        node dist/apps/movie/src/main.js
+
+  article-service:
+    image: ghcr.io/sihun0105/movie-review-msa/article:latest
+    container_name: article-service
+    ports:
+      - '50055:50055'
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - .env.production
+    networks:
+      - app-network
+    depends_on:
+      - mysql
+      - api-gateway
+    restart: unless-stopped
+    command:
+      - bash
+      - -c
+      - |
+        ./wait-for-it.sh mysql:3306 -s -t 100
+        node dist/apps/article/src/main.js
+
+  chat-service:
+    image: ghcr.io/sihun0105/movie-review-msa/chat:latest
+    container_name: chat-service
+    ports:
+      - '3031:3031'
+      - '50057:50057'
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - .env.production
+    networks:
+      - app-network
+    depends_on:
+      - mysql
+      - api-gateway
+    restart: unless-stopped
+
+  match-service:
+    image: ghcr.io/sihun0105/movie-review-msa/match:latest
+    container_name: match-service
+    ports:
+      - '50059:50059'
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - .env.production
+    networks:
+      - app-network
+    depends_on:
+      - mysql
+      - api-gateway
+    restart: unless-stopped
+    command:
+      - bash
+      - -c
+      - |
+        ./wait-for-it.sh mysql:3306 -s -t 100
+        node dist/apps/match/src/main.js
+
+  cron-service:
+    image: ghcr.io/sihun0105/movie-review-msa/cron:latest
+    container_name: cron-service
+    ports:
+      - '3001:3001'
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - .env.production
+    networks:
+      - app-network
+    depends_on:
+      - mysql
+      - api-gateway
+    restart: unless-stopped
+    command:
+      - bash
+      - -c
+      - |
+        ./wait-for-it.sh mysql:3306 -s -t 100
+        node dist/apps/cron/src/main.js
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
