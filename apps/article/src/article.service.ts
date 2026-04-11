@@ -61,7 +61,7 @@ export class ArticleService {
         commentCount: article.comment_count,
         createdAt: article.createdAt.toISOString(),
         updatedAt: article.updatedAt.toISOString(),
-        deletedAt: article.deletedAt?.toISOString() ?? null,
+        deletedAt: this.utilsService.toNullableISOString(article.deletedAt),
       },
     };
   }
@@ -89,7 +89,7 @@ export class ArticleService {
         commentCount: article.comment_count,
         createdAt: article.createdAt.toISOString(),
         updatedAt: article.updatedAt.toISOString(),
-        deletedAt: article.deletedAt?.toISOString() ?? null,
+        deletedAt: this.utilsService.toNullableISOString(article.deletedAt),
       },
     };
   }
@@ -124,7 +124,7 @@ export class ArticleService {
         commentCount: article.comment_count,
         createdAt: article.createdAt.toISOString(),
         updatedAt: article.updatedAt.toISOString(),
-        deletedAt: article.deletedAt?.toISOString() ?? null,
+        deletedAt: this.utilsService.toNullableISOString(article.deletedAt),
       })),
       hasNext,
     };
@@ -171,7 +171,7 @@ export class ArticleService {
         commentCount: article.comment_count,
         createdAt: article.createdAt.toISOString(),
         updatedAt: article.updatedAt.toISOString(),
-        deletedAt: article.deletedAt?.toISOString() ?? null,
+        deletedAt: this.utilsService.toNullableISOString(article.deletedAt),
       },
     };
   }
@@ -343,7 +343,7 @@ export class ArticleService {
         content: comment.content,
         createdAt: comment.createdAt.toISOString(),
         updatedAt: comment.updatedAt.toISOString(),
-        deletedAt: comment.deletedAt?.toISOString() ?? null,
+        deletedAt: this.utilsService.toNullableISOString(comment.deletedAt),
         nickname: comment.User.nickname,
         avatar: comment.User.image,
       })),
