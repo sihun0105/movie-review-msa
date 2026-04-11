@@ -11,12 +11,12 @@ async function bootstrap() {
       options: {
         protoPath: join(__dirname, '../reply.proto'),
         package: REPLY_PACKAGE_NAME,
-        url: `0.0.0.0:50053`,
+        url: `0.0.0.0:${process.env.REPLY_GRPC_PORT || '50053'}`,
       },
     },
   );
   await app.listen();
-  console.log(`Reply is running on:0.0.0.0:50053`);
+  console.log(`Reply is running on: 0.0.0.0:${process.env.REPLY_GRPC_PORT || '50053'}`);
 }
 
 bootstrap();

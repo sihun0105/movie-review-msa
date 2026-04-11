@@ -13,10 +13,7 @@ import { MovieService } from './movie.service';
         options: {
           protoPath: join(__dirname, '../../../../proto/movie.proto'),
           package: MOVIE_PACKAGE_NAME,
-          url:
-            process.env.NODE_ENV === 'production'
-              ? 'host.docker.internal:50054'
-              : '0.0.0.0:50054',
+          url: process.env.MOVIE_GRPC_URL || '0.0.0.0:50054',
         },
       },
     ]),

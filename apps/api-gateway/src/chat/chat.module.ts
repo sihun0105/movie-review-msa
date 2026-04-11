@@ -14,7 +14,7 @@ import { CHAT_PACKAGE_NAME } from '@app/common/protobuf';
         options: {
           package: 'chat',
           protoPath: join(__dirname, '../../../../proto/chat.proto'),
-          url: 'localhost:50057', // chat 서비스 gRPC 포트
+          url: process.env.CHAT_GRPC_URL || '0.0.0.0:50057',
         },
       },
     ]),

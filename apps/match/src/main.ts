@@ -12,13 +12,13 @@ async function bootstrap() {
       options: {
         protoPath: join(__dirname, '../match.proto'),
         package: MATCH_PACKAGE_NAME,
-        url: '0.0.0.0:50059',
+        url: `0.0.0.0:${process.env.MATCH_GRPC_PORT || '50059'}`,
       },
     },
   );
 
   await app.listen();
-  console.log('match is running on:0.0.0.0:50059');
+  console.log(`Match is running on: 0.0.0.0:${process.env.MATCH_GRPC_PORT || '50059'}`);
 }
 
 bootstrap();
