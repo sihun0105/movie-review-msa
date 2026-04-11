@@ -98,6 +98,14 @@ jobs:
               api-gateway \
               sh -c "prisma migrate deploy --schema prisma/mysql.schema.prisma"
 
+            echo "▶ MySQL 상태 확인 (실행 중이 아닐 때만 시작)"
+            if ! docker ps --format '{{.Names}}' | grep -q "^mysql$"; then
+              docker compose -f docker-compose.prod.yml --profile db up -d mysql
+            fi
+
+            echo "▶ MySQL을 app-network에 연결"
+            docker network connect nest-msa_app-network mysql 2>/dev/null || true
+
             echo "▶ 서비스 재시작"
             docker compose -f docker-compose.prod.yml up -d
 
