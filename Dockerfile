@@ -33,7 +33,7 @@ COPY package.json pnpm-lock.yaml ./
 RUN pnpm install
 COPY . .
 RUN pnpm run build ${APP}
-RUN npx prisma generate
+RUN npx prisma generate --schema prisma/mysql.schema.prisma
 
 FROM base AS production
 ARG APP
