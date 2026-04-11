@@ -16,6 +16,11 @@ export class UtilsService {
     timestamp.setNanos((date.getTime() % 1000) * 1000000);
     return timestamp;
   }
+
+  toNullableISOString(date: Date | null | undefined): string | null {
+    return date ? date.toISOString() : null;
+  }
+
   async generateEmbedding(description: string): Promise<any> {
     const model = 'sentence-transformers/all-MiniLM-L6-v2';
     const embeddings = await this.hf.featureExtraction({
