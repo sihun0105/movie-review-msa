@@ -84,7 +84,7 @@ jobs:
             set -e
 
             echo "▶ 코드 업데이트"
-            cd /app/movie-review-msa/nest-msa
+            cd /app/movie/movie-review-msa/nest-msa
             git pull origin master
 
             echo "▶ GHCR 로그인"
