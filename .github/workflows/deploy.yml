@@ -93,8 +93,10 @@ jobs:
             echo "▶ 최신 이미지 Pull"
             docker compose -f docker-compose.prod.yml pull
 
-            echo "▶ MySQL 상태 확인 (실행 중이 아닐 때만 시작)"
-            if ! docker ps --format '{{.Names}}' | grep -q "^mysql$"; then
+            echo "▶ MySQL 상태 확인 (컨테이너 없을 때만 생성)"
+            if docker inspect mysql &>/dev/null; then
+              docker start mysql 2>/dev/null || true
+            else
               docker compose -f docker-compose.prod.yml --profile db up -d mysql
             fi
 
