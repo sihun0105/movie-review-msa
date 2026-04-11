@@ -14,10 +14,7 @@ import { ARTICLE_PACKAGE_NAME } from '@app/common/protobuf';
         options: {
           protoPath: join(__dirname, '../../../../proto/article.proto'),
           package: ARTICLE_PACKAGE_NAME,
-          url:
-            process.env.NODE_ENV === 'production'
-              ? 'host.docker.internal:50055'
-              : '0.0.0.0:50055',
+          url: process.env.ARTICLE_GRPC_URL || '0.0.0.0:50055',
         },
       },
     ]),
