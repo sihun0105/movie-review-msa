@@ -3,6 +3,7 @@ import { User, ValidationResponse } from '@app/common/protobuf';
 import { MySQLPrismaService } from '@app/prisma';
 import { UtilsService } from '@app/utils';
 import { Injectable } from '@nestjs/common';
+import { randomBytes } from 'crypto';
 import { compare, hash } from 'bcryptjs';
 @Injectable()
 export class AuthService {
@@ -51,7 +52,7 @@ export class AuthService {
       where: { email: providerId },
     });
     if (!user) {
-      const hashedPassword = await hash('moview' + providerId, 10);
+      const hashedPassword = await hash(randomBytes(32).toString('hex'), 10);
       const newUser = await this.mysqlPrismaService.user.create({
         data: {
           email: providerId,
