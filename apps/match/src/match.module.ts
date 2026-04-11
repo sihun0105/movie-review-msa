@@ -18,7 +18,7 @@ import { MatchService } from './match.service';
         options: {
           package: CHAT_PACKAGE_NAME,
           protoPath: join(__dirname, '../../../../proto/chat.proto'),
-          url: '0.0.0.0:50057',
+          url: process.env.CHAT_GRPC_URL || '0.0.0.0:50057',
         },
       },
     ]),

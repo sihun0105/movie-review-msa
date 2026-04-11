@@ -12,13 +12,13 @@ async function bootstrap() {
       options: {
         protoPath: join(__dirname, '../article.proto'),
         package: ARTICLE_PACKAGE_NAME,
-        url: '0.0.0.0:50055',
+        url: `0.0.0.0:${process.env.ARTICLE_GRPC_PORT || '50055'}`,
       },
     },
   );
 
   await app.listen();
-  console.log('article is running on:0.0.0.0:50055');
+  console.log(`Article is running on: 0.0.0.0:${process.env.ARTICLE_GRPC_PORT || '50055'}`);
 }
 
 bootstrap();

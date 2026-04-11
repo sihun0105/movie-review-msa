@@ -14,7 +14,7 @@ async function bootstrap() {
       options: {
         protoPath: join(__dirname, '../../../proto/chat.proto'),
         package: CHAT_PACKAGE_NAME,
-        url: '0.0.0.0:50057',
+        url: `0.0.0.0:${process.env.CHAT_GRPC_PORT || '50057'}`,
       },
     },
   );
@@ -25,10 +25,10 @@ async function bootstrap() {
 
   // 두 서버 모두 시작
   await grpcApp.listen();
-  await httpApp.listen(3031);
+  await httpApp.listen(process.env.CHAT_WS_PORT || 3031);
 
-  console.log('Chat gRPC service is running on: 0.0.0.0:50057');
-  console.log('Chat WebSocket service is running on: http://localhost:3031');
+  console.log(`Chat gRPC service is running on: 0.0.0.0:${process.env.CHAT_GRPC_PORT || '50057'}`);
+  console.log(`Chat WebSocket service is running on: http://localhost:${process.env.CHAT_WS_PORT || '3031'}`);
 }
 
 bootstrap();

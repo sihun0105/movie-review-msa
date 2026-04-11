@@ -12,11 +12,11 @@ async function bootstrap() {
       options: {
         protoPath: join(__dirname, '../movie.proto'),
         package: MOVIE_PACKAGE_NAME,
-        url: `0.0.0.0:50054`,
+        url: `0.0.0.0:${process.env.MOVIE_GRPC_PORT || '50054'}`,
       },
     },
   );
   await app.listen();
-  console.log(`Movie is running on:0.0.0.0:50054`);
+  console.log(`Movie is running on: 0.0.0.0:${process.env.MOVIE_GRPC_PORT || '50054'}`);
 }
 bootstrap();
