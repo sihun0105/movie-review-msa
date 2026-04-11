@@ -49,8 +49,8 @@ jobs:
       - name: Build and push ${{ matrix.service }}
         uses: docker/build-push-action@v5
         with:
-          context: ./nest-msa
-          file: ./nest-msa/Dockerfile
+          context: .
+          file: ./Dockerfile
           build-args: APP=${{ matrix.service }}
           target: production
           push: true
