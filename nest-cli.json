@@ -115,15 +115,6 @@
         "watchAssets": true
       }
     },
-    "crawling": {
-      "type": "library",
-      "root": "libs/crawling",
-      "entryFile": "index",
-      "sourceRoot": "libs/crawling/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/crawling/tsconfig.lib.json"
-      }
-    },
     "chat": {
       "type": "application",
       "root": "apps/chat",
