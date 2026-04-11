@@ -4,6 +4,8 @@ services:
   mysql:
     image: mysql:8.0
     container_name: mysql
+    profiles:
+      - db
     ports:
       - '3306:3306'
     volumes:
@@ -35,8 +37,6 @@ services:
       - .env.production
     networks:
       - app-network
-    depends_on:
-      - mysql
     restart: unless-stopped
 
   auth-service:
@@ -50,9 +50,6 @@ services:
       - .env.production
     networks:
       - app-network
-    depends_on:
-      - mysql
-      - api-gateway
     restart: unless-stopped
     command:
       - bash
@@ -72,9 +69,6 @@ services:
       - .env.production
     networks:
       - app-network
-    depends_on:
-      - mysql
-      - api-gateway
     restart: unless-stopped
     command:
       - bash
@@ -94,9 +88,6 @@ services:
       - .env.production
     networks:
       - app-network
-    depends_on:
-      - mysql
-      - api-gateway
     restart: unless-stopped
     command:
       - bash
@@ -116,9 +107,6 @@ services:
       - .env.production
     networks:
       - app-network
-    depends_on:
-      - mysql
-      - api-gateway
     restart: unless-stopped
     command:
       - bash
@@ -138,9 +126,6 @@ services:
       - .env.production
     networks:
       - app-network
-    depends_on:
-      - mysql
-      - api-gateway
     restart: unless-stopped
     command:
       - bash
@@ -161,9 +146,6 @@ services:
       - .env.production
     networks:
       - app-network
-    depends_on:
-      - mysql
-      - api-gateway
     restart: unless-stopped
 
   match-service:
@@ -177,9 +159,6 @@ services:
       - .env.production
     networks:
       - app-network
-    depends_on:
-      - mysql
-      - api-gateway
     restart: unless-stopped
     command:
       - bash
@@ -199,9 +178,6 @@ services:
       - .env.production
     networks:
       - app-network
-    depends_on:
-      - mysql
-      - api-gateway
     restart: unless-stopped
     command:
       - bash
