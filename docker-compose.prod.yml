@@ -1,21 +1,6 @@
 version: '3.7'
 
 services:
-  mysql:
-    image: mysql:8.0
-    container_name: mysql
-    profiles:
-      - db
-    ports:
-      - '3306:3306'
-    volumes:
-      - mysql-data:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-    networks:
-      - app-network
-    restart: unless-stopped
-
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: rabbitmq
@@ -35,6 +20,8 @@ services:
       - NODE_ENV=production
     env_file:
       - .env.production
+    extra_hosts:
+      - "mysql:host-gateway"
     networks:
       - app-network
     restart: unless-stopped
@@ -48,6 +35,8 @@ services:
       - NODE_ENV=production
     env_file:
       - .env.production
+    extra_hosts:
+      - "mysql:host-gateway"
     networks:
       - app-network
     restart: unless-stopped
@@ -67,6 +56,8 @@ services:
       - NODE_ENV=production
     env_file:
       - .env.production
+    extra_hosts:
+      - "mysql:host-gateway"
     networks:
       - app-network
     restart: unless-stopped
@@ -86,6 +77,8 @@ services:
       - NODE_ENV=production
     env_file:
       - .env.production
+    extra_hosts:
+      - "mysql:host-gateway"
     networks:
       - app-network
     restart: unless-stopped
@@ -105,6 +98,8 @@ services:
       - NODE_ENV=production
     env_file:
       - .env.production
+    extra_hosts:
+      - "mysql:host-gateway"
     networks:
       - app-network
     restart: unless-stopped
@@ -124,6 +119,8 @@ services:
       - NODE_ENV=production
     env_file:
       - .env.production
+    extra_hosts:
+      - "mysql:host-gateway"
     networks:
       - app-network
     restart: unless-stopped
@@ -144,6 +141,8 @@ services:
       - NODE_ENV=production
     env_file:
       - .env.production
+    extra_hosts:
+      - "mysql:host-gateway"
     networks:
       - app-network
     restart: unless-stopped
@@ -157,6 +156,8 @@ services:
       - NODE_ENV=production
     env_file:
       - .env.production
+    extra_hosts:
+      - "mysql:host-gateway"
     networks:
       - app-network
     restart: unless-stopped
@@ -176,6 +177,8 @@ services:
       - NODE_ENV=production
     env_file:
       - .env.production
+    extra_hosts:
+      - "mysql:host-gateway"
     networks:
       - app-network
     restart: unless-stopped
@@ -189,6 +192,3 @@ services:
 networks:
   app-network:
     driver: bridge
-
-volumes:
-  mysql-data:

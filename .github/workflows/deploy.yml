@@ -93,17 +93,6 @@ jobs:
             echo "▶ 최신 이미지 Pull"
             docker compose -f docker-compose.prod.yml pull
 
-            echo "▶ MySQL 상태 확인 (컨테이너 없을 때만 생성)"
-            if docker inspect mysql &>/dev/null; then
-              docker start mysql 2>/dev/null || true
-            else
-              docker compose -f docker-compose.prod.yml --profile db up -d mysql
-            fi
-
-            echo "▶ MySQL을 app-network에 연결"
-            NETWORK_NAME=$(docker network ls --format '{{.Name}}' | grep 'app-network' | head -1)
-            docker network connect "${NETWORK_NAME}" mysql 2>/dev/null || true
-
             echo "▶ DB 마이그레이션"
             docker compose -f docker-compose.prod.yml run --rm \
               api-gateway \
