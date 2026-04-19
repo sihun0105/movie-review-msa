@@ -32,8 +32,8 @@ WORKDIR /usr/src/app
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install
 COPY . .
-RUN pnpm run build ${APP}
 RUN npx prisma generate --schema prisma/mysql.schema.prisma
+RUN pnpm run build ${APP}
 
 FROM base AS production
 ARG APP
