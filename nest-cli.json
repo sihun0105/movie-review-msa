@@ -118,10 +118,12 @@
     "chat": {
       "type": "application",
       "root": "apps/chat",
-      "entryFile": "main",
-      "sourceRoot": "apps/chat/src",
+      "entryFile": "src/main",
+      "sourceRoot": "./",
       "compilerOptions": {
-        "tsConfigPath": "apps/chat/tsconfig.app.json"
+        "tsConfigPath": "apps/chat/tsconfig.app.json",
+        "assets": ["proto/*.proto"],
+        "watchAssets": true
       }
     },
     "match": {
