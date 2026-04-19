@@ -12,7 +12,7 @@ async function bootstrap() {
     {
       transport: Transport.GRPC,
       options: {
-        protoPath: join(__dirname, '../../../proto/chat.proto'),
+        protoPath: join(__dirname, '../chat.proto'),
         package: CHAT_PACKAGE_NAME,
         url: `0.0.0.0:${process.env.CHAT_GRPC_PORT || '50057'}`,
       },
