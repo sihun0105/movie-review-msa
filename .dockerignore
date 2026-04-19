@@ -1,5 +1,6 @@
 node_modules
 dist
+prisma/generated
 .git
 .github
 .env
