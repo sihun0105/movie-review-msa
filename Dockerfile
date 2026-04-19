@@ -6,7 +6,7 @@ RUN wget http://cdn.naver.com/naver/NanumFont/fontfiles/NanumFont_TTF_ALL.zip
 RUN unzip NanumFont_TTF_ALL.zip -d /usr/share/fonts/nanumfont
 RUN fc-cache -f && rm -rf /var/cache/*
 
-RUN apk add bash
+RUN apk add --no-cache bash openssl
 
 ENV LANG=ko_KR.UTF-8 \
     LANGUAGE=ko_KR.UTF-8
