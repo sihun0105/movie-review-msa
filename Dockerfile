@@ -43,6 +43,7 @@ WORKDIR /usr/src/app
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --prod
 COPY --from=development /usr/src/app/dist ./dist
+COPY --from=development /usr/src/app/prisma/generated ./prisma/generated
 
 ENV APP_MAIN_FILE=dist/apps/${APP}/src/main
 CMD node ${APP_MAIN_FILE}
