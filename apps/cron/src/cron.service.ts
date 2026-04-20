@@ -4,11 +4,9 @@ import { MovieService } from './movie/movie.service';
 
 @Injectable()
 export class CronService {
-  constructor(private readonly movieService: MovieService) {
-    this.movieService.fetchMoviedata();
-  }
+  constructor(private readonly movieService: MovieService) {}
 
-  @Cron('* 10 0 * * *')
+  @Cron('0 10 0 * * *')
   handleCron() {
     this.movieService.fetchMoviedata();
   }
