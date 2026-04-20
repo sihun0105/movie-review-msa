@@ -75,11 +75,11 @@ export class MovieService implements OnModuleInit {
 
     // const lastYear = moment().subtract(1, 'years').format('YYYY') + '0101';
     const thisYear = moment().format('YYYY') + '0101';
-    let url = `${this.kmdbUrl}?collection=kmdb_new2&ServiceKey=${this.kmdbKey}&detail=Y&title=${title}&sort=prodYear,1&releaseDts=${thisYear}`;
+    let url = `${this.kmdbUrl}?collection=kmdb_new2&ServiceKey=${this.kmdbKey}&detail=Y&title=${title}&sort=prodYear,0&releaseDts=${thisYear}`;
     let response = await axios.get<KmdbResponse>(url);
 
     if (!response.data?.Data?.[0]?.Result?.[0]) {
-      url = `${this.kmdbUrl}?collection=kmdb_new2&ServiceKey=${this.kmdbKey}&detail=Y&title=${title}&sort=prodYear,1`;
+      url = `${this.kmdbUrl}?collection=kmdb_new2&ServiceKey=${this.kmdbKey}&detail=Y&title=${title}&sort=prodYear,0`;
       response = await axios.get<KmdbResponse>(url);
 
       if (!response.data?.Data?.[0]?.Result?.[0]) {
@@ -165,11 +165,13 @@ export class MovieService implements OnModuleInit {
           }
 
           const tmdbData = await this.fetchTmdbData(movieData.movieNm);
-          if (tmdbData) {
+          if (tmdbData?.poster_path) {
             poster = `https://image.tmdb.org/t/p/w500${tmdbData.poster_path}`;
-            plot = tmdbData.overview;
-          } else if (fetchedData) {
+          } else if (!poster && fetchedData) {
             poster = fetchedData.posters?.split('|')?.[0] ?? '';
+          }
+          if (tmdbData?.overview) {
+            plot = tmdbData.overview;
           }
         } catch (error) {
           console.warn(`fetchKmdbData failed for ${movieData.movieNm}:`, error);
@@ -185,6 +187,11 @@ export class MovieService implements OnModuleInit {
             updatedAt: new Date(),
             rankInten: movieData.rankInten,
             rankOldAndNew: movieData.rankOldAndNew,
+            ...(poster && { poster }),
+            ...(plot && { plot }),
+            ...(director && { director }),
+            ...(genre && { genre }),
+            ...(rating && { ratting: rating }),
           },
           create: {
             title: movieData.movieNm,
