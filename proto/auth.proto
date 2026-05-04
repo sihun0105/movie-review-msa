@@ -11,6 +11,10 @@ service AuthService {
     rpc OauthLogin (OauthLoginDto) returns (user.User) {}
     rpc ValidateEmail (ValidateEmailDto) returns (ValidationResponse) {}
     rpc ValidateNickname (ValidateNicknameDto) returns (ValidationResponse) {}
+    rpc SendVerificationCode (SendVerificationCodeDto) returns (CommonResponse) {}
+    rpc VerifyCode (VerifyCodeDto) returns (ValidationResponse) {}
+    rpc ForgotPassword (ForgotPasswordDto) returns (CommonResponse) {}
+    rpc ResetPassword (ResetPasswordDto) returns (CommonResponse) {}
 }
 
 message LoginUserDto {
@@ -33,5 +37,28 @@ message ValidateNicknameDto {
 
 message ValidationResponse {
     bool isAvailable = 1;
+    string message = 2;
+}
+
+message SendVerificationCodeDto {
+    string email = 1;
+}
+
+message VerifyCodeDto {
+    string email = 1;
+    string code = 2;
+}
+
+message ForgotPasswordDto {
+    string email = 1;
+}
+
+message ResetPasswordDto {
+    string token = 1;
+    string newPassword = 2;
+}
+
+message CommonResponse {
+    bool success = 1;
     string message = 2;
 }
