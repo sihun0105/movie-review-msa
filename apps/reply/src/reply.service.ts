@@ -7,10 +7,11 @@ import {
 import { NotFoundException } from '@app/common/filters/rpcexception/rpc-exception';
 import { MySQLPrismaService } from '@app/prisma';
 import { UtilsService } from '@app/utils';
-import { Injectable, ForbiddenException } from '@nestjs/common';
+import { Injectable, Logger, ForbiddenException } from '@nestjs/common';
 
 @Injectable()
 export class ReplyService {
+  private readonly logger = new Logger(ReplyService.name);
   constructor(
     private readonly mysqlPrismaService: MySQLPrismaService,
     private readonly utilsService: UtilsService,
@@ -154,7 +155,7 @@ export class ReplyService {
         where: { movieId, deletedAt: null },
       }),
     ]);
-    console.log('Replies:', replies);
+    this.logger.debug(`getReplies movieId=${movieId} count=${replies.length}`);
     const replyObjects: Reply[] = replies.map((reply) => ({
       replyId: reply.id,
       comment: reply.comment,

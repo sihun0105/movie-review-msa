@@ -1,5 +1,6 @@
 import {
   Injectable,
+  Logger,
   NotFoundException,
   ForbiddenException,
   BadRequestException,
@@ -32,6 +33,7 @@ import {
 
 @Injectable()
 export class MatchService {
+  private readonly logger = new Logger(MatchService.name);
   private chatService: ChatService;
 
   constructor(
@@ -187,7 +189,6 @@ export class MatchService {
         },
       },
     });
-    console.log(matchPost);
     if (!matchPost) {
       return {
         matchPost: null,
@@ -334,7 +335,7 @@ export class MatchService {
 
   async applyToMatch(request: ApplyToMatchRequest): Promise<CommonResponse> {
     const { matchId, applicantUserno, applicantName, message } = request;
-    console.log(matchId, applicantUserno, applicantName, message);
+    this.logger.log(`applyToMatch matchId=${matchId} applicant=${applicantUserno}`);
 
     // 게시글 존재 여부 확인
     const matchPost = await this.mysqlPrismaService.matchPost.findFirst({
@@ -404,12 +405,7 @@ export class MatchService {
     request: GetMatchApplicationsRequest,
   ): Promise<MatchApplicationsResponse> {
     const { matchId, userno } = request;
-    console.log(
-      'Fetching applications for matchId:',
-      matchId,
-      'by userno:',
-      userno,
-    );
+    this.logger.debug(`getMatchApplications matchId=${matchId} requestedBy=${userno}`);
 
     // 게시글 존재 여부 확인
     const matchPost = await this.mysqlPrismaService.matchPost.findFirst({
@@ -430,7 +426,6 @@ export class MatchService {
       };
     }
 
-    console.log(matchId);
     const applications =
       await this.mysqlPrismaService.matchApplication.findMany({
         where: {
@@ -440,7 +435,7 @@ export class MatchService {
           createdAt: 'desc',
         },
       });
-    console.log('Applications found:', applications.length);
+    this.logger.debug(`getMatchApplications matchId=${matchId} count=${applications.length}`);
     const formattedApplications: MatchApplication[] = await Promise.all(
       applications.map(async (app) => {
         // 지원자 User 정보 조회
@@ -469,7 +464,7 @@ export class MatchService {
     request: UpdateApplicationStatusRequest,
   ): Promise<ApplicationResponse> {
     const { matchId, applicationId, status, userno } = request;
-    console.log(matchId, applicationId, status, userno);
+    this.logger.log(`updateApplicationStatus match=${matchId} app=${applicationId} status=${status} userId=${userno}`);
 
     // 게시글 존재 여부 및 권한 확인
     const matchPost = await this.mysqlPrismaService.matchPost.findFirst({
@@ -637,7 +632,7 @@ export class MatchService {
   ): Promise<MatchApplicationsResponse> {
     const { userno, page = 1, pageSize = 10 } = request;
     const skip = (page - 1) * pageSize;
-    console.log('Fetching applications for userno:', userno);
+    this.logger.debug(`getMyApplications userId=${userno}`);
 
     const applications =
       await this.mysqlPrismaService.matchApplication.findMany({

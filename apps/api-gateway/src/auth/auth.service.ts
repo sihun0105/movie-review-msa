@@ -3,11 +3,12 @@ import {
   AUTH_SERVICE_NAME,
   AUTH_PACKAGE_NAME,
 } from '@app/common/protobuf';
-import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
+import { Inject, Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 
 @Injectable()
 export class AuthService implements OnModuleInit {
+  private readonly logger = new Logger(AuthService.name);
   private authService: AuthServiceClient;
   constructor(
     @Inject(AUTH_PACKAGE_NAME)
@@ -20,7 +21,7 @@ export class AuthService implements OnModuleInit {
 
   login({ email, password }: { email: string; password: string }) {
     if (!this.authService) {
-      console.log('Auth service is not initialized.');
+      this.logger.error('Auth service is not initialized.');
       return;
     }
     return this.authService.loginUser({ email, password });
@@ -33,7 +34,7 @@ export class AuthService implements OnModuleInit {
     accessToken: string;
   }) {
     if (!this.authService) {
-      console.log('Auth service is not initialized.');
+      this.logger.error('Auth service is not initialized.');
       return;
     }
     return this.authService.oauthLogin({
@@ -44,7 +45,7 @@ export class AuthService implements OnModuleInit {
 
   validateEmail({ email }: { email: string }) {
     if (!this.authService) {
-      console.log('Auth service is not initialized.');
+      this.logger.error('Auth service is not initialized.');
       return;
     }
     return this.authService.validateEmail({ email });
@@ -52,7 +53,7 @@ export class AuthService implements OnModuleInit {
 
   validateNickname({ nickname }: { nickname: string }) {
     if (!this.authService) {
-      console.log('Auth service is not initialized.');
+      this.logger.error('Auth service is not initialized.');
       return;
     }
     return this.authService.validateNickname({ nickname });

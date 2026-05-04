@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Logger,
   Param,
   Patch,
   Post,
@@ -22,6 +23,7 @@ import { MatchService } from './match.service';
 
 @Controller('match')
 export class MatchController {
+  private readonly logger = new Logger(MatchController.name);
   constructor(private readonly matchService: MatchService) {}
 
   @Get()
@@ -40,9 +42,7 @@ export class MatchController {
   async createMatchPost(@Body() body: CreateMatchPostRequest, @Req() req) {
     const userNumber = req.user.userId;
     const userName = req.user.nickname || 'Unknown';
-    console.log('Creating match post with user:', userName);
-    console.log('Request body:', body);
-    console.log('User number:', userNumber);
+    this.logger.log(`createMatchPost userId=${userNumber} user=${userName}`);
     return this.matchService.createMatchPost({
       ...body,
       userno: userNumber,
@@ -116,12 +116,7 @@ export class MatchController {
     @Req() req,
   ) {
     const userNumber = req.user.userId;
-    console.log('Updating application status:', {
-      matchId,
-      applicationId,
-      status: body.status,
-      userno: userNumber,
-    });
+    this.logger.log(`updateApplicationStatus match=${matchId} app=${applicationId} status=${body.status} userId=${userNumber}`);
     return this.matchService.updateApplicationStatus({
       matchId,
       applicationId,
@@ -153,7 +148,7 @@ export class MatchController {
     @Req() req,
   ) {
     const userNumber = req.user.userId;
-    console.log('Fetching my applications for userno:', userNumber);
+    this.logger.debug(`getMyApplications userId=${userNumber}`);
     return this.matchService.getMyApplications({
       userno: userNumber,
       page: Number(page) || 1,
