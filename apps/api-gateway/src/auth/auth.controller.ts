@@ -13,15 +13,10 @@ export class AuthController {
   @Post('login')
   async login(@Body() loginDto: { email: string; password: string }) {
     try {
-      const userDataObservable = this.authService.login({ ...loginDto });
-      const data = await firstValueFrom(userDataObservable);
-      const user = convertToUserEntity(data);
-      return user;
+      const data = await firstValueFrom(this.authService.login(loginDto));
+      return convertToUserEntity(data);
     } catch (error) {
-      throw new RpcException({
-        code: error.code,
-        message: error.details,
-      });
+      throw new RpcException({ code: error.code, message: error.details });
     }
   }
 
@@ -29,47 +24,68 @@ export class AuthController {
   @Post('oauth')
   async oauth(@Body() loginDto: { provider: string; accessToken: string }) {
     try {
-      const userDataObservable = this.authService.oAuthLogin({ ...loginDto });
-      const data = await firstValueFrom(userDataObservable);
-      const user = convertToUserEntity(data);
-      return user;
+      const data = await firstValueFrom(this.authService.oAuthLogin(loginDto));
+      return convertToUserEntity(data);
     } catch (error) {
-      throw new RpcException({
-        code: error.code,
-        message: error.details,
-      });
+      throw new RpcException({ code: error.code, message: error.details });
     }
   }
 
   @Post('validate/email')
   async validateEmail(@Body() validateDto: { email: string }) {
     try {
-      const validationObservable = this.authService.validateEmail({
-        ...validateDto,
-      });
-      const result = await firstValueFrom(validationObservable);
-      return result;
+      return await firstValueFrom(this.authService.validateEmail(validateDto));
     } catch (error) {
-      throw new RpcException({
-        code: error.code,
-        message: error.details,
-      });
+      throw new RpcException({ code: error.code, message: error.details });
     }
   }
 
   @Post('validate/nickname')
   async validateNickname(@Body() validateDto: { nickname: string }) {
     try {
-      const validationObservable = this.authService.validateNickname({
-        ...validateDto,
-      });
-      const result = await firstValueFrom(validationObservable);
-      return result;
+      return await firstValueFrom(this.authService.validateNickname(validateDto));
     } catch (error) {
-      throw new RpcException({
-        code: error.code,
-        message: error.details,
-      });
+      throw new RpcException({ code: error.code, message: error.details });
+    }
+  }
+
+  // ─── 이메일 인증 ────────────────────────────────────────────────
+
+  @Post('send-verification')
+  async sendVerification(@Body() dto: { email: string }) {
+    try {
+      return await firstValueFrom(this.authService.sendVerificationCode(dto));
+    } catch (error) {
+      throw new RpcException({ code: error.code, message: error.details });
+    }
+  }
+
+  @Post('verify-code')
+  async verifyCode(@Body() dto: { email: string; code: string }) {
+    try {
+      return await firstValueFrom(this.authService.verifyCode(dto));
+    } catch (error) {
+      throw new RpcException({ code: error.code, message: error.details });
+    }
+  }
+
+  // ─── 비밀번호 찾기 ──────────────────────────────────────────────
+
+  @Post('forgot-password')
+  async forgotPassword(@Body() dto: { email: string }) {
+    try {
+      return await firstValueFrom(this.authService.forgotPassword(dto));
+    } catch (error) {
+      throw new RpcException({ code: error.code, message: error.details });
+    }
+  }
+
+  @Post('reset-password')
+  async resetPassword(@Body() dto: { token: string; newPassword: string }) {
+    try {
+      return await firstValueFrom(this.authService.resetPassword(dto));
+    } catch (error) {
+      throw new RpcException({ code: error.code, message: error.details });
     }
   }
 }

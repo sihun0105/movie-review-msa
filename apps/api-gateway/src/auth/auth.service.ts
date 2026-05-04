@@ -10,52 +10,53 @@ import { ClientGrpc } from '@nestjs/microservices';
 export class AuthService implements OnModuleInit {
   private readonly logger = new Logger(AuthService.name);
   private authService: AuthServiceClient;
+
   constructor(
     @Inject(AUTH_PACKAGE_NAME)
     private client: ClientGrpc,
   ) {}
+
   onModuleInit() {
-    this.authService =
-      this.client.getService<AuthServiceClient>(AUTH_SERVICE_NAME);
+    this.authService = this.client.getService<AuthServiceClient>(AUTH_SERVICE_NAME);
+  }
+
+  private get svc() {
+    if (!this.authService) {
+      this.logger.error('Auth service is not initialized.');
+      return null;
+    }
+    return this.authService;
   }
 
   login({ email, password }: { email: string; password: string }) {
-    if (!this.authService) {
-      this.logger.error('Auth service is not initialized.');
-      return;
-    }
-    return this.authService.loginUser({ email, password });
+    return this.svc?.loginUser({ email, password });
   }
-  oAuthLogin({
-    provider,
-    accessToken,
-  }: {
-    provider: string;
-    accessToken: string;
-  }) {
-    if (!this.authService) {
-      this.logger.error('Auth service is not initialized.');
-      return;
-    }
-    return this.authService.oauthLogin({
-      provider: provider,
-      providerId: accessToken,
-    });
+
+  oAuthLogin({ provider, accessToken }: { provider: string; accessToken: string }) {
+    return this.svc?.oauthLogin({ provider, providerId: accessToken });
   }
 
   validateEmail({ email }: { email: string }) {
-    if (!this.authService) {
-      this.logger.error('Auth service is not initialized.');
-      return;
-    }
-    return this.authService.validateEmail({ email });
+    return this.svc?.validateEmail({ email });
   }
 
   validateNickname({ nickname }: { nickname: string }) {
-    if (!this.authService) {
-      this.logger.error('Auth service is not initialized.');
-      return;
-    }
-    return this.authService.validateNickname({ nickname });
+    return this.svc?.validateNickname({ nickname });
+  }
+
+  sendVerificationCode({ email }: { email: string }) {
+    return this.svc?.sendVerificationCode({ email });
+  }
+
+  verifyCode({ email, code }: { email: string; code: string }) {
+    return this.svc?.verifyCode({ email, code });
+  }
+
+  forgotPassword({ email }: { email: string }) {
+    return this.svc?.forgotPassword({ email });
+  }
+
+  resetPassword({ token, newPassword }: { token: string; newPassword: string }) {
+    return this.svc?.resetPassword({ token, newPassword });
   }
 }

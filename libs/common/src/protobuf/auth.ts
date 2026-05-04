@@ -28,6 +28,29 @@ export interface ValidationResponse {
   message: string;
 }
 
+export interface SendVerificationCodeDto {
+  email: string;
+}
+
+export interface VerifyCodeDto {
+  email: string;
+  code: string;
+}
+
+export interface ForgotPasswordDto {
+  email: string;
+}
+
+export interface ResetPasswordDto {
+  token: string;
+  newPassword: string;
+}
+
+export interface AuthCommonResponse {
+  success: boolean;
+  message: string;
+}
+
 export const AUTH_PACKAGE_NAME = 'auth';
 
 export interface AuthServiceClient {
@@ -37,9 +60,15 @@ export interface AuthServiceClient {
 
   validateEmail(request: ValidateEmailDto): Observable<ValidationResponse>;
 
-  validateNickname(
-    request: ValidateNicknameDto,
-  ): Observable<ValidationResponse>;
+  validateNickname(request: ValidateNicknameDto): Observable<ValidationResponse>;
+
+  sendVerificationCode(request: SendVerificationCodeDto): Observable<AuthCommonResponse>;
+
+  verifyCode(request: VerifyCodeDto): Observable<ValidationResponse>;
+
+  forgotPassword(request: ForgotPasswordDto): Observable<AuthCommonResponse>;
+
+  resetPassword(request: ResetPasswordDto): Observable<AuthCommonResponse>;
 }
 
 export interface AuthServiceController {
@@ -49,17 +78,27 @@ export interface AuthServiceController {
 
   validateEmail(
     request: ValidateEmailDto,
-  ):
-    | Promise<ValidationResponse>
-    | Observable<ValidationResponse>
-    | ValidationResponse;
+  ): Promise<ValidationResponse> | Observable<ValidationResponse> | ValidationResponse;
 
   validateNickname(
     request: ValidateNicknameDto,
-  ):
-    | Promise<ValidationResponse>
-    | Observable<ValidationResponse>
-    | ValidationResponse;
+  ): Promise<ValidationResponse> | Observable<ValidationResponse> | ValidationResponse;
+
+  sendVerificationCode(
+    request: SendVerificationCodeDto,
+  ): Promise<AuthCommonResponse> | Observable<AuthCommonResponse> | AuthCommonResponse;
+
+  verifyCode(
+    request: VerifyCodeDto,
+  ): Promise<ValidationResponse> | Observable<ValidationResponse> | ValidationResponse;
+
+  forgotPassword(
+    request: ForgotPasswordDto,
+  ): Promise<AuthCommonResponse> | Observable<AuthCommonResponse> | AuthCommonResponse;
+
+  resetPassword(
+    request: ResetPasswordDto,
+  ): Promise<AuthCommonResponse> | Observable<AuthCommonResponse> | AuthCommonResponse;
 }
 
 export function AuthServiceControllerMethods() {
@@ -69,6 +108,10 @@ export function AuthServiceControllerMethods() {
       'oauthLogin',
       'validateEmail',
       'validateNickname',
+      'sendVerificationCode',
+      'verifyCode',
+      'forgotPassword',
+      'resetPassword',
     ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(

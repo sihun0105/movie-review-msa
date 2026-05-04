@@ -28,6 +28,29 @@ export interface ValidationResponse {
   message: string;
 }
 
+export interface SendVerificationCodeDto {
+  email: string;
+}
+
+export interface VerifyCodeDto {
+  email: string;
+  code: string;
+}
+
+export interface ForgotPasswordDto {
+  email: string;
+}
+
+export interface ResetPasswordDto {
+  token: string;
+  newPassword: string;
+}
+
+export interface CommonResponse {
+  success: boolean;
+  message: string;
+}
+
 export const AUTH_PACKAGE_NAME = "auth";
 
 export interface AuthServiceClient {
@@ -38,6 +61,14 @@ export interface AuthServiceClient {
   validateEmail(request: ValidateEmailDto): Observable<ValidationResponse>;
 
   validateNickname(request: ValidateNicknameDto): Observable<ValidationResponse>;
+
+  sendVerificationCode(request: SendVerificationCodeDto): Observable<CommonResponse>;
+
+  verifyCode(request: VerifyCodeDto): Observable<ValidationResponse>;
+
+  forgotPassword(request: ForgotPasswordDto): Observable<CommonResponse>;
+
+  resetPassword(request: ResetPasswordDto): Observable<CommonResponse>;
 }
 
 export interface AuthServiceController {
@@ -52,11 +83,30 @@ export interface AuthServiceController {
   validateNickname(
     request: ValidateNicknameDto,
   ): Promise<ValidationResponse> | Observable<ValidationResponse> | ValidationResponse;
+
+  sendVerificationCode(
+    request: SendVerificationCodeDto,
+  ): Promise<CommonResponse> | Observable<CommonResponse> | CommonResponse;
+
+  verifyCode(request: VerifyCodeDto): Promise<ValidationResponse> | Observable<ValidationResponse> | ValidationResponse;
+
+  forgotPassword(request: ForgotPasswordDto): Promise<CommonResponse> | Observable<CommonResponse> | CommonResponse;
+
+  resetPassword(request: ResetPasswordDto): Promise<CommonResponse> | Observable<CommonResponse> | CommonResponse;
 }
 
 export function AuthServiceControllerMethods() {
   return function (constructor: Function) {
-    const grpcMethods: string[] = ["loginUser", "oauthLogin", "validateEmail", "validateNickname"];
+    const grpcMethods: string[] = [
+      "loginUser",
+      "oauthLogin",
+      "validateEmail",
+      "validateNickname",
+      "sendVerificationCode",
+      "verifyCode",
+      "forgotPassword",
+      "resetPassword",
+    ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(constructor.prototype, method);
       GrpcMethod("AuthService", method)(constructor.prototype[method], method, descriptor);
