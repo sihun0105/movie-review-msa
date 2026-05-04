@@ -23,6 +23,7 @@ import { MySQLPrismaService } from '@app/prisma';
 import { UtilsService } from '@app/utils';
 import {
   Injectable,
+  Logger,
   NotFoundException,
   ForbiddenException,
 } from '@nestjs/common';
@@ -31,6 +32,7 @@ import { GetArticleRequest } from 'proto/article';
 
 @Injectable()
 export class ArticleService {
+  private readonly logger = new Logger(ArticleService.name);
   constructor(
     private readonly mysqlPrismaService: MySQLPrismaService,
     private readonly utilsService: UtilsService,
@@ -177,7 +179,7 @@ export class ArticleService {
   }
   async deleteArticle(request: DeleteArticleRequest): Promise<void> {
     const { id, userno } = request;
-    console.log('Deleting article with ID:', id, 'for user:', userno);
+    this.logger.log(`deleteArticle id=${id} userId=${userno}`);
 
     // 기존 게시글 조회 및 권한 확인
     const existingArticle = await this.mysqlPrismaService.article.findUnique({

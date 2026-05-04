@@ -3,9 +3,18 @@ import { AppModule } from './app.module';
 import { RpcExceptionFilter } from '@app/common/filters/rpcexception/rpc-exception.filter';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import { Logger, LogLevel } from '@nestjs/common';
 import './utils/instrument';
+
+const logLevels: LogLevel[] =
+  process.env.NODE_ENV === 'production'
+    ? ['error', 'warn', 'log']
+    : ['error', 'warn', 'log', 'debug', 'verbose'];
+
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    logger: logLevels,
+  });
 
   app.useGlobalFilters(new RpcExceptionFilter());
   /**Swaager설정 */
@@ -27,6 +36,6 @@ async function bootstrap() {
     preflightContinue: false,
   });
   await app.listen(3030);
-  console.log(`Apigateway is running on: ${await app.getUrl()}`);
+  new Logger('Bootstrap').log(`Apigateway is running on: ${await app.getUrl()}`);
 }
 bootstrap();

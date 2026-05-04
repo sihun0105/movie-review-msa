@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Logger,
   Param,
   Patch,
   Post,
@@ -20,6 +21,7 @@ import {
 import { JwtAuthGuard } from '@app/common/guards/jwtauth/jwtauth.guard';
 @Controller('article')
 export class ArticleController {
+  private readonly logger = new Logger(ArticleController.name);
   constructor(private readonly articleService: ArticleService) {}
   @Post()
   @UseGuards(JwtAuthGuard)
@@ -31,7 +33,7 @@ export class ArticleController {
 
   @Get(':id')
   async getArticle(@Param('id') id: string) {
-    console.log('getArticle id', id);
+    this.logger.debug(`getArticle id=${id}`);
     return this.articleService.getArticle({ id: Number(id) });
   }
 
@@ -40,7 +42,7 @@ export class ArticleController {
     @Query('page') page: string,
     @Query('pageSize') pageSize: string,
   ) {
-    console.log('page', page, 'pageSize', pageSize);
+    this.logger.debug(`listArticles page=${page} pageSize=${pageSize}`);
     return this.articleService.listArticles({
       page: Number(page) || 1,
       pageSize: Number(pageSize) || 10,
@@ -129,7 +131,7 @@ export class ArticleController {
   ) {
     const userNumber = req.user.userId;
     body.userno = userNumber;
-    console.log('likeArticle body', body);
+    this.logger.debug(`likeArticle articleId=${articleId} state=${body.state}`);
     return this.articleService.likeArticle({
       articleId: Number(articleId),
       ...body,

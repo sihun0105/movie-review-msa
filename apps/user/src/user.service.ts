@@ -7,10 +7,11 @@ import {
 import { AlreadyExistsException } from '@app/common/filters/rpcexception/rpc-exception';
 import { MySQLPrismaService } from '@app/prisma';
 import { UtilsService } from '@app/utils';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { hash } from 'bcryptjs';
 @Injectable()
 export class UserService {
+  private readonly logger = new Logger(UserService.name);
   constructor(
     private readonly mysqlPrismaService: MySQLPrismaService,
     private readonly utilsService: UtilsService,
@@ -19,7 +20,7 @@ export class UserService {
   async create(createUserDto: CreateUserDto): Promise<User> {
     const { email, password, nickname, marketingAgreed, gender } =
       createUserDto;
-    console.log('createUserDto', createUserDto);
+    this.logger.log(`createUser email=${createUserDto.email}`);
     const hashedPassword = await hash(password, 10);
     const existedNickname = await this.mysqlPrismaService.user.findFirst({
       where: { nickname },
@@ -154,7 +155,7 @@ export class UserService {
     if (!userData) {
       throw new NotFoundException(`User not found ${id}`);
     }
-    console.log('updateUserProfileImage', image);
+    this.logger.log(`updateUserProfileImage userId=${id}`);
     const updatedUserData = await this.mysqlPrismaService.user.update({
       where: { id },
       data: { image: image },

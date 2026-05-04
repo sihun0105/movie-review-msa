@@ -1,5 +1,6 @@
 import {
   Injectable,
+  Logger,
   NotFoundException,
   BadRequestException,
 } from '@nestjs/common';
@@ -21,6 +22,7 @@ import {
 
 @Injectable()
 export class ChatService {
+  private readonly logger = new Logger(ChatService.name);
   constructor(private readonly prisma: MySQLPrismaService) {}
 
   // 새로운 1:1 채팅방 생성
@@ -28,7 +30,7 @@ export class ChatService {
     request: CreateChatRoomRequest,
   ): Promise<CreateChatRoomResponse> {
     const { memberIds, roomName, type = 'direct' } = request;
-    console.log(request);
+    this.logger.log(`createChatRoom type=${type} members=${memberIds.join(',')}`);
 
     // direct 타입인 경우 2명만 허용
     if (type === 'direct' && memberIds.length !== 2) {
@@ -195,7 +197,7 @@ export class ChatService {
   // 메시지 전송
   async sendMessage(request: SendMessageRequest): Promise<SendMessageResponse> {
     const { chatRoomId, senderId, content } = request;
-    console.log('Sending message:', request);
+    this.logger.debug(`sendMessage room=${chatRoomId} sender=${senderId}`);
 
     // 채팅방 멤버인지 확인
     const membership = await this.prisma.chatRoomMember.findFirst({

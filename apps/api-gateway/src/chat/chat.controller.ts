@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Logger,
   Param,
   Post,
   Query,
@@ -17,6 +18,7 @@ import { ChatService } from './chat.service';
 
 @Controller('chat')
 export class ChatController {
+  private readonly logger = new Logger(ChatController.name);
   constructor(private readonly chatService: ChatService) {}
 
   @Get('rooms')
@@ -27,7 +29,7 @@ export class ChatController {
     @Req() req,
   ) {
     const userId = req.user.userId;
-    console.log('Fetching chat rooms for user:', userId);
+    this.logger.debug(`getChatRooms userId=${userId}`);
     return this.chatService.getChatRooms({
       userId,
       page: Number(page) || 1,
@@ -39,8 +41,7 @@ export class ChatController {
   @UseGuards(JwtAuthGuard)
   async createChatRoom(@Body() body: CreateChatRoomRequest, @Req() req) {
     const userId = req.user.userId;
-    console.log('Creating chat room with user:', userId);
-    console.log('Request body:', body);
+    this.logger.log(`createChatRoom userId=${userId}`);
 
     return this.chatService.createChatRoom({
       ...body,
@@ -83,8 +84,7 @@ export class ChatController {
     @Req() req,
   ) {
     const userId = req.user.userId;
-    console.log('Sending message in chat room:', chatRoomId);
-    console.log('Request body:', body);
+    this.logger.debug(`sendMessage room=${chatRoomId} sender=${userId}`);
 
     // 채팅방 ID와 사용자 ID를 포함하여 메시지 전송 요청
     return this.chatService.sendMessage({

@@ -5,6 +5,7 @@ import {
   Body,
   Controller,
   Delete,
+  Logger,
   Patch,
   Post,
   Req,
@@ -24,6 +25,7 @@ import { convertToUserEntity } from '@app/common/entity';
 
 @Controller('user')
 export class UserController {
+  private readonly logger = new Logger(UserController.name);
   constructor(private readonly userService: UserService) {}
   @CreateUserSpecDecorator('회원가입 API', '회원가입')
   @Post('/')
@@ -43,8 +45,8 @@ export class UserController {
   @UpdateUserSpecDecorator('회원정보 수정 API', '회원정보 수정')
   @UseGuards(JwtAuthGuard, RateLimitGuard)
   async update(@Req() req, @Body() updateUserDto: UpdateUserDto) {
-    console.log(updateUserDto.nickname);
     const userNumber = req.user.userId;
+    this.logger.log(`updateNickname userId=${userNumber} nickname=${updateUserDto.nickname}`);
     const result = await firstValueFrom(
       this.userService.update({
         ...updateUserDto,
@@ -52,7 +54,6 @@ export class UserController {
       }),
     );
     const user = convertToUserEntity(result);
-    console.log(user);
     return user;
   }
   @Patch('/image')
@@ -81,13 +82,8 @@ export class UserController {
       }),
     );
     const user = convertToUserEntity(result);
-    console.log(user);
+    this.logger.log(`updateProfileImage userId=${userNumber}`);
     return user;
-    //
-    return this.userService.updateProfileImage({
-      ...updateUserDto,
-      id: userNumber,
-    });
   }
 
   @DeleteUserSpecDecorator('회원탈퇴 API', '회원탈퇴')

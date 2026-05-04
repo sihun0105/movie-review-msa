@@ -3,12 +3,13 @@ import {
   MOVIE_SERVICE_NAME,
   MovieServiceClient,
 } from '@app/common/protobuf';
-import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
+import { Inject, Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
 import moment from 'moment';
 import { firstValueFrom } from 'rxjs';
 @Injectable()
 export class MovieService implements OnModuleInit {
+  private readonly logger = new Logger(MovieService.name);
   private movieService: MovieServiceClient;
   constructor(
     @Inject(MOVIE_PACKAGE_NAME)
@@ -31,7 +32,7 @@ export class MovieService implements OnModuleInit {
       const result = await firstValueFrom(observableData);
       return result;
     } catch (error) {
-      console.log(error);
+      this.logger.error('fetchMoviedata failed', error);
     }
   }
 }
