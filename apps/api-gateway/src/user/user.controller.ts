@@ -71,7 +71,8 @@ export class UserController {
     const userNumber = req.user.userId;
     const filePath = file ? file[0].path : null;
     if (filePath) {
-      updateUserDto.image = filePath;
+      const baseUrl = process.env.BACKEND_URL || 'http://localhost:3030';
+      updateUserDto.image = `${baseUrl}/${filePath}`;
     } else {
       updateUserDto.image = '';
     }

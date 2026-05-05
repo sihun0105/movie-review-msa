@@ -4,6 +4,7 @@ import { RpcExceptionFilter } from '@app/common/filters/rpcexception/rpc-excepti
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { Logger, LogLevel } from '@nestjs/common';
+import { join } from 'path';
 import './utils/instrument';
 
 const logLevels: LogLevel[] =
@@ -17,6 +18,7 @@ async function bootstrap() {
   });
 
   app.useGlobalFilters(new RpcExceptionFilter());
+  app.useStaticAssets(join(process.cwd(), 'uploads'), { prefix: '/uploads/' });
   /**Swaager설정 */
   const config = new DocumentBuilder()
     .setTitle('moview API')

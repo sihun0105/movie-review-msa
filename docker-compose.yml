@@ -32,6 +32,8 @@ services:
       - .env.production
     extra_hosts:
       - "mysql:host-gateway"
+    volumes:
+      - uploads-data:/usr/src/app/uploads
     networks:
       - app-network
     restart: unless-stopped
@@ -209,3 +211,4 @@ networks:
 
 volumes:
   redis-data:
+  uploads-data:
