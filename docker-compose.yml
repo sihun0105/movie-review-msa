@@ -1,4 +1,16 @@
 services:
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes
+    networks:
+      - app-network
+    restart: unless-stopped
+
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: rabbitmq
@@ -31,6 +43,7 @@ services:
       - '50051:50051'
     environment:
       - NODE_ENV=production
+      - REDIS_URL=redis://redis:6379
     env_file:
       - .env.production
     extra_hosts:
@@ -38,6 +51,8 @@ services:
     networks:
       - app-network
     restart: unless-stopped
+    depends_on:
+      - redis
     command:
       - bash
       - -c
@@ -191,3 +206,6 @@ networks:
   app-network:
     name: app-network
     external: true
+
+volumes:
+  redis-data:
