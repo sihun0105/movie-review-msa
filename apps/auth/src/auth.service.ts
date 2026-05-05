@@ -2,24 +2,21 @@ import { OutOfRangeException } from '@app/common/filters/rpcexception/rpc-except
 import { AuthCommonResponse, User, ValidationResponse } from '@app/common/protobuf';
 import { MySQLPrismaService } from '@app/prisma';
 import { UtilsService } from '@app/utils';
-import { Injectable, Logger } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { randomBytes } from 'crypto';
 import { compare, hash } from 'bcryptjs';
+import Redis from 'ioredis';
 import { EmailService } from './email.service';
 
-interface TokenEntry {
-  value: string;
-  expiresAt: number;
-}
+const VERIFY_TTL = 5 * 60;       // 5분 (초)
+const RESET_TTL  = 60 * 60;      // 1시간 (초)
 
 @Injectable()
 export class AuthService {
   private readonly logger = new Logger(AuthService.name);
-  // 인메모리 토큰 저장소. Redis로 교체 가능.
-  private readonly verificationStore = new Map<string, TokenEntry>();
-  private readonly resetStore = new Map<string, TokenEntry>();
 
   constructor(
+    @Inject('REDIS') private readonly redis: Redis,
     private readonly mysqlPrismaService: MySQLPrismaService,
     private readonly utilsService: UtilsService,
     private readonly emailService: EmailService,
@@ -113,10 +110,7 @@ export class AuthService {
     }
 
     const code = Math.floor(100000 + Math.random() * 900000).toString();
-    this.verificationStore.set(email, {
-      value: code,
-      expiresAt: Date.now() + 5 * 60 * 1000, // 5분
-    });
+    await this.redis.set(`verify:${email}`, code, 'EX', VERIFY_TTL);
 
     try {
       await this.emailService.sendVerificationCode(email, code);
@@ -128,18 +122,14 @@ export class AuthService {
   }
 
   async verifyCode(email: string, code: string): Promise<ValidationResponse> {
-    const entry = this.verificationStore.get(email);
-    if (!entry) {
-      return { isAvailable: false, message: '인증 코드가 존재하지 않습니다.' };
+    const stored = await this.redis.get(`verify:${email}`);
+    if (!stored) {
+      return { isAvailable: false, message: '인증 코드가 존재하지 않거나 만료됐습니다.' };
     }
-    if (Date.now() > entry.expiresAt) {
-      this.verificationStore.delete(email);
-      return { isAvailable: false, message: '인증 코드가 만료됐습니다.' };
-    }
-    if (entry.value !== code) {
+    if (stored !== code) {
       return { isAvailable: false, message: '인증 코드가 올바르지 않습니다.' };
     }
-    this.verificationStore.delete(email);
+    await this.redis.del(`verify:${email}`);
     return { isAvailable: true, message: '이메일 인증이 완료됐습니다.' };
   }
 
@@ -153,10 +143,7 @@ export class AuthService {
     }
 
     const token = randomBytes(32).toString('hex');
-    this.resetStore.set(token, {
-      value: email,
-      expiresAt: Date.now() + 60 * 60 * 1000, // 1시간
-    });
+    await this.redis.set(`reset:${token}`, email, 'EX', RESET_TTL);
 
     const baseUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
     const resetUrl = `${baseUrl}/reset-password?token=${token}`;
@@ -171,24 +158,18 @@ export class AuthService {
   }
 
   async resetPassword(token: string, newPassword: string): Promise<AuthCommonResponse> {
-    const entry = this.resetStore.get(token);
-    if (!entry) {
-      return { success: false, message: '유효하지 않은 토큰입니다.' };
-    }
-    if (Date.now() > entry.expiresAt) {
-      this.resetStore.delete(token);
-      return { success: false, message: '토큰이 만료됐습니다.' };
+    const email = await this.redis.get(`reset:${token}`);
+    if (!email) {
+      return { success: false, message: '유효하지 않거나 만료된 토큰입니다.' };
     }
 
-    const email = entry.value;
     const hashedPassword = await hash(newPassword, 10);
-
     await this.mysqlPrismaService.user.update({
       where: { email },
       data: { password: hashedPassword },
     });
 
-    this.resetStore.delete(token);
+    await this.redis.del(`reset:${token}`);
     this.logger.log(`Password reset for ${email}`);
     return { success: true, message: '비밀번호가 변경됐습니다.' };
   }
