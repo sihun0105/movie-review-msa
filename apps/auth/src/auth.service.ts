@@ -61,7 +61,7 @@ export class AuthService {
           email: providerId,
           provider,
           password: hashedPassword,
-          nickname: Math.random().toString(36).substring(7),
+          nickname: null,
         },
       });
       return {
