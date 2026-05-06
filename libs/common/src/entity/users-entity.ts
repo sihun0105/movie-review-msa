@@ -5,7 +5,9 @@ export function convertToUserEntity(arg: any) {
     id: arg.id,
     email: arg.email,
     nickname: arg.nickname,
-    image: process.env.FILE_SERVER_API + arg.image,
+    image: arg.image
+      ? (process.env.FILE_SERVER_API ?? '').replace(/\/$/, '') + arg.image
+      : '',
     createdAt: arg.createdAt,
     updatedAt: arg.updatedAt,
     deletedAt: arg.deletedAt ?? null,
