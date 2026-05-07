@@ -50,6 +50,38 @@ export class MatchController {
     });
   }
 
+  // 특정 라우트는 :matchId 파라미터 라우트보다 반드시 먼저 선언해야 함
+  @Get('my-posts')
+  @UseGuards(JwtAuthGuard)
+  async getMyPosts(
+    @Query('page') page: string,
+    @Query('pageSize') pageSize: string,
+    @Req() req,
+  ) {
+    const userNumber = req.user.userId;
+    return this.matchService.getMyPosts({
+      userno: userNumber,
+      page: Number(page) || 1,
+      pageSize: Number(pageSize) || 10,
+    });
+  }
+
+  @Get('my-applications')
+  @UseGuards(JwtAuthGuard)
+  async getMyApplications(
+    @Query('page') page: string,
+    @Query('pageSize') pageSize: string,
+    @Req() req,
+  ) {
+    const userNumber = req.user.userId;
+    this.logger.debug(`getMyApplications userId=${userNumber}`);
+    return this.matchService.getMyApplications({
+      userno: userNumber,
+      page: Number(page) || 1,
+      pageSize: Number(pageSize) || 10,
+    });
+  }
+
   @Get(':matchId')
   async getMatchPost(@Param('matchId') matchId: string) {
     return this.matchService.getMatchPost({ matchId });
@@ -122,37 +154,6 @@ export class MatchController {
       applicationId,
       status: body.status,
       userno: userNumber,
-    });
-  }
-
-  @Get('my-posts')
-  @UseGuards(JwtAuthGuard)
-  async getMyPosts(
-    @Query('page') page: string,
-    @Query('pageSize') pageSize: string,
-    @Req() req,
-  ) {
-    const userNumber = req.user.userId;
-    return this.matchService.getMyPosts({
-      userno: userNumber,
-      page: Number(page) || 1,
-      pageSize: Number(pageSize) || 10,
-    });
-  }
-
-  @Get('my-applications')
-  @UseGuards(JwtAuthGuard)
-  async getMyApplications(
-    @Query('page') page: string,
-    @Query('pageSize') pageSize: string,
-    @Req() req,
-  ) {
-    const userNumber = req.user.userId;
-    this.logger.debug(`getMyApplications userId=${userNumber}`);
-    return this.matchService.getMyApplications({
-      userno: userNumber,
-      page: Number(page) || 1,
-      pageSize: Number(pageSize) || 10,
     });
   }
 
