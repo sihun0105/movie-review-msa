@@ -6,18 +6,12 @@ import { MovieModule } from './movie/movie.module';
 import { ReplyModule } from './reply/reply.module';
 import { UserModule } from './user/user.module';
 import { SentryModule } from '@sentry/nestjs/setup';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
 import { ArticleModule } from './article/article.module';
 import { MatchModule } from './match/match.module';
 import { ChatModule } from './chat/chat.module';
 
 @Module({
   imports: [
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '../../../../uploads'),
-      serveRoot: '/uploads',
-    }),
     ConfigModule.forRoot({
       envFilePath:
         process.env.NODE_ENV === 'production'
