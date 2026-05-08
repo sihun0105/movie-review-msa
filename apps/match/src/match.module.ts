@@ -6,6 +6,8 @@ import { CHAT_PACKAGE_NAME } from '@app/common/protobuf';
 import { join } from 'path';
 import { MatchController } from './match.controller';
 import { MatchService } from './match.service';
+import { MatchPostService } from './match-post.service';
+import { MatchApplicationService } from './match-application.service';
 
 @Module({
   imports: [
@@ -24,6 +26,6 @@ import { MatchService } from './match.service';
     ]),
   ],
   controllers: [MatchController],
-  providers: [MatchService],
+  providers: [MatchService, MatchPostService, MatchApplicationService],
 })
 export class MatchModule {}
