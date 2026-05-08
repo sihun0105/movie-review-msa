@@ -65,7 +65,7 @@ export class ChatGateway
         createdAt: message.createdAt.toISOString(),
       });
     } catch (error) {
-      console.error('Error handling sendMessage:', error);
+      this.logger.error('Error handling sendMessage', error?.stack ?? error);
       socket.emit('error', { message: 'Failed to send message' });
     }
   }
