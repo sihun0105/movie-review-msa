@@ -131,7 +131,7 @@ export class ArticleController {
   ) {
     const userNumber = req.user.userId;
     body.userno = userNumber;
-    this.logger.debug(`likeArticle articleId=${articleId} state=${body.state}`);
+    this.logger.debug(`likeArticle articleId=${articleId} type=${body.type}`);
     return this.articleService.likeArticle({
       articleId: Number(articleId),
       ...body,

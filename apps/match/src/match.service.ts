@@ -568,7 +568,7 @@ export class MatchService {
       );
       return response.chatRoom.id;
     } catch (error) {
-      console.error('Failed to create chat room:', error);
+      this.logger.error('Failed to create chat room', error?.stack ?? error);
       throw new BadRequestException('Failed to create chat room');
     }
   }
