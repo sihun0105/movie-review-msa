@@ -1,314 +1,37 @@
-import {
-  Injectable,
-  Logger,
-  NotFoundException,
-  BadRequestException,
-} from '@nestjs/common';
-import { MySQLPrismaService } from '@app/prisma';
+import { Injectable } from '@nestjs/common';
 import {
   CreateChatRoomRequest,
   GetChatRoomRequest,
   GetChatRoomsRequest,
-  SendMessageRequest,
   GetMessagesRequest,
-  CreateChatRoomResponse,
-  GetChatRoomResponse,
-  GetChatRoomsResponse,
-  SendMessageResponse,
-  GetMessagesResponse,
-  ChatRoom,
-  ChatMessage,
+  SendMessageRequest,
 } from '@app/common/protobuf';
+import { ChatRoomService } from './chat-room.service';
+import { ChatMessageService } from './chat-message.service';
 
 @Injectable()
 export class ChatService {
-  private readonly logger = new Logger(ChatService.name);
-  constructor(private readonly prisma: MySQLPrismaService) {}
+  constructor(
+    private readonly roomService: ChatRoomService,
+    private readonly messageService: ChatMessageService,
+  ) {}
 
-  // 새로운 1:1 채팅방 생성
-  async createChatRoom(
-    request: CreateChatRoomRequest,
-  ): Promise<CreateChatRoomResponse> {
-    const { memberIds, roomName, type = 'direct' } = request;
-    this.logger.log(`createChatRoom type=${type} members=${memberIds.join(',')}`);
-
-    // direct 타입인 경우 2명만 허용
-    if (type === 'direct' && memberIds.length !== 2) {
-      throw new BadRequestException(
-        'Direct chat room must have exactly 2 members',
-      );
-    }
-
-    // 기존 1:1 채팅방이 있는지 확인 (direct 타입인 경우)
-    if (type === 'direct') {
-      const existingRoom = await this.prisma.chatRoom.findFirst({
-        where: {
-          type: 'direct',
-          ChatRoomMember: {
-            every: {
-              userId: { in: memberIds },
-              leftAt: null,
-            },
-          },
-        },
-        include: {
-          ChatRoomMember: {
-            where: { leftAt: null },
-          },
-        },
-      });
-
-      if (existingRoom && existingRoom.ChatRoomMember.length === 2) {
-        // 기존 채팅방 반환
-        return {
-          chatRoom: {
-            id: existingRoom.id,
-            name: existingRoom.name,
-            type: existingRoom.type,
-            memberIds: existingRoom.ChatRoomMember.map(
-              (member) => member.userId,
-            ),
-            createdAt: existingRoom.createdAt.toISOString(),
-            updatedAt: existingRoom.updatedAt.toISOString(),
-          },
-        };
-      }
-    }
-
-    // 새 채팅방 생성
-    const chatRoom = await this.prisma.chatRoom.create({
-      data: {
-        name: roomName,
-        type: type as any,
-        ChatRoomMember: {
-          create: memberIds.map((userId) => ({ userId })),
-        },
-      },
-      include: {
-        ChatRoomMember: {
-          where: { leftAt: null },
-        },
-      },
-    });
-
-    return {
-      chatRoom: {
-        id: chatRoom.id,
-        name: chatRoom.name,
-        type: chatRoom.type,
-        memberIds: chatRoom.ChatRoomMember.map((member) => member.userId),
-        createdAt: chatRoom.createdAt.toISOString(),
-        updatedAt: chatRoom.updatedAt.toISOString(),
-      },
-    };
+  // Rooms
+  createChatRoom(req: CreateChatRoomRequest) {
+    return this.roomService.createChatRoom(req);
+  }
+  getChatRoom(req: GetChatRoomRequest) {
+    return this.roomService.getChatRoom(req);
+  }
+  getChatRooms(req: GetChatRoomsRequest) {
+    return this.roomService.getChatRooms(req);
   }
 
-  // 채팅방 정보 조회
-  async getChatRoom(request: GetChatRoomRequest): Promise<GetChatRoomResponse> {
-    const { chatRoomId, userId } = request;
-
-    const chatRoom = await this.prisma.chatRoom.findFirst({
-      where: {
-        id: chatRoomId,
-        ChatRoomMember: {
-          some: {
-            userId,
-            leftAt: null,
-          },
-        },
-      },
-      include: {
-        ChatRoomMember: {
-          where: { leftAt: null },
-        },
-      },
-    });
-
-    if (!chatRoom) {
-      throw new NotFoundException(
-        'Chat room not found or you are not a member',
-      );
-    }
-
-    return {
-      chatRoom: {
-        id: chatRoom.id,
-        name: chatRoom.name,
-        type: chatRoom.type,
-        memberIds: chatRoom.ChatRoomMember.map((member) => member.userId),
-        createdAt: chatRoom.createdAt.toISOString(),
-        updatedAt: chatRoom.updatedAt.toISOString(),
-      },
-    };
+  // Messages
+  sendMessage(req: SendMessageRequest) {
+    return this.messageService.sendMessage(req);
   }
-
-  // 사용자의 채팅방 목록 조회
-  async getChatRooms(
-    request: GetChatRoomsRequest,
-  ): Promise<GetChatRoomsResponse> {
-    const { userId, page = 1, pageSize = 20 } = request;
-    const skip = (page - 1) * pageSize;
-
-    const chatRooms = await this.prisma.chatRoom.findMany({
-      where: {
-        ChatRoomMember: {
-          some: {
-            userId,
-            leftAt: null,
-          },
-        },
-      },
-      include: {
-        ChatRoomMember: {
-          where: { leftAt: null },
-        },
-        ChatMessage: {
-          orderBy: { createdAt: 'desc' },
-          take: 1,
-        },
-      },
-      orderBy: {
-        updatedAt: 'desc',
-      },
-      skip,
-      take: pageSize + 1,
-    });
-
-    const hasNext = chatRooms.length > pageSize;
-    if (hasNext) {
-      chatRooms.pop();
-    }
-
-    const formattedChatRooms: ChatRoom[] = chatRooms.map((room) => ({
-      id: room.id,
-      name: room.name,
-      type: room.type,
-      memberIds: room.ChatRoomMember.map((member) => member.userId),
-      createdAt: room.createdAt.toISOString(),
-      updatedAt: room.updatedAt.toISOString(),
-    }));
-
-    return {
-      chatRooms: formattedChatRooms,
-      hasNext,
-    };
-  }
-
-  // 메시지 전송
-  async sendMessage(request: SendMessageRequest): Promise<SendMessageResponse> {
-    const { chatRoomId, senderId, content } = request;
-    this.logger.debug(`sendMessage room=${chatRoomId} sender=${senderId}`);
-
-    // 채팅방 멤버인지 확인
-    const membership = await this.prisma.chatRoomMember.findFirst({
-      where: {
-        chatRoomId,
-        userId: senderId,
-        leftAt: null,
-      },
-    });
-
-    if (!membership) {
-      throw new BadRequestException('You are not a member of this chat room');
-    }
-
-    // 메시지 생성
-    const message = await this.prisma.chatMessage.create({
-      data: {
-        chatRoomId,
-        senderId,
-        content,
-      },
-    });
-
-    // 채팅방 업데이트 시간 갱신
-    await this.prisma.chatRoom.update({
-      where: { id: chatRoomId },
-      data: { updatedAt: new Date() },
-    });
-
-    // 발신자 제외 다른 멤버에게 알림 생성
-    const [otherMembers, sender] = await Promise.all([
-      this.prisma.chatRoomMember.findMany({
-        where: { chatRoomId, userId: { not: senderId }, leftAt: null },
-      }),
-      this.prisma.user.findUnique({
-        where: { id: senderId },
-        select: { nickname: true },
-      }),
-    ]);
-    const preview = content.length > 40 ? content.slice(0, 40) + '…' : content;
-    await Promise.all(
-      otherMembers.map((m) =>
-        this.prisma.notification.create({
-          data: {
-            userId: m.userId,
-            type: 'chat_message',
-            title: sender?.nickname || '알 수 없음',
-            body: preview,
-            targetId: chatRoomId,
-          },
-        }).catch(() => {}),
-      ),
-    );
-
-    return {
-      message: {
-        id: message.id,
-        chatRoomId: message.chatRoomId,
-        senderId: message.senderId,
-        content: message.content,
-        createdAt: message.createdAt.toISOString(),
-      },
-    };
-  }
-
-  // 메시지 목록 조회
-  async getMessages(request: GetMessagesRequest): Promise<GetMessagesResponse> {
-    const { chatRoomId, userId, page = 1, pageSize = 50 } = request;
-    const skip = (page - 1) * pageSize;
-
-    // 채팅방 멤버인지 확인
-    const membership = await this.prisma.chatRoomMember.findFirst({
-      where: {
-        chatRoomId,
-        userId,
-        leftAt: null,
-      },
-    });
-
-    if (!membership) {
-      throw new BadRequestException('You are not a member of this chat room');
-    }
-
-    const messages = await this.prisma.chatMessage.findMany({
-      where: {
-        chatRoomId,
-        deletedAt: null,
-      },
-      orderBy: {
-        createdAt: 'desc',
-      },
-      skip,
-      take: pageSize + 1,
-    });
-
-    const hasNext = messages.length > pageSize;
-    if (hasNext) {
-      messages.pop();
-    }
-
-    const formattedMessages: ChatMessage[] = messages.map((msg) => ({
-      id: msg.id,
-      chatRoomId: msg.chatRoomId,
-      senderId: msg.senderId,
-      content: msg.content,
-      createdAt: msg.createdAt.toISOString(),
-    }));
-
-    return {
-      messages: formattedMessages.reverse(), // 시간순 정렬
-      hasNext,
-    };
+  getMessages(req: GetMessagesRequest) {
+    return this.messageService.getMessages(req);
   }
 }
