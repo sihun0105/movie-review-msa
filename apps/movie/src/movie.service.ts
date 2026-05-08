@@ -263,7 +263,12 @@ export class MovieService implements OnModuleInit {
       },
       include: {
         MovieVod: true,
-        movieScores: true, // Include movieScores for average calculation
+        movieScores: true,
+        _count: {
+          select: {
+            Comment: { where: { deletedAt: null } },
+          },
+        },
       },
       take: 10,
       orderBy: [
@@ -273,23 +278,11 @@ export class MovieService implements OnModuleInit {
       ],
     });
 
-    // soft delete되지 않은 댓글 개수 병렬 조회
-    const commentCounts = await Promise.all(
-      movieList.map((movie) =>
-        this.mysqlPrismaService.comment.count({
-          where: {
-            movieId: movie.movieCd,
-            deletedAt: null,
-          },
-        }),
-      ),
-    );
-
-    const convertedMovieList = movieList.map((movieData, idx) =>
+    const convertedMovieList = movieList.map((movieData) =>
       this.convertMovieDataWithCounts({
         ...movieData,
         _count: {
-          Comment: commentCounts[idx],
+          Comment: movieData._count.Comment,
           movieScores: movieData.movieScores?.length ?? 0,
         },
       }),
@@ -417,24 +410,21 @@ export class MovieService implements OnModuleInit {
       include: {
         MovieVod: true,
         movieScores: true,
+        _count: {
+          select: {
+            Comment: { where: { deletedAt: null } },
+          },
+        },
       },
     });
     if (!movie) {
       throw new Error(`Movie with movieCd ${movieCd} not found`);
     }
 
-    // soft delete되지 않은 댓글 개수 구하기
-    const commentCount = await this.mysqlPrismaService.comment.count({
-      where: {
-        movieId: movie.movieCd,
-        deletedAt: null,
-      },
-    });
-    // convertMovieDataWithCounts에 commentCount를 전달하도록 수정
     return this.convertMovieDataWithCounts({
       ...movie,
       _count: {
-        Comment: commentCount,
+        Comment: movie._count.Comment,
         movieScores: movie.movieScores?.length ?? 0,
       },
     });
