@@ -395,6 +395,16 @@ export class MatchService {
       },
     });
 
+    await this.mysqlPrismaService.notification.create({
+      data: {
+        userId: matchPost.userno,
+        type: 'match_apply',
+        title: '새로운 매칭 신청',
+        body: `${applicantName}님이 "${matchPost.title}"에 신청했습니다.`,
+        targetId: matchId,
+      },
+    }).catch(() => {});
+
     return {
       success: true,
       message: 'Application submitted successfully',

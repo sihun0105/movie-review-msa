@@ -227,6 +227,31 @@ export class ChatService {
       data: { updatedAt: new Date() },
     });
 
+    // 발신자 제외 다른 멤버에게 알림 생성
+    const [otherMembers, sender] = await Promise.all([
+      this.prisma.chatRoomMember.findMany({
+        where: { chatRoomId, userId: { not: senderId }, leftAt: null },
+      }),
+      this.prisma.user.findUnique({
+        where: { id: senderId },
+        select: { nickname: true },
+      }),
+    ]);
+    const preview = content.length > 40 ? content.slice(0, 40) + '…' : content;
+    await Promise.all(
+      otherMembers.map((m) =>
+        this.prisma.notification.create({
+          data: {
+            userId: m.userId,
+            type: 'chat_message',
+            title: sender?.nickname || '알 수 없음',
+            body: preview,
+            targetId: chatRoomId,
+          },
+        }).catch(() => {}),
+      ),
+    );
+
     return {
       message: {
         id: message.id,

@@ -69,6 +69,7 @@ model User {
   MatchApplication MatchApplication[]
   ChatRoomMember   ChatRoomMember[]
   ChatMessage      ChatMessage[]
+  Notification     Notification[]
 }
 
 
@@ -251,4 +252,19 @@ enum ChatRoom_type {
 enum User_gender {
   male
   female
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    Int
+  type      String   @db.VarChar(50)
+  title     String   @db.VarChar(255)
+  body      String   @db.VarChar(500)
+  isRead    Boolean  @default(false)
+  targetId  String?  @db.VarChar(255)
+  createdAt DateTime @default(now()) @db.DateTime(6)
+  User      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isRead])
+  @@map("notifications")
 }
