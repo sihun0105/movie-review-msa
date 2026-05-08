@@ -441,29 +441,24 @@ export class MatchService {
         where: {
           matchPostId: matchId,
         },
+        include: {
+          User: { select: { gender: true } },
+        },
         orderBy: {
           createdAt: 'desc',
         },
       });
     this.logger.debug(`getMatchApplications matchId=${matchId} count=${applications.length}`);
-    const formattedApplications: MatchApplication[] = await Promise.all(
-      applications.map(async (app) => {
-        // 지원자 User 정보 조회
-        const user = await this.mysqlPrismaService.user.findUnique({
-          where: { id: app.applicantUserno },
-        });
-        return {
-          id: app.id,
-          matchPostId: app.matchPostId,
-          applicantUserno: app.applicantUserno,
-          applicantName: app.applicantName,
-          message: app.message,
-          status: app.status,
-          createdAt: app.createdAt.toISOString(),
-          gender: user?.gender || '',
-        };
-      }),
-    );
+    const formattedApplications: MatchApplication[] = applications.map((app) => ({
+      id: app.id,
+      matchPostId: app.matchPostId,
+      applicantUserno: app.applicantUserno,
+      applicantName: app.applicantName,
+      message: app.message,
+      status: app.status,
+      createdAt: app.createdAt.toISOString(),
+      gender: app.User?.gender || '',
+    }));
 
     return {
       applications: formattedApplications,
@@ -655,6 +650,7 @@ export class MatchService {
               User: true,
             },
           },
+          User: { select: { gender: true } },
         },
         orderBy: {
           createdAt: 'desc',
@@ -663,24 +659,16 @@ export class MatchService {
         take: pageSize,
       });
 
-    const formattedApplications: MatchApplication[] = await Promise.all(
-      applications.map(async (app) => {
-        // 지원자 User 정보 조회
-        const user = await this.mysqlPrismaService.user.findUnique({
-          where: { id: app.applicantUserno },
-        });
-        return {
-          id: app.id,
-          matchPostId: app.matchPostId,
-          applicantUserno: app.applicantUserno,
-          applicantName: app.applicantName,
-          message: app.message,
-          status: app.status,
-          createdAt: app.createdAt.toISOString(),
-          gender: user?.gender || '',
-        };
-      }),
-    );
+    const formattedApplications: MatchApplication[] = applications.map((app) => ({
+      id: app.id,
+      matchPostId: app.matchPostId,
+      applicantUserno: app.applicantUserno,
+      applicantName: app.applicantName,
+      message: app.message,
+      status: app.status,
+      createdAt: app.createdAt.toISOString(),
+      gender: app.User?.gender || '',
+    }));
 
     return {
       applications: formattedApplications,
