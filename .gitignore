@@ -2,6 +2,9 @@
 /dist
 /node_modules
 
+# generated gRPC TypeScript stubs (regenerated from /proto/*.proto via `make generate_grpc_code`)
+/proto/*.ts
+
 # upload image
 /uploads
 # Logs

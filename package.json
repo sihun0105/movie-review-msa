@@ -6,6 +6,11 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "proto:gen": "make generate_grpc_code",
+    "prebuild": "pnpm proto:gen",
+    "predev": "pnpm proto:gen",
+    "prestart": "pnpm proto:gen",
+    "prestart:dev": "pnpm proto:gen",
     "build": "nest build",
     "format": "prettier --write \"apps/**/*.ts\" \"libs/**/*.ts\"",
     "start": "nest start",
