@@ -22,6 +22,7 @@ import {
 import { MySQLPrismaService } from '@app/prisma';
 import { UtilsService } from '@app/utils';
 import {
+  BadRequestException,
   Injectable,
   Logger,
   NotFoundException,
@@ -77,7 +78,7 @@ export class ArticleService {
       },
     });
     if (!article) {
-      throw new Error('Article not found');
+      throw new NotFoundException('Article not found');
     }
     return {
       article: {
@@ -218,13 +219,13 @@ export class ArticleService {
       },
     });
     if (!article) {
-      throw new Error('Article not found');
+      throw new NotFoundException('Article not found');
     }
     const user = await this.mysqlPrismaService.user.findUnique({
       where: { id: userno },
     });
     if (!user) {
-      throw new Error('User not found');
+      throw new NotFoundException('User not found');
     }
 
     // Return the comment object
@@ -248,7 +249,7 @@ export class ArticleService {
       include: { User: true },
     });
     if (!comment) {
-      throw new Error('Comment not found');
+      throw new NotFoundException('Comment not found');
     }
     return {
       id: comment.id,
@@ -270,7 +271,7 @@ export class ArticleService {
       data: { content },
     });
     if (!comment) {
-      throw new Error(
+      throw new NotFoundException(
         'Comment not found or you do not have permission to update it',
       );
     }
@@ -278,7 +279,7 @@ export class ArticleService {
       where: { id: userno },
     });
     if (!user) {
-      throw new Error('User not found');
+      throw new NotFoundException('User not found');
     }
 
     // Return the updated comment object
@@ -302,7 +303,7 @@ export class ArticleService {
       where: { id, userno },
     });
     if (!comment) {
-      throw new Error(
+      throw new NotFoundException(
         'Comment not found or you do not have permission to delete it',
       );
     }
@@ -361,7 +362,7 @@ export class ArticleService {
 
     switch (type) {
       case LikeType.UNRECOGNIZED:
-        throw new Error('Invalid like type');
+        throw new BadRequestException('Invalid like type');
       case LikeType.LIKE:
         likedata = 'like';
         break;

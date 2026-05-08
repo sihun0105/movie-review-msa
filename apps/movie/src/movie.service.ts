@@ -12,12 +12,19 @@ import {
 } from '@app/common/protobuf';
 import { MySQLPrismaService } from '@app/prisma';
 import { UtilsService } from '@app/utils';
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  Logger,
+  NotFoundException,
+  OnModuleInit,
+} from '@nestjs/common';
 import axios from 'axios';
 import moment from 'moment';
 
 @Injectable()
 export class MovieService implements OnModuleInit {
+  private readonly logger = new Logger(MovieService.name);
   private readonly koficKey = process.env.KOFIC_API_KEY;
   private readonly koficUrl =
     'http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json';
@@ -62,7 +69,7 @@ export class MovieService implements OnModuleInit {
       });
       return response.data.results[0];
     } catch (error) {
-      console.warn(`fetchTmdbPoster failed for "${title}"`, error);
+      this.logger.warn(`fetchTmdbPoster failed for "${title}": ${error}`);
       return null;
     }
   }
@@ -107,7 +114,7 @@ export class MovieService implements OnModuleInit {
     const dateObject = new Date(formattedDate);
     const yesterday = moment().subtract(1, 'days').format('YYYYMMDD');
     if (isNaN(dateObject.getTime())) {
-      throw new Error('Invalid date provided');
+      throw new BadRequestException('Invalid date provided');
     }
 
     const isUpdated = await this.mysqlPrismaService.movie.findFirst({
@@ -130,10 +137,10 @@ export class MovieService implements OnModuleInit {
 
         await this.updateMovies(convertedMovieList);
       } else {
-        console.warn('No daily box office list found in the response.');
+        this.logger.warn('No daily box office list found in the response.');
       }
     } catch (error) {
-      console.error('Failed to fetch movies:', error);
+      this.logger.error('Failed to fetch movies', error?.stack ?? error);
     }
   }
 
@@ -174,7 +181,7 @@ export class MovieService implements OnModuleInit {
             plot = tmdbData.overview;
           }
         } catch (error) {
-          console.warn(`fetchKmdbData failed for ${movieData.movieNm}:`, error);
+          this.logger.warn(`fetchKmdbData failed for ${movieData.movieNm}: ${error}`);
         }
 
         const vector = [];
@@ -238,7 +245,7 @@ export class MovieService implements OnModuleInit {
           }
         }
       } catch (error) {
-        console.error(`Failed to upsert movie: ${movieData.movieNm}`, error);
+        this.logger.error(`Failed to upsert movie: ${movieData.movieNm}`, error?.stack ?? error);
       }
     });
 
@@ -253,7 +260,7 @@ export class MovieService implements OnModuleInit {
     const dateObject = moment(formattedDate, 'YYYYMMDD').toDate();
 
     if (isNaN(dateObject.getTime())) {
-      throw new Error('Invalid date provided');
+      throw new BadRequestException('Invalid date provided');
     }
     const movieList = await this.mysqlPrismaService.movie.findMany({
       where: {
@@ -312,7 +319,7 @@ export class MovieService implements OnModuleInit {
       !unknown.scrnCnt ||
       !unknown.showCnt
     ) {
-      throw new Error('Invalid KobisMovie data');
+      throw new BadRequestException('Invalid KobisMovie data');
     }
   }
   private convertKobisMovieData(unknown: any): KobisMovie {
@@ -418,7 +425,7 @@ export class MovieService implements OnModuleInit {
       },
     });
     if (!movie) {
-      throw new Error(`Movie with movieCd ${movieCd} not found`);
+      throw new NotFoundException(`Movie with movieCd ${movieCd} not found`);
     }
 
     return this.convertMovieDataWithCounts({
