@@ -9,6 +9,7 @@ import { SentryModule } from '@sentry/nestjs/setup';
 import { ArticleModule } from './article/article.module';
 import { MatchModule } from './match/match.module';
 import { ChatModule } from './chat/chat.module';
+import { NotificationModule } from './notification/notification.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { ChatModule } from './chat/chat.module';
     ArticleModule,
     MatchModule,
     ChatModule,
+    NotificationModule,
   ],
   controllers: [],
   providers: [JwtStrategy],
