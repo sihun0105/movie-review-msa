@@ -28,13 +28,14 @@ export class ChatRoomService {
       memberIds: room.ChatRoomMember.map((m: any) => m.userId),
       createdAt: room.createdAt.toISOString(),
       updatedAt: room.updatedAt.toISOString(),
+      matchPostId: room.matchPostId ?? '',
     };
   }
 
   async createChatRoom(
     request: CreateChatRoomRequest,
   ): Promise<CreateChatRoomResponse> {
-    const { memberIds, roomName, type = 'direct' } = request;
+    const { memberIds, roomName, type = 'direct', matchPostId } = request;
     this.logger.log(`createChatRoom type=${type} members=${memberIds.join(',')}`);
 
     if (type === 'direct' && memberIds.length !== 2) {
@@ -55,6 +56,15 @@ export class ChatRoomService {
       });
 
       if (existingRoom && existingRoom.ChatRoomMember.length === 2) {
+        // 기존 방 재사용: matchPostId가 새로 들어왔고 기존에 없으면 채워줌
+        if (matchPostId && !existingRoom.matchPostId) {
+          const updated = await this.prisma.chatRoom.update({
+            where: { id: existingRoom.id },
+            data: { matchPostId },
+            include: { ChatRoomMember: { where: { leftAt: null } } },
+          });
+          return { chatRoom: this.formatRoom(updated) };
+        }
         return { chatRoom: this.formatRoom(existingRoom) };
       }
     }
@@ -63,6 +73,7 @@ export class ChatRoomService {
       data: {
         name: roomName,
         type: type as any,
+        matchPostId: matchPostId || null,
         ChatRoomMember: {
           create: memberIds.map((userId) => ({ userId })),
         },

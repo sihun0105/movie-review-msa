@@ -13,6 +13,8 @@ export interface ChatRoom {
   memberIds: number[];
   createdAt: string;
   updatedAt: string;
+  /** 채팅방을 생성한 매칭 게시글 ID */
+  matchPostId?: string;
 }
 
 export interface ChatMessage {
@@ -29,6 +31,8 @@ export interface CreateChatRoomRequest {
   roomName: string;
   /** "direct" or "group" */
   type: string;
+  /** 매칭 게시글 ID (선택) */
+  matchPostId?: string;
 }
 
 export interface GetChatRoomRequest {

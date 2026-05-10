@@ -10,6 +10,7 @@ message ChatRoom {
   repeated int32 memberIds = 4;
   string createdAt = 5;
   string updatedAt = 6;
+  string matchPostId = 7; // 채팅방을 생성한 매칭 게시글 ID (없으면 빈 문자열)
 }
 
 message ChatMessage {
@@ -25,6 +26,7 @@ message CreateChatRoomRequest {
   repeated int32 memberIds = 1;
   string roomName = 2;
   string type = 3; // "direct" or "group"
+  string matchPostId = 4; // 매칭 게시글 ID (선택)
 }
 
 message GetChatRoomRequest {
