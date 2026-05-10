@@ -213,9 +213,9 @@ export class MatchApplicationService implements OnModuleInit {
       const response = await firstValueFrom(
         this.chatService.createChatRoom({
           memberIds: [authorUserno, applicantUserno],
-          // 프론트가 'Match Chat - {matchId}' 형식으로 matchId를 추출함
           roomName: `Match Chat - ${matchId}`,
           type: 'direct',
+          matchPostId: matchId,
         }),
       );
       return response.chatRoom.id;
