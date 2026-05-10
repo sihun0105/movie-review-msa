@@ -192,11 +192,13 @@ model ChatRoom {
   id              String              @id @default(cuid())
   name            String              @db.VarChar(255)
   type            ChatRoom_type       @default(direct)
+  matchPostId     String?             @db.VarChar(191)
   createdAt       DateTime            @default(now()) @db.DateTime(6)
   updatedAt       DateTime            @updatedAt @db.DateTime(6)
   ChatMessage     ChatMessage[]
   ChatRoomMember  ChatRoomMember[]
 
+  @@index([matchPostId])
   @@map("chat_rooms")
 }
 
