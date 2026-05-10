@@ -152,6 +152,7 @@ export class MatchApplicationService implements OnModuleInit {
     let message = '';
     if (status === 'accepted') {
       chatRoomId = await this.createChatRoom(
+        matchId,
         matchPost.userno,
         application.applicantUserno,
       );
@@ -204,6 +205,7 @@ export class MatchApplicationService implements OnModuleInit {
   }
 
   private async createChatRoom(
+    matchId: string,
     authorUserno: number,
     applicantUserno: number,
   ): Promise<string> {
@@ -211,7 +213,8 @@ export class MatchApplicationService implements OnModuleInit {
       const response = await firstValueFrom(
         this.chatService.createChatRoom({
           memberIds: [authorUserno, applicantUserno],
-          roomName: `Match Chat ${authorUserno}-${applicantUserno}`,
+          // 프론트가 'Match Chat - {matchId}' 형식으로 matchId를 추출함
+          roomName: `Match Chat - ${matchId}`,
           type: 'direct',
         }),
       );
