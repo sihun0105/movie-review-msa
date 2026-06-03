@@ -17,6 +17,11 @@ import {
   CommonResponse,
 } from '@app/common/protobuf';
 import { formatMatchPost } from './match.formatter';
+import {
+  buildMatchPostWhere,
+  isAvailablePost,
+  paginate,
+} from './match-post.filters';
 
 const POST_INCLUDE = {
   User: true,
@@ -35,17 +40,30 @@ export class MatchPostService {
   async getMatchPosts(
     request: GetMatchPostsRequest,
   ): Promise<MatchPostResponse> {
-    const { page = 1, pageSize = 10, movieTitle } = request;
+    const { page = 1, pageSize = 10, filter, userno } = request;
     const skip = (page - 1) * pageSize;
-    const trimmedMovieTitle = movieTitle?.trim();
+    if (filter === 'mine' && !userno) {
+      return { matchPosts: [], hasNext: false };
+    }
+    const where = buildMatchPostWhere(request);
+
+    if (filter === 'available') {
+      const allPosts = await this.prisma.matchPost.findMany({
+        where,
+        include: POST_INCLUDE,
+        orderBy: { createdAt: 'desc' },
+      });
+      const availablePosts = allPosts.filter(isAvailablePost);
+      const pagePosts = paginate(availablePosts, skip, pageSize);
+
+      return {
+        matchPosts: pagePosts.map(formatMatchPost),
+        hasNext: availablePosts.length > skip + pageSize,
+      };
+    }
 
     const matchPosts = await this.prisma.matchPost.findMany({
-      where: {
-        deletedAt: null,
-        ...(trimmedMovieTitle
-          ? { movieTitle: { contains: trimmedMovieTitle } }
-          : {}),
-      },
+      where,
       include: POST_INCLUDE,
       orderBy: { createdAt: 'desc' },
       skip,

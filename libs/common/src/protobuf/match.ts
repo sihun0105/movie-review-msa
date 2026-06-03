@@ -40,6 +40,8 @@ export interface GetMatchPostsRequest {
   page: number;
   pageSize: number;
   movieTitle: string;
+  filter: string;
+  userno: number;
 }
 
 export interface CreateMatchPostRequest {
