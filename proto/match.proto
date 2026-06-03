@@ -36,6 +36,7 @@ message MatchApplication {
 message GetMatchPostsRequest {
   int32 page = 1;
   int32 pageSize = 2;
+  string movieTitle = 3;
 }
 
 message CreateMatchPostRequest {

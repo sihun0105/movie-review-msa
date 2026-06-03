@@ -39,6 +39,7 @@ export interface MatchApplication {
 export interface GetMatchPostsRequest {
   page: number;
   pageSize: number;
+  movieTitle: string;
 }
 
 export interface CreateMatchPostRequest {
