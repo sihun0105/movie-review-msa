@@ -31,11 +31,15 @@ export class MatchController {
     @Query('page') page: string,
     @Query('pageSize') pageSize: string,
     @Query('movieTitle') movieTitle: string,
+    @Query('filter') filter: string,
+    @Query('userno') userno: string,
   ) {
     return this.matchService.getMatchPosts({
       page: Number(page) || 1,
       pageSize: Number(pageSize) || 10,
       movieTitle: movieTitle?.trim() || '',
+      filter: filter?.trim() || '',
+      userno: Number(userno) || 0,
     });
   }
 

@@ -37,6 +37,8 @@ message GetMatchPostsRequest {
   int32 page = 1;
   int32 pageSize = 2;
   string movieTitle = 3;
+  string filter = 4;
+  int32 userno = 5;
 }
 
 message CreateMatchPostRequest {
