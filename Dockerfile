@@ -15,7 +15,8 @@ RUN apk --no-cache add tzdata && \
         echo "Asia/Seoul" > /etc/timezone
 
 WORKDIR /app
-RUN npm i -g pnpm
+# pnpm 11.x는 Node 22.13+ 필요 → Node 18 호환 위해 10.x 핀
+RUN npm i -g pnpm@10.10.0
 RUN npm install -g prisma
 
 WORKDIR /usr/src/app
