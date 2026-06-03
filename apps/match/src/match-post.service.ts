@@ -35,11 +35,17 @@ export class MatchPostService {
   async getMatchPosts(
     request: GetMatchPostsRequest,
   ): Promise<MatchPostResponse> {
-    const { page = 1, pageSize = 10 } = request;
+    const { page = 1, pageSize = 10, movieTitle } = request;
     const skip = (page - 1) * pageSize;
+    const trimmedMovieTitle = movieTitle?.trim();
 
     const matchPosts = await this.prisma.matchPost.findMany({
-      where: { deletedAt: null },
+      where: {
+        deletedAt: null,
+        ...(trimmedMovieTitle
+          ? { movieTitle: { contains: trimmedMovieTitle } }
+          : {}),
+      },
       include: POST_INCLUDE,
       orderBy: { createdAt: 'desc' },
       skip,
