@@ -65,7 +65,7 @@ export class AuthService {
       return {
         id: newUser.id,
         email: newUser.email,
-        nickname: newUser.nickname,
+        nickname: newUser.nickname ?? '',
         image: newUser.image,
         createdAt: newUser.createdAt.toISOString(),
         updatedAt: newUser.updatedAt.toISOString(),
@@ -75,6 +75,7 @@ export class AuthService {
     }
     return {
       ...user,
+      nickname: user.nickname ?? '',
       createdAt: user.createdAt.toISOString(),
       updatedAt: user.updatedAt.toISOString(),
       deletedAt: user.deletedAt ? user.deletedAt.toISOString() : null,
