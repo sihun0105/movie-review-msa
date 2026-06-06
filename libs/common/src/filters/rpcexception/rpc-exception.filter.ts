@@ -16,7 +16,7 @@ export class RpcExceptionFilter implements ExceptionFilter {
     const rpcException = assertRpcExceptionData(errorData);
     const statusCode = mapRpcExceptionToStatusCode(rpcException.code);
     response.status(statusCode).json({
-      message: exception.message,
+      message: rpcException.message,
     });
   }
 }
