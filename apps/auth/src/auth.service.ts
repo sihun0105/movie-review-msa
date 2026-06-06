@@ -1,7 +1,6 @@
 import { OutOfRangeException } from '@app/common/filters/rpcexception/rpc-exception';
 import { AuthCommonResponse, User, ValidationResponse } from '@app/common/protobuf';
 import { MySQLPrismaService } from '@app/prisma';
-import { UtilsService } from '@app/utils';
 import { Injectable, Logger } from '@nestjs/common';
 import { randomBytes } from 'crypto';
 import { compare, hash } from 'bcryptjs';
@@ -21,7 +20,6 @@ export class AuthService {
 
   constructor(
     private readonly mysqlPrismaService: MySQLPrismaService,
-    private readonly utilsService: UtilsService,
     private readonly emailService: EmailService,
   ) {}
 
@@ -69,11 +67,9 @@ export class AuthService {
         email: newUser.email,
         nickname: newUser.nickname,
         image: newUser.image,
-        createdAt: this.utilsService.dateToTimestamp(newUser.createdAt as Date),
-        updatedAt: this.utilsService.dateToTimestamp(newUser.updatedAt as Date),
-        deletedAt: newUser.deletedAt
-          ? this.utilsService.dateToTimestamp(newUser.deletedAt as Date)
-          : null,
+        createdAt: newUser.createdAt.toISOString(),
+        updatedAt: newUser.updatedAt.toISOString(),
+        deletedAt: newUser.deletedAt ? newUser.deletedAt.toISOString() : null,
         gender: newUser.gender,
       } as User;
     }
