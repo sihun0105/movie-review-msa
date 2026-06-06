@@ -10,13 +10,28 @@ export function assertRpcExceptionData(data: any): RpcExceptionData {
   return data;
 }
 export function convertRpcException(error: any): RpcExceptionData {
+  if (!error || typeof error !== 'object') {
+    return {
+      code: 13,
+      message: 'Internal server error',
+    };
+  }
+
   return {
-    code: error.code,
-    message: error.message,
+    code: isRpcExceptionCode(error.code) ? error.code : 13,
+    message:
+      typeof error.message === 'string' ? error.message : 'Internal server error',
   };
 }
 export function isRpcExceptionData(data: any): data is RpcExceptionData {
-  return data.code !== undefined && data.message !== undefined;
+  return (
+    data &&
+    isRpcExceptionCode(data.code) &&
+    typeof data.message === 'string'
+  );
+}
+export function isRpcExceptionCode(code: any): code is RpcExceptionCode {
+  return Number.isInteger(code) && code >= 1 && code <= 16;
 }
 export function assertNever(x: never): never {
   throw new Error('Unexpected object: ' + x);
