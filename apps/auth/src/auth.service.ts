@@ -1,7 +1,6 @@
 import { OutOfRangeException } from '@app/common/filters/rpcexception/rpc-exception';
 import { AuthCommonResponse, User, ValidationResponse } from '@app/common/protobuf';
 import { MySQLPrismaService } from '@app/prisma';
-import { UtilsService } from '@app/utils';
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { randomBytes } from 'crypto';
 import { compare, hash } from 'bcryptjs';
@@ -18,7 +17,6 @@ export class AuthService {
   constructor(
     @Inject('REDIS') private readonly redis: Redis,
     private readonly mysqlPrismaService: MySQLPrismaService,
-    private readonly utilsService: UtilsService,
     private readonly emailService: EmailService,
   ) {}
 
@@ -64,18 +62,17 @@ export class AuthService {
       return {
         id: newUser.id,
         email: newUser.email,
-        nickname: newUser.nickname,
+        nickname: newUser.nickname ?? '',
         image: newUser.image,
-        createdAt: this.utilsService.dateToTimestamp(newUser.createdAt as Date),
-        updatedAt: this.utilsService.dateToTimestamp(newUser.updatedAt as Date),
-        deletedAt: newUser.deletedAt
-          ? this.utilsService.dateToTimestamp(newUser.deletedAt as Date)
-          : null,
+        createdAt: newUser.createdAt.toISOString(),
+        updatedAt: newUser.updatedAt.toISOString(),
+        deletedAt: newUser.deletedAt ? newUser.deletedAt.toISOString() : null,
         gender: newUser.gender,
       } as User;
     }
     return {
       ...user,
+      nickname: user.nickname ?? '',
       createdAt: user.createdAt.toISOString(),
       updatedAt: user.updatedAt.toISOString(),
       deletedAt: user.deletedAt ? user.deletedAt.toISOString() : null,
