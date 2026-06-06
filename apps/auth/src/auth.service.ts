@@ -67,7 +67,7 @@ export class AuthService {
         createdAt: newUser.createdAt.toISOString(),
         updatedAt: newUser.updatedAt.toISOString(),
         deletedAt: newUser.deletedAt ? newUser.deletedAt.toISOString() : null,
-        gender: newUser.gender,
+        gender: newUser.gender ?? '',
       } as User;
     }
     return {
@@ -76,7 +76,7 @@ export class AuthService {
       createdAt: user.createdAt.toISOString(),
       updatedAt: user.updatedAt.toISOString(),
       deletedAt: user.deletedAt ? user.deletedAt.toISOString() : null,
-      gender: user.gender,
+      gender: user.gender ?? '',
     };
   }
 
