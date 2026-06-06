@@ -4,14 +4,14 @@ export function convertToUserEntity(arg: any) {
   const result = {
     id: arg.id,
     email: arg.email,
-    nickname: arg.nickname,
+    nickname: arg.nickname ?? '',
     image: arg.image
       ? (process.env.FILE_SERVER_API ?? '').replace(/\/$/, '') + arg.image
       : '',
     createdAt: arg.createdAt,
     updatedAt: arg.updatedAt,
     deletedAt: arg.deletedAt ?? null,
-    gender: arg.gender,
+    gender: arg.gender ?? '',
   };
   assertUserEntity(result);
   return result;
