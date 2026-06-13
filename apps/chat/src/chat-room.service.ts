@@ -20,7 +20,24 @@ export class ChatRoomService {
   private readonly logger = new Logger(ChatRoomService.name);
   constructor(private readonly prisma: MySQLPrismaService) {}
 
+  private readonly roomInclude = {
+    ChatRoomMember: {
+      where: { leftAt: null },
+      include: {
+        User: {
+          select: { id: true, nickname: true, image: true },
+        },
+      },
+    },
+    ChatMessage: {
+      orderBy: { createdAt: 'desc' as const },
+      take: 1,
+    },
+  };
+
   private formatRoom(room: any): ChatRoom {
+    const lastMessage = room.ChatMessage?.[0];
+
     return {
       id: room.id,
       name: room.name,
@@ -29,6 +46,13 @@ export class ChatRoomService {
       createdAt: room.createdAt.toISOString(),
       updatedAt: room.updatedAt.toISOString(),
       matchPostId: room.matchPostId ?? '',
+      memberProfiles: room.ChatRoomMember.map((member: any) => ({
+        userId: member.userId,
+        nickname: member.User?.nickname ?? '',
+        image: member.User?.image ?? '',
+      })),
+      lastMessage: lastMessage?.content ?? '',
+      lastMessageAt: lastMessage?.createdAt?.toISOString() ?? '',
     };
   }
 
@@ -52,7 +76,7 @@ export class ChatRoomService {
             every: { userId: { in: memberIds }, leftAt: null },
           },
         },
-        include: { ChatRoomMember: { where: { leftAt: null } } },
+        include: this.roomInclude,
       });
 
       if (existingRoom && existingRoom.ChatRoomMember.length === 2) {
@@ -61,7 +85,7 @@ export class ChatRoomService {
           const updated = await this.prisma.chatRoom.update({
             where: { id: existingRoom.id },
             data: { matchPostId },
-            include: { ChatRoomMember: { where: { leftAt: null } } },
+            include: this.roomInclude,
           });
           return { chatRoom: this.formatRoom(updated) };
         }
@@ -78,7 +102,7 @@ export class ChatRoomService {
           create: memberIds.map((userId) => ({ userId })),
         },
       },
-      include: { ChatRoomMember: { where: { leftAt: null } } },
+      include: this.roomInclude,
     });
 
     return { chatRoom: this.formatRoom(chatRoom) };
@@ -91,7 +115,7 @@ export class ChatRoomService {
         id: chatRoomId,
         ChatRoomMember: { some: { userId, leftAt: null } },
       },
-      include: { ChatRoomMember: { where: { leftAt: null } } },
+      include: this.roomInclude,
     });
 
     if (!chatRoom) {
@@ -113,10 +137,7 @@ export class ChatRoomService {
       where: {
         ChatRoomMember: { some: { userId, leftAt: null } },
       },
-      include: {
-        ChatRoomMember: { where: { leftAt: null } },
-        ChatMessage: { orderBy: { createdAt: 'desc' }, take: 1 },
-      },
+      include: this.roomInclude,
       orderBy: { updatedAt: 'desc' },
       skip,
       take: pageSize + 1,
