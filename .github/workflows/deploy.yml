@@ -86,7 +86,8 @@ jobs:
 
             echo "▶ 코드 업데이트"
             cd /app/movie/movie-review-msa
-            git pull origin master
+            git fetch origin master
+            git reset --hard origin/master
 
             echo "▶ GHCR 로그인"
             echo "$GHCR_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin

@@ -71,7 +71,8 @@ export class UserController {
     const userNumber = req.user.userId;
     const filePath = file ? file[0].path : null;
     if (filePath) {
-      updateUserDto.image = filePath;
+      // nginx가 /uploads/ 를 api-gateway로 프록시하므로 상대경로만 저장
+      updateUserDto.image = `/${filePath}`;
     } else {
       updateUserDto.image = '';
     }
