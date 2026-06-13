@@ -3,6 +3,12 @@ syntax = "proto3";
 package chat;
 
 // Chat Room Messages
+message ChatRoomMemberProfile {
+  int32 userId = 1;
+  string nickname = 2;
+  string image = 3;
+}
+
 message ChatRoom {
   string id = 1;
   string name = 2;
@@ -11,6 +17,9 @@ message ChatRoom {
   string createdAt = 5;
   string updatedAt = 6;
   string matchPostId = 7; // 채팅방을 생성한 매칭 게시글 ID (없으면 빈 문자열)
+  repeated ChatRoomMemberProfile memberProfiles = 8;
+  string lastMessage = 9;
+  string lastMessageAt = 10;
 }
 
 message ChatMessage {
