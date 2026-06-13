@@ -5,6 +5,12 @@ import { Observable } from 'rxjs';
 export const chatProtobufPackage = 'chat';
 
 /** Chat Room Messages */
+export interface ChatRoomMemberProfile {
+  userId: number;
+  nickname: string;
+  image: string;
+}
+
 export interface ChatRoom {
   id: string;
   name: string;
@@ -15,6 +21,9 @@ export interface ChatRoom {
   updatedAt: string;
   /** 채팅방을 생성한 매칭 게시글 ID */
   matchPostId?: string;
+  memberProfiles: ChatRoomMemberProfile[];
+  lastMessage: string;
+  lastMessageAt: string;
 }
 
 export interface ChatMessage {
