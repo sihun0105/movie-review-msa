@@ -234,6 +234,18 @@ model ChatMessage {
   @@map("chat_messages")
 }
 
+model PublicChatMessage {
+  id        String    @id @default(cuid())
+  clientId  String?   @db.VarChar(191)
+  nickName  String    @db.VarChar(24)
+  content   String    @db.VarChar(500)
+  createdAt DateTime  @default(now()) @db.DateTime(6)
+  deletedAt DateTime? @db.DateTime(6)
+
+  @@index([createdAt], map: "PublicChatMessage_createdAt_idx")
+  @@map("public_chat_messages")
+}
+
 
 enum articleLikes_type {
   like
