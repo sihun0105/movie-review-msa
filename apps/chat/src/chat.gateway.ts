@@ -13,6 +13,13 @@ import { Server, Socket } from 'socket.io';
 import { onlineMap } from './online.map';
 import { MySQLPrismaService } from '@app/prisma';
 
+interface PublicChatPayload {
+  clientId?: string;
+  nickName?: string;
+  message?: string;
+  createdAt?: string;
+}
+
 @WebSocketGateway({ namespace: /\/ws-.+/, cors: { origin: '*' } })
 export class ChatGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
@@ -27,6 +34,22 @@ export class ChatGateway
     return 'pong';
   }
 
+  @SubscribeMessage('message')
+  handlePublicMessage(
+    @MessageBody() data: PublicChatPayload,
+    @ConnectedSocket() socket: Socket,
+  ) {
+    const message = data.message?.trim().slice(0, 500);
+    if (!message) return;
+
+    socket.nsp.emit('message', {
+      clientId: data.clientId,
+      nickName: data.nickName?.trim().slice(0, 24) || '익명',
+      message,
+      createdAt: data.createdAt || new Date().toISOString(),
+    });
+  }
+
   @SubscribeMessage('sendMessage')
   async handleSendMessage(
     @MessageBody()
@@ -38,7 +61,9 @@ export class ChatGateway
     },
     @ConnectedSocket() socket: Socket,
   ) {
-    this.logger.debug(`handleSendMessage ns=${socket.nsp.name} room=${data.chatRoomId}`);
+    this.logger.debug(
+      `handleSendMessage ns=${socket.nsp.name} room=${data.chatRoomId}`,
+    );
     try {
       // 새로운 Chat 시스템을 사용하여 메시지 저장
       const message = await this.prisma.chatMessage.create({
@@ -75,7 +100,9 @@ export class ChatGateway
     @MessageBody() data: { userId: number; chatRoomId: string },
     @ConnectedSocket() socket: Socket,
   ) {
-    this.logger.debug(`handleJoinRoom userId=${data.userId} room=${data.chatRoomId} ns=${socket.nsp.name}`);
+    this.logger.debug(
+      `handleJoinRoom userId=${data.userId} room=${data.chatRoomId} ns=${socket.nsp.name}`,
+    );
 
     // 온라인 맵에 사용자 추가
     if (!onlineMap[socket.nsp.name]) {
