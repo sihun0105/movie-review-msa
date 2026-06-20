@@ -4,9 +4,11 @@ import { ArticleController } from './article.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { join } from 'path';
 import { ARTICLE_PACKAGE_NAME } from '@app/common/protobuf';
+import { UploadModule } from '../upload/upload.module';
 
 @Module({
   imports: [
+    UploadModule,
     ClientsModule.register([
       {
         name: ARTICLE_PACKAGE_NAME,

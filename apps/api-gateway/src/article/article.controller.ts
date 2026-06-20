@@ -9,7 +9,9 @@ import {
   Post,
   Query,
   Req,
+  UploadedFiles,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ArticleService } from './article.service';
 import {
@@ -19,16 +21,33 @@ import {
   UpdateArticleRequest,
 } from '@app/common/protobuf';
 import { JwtAuthGuard } from '@app/common/guards/jwtauth/jwtauth.guard';
+import { FilesInterceptor } from '@nestjs/platform-express';
+import { imageMemoryMulterOptions } from '../upload/image-multer.options';
+import { UploadService } from '../upload/upload.service';
 @Controller('article')
 export class ArticleController {
   private readonly logger = new Logger(ArticleController.name);
-  constructor(private readonly articleService: ArticleService) {}
+  constructor(
+    private readonly articleService: ArticleService,
+    private readonly uploadService: UploadService,
+  ) {}
   @Post()
   @UseGuards(JwtAuthGuard)
   async createArticle(@Body() body: CreateArticleRequest, @Req() req) {
     const userNumber = req.user.userId;
     body.userno = userNumber;
     return this.articleService.createArticle(body);
+  }
+
+  @Post('image')
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(FilesInterceptor('file', 1, imageMemoryMulterOptions))
+  async uploadArticleImage(@UploadedFiles() files: Express.Multer.File[]) {
+    const url = await this.uploadService.uploadImage({
+      file: files?.[0],
+      folder: 'articles',
+    });
+    return { url };
   }
 
   @Get(':id')
