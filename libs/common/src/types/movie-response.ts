@@ -145,3 +145,15 @@ export interface KobisResponse {
     dailyBoxOfficeList: KobisMovie[];
   };
 }
+
+export interface KobisMovieDetailResponse {
+  movieInfoResult: {
+    movieInfo: {
+      movieCd: string;
+      movieNm: string;
+      directors: {
+        peopleNm: string;
+      }[];
+    };
+  };
+}

@@ -1,9 +1,4 @@
-import {
-  KobisResponse,
-  KobisMovie,
-  KmdbResponse,
-  KmdbMovie,
-} from '@app/common/types/movie-response';
+import { KobisMovie } from '@app/common/types/movie-response';
 import { MySQLPrismaService } from '@app/prisma';
 import {
   BadRequestException,
@@ -11,72 +6,19 @@ import {
   Logger,
   OnModuleInit,
 } from '@nestjs/common';
-import axios from 'axios';
 import moment from 'moment';
 import { convertKobisMovieData } from './movie.formatter';
+import { MovieMetadataClient } from './movie-metadata.client';
 
 @Injectable()
 export class MovieSyncService implements OnModuleInit {
   private readonly logger = new Logger(MovieSyncService.name);
-  private readonly koficKey = process.env.KOFIC_API_KEY;
-  private readonly koficUrl =
-    'http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json';
-  private readonly kmdbUrl =
-    'http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp';
-  private readonly kmdbKey = process.env.KMDB_API_KEY;
-  private readonly tmdbAccessToken = process.env.TMDB_API_ACCESS_TOKEN;
+  private readonly metadataClient = new MovieMetadataClient();
 
   constructor(private readonly prisma: MySQLPrismaService) {}
 
   onModuleInit() {
     this.fetchMovies();
-  }
-
-  async fetchTmdbData(title: string) {
-    try {
-      const url = `https://api.themoviedb.org/3/search/movie?query=${title}&language=ko-KR`;
-      const response = await axios.get(url, {
-        headers: {
-          Authorization: `Bearer ${this.tmdbAccessToken}`,
-          'Content-Type': 'application/json',
-        },
-      });
-      return response.data.results[0];
-    } catch (error) {
-      this.logger.warn(`fetchTmdbPoster failed for "${title}": ${error}`);
-      return null;
-    }
-  }
-
-  async fetchKmdbData(title: string): Promise<Partial<KmdbMovie>> {
-    function getHighResKmdbPoster(posters: string): string {
-      const urls = posters?.split('|') ?? [];
-      const preferred = urls.find((url) => url.includes('/MD/')) || urls[0];
-      return preferred ?? '';
-    }
-
-    const thisYear = moment().format('YYYY') + '0101';
-    let url = `${this.kmdbUrl}?collection=kmdb_new2&ServiceKey=${this.kmdbKey}&detail=Y&title=${title}&sort=prodYear,0&releaseDts=${thisYear}`;
-    let response = await axios.get<KmdbResponse>(url);
-
-    if (!response.data?.Data?.[0]?.Result?.[0]) {
-      url = `${this.kmdbUrl}?collection=kmdb_new2&ServiceKey=${this.kmdbKey}&detail=Y&title=${title}&sort=prodYear,0`;
-      response = await axios.get<KmdbResponse>(url);
-      if (!response.data?.Data?.[0]?.Result?.[0]) return null;
-    }
-
-    const poster = getHighResKmdbPoster(
-      response.data.Data[0].Result[0].posters,
-    );
-    return {
-      title: response.data.Data[0].Result[0].title,
-      plots: response.data.Data[0].Result[0].plots,
-      posters: poster,
-      vods: response.data.Data[0].Result[0].vods,
-      directors: response.data.Data[0].Result[0].directors,
-      genre: response.data.Data[0].Result[0].genre,
-      rating: response.data.Data[0].Result[0].rating,
-    };
   }
 
   async fetchMovies(): Promise<void> {
@@ -87,15 +29,13 @@ export class MovieSyncService implements OnModuleInit {
       throw new BadRequestException('Invalid date provided');
     }
 
-    const isUpdated = await this.prisma.movie.findFirst({
-      where: { updatedAt: { gte: dateObject } },
-    });
-    if (isUpdated) return;
-
     try {
-      const movieList = await this.fetchKoficData(yesterday);
+      const movieList = await this.metadataClient.fetchKoficBoxOffice(
+        yesterday,
+      );
       if (movieList) {
         const converted = movieList.map((item) => convertKobisMovieData(item));
+        if (await this.isMovieListFresh(converted, dateObject)) return;
         await this.updateMovies(converted);
       } else {
         this.logger.warn('No daily box office list found in the response.');
@@ -105,17 +45,11 @@ export class MovieSyncService implements OnModuleInit {
     }
   }
 
-  private async fetchKoficData(date: string): Promise<KobisMovie[] | null> {
-    const url = `${this.koficUrl}?key=${this.koficKey}&targetDt=${date}`;
-    const response = await axios.get<KobisResponse>(url);
-    return response.data?.boxOfficeResult?.dailyBoxOfficeList ?? null;
-  }
-
   private async updateMovies(movieList: KobisMovie[]): Promise<void> {
     const upserts = movieList.map(async (movieData) => {
       try {
         const { plot, poster, director, genre, rating, fetchedData } =
-          await this.fetchExternalMetadata(movieData.movieNm);
+          await this.fetchExternalMetadata(movieData);
 
         await this.prisma.movie.upsert({
           where: { movieCd: +movieData.movieCd },
@@ -159,7 +93,22 @@ export class MovieSyncService implements OnModuleInit {
     await Promise.allSettled(upserts);
   }
 
-  private async fetchExternalMetadata(movieNm: string) {
+  private async isMovieListFresh(movieList: KobisMovie[], dateObject: Date) {
+    const movieCds = movieList.map((movie) => +movie.movieCd);
+    const existingMovies = await this.prisma.movie.findMany({
+      where: { movieCd: { in: movieCds } },
+      select: { movieCd: true, updatedAt: true, director: true },
+    });
+
+    if (existingMovies.length !== movieList.length) return false;
+
+    return existingMovies.every(
+      (movie) =>
+        movie.updatedAt >= dateObject && Boolean(movie.director?.trim()),
+    );
+  }
+
+  private async fetchExternalMetadata(movieData: KobisMovie) {
     let plot = '';
     let poster = '';
     let director = '';
@@ -168,7 +117,7 @@ export class MovieSyncService implements OnModuleInit {
     let fetchedData: any = null;
 
     try {
-      fetchedData = await this.fetchKmdbData(movieNm);
+      fetchedData = await this.metadataClient.fetchKmdbData(movieData.movieNm);
       if (fetchedData) {
         plot = fetchedData.plots?.plot?.[0]?.plotText ?? '';
         poster = fetchedData.posters ?? '';
@@ -177,15 +126,27 @@ export class MovieSyncService implements OnModuleInit {
         rating = fetchedData.rating ?? '';
       }
 
-      const tmdbData = await this.fetchTmdbData(movieNm);
+      const koficDirector = await this.metadataClient.fetchKoficDirector(
+        movieData.movieCd,
+      );
+      if (koficDirector) director = koficDirector;
+
+      const tmdbData = await this.metadataClient.fetchTmdbData(
+        movieData.movieNm,
+      );
       if (tmdbData?.poster_path) {
         poster = `https://image.tmdb.org/t/p/w500${tmdbData.poster_path}`;
       } else if (!poster && fetchedData) {
         poster = fetchedData.posters?.split('|')?.[0] ?? '';
       }
       if (tmdbData?.overview) plot = tmdbData.overview;
+      if (!director && tmdbData?.id) {
+        director = await this.metadataClient.fetchTmdbDirector(tmdbData.id);
+      }
     } catch (error) {
-      this.logger.warn(`fetchKmdbData failed for ${movieNm}: ${error}`);
+      this.logger.warn(
+        `fetchExternalMetadata failed for ${movieData.movieNm}: ${error}`,
+      );
     }
 
     return { plot, poster, director, genre, rating, fetchedData };
@@ -214,5 +175,4 @@ export class MovieSyncService implements OnModuleInit {
       }
     }
   }
-
 }
