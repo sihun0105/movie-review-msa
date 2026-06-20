@@ -9,6 +9,12 @@ import { Logger } from '@nestjs/common';
 import axios from 'axios';
 import moment from 'moment';
 
+interface KoficMovieMetadata {
+  director: string;
+  genre: string;
+  rating: string;
+}
+
 export class MovieMetadataClient {
   private readonly logger = new Logger(MovieMetadataClient.name);
   private readonly koficKey = process.env.KOFIC_API_KEY;
@@ -27,19 +33,19 @@ export class MovieMetadataClient {
     return response.data?.boxOfficeResult?.dailyBoxOfficeList ?? null;
   }
 
-  async fetchKoficDirector(movieCd: string): Promise<string> {
+  async fetchKoficMetadata(movieCd: string): Promise<KoficMovieMetadata> {
     try {
       const url = `${this.koficMovieDetailUrl}?key=${this.koficKey}&movieCd=${movieCd}`;
       const response = await axios.get<KobisMovieDetailResponse>(url);
-      return (
-        response.data?.movieInfoResult?.movieInfo?.directors
-          ?.map((director) => director.peopleNm?.trim())
-          ?.filter(Boolean)
-          ?.join(', ') ?? ''
-      );
+      const movieInfo = response.data?.movieInfoResult?.movieInfo;
+      return {
+        director: this.joinNames(movieInfo?.directors, 'peopleNm'),
+        genre: this.joinNames(movieInfo?.genres, 'genreNm'),
+        rating: this.joinNames(movieInfo?.audits, 'watchGradeNm'),
+      };
     } catch (error) {
-      this.logger.warn(`fetchKoficDirector failed for "${movieCd}": ${error}`);
-      return '';
+      this.logger.warn(`fetchKoficMetadata failed for "${movieCd}": ${error}`);
+      return { director: '', genre: '', rating: '' };
     }
   }
 
@@ -108,5 +114,17 @@ export class MovieMetadataClient {
   private getHighResKmdbPoster(posters: string): string {
     const urls = posters?.split('|') ?? [];
     return urls.find((url) => url.includes('/MD/')) || urls[0] || '';
+  }
+
+  private joinNames<T extends Record<string, string>>(
+    items: T[] | undefined,
+    key: keyof T,
+  ): string {
+    return (
+      items
+        ?.map((item) => item[key]?.trim())
+        ?.filter(Boolean)
+        ?.join(', ') ?? ''
+    );
   }
 }
