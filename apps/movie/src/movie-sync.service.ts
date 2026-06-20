@@ -97,14 +97,23 @@ export class MovieSyncService implements OnModuleInit {
     const movieCds = movieList.map((movie) => +movie.movieCd);
     const existingMovies = await this.prisma.movie.findMany({
       where: { movieCd: { in: movieCds } },
-      select: { movieCd: true, updatedAt: true, director: true },
+      select: {
+        movieCd: true,
+        updatedAt: true,
+        director: true,
+        genre: true,
+        ratting: true,
+      },
     });
 
     if (existingMovies.length !== movieList.length) return false;
 
     return existingMovies.every(
       (movie) =>
-        movie.updatedAt >= dateObject && Boolean(movie.director?.trim()),
+        movie.updatedAt >= dateObject &&
+        Boolean(movie.director?.trim()) &&
+        Boolean(movie.genre?.trim()) &&
+        Boolean(movie.ratting?.trim()),
     );
   }
 
@@ -126,10 +135,12 @@ export class MovieSyncService implements OnModuleInit {
         rating = fetchedData.rating ?? '';
       }
 
-      const koficDirector = await this.metadataClient.fetchKoficDirector(
+      const koficMetadata = await this.metadataClient.fetchKoficMetadata(
         movieData.movieCd,
       );
-      if (koficDirector) director = koficDirector;
+      if (koficMetadata.director) director = koficMetadata.director;
+      if (koficMetadata.genre) genre = koficMetadata.genre;
+      if (koficMetadata.rating) rating = koficMetadata.rating;
 
       const tmdbData = await this.metadataClient.fetchTmdbData(
         movieData.movieNm,
