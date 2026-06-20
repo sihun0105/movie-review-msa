@@ -9,13 +9,17 @@ import {
 import moment from 'moment';
 import { convertKobisMovieData } from './movie.formatter';
 import { MovieMetadataClient } from './movie-metadata.client';
+import { MoviePosterStorageService } from './movie-poster-storage.service';
 
 @Injectable()
 export class MovieSyncService implements OnModuleInit {
   private readonly logger = new Logger(MovieSyncService.name);
   private readonly metadataClient = new MovieMetadataClient();
 
-  constructor(private readonly prisma: MySQLPrismaService) {}
+  constructor(
+    private readonly prisma: MySQLPrismaService,
+    private readonly posterStorage: MoviePosterStorageService,
+  ) {}
 
   onModuleInit() {
     this.fetchMovies();
@@ -50,6 +54,10 @@ export class MovieSyncService implements OnModuleInit {
       try {
         const { plot, poster, director, genre, rating, fetchedData } =
           await this.fetchExternalMetadata(movieData);
+        const storedPoster = await this.posterStorage.mirrorPoster(
+          poster,
+          +movieData.movieCd,
+        );
 
         await this.prisma.movie.upsert({
           where: { movieCd: +movieData.movieCd },
@@ -59,7 +67,7 @@ export class MovieSyncService implements OnModuleInit {
             updatedAt: new Date(),
             rankInten: movieData.rankInten,
             rankOldAndNew: movieData.rankOldAndNew,
-            ...(poster && { poster }),
+            ...(storedPoster && { poster: storedPoster }),
             ...(plot && { plot }),
             ...(director && { director }),
             ...(genre && { genre }),
@@ -71,7 +79,7 @@ export class MovieSyncService implements OnModuleInit {
             audience: +movieData.audiAcc,
             rank: +movieData.rank,
             vector: [],
-            poster,
+            poster: storedPoster,
             rankInten: movieData.rankInten,
             rankOldAndNew: movieData.rankOldAndNew,
             openDt: new Date(movieData.openDt),
@@ -103,6 +111,7 @@ export class MovieSyncService implements OnModuleInit {
         director: true,
         genre: true,
         ratting: true,
+        poster: true,
       },
     });
 
@@ -113,7 +122,8 @@ export class MovieSyncService implements OnModuleInit {
         movie.updatedAt >= dateObject &&
         Boolean(movie.director?.trim()) &&
         Boolean(movie.genre?.trim()) &&
-        Boolean(movie.ratting?.trim()),
+        Boolean(movie.ratting?.trim()) &&
+        this.posterStorage.isReadyPoster(movie.poster),
     );
   }
 

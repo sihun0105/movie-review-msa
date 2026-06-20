@@ -4,12 +4,19 @@ import { MovieService } from './movie.service';
 import { MovieSyncService } from './movie-sync.service';
 import { MovieReadService } from './movie-read.service';
 import { MovieScoreService } from './movie-score.service';
+import { MoviePosterStorageService } from './movie-poster-storage.service';
 import { PrismaModule } from '@app/prisma';
 import { UtilsModule } from '@app/utils';
 
 @Module({
   imports: [PrismaModule, UtilsModule],
   controllers: [MovieController],
-  providers: [MovieService, MovieSyncService, MovieReadService, MovieScoreService],
+  providers: [
+    MovieService,
+    MovieSyncService,
+    MovieReadService,
+    MovieScoreService,
+    MoviePosterStorageService,
+  ],
 })
 export class MovieModule {}
