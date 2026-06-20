@@ -5,9 +5,7 @@ export function convertToUserEntity(arg: any) {
     id: arg.id,
     email: arg.email,
     nickname: arg.nickname ?? '',
-    image: arg.image
-      ? (process.env.FILE_SERVER_API ?? '').replace(/\/$/, '') + arg.image
-      : '',
+    image: resolveImageUrl(arg.image),
     createdAt: arg.createdAt,
     updatedAt: arg.updatedAt,
     deletedAt: arg.deletedAt ?? null,
@@ -15,6 +13,12 @@ export function convertToUserEntity(arg: any) {
   };
   assertUserEntity(result);
   return result;
+}
+
+function resolveImageUrl(image: string | null | undefined): string {
+  if (!image) return '';
+  if (/^https?:\/\//.test(image)) return image;
+  return `${(process.env.FILE_SERVER_API ?? '').replace(/\/$/, '')}${image}`;
 }
 
 export function assertUserEntity(arg: any): asserts arg is User {
