@@ -154,6 +154,13 @@ export interface KobisMovieDetailResponse {
       directors: {
         peopleNm: string;
       }[];
+      genres: {
+        genreNm: string;
+      }[];
+      audits: {
+        auditNo: string;
+        watchGradeNm: string;
+      }[];
     };
   };
 }
