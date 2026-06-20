@@ -4,8 +4,10 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { join } from 'path';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
+import { UploadModule } from '../upload/upload.module';
 @Module({
   imports: [
+    UploadModule,
     ClientsModule.register([
       {
         name: USER_PACKAGE_NAME,
