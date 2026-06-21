@@ -23,8 +23,8 @@ export class AuthService {
   async validateUser(email: string, password: string) {
     if (!email || !password)
       throw new OutOfRangeException('아이디와 비밀번호를 확인해주세요.');
-    const user = await this.mysqlPrismaService.user.findUnique({
-      where: { email },
+    const user = await this.mysqlPrismaService.user.findFirst({
+      where: { email, deletedAt: null },
     });
     if (!user) return null;
 
@@ -47,7 +47,7 @@ export class AuthService {
 
   async oauthLogin({ providerId, provider }: { providerId: string; provider: string }) {
     const user = await this.mysqlPrismaService.user.findFirst({
-      where: { email: providerId },
+      where: { email: providerId, deletedAt: null },
     });
     if (!user) {
       const hashedPassword = await hash(randomBytes(32).toString('hex'), 10);
