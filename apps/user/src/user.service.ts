@@ -66,11 +66,12 @@ export class UserService {
     const userData = await this.mysqlPrismaService.user.findUnique({
       where: { id },
     });
-    if (!userData) {
+    if (!userData || userData.deletedAt) {
       throw new NotFoundException(`User not found ${id} `);
     }
-    const deletedUser = await this.mysqlPrismaService.user.delete({
+    const deletedUser = await this.mysqlPrismaService.user.update({
       where: { id },
+      data: { deletedAt: new Date() },
     });
     const createdAt = this.utilsService.dateToTimestamp(
       deletedUser.createdAt as Date,
@@ -78,9 +79,9 @@ export class UserService {
     const updatedAt = this.utilsService.dateToTimestamp(
       deletedUser.updatedAt as Date,
     );
-    const deletedAt = deletedUser.deletedAt
-      ? this.utilsService.dateToTimestamp(deletedUser.deletedAt as Date)
-      : null;
+    const deletedAt = this.utilsService.dateToTimestamp(
+      deletedUser.deletedAt as Date,
+    );
 
     const userObject: User = {
       id: deletedUser.id,

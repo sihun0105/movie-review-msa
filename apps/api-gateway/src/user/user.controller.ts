@@ -99,7 +99,7 @@ export class UserController {
   @Delete('/')
   @UseGuards(JwtAuthGuard, RateLimitGuard)
   remove(@Req() req) {
-    const userNumber = req.user.id;
+    const userNumber = req.user.userId;
     return this.userService.remove({ id: userNumber });
   }
 }
