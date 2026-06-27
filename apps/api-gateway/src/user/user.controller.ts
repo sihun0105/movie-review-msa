@@ -5,7 +5,9 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   Logger,
+  Param,
   Patch,
   Post,
   Req,
@@ -45,6 +47,15 @@ export class UserController {
       });
     }
   }
+
+  @Get('/:id')
+  async find(@Param('id') id: string) {
+    const result = await firstValueFrom(
+      this.userService.find({ id: Number(id) }),
+    );
+    return convertToUserEntity(result);
+  }
+
   @Patch('/nickname')
   @UpdateUserSpecDecorator('회원정보 수정 API', '회원정보 수정')
   @UseGuards(JwtAuthGuard, RateLimitGuard)

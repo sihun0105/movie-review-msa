@@ -1,5 +1,6 @@
 import {
   CreateUserDto,
+  FindUserDto,
   UpdateUserDto,
   UpdateUserProfileImageDto,
   User,
@@ -16,6 +17,19 @@ export class UserService {
     private readonly mysqlPrismaService: MySQLPrismaService,
     private readonly utilsService: UtilsService,
   ) {}
+
+  private toUser(user: any): User {
+    const deletedAt = user.deletedAt
+      ? this.utilsService.dateToTimestamp(user.deletedAt as Date)
+      : null;
+
+    return {
+      ...user,
+      createdAt: this.utilsService.dateToTimestamp(user.createdAt as Date),
+      updatedAt: this.utilsService.dateToTimestamp(user.updatedAt as Date),
+      deletedAt,
+    };
+  }
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     const { email, password, nickname, marketingAgreed, gender } =
@@ -43,23 +57,7 @@ export class UserService {
         gender: gender as 'male' | 'female',
       },
     });
-    const createdAt = this.utilsService.dateToTimestamp(user.createdAt as Date);
-    const updatedAt = this.utilsService.dateToTimestamp(user.updatedAt as Date);
-    const deletedAt = user.deletedAt
-      ? this.utilsService.dateToTimestamp(user.deletedAt as Date)
-      : null;
-
-    const userObject: User = {
-      id: user.id,
-      email: user.email,
-      nickname: user.nickname,
-      image: user.image,
-      createdAt,
-      updatedAt,
-      deletedAt,
-      gender: user.gender,
-    };
-    return userObject;
+    return this.toUser(user);
   }
 
   async remove(id: number): Promise<User> {
@@ -73,27 +71,18 @@ export class UserService {
       where: { id },
       data: { deletedAt: new Date() },
     });
-    const createdAt = this.utilsService.dateToTimestamp(
-      deletedUser.createdAt as Date,
-    );
-    const updatedAt = this.utilsService.dateToTimestamp(
-      deletedUser.updatedAt as Date,
-    );
-    const deletedAt = this.utilsService.dateToTimestamp(
-      deletedUser.deletedAt as Date,
-    );
+    return this.toUser(deletedUser);
+  }
 
-    const userObject: User = {
-      id: deletedUser.id,
-      email: deletedUser.email,
-      nickname: deletedUser.nickname,
-      image: deletedUser.image,
-      createdAt,
-      updatedAt,
-      deletedAt,
-      gender: deletedUser.gender,
-    };
-    return userObject;
+  async find(findUserDto: FindUserDto): Promise<User> {
+    const userData = await this.mysqlPrismaService.user.findUnique({
+      where: { id: findUserDto.id },
+    });
+    if (!userData || userData.deletedAt) {
+      throw new NotFoundException(`User not found ${findUserDto.id}`);
+    }
+
+    return this.toUser(userData);
   }
 
   async updateUser(updateUserDto: UpdateUserDto): Promise<User> {
@@ -128,22 +117,7 @@ export class UserService {
       },
     });
 
-    const createdAt = this.utilsService.dateToTimestamp(
-      updatedUserData.createdAt as Date,
-    );
-    const updatedAt = this.utilsService.dateToTimestamp(
-      updatedUserData.updatedAt as Date,
-    );
-    const deletedAt = updatedUserData.deletedAt
-      ? this.utilsService.dateToTimestamp(updatedUserData.deletedAt as Date)
-      : null;
-
-    return {
-      ...updatedUserData,
-      createdAt,
-      updatedAt,
-      deletedAt,
-    };
+    return this.toUser(updatedUserData);
   }
 
   async updateUserProfileImage(
@@ -161,21 +135,6 @@ export class UserService {
       where: { id },
       data: { image: image },
     });
-    const createdAt = this.utilsService.dateToTimestamp(
-      updatedUserData.createdAt as Date,
-    );
-    const updatedAt = this.utilsService.dateToTimestamp(
-      updatedUserData.updatedAt as Date,
-    );
-    const deletedAt = updatedUserData.deletedAt
-      ? this.utilsService.dateToTimestamp(updatedUserData.deletedAt as Date)
-      : null;
-
-    return {
-      ...updatedUserData,
-      createdAt,
-      updatedAt,
-      deletedAt,
-    };
+    return this.toUser(updatedUserData);
   }
 }

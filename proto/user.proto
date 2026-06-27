@@ -7,6 +7,7 @@ option go_package = "user";
 
 service UserService {
     rpc CreateUser(CreateUserDto) returns (User) {}
+    rpc FindUser(FindUserDto) returns (User) {}
     rpc RemoveUser (RemoveUserDto) returns (User) {}
     rpc UpdateUser (UpdateUserDto) returns (User) {}
     rpc UpdateUserProfileImage (UpdateUserProfileImageDto) returns (User) {}
@@ -45,5 +46,9 @@ message UpdateUserProfileImageDto {
     string image = 2;
 }
 message RemoveUserDto {
+    int32 id =1;
+}
+
+message FindUserDto {
     int32 id =1;
 }
