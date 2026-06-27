@@ -48,6 +48,16 @@ export class UserController {
     }
   }
 
+  @Get('/nickname/:nickname')
+  async findByNickname(@Param('nickname') nickname: string) {
+    const result = await firstValueFrom(
+      this.userService.findByNickname({
+        nickname: decodeURIComponent(nickname),
+      }),
+    );
+    return convertToUserEntity(result);
+  }
+
   @Get('/:id')
   async find(@Param('id') id: string) {
     const result = await firstValueFrom(

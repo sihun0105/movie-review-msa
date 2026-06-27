@@ -1,5 +1,6 @@
 import {
   CreateUserDto,
+  FindUserByNicknameDto,
   FindUserDto,
   RemoveUserDto,
   UpdateUserDto,
@@ -23,6 +24,10 @@ export class UserController implements UserServiceController {
 
   findUser(findUserDto: FindUserDto): Promise<User> {
     return this.userService.find(findUserDto);
+  }
+
+  findUserByNickname(findUserDto: FindUserByNicknameDto): Promise<User> {
+    return this.userService.findByNickname(findUserDto);
   }
 
   removeUser(findOneUserDto: RemoveUserDto): Promise<User> {
