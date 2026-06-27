@@ -1,5 +1,6 @@
 import {
   CreateUserDto,
+  FindUserByNicknameDto,
   FindUserDto,
   UpdateUserDto,
   UpdateUserProfileImageDto,
@@ -82,6 +83,20 @@ export class UserService {
     });
     if (!userData || userData.deletedAt) {
       throw new NotFoundException(`User not found ${findUserDto.id}`);
+    }
+
+    return this.toUser(userData);
+  }
+
+  async findByNickname(
+    findUserDto: FindUserByNicknameDto,
+  ): Promise<User> {
+    const nickname = findUserDto.nickname?.trim();
+    const userData = await this.mysqlPrismaService.user.findFirst({
+      where: { nickname },
+    });
+    if (!userData || userData.deletedAt) {
+      throw new NotFoundException(`User not found ${nickname}`);
     }
 
     return this.toUser(userData);

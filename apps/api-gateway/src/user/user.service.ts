@@ -28,6 +28,10 @@ export class UserService implements OnModuleInit {
     return this.userService.findUser({ ...findUserDto });
   }
 
+  findByNickname(findUserDto: { nickname: string }) {
+    return this.userService.findUserByNickname({ ...findUserDto });
+  }
+
   remove(deleteUserDto: { id: number }) {
     return this.userService.removeUser({ ...deleteUserDto });
   }

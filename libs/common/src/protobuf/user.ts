@@ -47,12 +47,18 @@ export interface FindUserDto {
   id: number;
 }
 
+export interface FindUserByNicknameDto {
+  nickname: string;
+}
+
 export const USER_PACKAGE_NAME = 'user';
 
 export interface UserServiceClient {
   createUser(request: CreateUserDto): Observable<User>;
 
   findUser(request: FindUserDto): Observable<User>;
+
+  findUserByNickname(request: FindUserByNicknameDto): Observable<User>;
 
   removeUser(request: RemoveUserDto): Observable<User>;
 
@@ -65,6 +71,10 @@ export interface UserServiceController {
   createUser(request: CreateUserDto): Promise<User> | Observable<User> | User;
 
   findUser(request: FindUserDto): Promise<User> | Observable<User> | User;
+
+  findUserByNickname(
+    request: FindUserByNicknameDto,
+  ): Promise<User> | Observable<User> | User;
 
   removeUser(request: RemoveUserDto): Promise<User> | Observable<User> | User;
 
@@ -80,6 +90,7 @@ export function UserServiceControllerMethods() {
     const grpcMethods: string[] = [
       'createUser',
       'findUser',
+      'findUserByNickname',
       'removeUser',
       'updateUser',
       'updateUserProfileImage',

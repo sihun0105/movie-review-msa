@@ -41,11 +41,14 @@ export class ChatController {
   @UseGuards(JwtAuthGuard)
   async createChatRoom(@Body() body: CreateChatRoomRequest, @Req() req) {
     const userId = req.user.userId;
+    const memberIds = Array.from(
+      new Set([userId, ...(body.memberIds ?? [])]),
+    ).filter((id) => Number.isInteger(id) && id > 0);
     this.logger.log(`createChatRoom userId=${userId}`);
 
     return this.chatService.createChatRoom({
       ...body,
-      memberIds: [userId, ...body.memberIds], // 요청자도 멤버에 포함
+      memberIds,
     });
   }
 
