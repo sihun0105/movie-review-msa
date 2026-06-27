@@ -24,6 +24,10 @@ export class UserService implements OnModuleInit {
     return this.userService.createUser(createUserDto);
   }
 
+  find(findUserDto: { id: number }) {
+    return this.userService.findUser({ ...findUserDto });
+  }
+
   remove(deleteUserDto: { id: number }) {
     return this.userService.removeUser({ ...deleteUserDto });
   }
