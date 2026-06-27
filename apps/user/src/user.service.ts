@@ -6,6 +6,7 @@ import {
   User,
 } from '@app/common/protobuf';
 import { AlreadyExistsException } from '@app/common/filters/rpcexception/rpc-exception';
+import { DEFAULT_PROFILE_IMAGE_URL } from '@app/common/constants/profile';
 import { MySQLPrismaService } from '@app/prisma';
 import { UtilsService } from '@app/utils';
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
@@ -53,6 +54,7 @@ export class UserService {
         email,
         password: hashedPassword,
         nickname,
+        image: DEFAULT_PROFILE_IMAGE_URL,
         marketing_agreed: marketingAgreed,
         gender: gender as 'male' | 'female',
       },

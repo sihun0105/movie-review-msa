@@ -1,4 +1,5 @@
 import { OutOfRangeException } from '@app/common/filters/rpcexception/rpc-exception';
+import { DEFAULT_PROFILE_IMAGE_URL } from '@app/common/constants/profile';
 import { AuthCommonResponse, User, ValidationResponse } from '@app/common/protobuf';
 import { MySQLPrismaService } from '@app/prisma';
 import { Inject, Injectable, Logger } from '@nestjs/common';
@@ -57,6 +58,7 @@ export class AuthService {
           provider,
           password: hashedPassword,
           nickname: null,
+          image: DEFAULT_PROFILE_IMAGE_URL,
         },
       });
       return {
