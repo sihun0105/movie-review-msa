@@ -12,28 +12,17 @@ import { Logger } from '@nestjs/common';
 import { Server, Socket } from 'socket.io';
 import { onlineMap } from './online.map';
 import { MySQLPrismaService } from '@app/prisma';
-
-interface PublicChatPayload {
-  clientId?: string;
-  nickName?: string;
-  message?: string;
-  createdAt?: string;
-}
-
-interface PublicChatMessageView {
-  id: string;
-  clientId?: string;
-  nickName: string;
-  message: string;
-  createdAt: string;
-}
+import { PublicChatPayload, PublicChatService } from './public-chat.service';
 
 @WebSocketGateway({ namespace: /\/ws-.+/, cors: { origin: '*' } })
 export class ChatGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
   private readonly logger = new Logger(ChatGateway.name);
-  constructor(private readonly prisma: MySQLPrismaService) {}
+  constructor(
+    private readonly prisma: MySQLPrismaService,
+    private readonly publicChatService: PublicChatService,
+  ) {}
   @WebSocketServer() public server: Server;
 
   @SubscribeMessage('health')
@@ -49,19 +38,9 @@ export class ChatGateway
   ) {
     if (socket.nsp.name !== '/ws-public') return;
 
-    const message = data.message?.trim().slice(0, 500);
-    if (!message) return;
-
     try {
-      const savedMessage = await this.prisma.publicChatMessage.create({
-        data: {
-          clientId: data.clientId || null,
-          nickName: data.nickName?.trim().slice(0, 24) || '익명',
-          content: message,
-        },
-      });
-
-      socket.nsp.emit('message', this.toPublicChatView(savedMessage));
+      const message = await this.publicChatService.createMessage(data);
+      if (message) socket.nsp.emit('message', message);
     } catch (error) {
       this.logger.error('Error handling public message', error?.stack ?? error);
       socket.emit('error', { message: 'Failed to send public message' });
@@ -148,6 +127,8 @@ export class ChatGateway
     }
     socket.emit('hello', socket.nsp.name);
     if (socket.nsp.name === '/ws-public') {
+      onlineMap[socket.nsp.name][socket.id] = socket.id;
+      this.emitPublicOnlineCount(socket);
       await this.sendPublicHistory(socket);
     }
   }
@@ -157,39 +138,26 @@ export class ChatGateway
     const newNamespace = socket.nsp;
     if (onlineMap[socket.nsp.name]) {
       delete onlineMap[socket.nsp.name][socket.id];
-      newNamespace.emit(
-        'onlineList',
-        Object.values(onlineMap[socket.nsp.name]),
-      );
+      if (socket.nsp.name === '/ws-public') {
+        this.emitPublicOnlineCount(socket);
+      } else {
+        newNamespace.emit(
+          'onlineList',
+          Object.values(onlineMap[socket.nsp.name]),
+        );
+      }
     }
   }
 
   private async sendPublicHistory(socket: Socket) {
-    const messages = await this.prisma.publicChatMessage.findMany({
-      where: { deletedAt: null },
-      orderBy: { createdAt: 'desc' },
-      take: 80,
-    });
+    socket.emit('history', await this.publicChatService.getHistory());
+  }
 
-    socket.emit(
-      'history',
-      messages.reverse().map((message) => this.toPublicChatView(message)),
+  private emitPublicOnlineCount(socket: Socket) {
+    socket.nsp.emit(
+      'onlineCount',
+      Object.keys(onlineMap[socket.nsp.name] ?? {}).length,
     );
   }
 
-  private toPublicChatView(message: {
-    id: string;
-    clientId: string | null;
-    nickName: string;
-    content: string;
-    createdAt: Date;
-  }): PublicChatMessageView {
-    return {
-      id: message.id,
-      clientId: message.clientId || undefined,
-      nickName: message.nickName,
-      message: message.content,
-      createdAt: message.createdAt.toISOString(),
-    };
-  }
 }

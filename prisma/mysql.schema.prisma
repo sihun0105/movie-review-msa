@@ -237,12 +237,15 @@ model ChatMessage {
 model PublicChatMessage {
   id        String    @id @default(cuid())
   clientId  String?   @db.VarChar(191)
+  userId    Int?
   nickName  String    @db.VarChar(24)
+  image     String?   @db.LongText
   content   String    @db.VarChar(500)
   createdAt DateTime  @default(now()) @db.DateTime(6)
   deletedAt DateTime? @db.DateTime(6)
 
   @@index([createdAt], map: "PublicChatMessage_createdAt_idx")
+  @@index([userId], map: "PublicChatMessage_userId_idx")
   @@map("public_chat_messages")
 }
 
