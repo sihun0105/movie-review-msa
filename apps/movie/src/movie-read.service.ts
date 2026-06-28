@@ -7,6 +7,7 @@ import { MySQLPrismaService } from '@app/prisma';
 import { MovieData, MovieDatas } from '@app/common/protobuf';
 import moment from 'moment';
 import { convertMovieDataWithCounts } from './movie.formatter';
+import { MovieDirectorFilmographyService } from './movie-director-filmography.service';
 
 const MOVIE_INCLUDE = {
   MovieVod: true,
@@ -20,7 +21,10 @@ const MOVIE_INCLUDE = {
 
 @Injectable()
 export class MovieReadService {
-  constructor(private readonly prisma: MySQLPrismaService) {}
+  constructor(
+    private readonly prisma: MySQLPrismaService,
+    private readonly directorFilmography: MovieDirectorFilmographyService,
+  ) {}
 
   async getMovieDatas(): Promise<Omit<MovieDatas, 'vector'>> {
     const now = moment();
@@ -88,26 +92,36 @@ export class MovieReadService {
     const directorName = name.trim();
     if (!directorName) return { MovieData: [] };
 
+    const take = Math.min(Math.max(limit || 12, 1), 12);
     const movieList = await this.prisma.movie.findMany({
       where: {
         director: { contains: directorName },
         movieCd: { not: excludeMovieCd || 0 },
       },
       include: MOVIE_INCLUDE,
-      take: Math.min(Math.max(limit || 12, 1), 12),
+      take,
       orderBy: [{ openDt: 'desc' }, { rank: 'asc' }],
     });
 
-    return {
-      MovieData: movieList.map((movieData) =>
-        convertMovieDataWithCounts({
-          ...movieData,
-          _count: {
-            Comment: movieData._count.Comment,
-            movieScores: movieData.movieScores?.length ?? 0,
-          },
-        }),
-      ),
-    };
+    const dbMovies = movieList.map((movieData) =>
+      convertMovieDataWithCounts({
+        ...movieData,
+        _count: {
+          Comment: movieData._count.Comment,
+          movieScores: movieData.movieScores?.length ?? 0,
+        },
+      }),
+    );
+    const externalMovies =
+      dbMovies.length < take
+        ? await this.directorFilmography.fillFromKofic({
+            directorName,
+            excludeMovieCd,
+            excludedMovieCds: dbMovies.map((movie) => movie.movieCd),
+            limit: take - dbMovies.length,
+          })
+        : [];
+
+    return { MovieData: [...dbMovies, ...externalMovies] };
   }
 }

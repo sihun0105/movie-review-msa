@@ -164,3 +164,22 @@ export interface KobisMovieDetailResponse {
     };
   };
 }
+
+export interface KobisMovieListItem {
+  movieCd: string;
+  movieNm: string;
+  prdtYear: string;
+  openDt: string;
+  genreAlt: string;
+  repGenreNm: string;
+  directors: {
+    peopleNm: string;
+  }[];
+}
+
+export interface KobisMovieListResponse {
+  movieListResult: {
+    totCnt: number;
+    movieList: KobisMovieListItem[];
+  };
+}
