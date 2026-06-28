@@ -1,6 +1,8 @@
 import {
   KmdbMovie,
   KmdbResponse,
+  KobisMovieListItem,
+  KobisMovieListResponse,
   KobisMovie,
   KobisMovieDetailResponse,
   KobisResponse,
@@ -24,6 +26,8 @@ export class MovieMetadataClient {
     'http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json';
   private readonly koficMovieDetailUrl =
     'http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieInfo.json';
+  private readonly koficMovieListUrl =
+    'http://www.kobis.or.kr/kobisopenapi/webservice/rest/movie/searchMovieList.json';
   private readonly kmdbUrl =
     'http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp';
 
@@ -46,6 +50,34 @@ export class MovieMetadataClient {
     } catch (error) {
       this.logger.warn(`fetchKoficMetadata failed for "${movieCd}": ${error}`);
       return { director: '', genre: '', rating: '' };
+    }
+  }
+
+  async fetchKoficMoviesByDirector(
+    directorName: string,
+    limit: number,
+  ): Promise<KobisMovieListItem[]> {
+    if (!this.koficKey || !directorName.trim()) return [];
+
+    try {
+      const url = `${this.koficMovieListUrl}?key=${
+        this.koficKey
+      }&directorNm=${encodeURIComponent(directorName)}&curPage=1&itemPerPage=${
+        limit || 12
+      }`;
+      const response = await axios.get<KobisMovieListResponse>(url);
+      const movies = response.data?.movieListResult?.movieList ?? [];
+      return movies.filter(
+        (movie) =>
+          movie.directors?.some(
+            (director) => director.peopleNm?.trim() === directorName.trim(),
+          ),
+      );
+    } catch (error) {
+      this.logger.warn(
+        `fetchKoficMoviesByDirector failed for "${directorName}": ${error}`,
+      );
+      return [];
     }
   }
 
