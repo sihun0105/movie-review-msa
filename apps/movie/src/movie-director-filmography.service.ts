@@ -26,6 +26,49 @@ export class MovieDirectorFilmographyService {
     private readonly posterStorage: MoviePosterStorageService,
   ) {}
 
+  async enrichStoredFallbackMovies<T extends { movieCd: number; rank: bigint }>(
+    movies: T[],
+  ): Promise<T[]> {
+    return Promise.all(
+      movies.map(async (movie) => {
+        if (!this.needsMetadata(movie)) return movie;
+
+        const metadata = await this.fetchMetadata(
+          {
+            movieCd: String(movie.movieCd),
+            movieNm: (movie as any).title ?? '',
+            prdtYear: '',
+            openDt: '',
+            genreAlt: (movie as any).genre ?? '',
+            repGenreNm: '',
+            directors: [],
+          },
+          movie.movieCd,
+        );
+
+        if (
+          !metadata.poster &&
+          !metadata.plot &&
+          !metadata.genre &&
+          !metadata.rating
+        ) {
+          return movie;
+        }
+
+        return (await this.prisma.movie.update({
+          where: { movieCd: movie.movieCd },
+          data: {
+            ...(metadata.poster && { poster: metadata.poster }),
+            ...(metadata.plot && { plot: metadata.plot }),
+            ...(metadata.genre && { genre: metadata.genre }),
+            ...(metadata.rating && { ratting: metadata.rating }),
+          },
+          include: MOVIE_INCLUDE,
+        })) as unknown as T;
+      }),
+    );
+  }
+
   async fillFromKofic({
     directorName,
     excludeMovieCd,
@@ -99,6 +142,10 @@ export class MovieDirectorFilmographyService {
       },
       include: MOVIE_INCLUDE,
     });
+  }
+
+  private needsMetadata(movie: any): boolean {
+    return Number(movie.rank) === 0 && (!movie.poster || !movie.plot);
   }
 
   private async fetchMetadata(movie: KobisMovieListItem, movieCd: number) {
