@@ -150,27 +150,31 @@ export class MovieDirectorFilmographyService {
 
   private async fetchMetadata(movie: KobisMovieListItem, movieCd: number) {
     const title = movie.movieNm ?? '';
-    const [koficMetadata, kmdbData, tmdbData] = await Promise.all([
-      this.metadataClient.fetchKoficMetadata(movie.movieCd),
-      this.metadataClient.fetchKmdbData(title),
-      this.metadataClient.fetchTmdbData(title),
-    ]);
-    const poster =
-      (tmdbData?.poster_path
-        ? `https://image.tmdb.org/t/p/w500${tmdbData.poster_path}`
-        : '') ||
-      kmdbData?.posters ||
-      '';
+    try {
+      const [koficMetadata, kmdbData, tmdbData] = await Promise.all([
+        this.metadataClient.fetchKoficMetadata(movie.movieCd),
+        this.metadataClient.fetchKmdbData(title),
+        this.metadataClient.fetchTmdbData(title),
+      ]);
+      const poster =
+        (tmdbData?.poster_path
+          ? `https://image.tmdb.org/t/p/w500${tmdbData.poster_path}`
+          : '') ||
+        kmdbData?.posters ||
+        '';
 
-    return {
-      poster: await this.posterStorage.mirrorPoster(poster, movieCd),
-      plot:
-        tmdbData?.overview ||
-        kmdbData?.plots?.plot?.[0]?.plotText?.trim() ||
-        '',
-      genre: koficMetadata.genre || kmdbData?.genre || '',
-      rating: koficMetadata.rating || kmdbData?.rating || '',
-    };
+      return {
+        poster: await this.posterStorage.mirrorPoster(poster, movieCd),
+        plot:
+          tmdbData?.overview ||
+          kmdbData?.plots?.plot?.[0]?.plotText?.trim() ||
+          '',
+        genre: koficMetadata.genre || kmdbData?.genre || '',
+        rating: koficMetadata.rating || kmdbData?.rating || '',
+      };
+    } catch {
+      return { poster: '', plot: '', genre: '', rating: '' };
+    }
   }
 
   private getDirectorNames(movie: KobisMovieListItem) {
