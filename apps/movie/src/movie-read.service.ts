@@ -38,7 +38,10 @@ export class MovieReadService {
     }
 
     const movieList = await this.prisma.movie.findMany({
-      where: { updatedAt: { gte: new Date(dateObject) } },
+      where: {
+        updatedAt: { gte: new Date(dateObject) },
+        rank: { gt: 0 },
+      },
       include: MOVIE_INCLUDE,
       take: 10,
       orderBy: [{ rank: 'asc' }],

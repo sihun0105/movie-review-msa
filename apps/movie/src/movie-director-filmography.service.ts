@@ -5,6 +5,7 @@ import { Injectable } from '@nestjs/common';
 import moment from 'moment';
 import { convertMovieDataWithCounts } from './movie.formatter';
 import { MovieMetadataClient } from './movie-metadata.client';
+import { MoviePosterStorageService } from './movie-poster-storage.service';
 
 const MOVIE_INCLUDE = {
   MovieVod: true,
@@ -20,7 +21,10 @@ const MOVIE_INCLUDE = {
 export class MovieDirectorFilmographyService {
   private readonly metadataClient = new MovieMetadataClient();
 
-  constructor(private readonly prisma: MySQLPrismaService) {}
+  constructor(
+    private readonly prisma: MySQLPrismaService,
+    private readonly posterStorage: MoviePosterStorageService,
+  ) {}
 
   async fillFromKofic({
     directorName,
@@ -64,7 +68,8 @@ export class MovieDirectorFilmographyService {
     const movieCd = Number(movie.movieCd) || 0;
     const openedAt = this.parseKoficOpenDate(movie.openDt, movie.prdtYear);
     const director = this.getDirectorNames(movie) || directorName;
-    const genre = movie.genreAlt || movie.repGenreNm || '';
+    const metadata = await this.fetchMetadata(movie, movieCd);
+    const genre = metadata.genre || movie.genreAlt || movie.repGenreNm || '';
 
     return this.prisma.movie.upsert({
       where: { movieCd },
@@ -72,7 +77,10 @@ export class MovieDirectorFilmographyService {
         title: movie.movieNm,
         openDt: openedAt,
         director,
+        ...(metadata.poster && { poster: metadata.poster }),
+        ...(metadata.plot && { plot: metadata.plot }),
         ...(genre && { genre }),
+        ...(metadata.rating && { ratting: metadata.rating }),
       },
       create: {
         movieCd,
@@ -80,17 +88,42 @@ export class MovieDirectorFilmographyService {
         audience: 0,
         rank: 0,
         vector: [],
-        poster: '',
+        poster: metadata.poster,
         rankInten: '',
         rankOldAndNew: '',
         openDt: openedAt,
-        plot: '',
+        plot: metadata.plot,
         director,
         genre,
-        ratting: '',
+        ratting: metadata.rating,
       },
       include: MOVIE_INCLUDE,
     });
+  }
+
+  private async fetchMetadata(movie: KobisMovieListItem, movieCd: number) {
+    const title = movie.movieNm ?? '';
+    const [koficMetadata, kmdbData, tmdbData] = await Promise.all([
+      this.metadataClient.fetchKoficMetadata(movie.movieCd),
+      this.metadataClient.fetchKmdbData(title),
+      this.metadataClient.fetchTmdbData(title),
+    ]);
+    const poster =
+      (tmdbData?.poster_path
+        ? `https://image.tmdb.org/t/p/w500${tmdbData.poster_path}`
+        : '') ||
+      kmdbData?.posters ||
+      '';
+
+    return {
+      poster: await this.posterStorage.mirrorPoster(poster, movieCd),
+      plot:
+        tmdbData?.overview ||
+        kmdbData?.plots?.plot?.[0]?.plotText?.trim() ||
+        '',
+      genre: koficMetadata.genre || kmdbData?.genre || '',
+      rating: koficMetadata.rating || kmdbData?.rating || '',
+    };
   }
 
   private getDirectorNames(movie: KobisMovieListItem) {
