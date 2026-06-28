@@ -106,7 +106,9 @@ export class MovieReadService {
       orderBy: [{ openDt: 'desc' }, { rank: 'asc' }],
     });
 
-    const dbMovies = movieList.map((movieData) =>
+    const enrichedMovieList =
+      await this.directorFilmography.enrichStoredFallbackMovies(movieList);
+    const dbMovies = enrichedMovieList.map((movieData) =>
       convertMovieDataWithCounts({
         ...movieData,
         _count: {
