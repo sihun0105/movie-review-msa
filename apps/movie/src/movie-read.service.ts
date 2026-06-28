@@ -75,4 +75,39 @@ export class MovieReadService {
       },
     });
   }
+
+  async getMoviesByDirector({
+    name,
+    excludeMovieCd,
+    limit,
+  }: {
+    name: string;
+    excludeMovieCd: number;
+    limit: number;
+  }): Promise<MovieDatas> {
+    const directorName = name.trim();
+    if (!directorName) return { MovieData: [] };
+
+    const movieList = await this.prisma.movie.findMany({
+      where: {
+        director: { contains: directorName },
+        movieCd: { not: excludeMovieCd || 0 },
+      },
+      include: MOVIE_INCLUDE,
+      take: Math.min(Math.max(limit || 12, 1), 12),
+      orderBy: [{ openDt: 'desc' }, { rank: 'asc' }],
+    });
+
+    return {
+      MovieData: movieList.map((movieData) =>
+        convertMovieDataWithCounts({
+          ...movieData,
+          _count: {
+            Comment: movieData._count.Comment,
+            movieScores: movieData.movieScores?.length ?? 0,
+          },
+        }),
+      ),
+    };
+  }
 }
