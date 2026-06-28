@@ -27,6 +27,21 @@ export class MovieService implements OnModuleInit {
   async getMovieDetail(movieCd: number) {
     return await this.movieService.getMovieDetailData({ movieCd });
   }
+  async getMoviesByDirector({
+    name,
+    excludeMovieCd,
+    limit,
+  }: {
+    name: string;
+    excludeMovieCd: number;
+    limit: number;
+  }) {
+    return await this.movieService.getMoviesByDirector({
+      name,
+      excludeMovieCd,
+      limit,
+    });
+  }
   async upsertMovieScore({ userNumber, movieCd, score }) {
     return await this.movieService.upsertMovieScore({
       userId: userNumber,

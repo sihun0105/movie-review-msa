@@ -29,6 +29,12 @@ export interface RecommendMovieRequest {
   movieCd: number;
 }
 
+export interface DirectorFilmographyRequest {
+  name: string;
+  excludeMovieCd: number;
+  limit: number;
+}
+
 export interface MovieData {
   id: number;
   movieCd: number;
@@ -81,6 +87,10 @@ export interface MovieServiceClient {
 
   getMovieDetailData(request: RecommendMovieRequest): Observable<MovieData>;
 
+  getMoviesByDirector(
+    request: DirectorFilmographyRequest,
+  ): Observable<MovieDatas>;
+
   upsertMovieScore(request: UpsertMovieScoreRequest): Observable<MovieScore>;
 
   getMovieScore(request: GetMovieScoreRequest): Observable<MovieScore>;
@@ -106,6 +116,10 @@ export interface MovieServiceController {
     request: RecommendMovieRequest,
   ): Promise<MovieData> | Observable<MovieData> | MovieData;
 
+  getMoviesByDirector(
+    request: DirectorFilmographyRequest,
+  ): Promise<MovieDatas> | Observable<MovieDatas> | MovieDatas;
+
   upsertMovieScore(
     request: UpsertMovieScoreRequest,
   ): Promise<MovieScore> | Observable<MovieScore> | MovieScore;
@@ -130,6 +144,7 @@ export function MovieServiceControllerMethods() {
       'fetchMovies',
       'recommendMovie',
       'getMovieDetailData',
+      'getMoviesByDirector',
       'upsertMovieScore',
       'getMovieScore',
       'getAverageMovieScore',

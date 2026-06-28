@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   Post,
+  Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -24,6 +25,27 @@ export class MovieController {
     try {
       const getRepliesObservable = await this.movieService.getMovieDatas();
       const data = await firstValueFrom(getRepliesObservable);
+      return data;
+    } catch (error) {
+      throw new RpcException({
+        code: error.code,
+        message: error.details,
+      });
+    }
+  }
+  @Get('/director')
+  async getMoviesByDirector(
+    @Query('name') name = '',
+    @Query('excludeMovieCd') excludeMovieCd = '0',
+    @Query('limit') limit = '12',
+  ) {
+    try {
+      const moviesObservable = await this.movieService.getMoviesByDirector({
+        name,
+        excludeMovieCd: +excludeMovieCd || 0,
+        limit: +limit || 12,
+      });
+      const data = await firstValueFrom(moviesObservable);
       return data;
     } catch (error) {
       throw new RpcException({

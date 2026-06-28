@@ -26,6 +26,13 @@ export class MovieService {
   getMovieDetail(movieCd: number) {
     return this.readService.getMovieDetail(movieCd);
   }
+  getMoviesByDirector(req: {
+    name: string;
+    excludeMovieCd: number;
+    limit: number;
+  }) {
+    return this.readService.getMoviesByDirector(req);
+  }
 
   // Score
   upsertMovieScore(req: { movieCd: number; score: number; userId: number }) {
