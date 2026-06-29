@@ -43,9 +43,25 @@ model Movie {
   ratting       String?      @db.VarChar(100)
   Comment       Comment[]
   MovieVod      MovieVod[]
+  DirectorFilmography DirectorFilmography[]
   movieScores   movieScore[]
 
   @@index([movieCd], map: "movieId")
+}
+
+model DirectorFilmography {
+  id           Int      @id @default(autoincrement())
+  directorName String   @db.VarChar(100)
+  movieCd      Int
+  sortOrder    Int      @default(0)
+  source       String   @default("db") @db.VarChar(20)
+  createdAt    DateTime @default(now()) @db.DateTime(6)
+  updatedAt    DateTime @updatedAt @db.DateTime(6)
+  Movie        Movie    @relation(fields: [movieCd], references: [movieCd], onDelete: Cascade)
+
+  @@unique([directorName, movieCd], map: "DirectorFilmography_director_movie_unique")
+  @@index([directorName, sortOrder], map: "DirectorFilmography_director_sort_idx")
+  @@index([movieCd], map: "DirectorFilmography_movieCd_idx")
 }
 
 model User {

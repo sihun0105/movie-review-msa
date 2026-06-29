@@ -8,6 +8,7 @@ import { MovieData, MovieDatas } from '@app/common/protobuf';
 import moment from 'moment';
 import { convertMovieDataWithCounts } from './movie.formatter';
 import { MovieDirectorFilmographyService } from './movie-director-filmography.service';
+import { MovieDirectorFilmographyCacheService } from './movie-director-filmography-cache.service';
 
 const MOVIE_INCLUDE = {
   MovieVod: true,
@@ -24,6 +25,7 @@ export class MovieReadService {
   constructor(
     private readonly prisma: MySQLPrismaService,
     private readonly directorFilmography: MovieDirectorFilmographyService,
+    private readonly filmographyCache: MovieDirectorFilmographyCacheService,
   ) {}
 
   async getMovieDatas(): Promise<Omit<MovieDatas, 'vector'>> {
@@ -96,37 +98,62 @@ export class MovieReadService {
     if (!directorName) return { MovieData: [] };
 
     const take = Math.min(Math.max(limit || 12, 1), 12);
-    const movieList = await this.prisma.movie.findMany({
-      where: {
-        director: { contains: directorName },
-        movieCd: { not: excludeMovieCd || 0 },
-      },
-      include: MOVIE_INCLUDE,
-      take,
-      orderBy: [{ openDt: 'desc' }, { rank: 'asc' }],
+    const cachedMovies = await this.filmographyCache.findCached({
+      directorName,
+      excludeMovieCd,
+      limit: take,
     });
 
-    const enrichedMovieList =
-      await this.directorFilmography.enrichStoredFallbackMovies(movieList);
-    const dbMovies = enrichedMovieList.map((movieData) =>
-      convertMovieDataWithCounts({
-        ...movieData,
-        _count: {
-          Comment: movieData._count.Comment,
-          movieScores: movieData.movieScores?.length ?? 0,
-        },
-      }),
-    );
-    const externalMovies =
-      dbMovies.length < take
-        ? await this.directorFilmography.fillFromKofic({
-            directorName,
-            excludeMovieCd,
-            excludedMovieCds: dbMovies.map((movie) => movie.movieCd),
-            limit: take - dbMovies.length,
-          })
-        : [];
+    if (cachedMovies.length >= take) {
+      return { MovieData: cachedMovies };
+    }
 
-    return { MovieData: [...dbMovies, ...externalMovies] };
+    const dbMovies = await this.filmographyCache.seedFromMovieTable({
+      directorName,
+      excludeMovieCd,
+      limit: take,
+    });
+    const movies =
+      dbMovies.length > cachedMovies.length ? dbMovies : cachedMovies;
+
+    if (movies.length < take) {
+      this.queueExternalFilmographyFill({
+        directorName,
+        excludeMovieCd,
+        movies,
+        limit: take - movies.length,
+      });
+    }
+
+    return { MovieData: movies };
+  }
+
+  private queueExternalFilmographyFill({
+    directorName,
+    excludeMovieCd,
+    movies,
+    limit,
+  }: {
+    directorName: string;
+    excludeMovieCd: number;
+    movies: MovieData[];
+    limit: number;
+  }): void {
+    void this.directorFilmography
+      .fillFromKofic({
+        directorName,
+        excludeMovieCd,
+        excludedMovieCds: movies.map((movie) => movie.movieCd),
+        limit,
+      })
+      .then((externalMovies) =>
+        this.filmographyCache.saveMovieData({
+          directorName,
+          movies: externalMovies,
+          source: 'kofic',
+          startOrder: movies.length,
+        }),
+      )
+      .catch(() => undefined);
   }
 }
