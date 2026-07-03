@@ -39,18 +39,12 @@ export class MovieReadService {
       throw new BadRequestException('Invalid date provided');
     }
 
-    const movieList = await this.prisma.movie.findMany({
-      where: {
-        updatedAt: { gte: new Date(dateObject) },
-        rank: { gt: 0 },
-      },
-      include: MOVIE_INCLUDE,
-      take: 10,
-      orderBy: [{ rank: 'asc' }],
-    });
+    const movieList = await this.findTodayRankedMovies(dateObject);
+    const fallbackList =
+      movieList.length > 0 ? movieList : await this.findRecentRankedMovies();
 
     return {
-      MovieData: movieList.map((movieData) =>
+      MovieData: fallbackList.map((movieData) =>
         convertMovieDataWithCounts({
           ...movieData,
           _count: {
@@ -60,6 +54,31 @@ export class MovieReadService {
         }),
       ),
     };
+  }
+
+  private findTodayRankedMovies(dateObject: Date) {
+    return this.prisma.movie.findMany({
+      where: {
+        updatedAt: { gte: new Date(dateObject) },
+        rank: { gt: 0 },
+      },
+      include: MOVIE_INCLUDE,
+      take: 10,
+      orderBy: [{ rank: 'asc' }],
+    });
+  }
+
+  private async findRecentRankedMovies() {
+    const movies = await this.prisma.movie.findMany({
+      where: { rank: { gt: 0 } },
+      include: MOVIE_INCLUDE,
+      take: 30,
+      orderBy: [{ updatedAt: 'desc' }],
+    });
+
+    return movies
+      .sort((a, b) => Number(a.rank ?? 999) - Number(b.rank ?? 999))
+      .slice(0, 10);
   }
 
   async recommendMovies(_movieCd: number): Promise<any> {
