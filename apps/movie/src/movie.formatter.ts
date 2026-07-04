@@ -43,6 +43,7 @@ export function convertKobisMovieData(unknown: any): KobisMovie {
 export function convertMovieDataWithCounts(
   movieData: any,
 ): Omit<MovieData, 'vector'> {
+  const rank = Number(movieData.rank) || 0;
   const scoreSum =
     movieData.movieScores?.reduce((sum, score) => sum + score.score, 0) || 0;
   const scoreCount = movieData._count?.movieScores || 0;
@@ -52,7 +53,8 @@ export function convertMovieDataWithCounts(
   return {
     title: movieData.title ?? '',
     audience: Number(movieData.audience) ?? 0,
-    rank: Number(movieData.rank) ?? 0,
+    rank,
+    isRanked: rank > 0,
     createdAt: movieData.createdAt ?? new Date(0),
     updatedAt: movieData.updatedAt ?? new Date(0),
     id: Number(movieData.id) ?? 0,

@@ -55,6 +55,7 @@ export interface MovieData {
   commentCount: number;
   scoreCount: number;
   averageScore: number; // 추가된 필드
+  isRanked: boolean;
 }
 
 export interface MovieVod {

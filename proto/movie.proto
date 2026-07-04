@@ -63,6 +63,7 @@ message MovieData {
   int32 commentCount = 17;
   int32 scoreCount = 18;
   double averageScore = 19; // 추가된 필드
+  bool isRanked = 20;
 }
 
 message MovieVod {
