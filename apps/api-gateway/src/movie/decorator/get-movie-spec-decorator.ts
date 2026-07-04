@@ -14,6 +14,7 @@ export function GetMovieSpecDecorator(summary: string, description: string) {
           title: { type: 'string', example: 'test' },
           audience: { type: 'number', example: 1000 },
           rank: { type: 'number', example: 1 },
+          isRanked: { type: 'boolean', example: true },
           movieCd: { type: 'number', example: 100001 },
           createdAt: { type: 'string', example: '2021-01-01T00:00:00Z' },
           updatedAt: { type: 'string', example: '2021-01-01T00:00:00Z' },
