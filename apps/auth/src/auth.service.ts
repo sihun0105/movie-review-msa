@@ -7,6 +7,7 @@ import { randomBytes } from 'crypto';
 import { compare, hash } from 'bcryptjs';
 import Redis from 'ioredis';
 import { EmailService } from './email.service';
+import { toAuthUser } from './auth-user.mapper';
 
 const VERIFY_TTL = 5 * 60;       // 5분 (초)
 const RESET_TTL  = 60 * 60;      // 1시간 (초)
@@ -31,13 +32,11 @@ export class AuthService {
 
     const isMatch = await compare(password, user.password);
     if (isMatch) {
-      const { password: _, ...result } = user;
-      return {
-        ...result,
-        createdAt: result.createdAt.toISOString(),
-        updatedAt: result.updatedAt.toISOString(),
-        deletedAt: result.deletedAt ? result.deletedAt.toISOString() : null,
-      };
+      const activeUser = await this.mysqlPrismaService.user.update({
+        where: { id: user.id },
+        data: { lastActiveAt: new Date() },
+      });
+      return toAuthUser(activeUser);
     }
     return null;
   }
@@ -59,27 +58,16 @@ export class AuthService {
           password: hashedPassword,
           nickname: null,
           image: DEFAULT_PROFILE_IMAGE_URL,
+          lastActiveAt: new Date(),
         },
       });
-      return {
-        id: newUser.id,
-        email: newUser.email,
-        nickname: newUser.nickname ?? '',
-        image: newUser.image,
-        createdAt: newUser.createdAt.toISOString(),
-        updatedAt: newUser.updatedAt.toISOString(),
-        deletedAt: newUser.deletedAt ? newUser.deletedAt.toISOString() : null,
-        gender: newUser.gender ?? '',
-      } as User;
+      return toAuthUser(newUser);
     }
-    return {
-      ...user,
-      nickname: user.nickname ?? '',
-      createdAt: user.createdAt.toISOString(),
-      updatedAt: user.updatedAt.toISOString(),
-      deletedAt: user.deletedAt ? user.deletedAt.toISOString() : null,
-      gender: user.gender ?? '',
-    };
+    const activeUser = await this.mysqlPrismaService.user.update({
+      where: { id: user.id },
+      data: { lastActiveAt: new Date() },
+    });
+    return toAuthUser(activeUser);
   }
 
   async validateEmail(email: string): Promise<ValidationResponse> {

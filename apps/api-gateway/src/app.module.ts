@@ -10,6 +10,9 @@ import { ArticleModule } from './article/article.module';
 import { MatchModule } from './match/match.module';
 import { ChatModule } from './chat/chat.module';
 import { NotificationModule } from './notification/notification.module';
+import { AnalyticsModule } from './analytics/analytics.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { UserActivityInterceptor } from './analytics/user-activity.interceptor';
 
 @Module({
   imports: [
@@ -30,8 +33,12 @@ import { NotificationModule } from './notification/notification.module';
     MatchModule,
     ChatModule,
     NotificationModule,
+    AnalyticsModule,
   ],
   controllers: [],
-  providers: [JwtStrategy],
+  providers: [
+    JwtStrategy,
+    { provide: APP_INTERCEPTOR, useClass: UserActivityInterceptor },
+  ],
 })
 export class AppModule {}

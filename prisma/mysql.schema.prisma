@@ -72,6 +72,7 @@ model User {
   createdAt        DateTime           @default(now()) @db.DateTime(6)
   updatedAt        DateTime           @default(now()) @db.DateTime(6)
   deletedAt        DateTime?          @db.DateTime(6)
+  lastActiveAt     DateTime?          @db.DateTime(6)
   provider         String             @default("credentials") @db.VarChar(45)
   image            String?            @db.LongText
   marketing_agreed Boolean            @default(false)
@@ -86,6 +87,8 @@ model User {
   ChatRoomMember   ChatRoomMember[]
   ChatMessage      ChatMessage[]
   Notification     Notification[]
+
+  @@index([lastActiveAt], map: "User_lastActiveAt_idx")
 }
 
 
