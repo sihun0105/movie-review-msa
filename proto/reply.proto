@@ -11,6 +11,7 @@ service ReplyService {
     rpc CreateReply (CreateReplyDto) returns (common.Empty) {}
     rpc UpdateReply (UpdateReplyDto) returns (common.Empty) {}
     rpc DeleteReply (DeleteReplyDto) returns (common.Empty) {}
+    rpc ReactReply (ReactReplyDto) returns (ReplyReactionResult) {}
 }
 
 message Reply {
@@ -24,6 +25,11 @@ message Reply {
     string avatar = 8;
     optional int32 parentId = 9;
     repeated Reply replies = 10;
+    int32 likeCount = 11;
+    int32 dislikeCount = 12;
+    string userReaction = 13;
+    bool isEdited = 14;
+    bool isDeleted = 15;
 }
 
 message RepliesResult {
@@ -34,6 +40,19 @@ message RepliesResult {
 message GetReplyDto {
   int32 movieId = 2;
   int32 page = 3;
+  optional int32 userId = 4;
+}
+
+message ReactReplyDto {
+  int32 userId = 1;
+  int32 commentId = 2;
+  string reaction = 3;
+}
+
+message ReplyReactionResult {
+  int32 likeCount = 1;
+  int32 dislikeCount = 2;
+  string reaction = 3;
 }
 
 message CreateReplyDto {

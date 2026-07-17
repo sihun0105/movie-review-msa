@@ -1,5 +1,6 @@
 import { CreateReplyDto, UpdateReplyDto } from '@app/common/protobuf';
 import { JwtAuthGuard } from '@app/common/guards/jwtauth/jwtauth.guard';
+import { OptionalJwtAuthGuard } from '@app/common/guards/jwtauth/optional-jwt-auth.guard';
 import { RateLimitGuard } from '@app/common/guards/rateLimit/rate-limit.guard';
 import {
   Body,
@@ -25,6 +26,7 @@ export class ReplyController {
   constructor(private readonly replyService: ReplyService) {}
   @GetReplySpecDecorator('댓글 조회 API', '댓글 조회')
   @Get('/')
+  @UseGuards(OptionalJwtAuthGuard)
   async get(
     @Req() req,
     @Query('movieId') movieId: number,
@@ -34,6 +36,7 @@ export class ReplyController {
       const getRepliesObservable = this.replyService.getReplies({
         movieId: movieId,
         page: page,
+        userId: req.user?.userId,
       });
       const data = await firstValueFrom(getRepliesObservable);
       return data;
@@ -82,6 +85,21 @@ export class ReplyController {
         message: error.details,
       });
     }
+  }
+  @Post('/:replyId/reaction')
+  @UseGuards(JwtAuthGuard, RateLimitGuard)
+  async react(
+    @Req() req,
+    @Param('replyId') replyId: number,
+    @Body('reaction') reaction: string,
+  ) {
+    return firstValueFrom(
+      this.replyService.react({
+        commentId: Number(replyId),
+        userId: req.user.userId,
+        reaction,
+      }),
+    );
   }
   @Post('/:replyId')
   @DeleteReplySpecDecorator('댓글 삭제 API', '댓글 삭제')

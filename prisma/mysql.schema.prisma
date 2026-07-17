@@ -18,14 +18,32 @@ model Comment {
   userno    Int
   comment   String?   @db.LongText
   parentId  Int?
+  isEdited  Boolean   @default(false)
   Movie     Movie     @relation(fields: [movieId], references: [movieCd], onDelete: NoAction, onUpdate: NoAction)
   User      User      @relation(fields: [userno], references: [id], onDelete: Cascade)
   parent    Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
   replies   Comment[] @relation("CommentReplies")
+  reactions CommentReaction[]
 
   @@index([movieId], map: "movieId_idx")
   @@index([userno], map: "user_no_idx")
   @@index([parentId], map: "Comment_parentId_idx")
+}
+
+model CommentReaction {
+  id        Int                  @id @default(autoincrement())
+  commentId Int
+  userno    Int
+  type      CommentReaction_type
+  createdAt DateTime             @default(now()) @db.DateTime(6)
+  updatedAt DateTime             @updatedAt @db.DateTime(6)
+  Comment   Comment              @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  User      User                 @relation(fields: [userno], references: [id], onDelete: Cascade)
+
+  @@unique([commentId, userno], map: "CommentReaction_comment_user_unique")
+  @@index([commentId, type], map: "CommentReaction_comment_type_idx")
+  @@index([userno], map: "CommentReaction_user_idx")
+  @@map("comment_reactions")
 }
 
 model Movie {
@@ -82,6 +100,7 @@ model User {
   marketing_agreed Boolean            @default(false)
   gender           User_gender?
   Comment          Comment[]
+  CommentReaction  CommentReaction[]
   article          article[]
   articleComments  articleComments[]
   articleLikes     articleLikes[]
@@ -274,6 +293,11 @@ model PublicChatMessage {
 
 
 enum articleLikes_type {
+  like
+  dislike
+}
+
+enum CommentReaction_type {
   like
   dislike
 }
