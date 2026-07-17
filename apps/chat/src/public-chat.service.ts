@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { MySQLPrismaService } from '@app/prisma';
+import { DEFAULT_PROFILE_IMAGE_URL } from '@app/common/constants/profile';
 
 export interface PublicChatPayload {
   clientId?: string;
@@ -27,6 +28,12 @@ interface PublicChatRecord {
   image: string | null;
   content: string;
   createdAt: Date;
+}
+
+interface CurrentUserProfile {
+  id: number;
+  nickname: string | null;
+  image: string | null;
 }
 
 interface PublicChatModel {
@@ -67,7 +74,7 @@ export class PublicChatService {
       },
     });
 
-    return this.toView(savedMessage as PublicChatRecord);
+    return this.toView(savedMessage as PublicChatRecord, user);
   }
 
   async getHistory(): Promise<PublicChatMessageView[]> {
@@ -77,22 +84,45 @@ export class PublicChatService {
       take: 80,
     });
 
-    return (messages as PublicChatRecord[])
+    const records = messages as PublicChatRecord[];
+    const userIds = [
+      ...new Set(records.flatMap(({ userId }) => (userId ? [userId] : []))),
+    ];
+    const users = userIds.length
+      ? await this.prisma.user.findMany({
+          where: { id: { in: userIds }, deletedAt: null },
+          select: { id: true, nickname: true, image: true },
+        })
+      : [];
+    const usersById = new Map(users.map((user) => [user.id, user]));
+
+    return records
       .reverse()
-      .map((message) => this.toView(message));
+      .map((message) =>
+        this.toView(
+          message,
+          message.userId ? usersById.get(message.userId) : null,
+        ),
+      );
   }
 
   private get publicChatModel() {
     return this.prisma.publicChatMessage as unknown as PublicChatModel;
   }
 
-  private toView(message: PublicChatRecord): PublicChatMessageView {
+  private toView(
+    message: PublicChatRecord,
+    user?: CurrentUserProfile | null,
+  ): PublicChatMessageView {
+    const image = user
+      ? user.image?.trim() || DEFAULT_PROFILE_IMAGE_URL
+      : message.image?.trim();
     return {
       id: message.id,
       clientId: message.clientId || undefined,
       userId: message.userId || undefined,
-      nickName: message.nickName,
-      image: message.image || undefined,
+      nickName: user?.nickname || message.nickName,
+      image: image || undefined,
       message: message.content,
       createdAt: message.createdAt.toISOString(),
     };
