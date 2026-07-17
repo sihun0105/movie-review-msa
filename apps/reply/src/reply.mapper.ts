@@ -1,4 +1,5 @@
 import { Reply } from '@app/common/protobuf';
+import { DEFAULT_PROFILE_IMAGE_URL } from '@app/common/constants/profile';
 
 export function toReply(reply: any): Reply {
   return {
@@ -6,7 +7,7 @@ export function toReply(reply: any): Reply {
     comment: reply.comment,
     email: reply.User.email,
     nickname: reply.User.nickname,
-    avatar: reply.User.image ?? '',
+    avatar: reply.User.image?.trim() || DEFAULT_PROFILE_IMAGE_URL,
     userId: reply.User.id,
     createdAt: reply.createdAt.toISOString(),
     updatedAt: reply.updatedAt.toISOString(),
