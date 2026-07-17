@@ -4,10 +4,14 @@ import {
   UpdateReplyDto,
   DeleteReplyDto,
 } from '@app/common/protobuf';
-import { NotFoundException } from '@app/common/filters/rpcexception/rpc-exception';
+import {
+  InvalidArguementException,
+  NotFoundException,
+} from '@app/common/filters/rpcexception/rpc-exception';
 import { MySQLPrismaService } from '@app/prisma';
 import { UtilsService } from '@app/utils';
 import { Injectable, Logger, ForbiddenException } from '@nestjs/common';
+import { toReply } from './reply.mapper';
 
 @Injectable()
 export class ReplyService {
@@ -18,7 +22,7 @@ export class ReplyService {
   ) {}
 
   async create(createReplyDto: CreateReplyDto): Promise<Reply> {
-    const { comment, userId, movieId } = createReplyDto;
+    const { comment, userId, movieId, parentId } = createReplyDto;
     const userData = await this.mysqlPrismaService.user.findUnique({
       where: { id: userId },
     });
@@ -29,25 +33,30 @@ export class ReplyService {
       where: { movieCd: movieId },
     });
 
+    if (parentId) {
+      const parent = await this.mysqlPrismaService.comment.findUnique({
+        where: { id: parentId },
+      });
+      if (!parent || parent.deletedAt || parent.movieId !== movieId) {
+        throw new NotFoundException('답글을 작성할 댓글이 존재하지 않습니다.');
+      }
+      if (parent.parentId) {
+        throw new InvalidArguementException(
+          '답글에는 다시 답글을 작성할 수 없습니다.',
+        );
+      }
+    }
+
     const reply = await this.mysqlPrismaService.comment.create({
       data: {
         userno: userId,
         comment: comment,
         movieId: movieId,
+        parentId,
       },
     });
 
-    const replyObject: Reply = {
-      replyId: reply.id,
-      comment: reply.comment,
-      createdAt: reply.createdAt.toISOString(),
-      updatedAt: reply.updatedAt.toISOString(),
-      avatar: userData.image,
-      email: userData.email,
-      nickname: userData.nickname,
-      userId: userData.id,
-    };
-    return replyObject;
+    return toReply({ ...reply, User: userData, replies: [] });
   }
 
   async update(updateReplyDto: UpdateReplyDto): Promise<Reply> {
@@ -92,6 +101,8 @@ export class ReplyService {
       email: userData.email,
       nickname: userData.nickname,
       userId: userData.id,
+      parentId: reply.parentId ?? undefined,
+      replies: [],
     };
     return replyObject;
   }
@@ -132,6 +143,8 @@ export class ReplyService {
       email: userData.email,
       nickname: userData.nickname,
       userId: userData.id,
+      parentId: reply.parentId ?? undefined,
+      replies: [],
     };
     return replyObject;
   }
@@ -146,26 +159,25 @@ export class ReplyService {
 
     const [replies, totalCount] = await Promise.all([
       this.mysqlPrismaService.comment.findMany({
-        where: { movieId, deletedAt: null },
-        include: { User: true },
+        where: { movieId, deletedAt: null, parentId: null },
+        include: {
+          User: true,
+          replies: {
+            where: { deletedAt: null },
+            include: { User: true },
+            orderBy: { createdAt: 'asc' },
+          },
+        },
+        orderBy: { createdAt: 'desc' },
         skip,
         take,
       }),
       this.mysqlPrismaService.comment.count({
-        where: { movieId, deletedAt: null },
+        where: { movieId, deletedAt: null, parentId: null },
       }),
     ]);
     this.logger.debug(`getReplies movieId=${movieId} count=${replies.length}`);
-    const replyObjects: Reply[] = replies.map((reply) => ({
-      replyId: reply.id,
-      comment: reply.comment,
-      email: reply.User.email,
-      nickname: reply.User.nickname,
-      avatar: reply.User.image ?? '',
-      userId: reply.User.id,
-      createdAt: reply.createdAt.toISOString(),
-      updatedAt: reply.updatedAt.toISOString(),
-    }));
+    const replyObjects: Reply[] = replies.map(toReply);
 
     const hasNext = skip + take < totalCount;
 

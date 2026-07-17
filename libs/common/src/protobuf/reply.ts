@@ -14,6 +14,8 @@ export interface Reply {
   createdAt: string;
   updatedAt: string;
   avatar: string;
+  parentId?: number | undefined;
+  replies: Reply[];
 }
 
 export interface RepliesResult {
@@ -30,6 +32,7 @@ export interface CreateReplyDto {
   userId: number;
   movieId: number;
   comment: string;
+  parentId?: number | undefined;
 }
 
 export interface UpdateReplyDto {

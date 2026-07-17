@@ -17,11 +17,15 @@ model Comment {
   deletedAt DateTime? @db.DateTime(6)
   userno    Int
   comment   String?   @db.LongText
+  parentId  Int?
   Movie     Movie     @relation(fields: [movieId], references: [movieCd], onDelete: NoAction, onUpdate: NoAction)
   User      User      @relation(fields: [userno], references: [id], onDelete: Cascade)
+  parent    Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies   Comment[] @relation("CommentReplies")
 
   @@index([movieId], map: "movieId_idx")
   @@index([userno], map: "user_no_idx")
+  @@index([parentId], map: "Comment_parentId_idx")
 }
 
 model Movie {
