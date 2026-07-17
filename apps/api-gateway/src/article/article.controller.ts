@@ -19,8 +19,10 @@ import {
   CreateCommentRequest,
   LikeArticleRequest,
   UpdateArticleRequest,
+  ReactCommentRequest,
 } from '@app/common/protobuf';
 import { JwtAuthGuard } from '@app/common/guards/jwtauth/jwtauth.guard';
+import { OptionalJwtAuthGuard } from '@app/common/guards/jwtauth/optional-jwt-auth.guard';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import { imageMemoryMulterOptions } from '../upload/image-multer.options';
 import { UploadService } from '../upload/upload.service';
@@ -106,15 +108,31 @@ export class ArticleController {
   }
 
   @Get(':articleId/comments')
+  @UseGuards(OptionalJwtAuthGuard)
   async listComments(
     @Param('articleId') articleId: string,
     @Query('page') page: string,
     @Query('pageSize') pageSize: string,
+    @Req() req,
   ) {
     return this.articleService.listComments({
       articleId: Number(articleId),
       page: Number(page) || 1,
       pageSize: Number(pageSize) || 10,
+      userno: req.user?.userId || 0,
+    });
+  }
+  @Post('/comments/:commentId/reaction')
+  @UseGuards(JwtAuthGuard)
+  async reactComment(
+    @Param('commentId') commentId: string,
+    @Body() body: Pick<ReactCommentRequest, 'reaction'>,
+    @Req() req,
+  ) {
+    return this.articleService.reactComment({
+      id: Number(commentId),
+      userno: req.user.userId,
+      reaction: body.reaction,
     });
   }
   @Patch('/comments/:commentId')

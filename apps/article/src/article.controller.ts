@@ -20,6 +20,8 @@ import {
   ListCommentsResponse,
   UpdateArticleRequest,
   UpdateCommentRequest,
+  ReactCommentRequest,
+  CommentReactionResponse,
 } from '@app/common/protobuf';
 
 import { Controller } from '@nestjs/common';
@@ -77,6 +79,12 @@ export class ArticleController implements ArticleServiceController {
     request: ListCommentsRequest,
   ): Promise<ListCommentsResponse> {
     return this.articleService.listComments(request);
+  }
+
+  async reactComment(
+    request: ReactCommentRequest,
+  ): Promise<CommentReactionResponse> {
+    return this.articleService.reactComment(request);
   }
 
   async likeArticle(request: LikeArticleRequest): Promise<ArticleLike> {
