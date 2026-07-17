@@ -13,6 +13,7 @@ import {
   ListCommentsRequest,
   UpdateArticleRequest,
   UpdateCommentRequest,
+  ReactCommentRequest,
 } from '@app/common/protobuf';
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
@@ -60,6 +61,9 @@ export class ArticleService implements OnModuleInit {
   }
   async listComments(request: ListCommentsRequest) {
     return this.articleService.listComments(request);
+  }
+  async reactComment(request: ReactCommentRequest) {
+    return this.articleService.reactComment(request);
   }
 
   async likeArticle(request: LikeArticleRequest) {

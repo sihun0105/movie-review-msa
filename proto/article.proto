@@ -70,12 +70,20 @@ message ArticleComment {
   string deletedAt = 7;
   string nickname = 8;
   string avatar = 9;
+  optional int32 parentId = 10;
+  repeated ArticleComment replies = 11;
+  int32 likeCount = 12;
+  int32 dislikeCount = 13;
+  string userReaction = 14;
+  bool isEdited = 15;
+  bool isDeleted = 16;
 }
 
 message CreateCommentRequest {
   int32 articleId = 1;
   int32 userno = 2;
   string content = 3;
+  optional int32 parentId = 4;
 }
 
 message GetCommentRequest {
@@ -97,12 +105,25 @@ message ListCommentsRequest {
   int32 articleId = 1;
   int32 page = 2;
   int32 pageSize = 3;
+  optional int32 userno = 4;
 }
 
 message ListCommentsResponse {
   repeated ArticleComment comments = 1;
   bool hasNext = 2;
   int32 totalCount = 3;
+}
+
+message ReactCommentRequest {
+  int32 id = 1;
+  int32 userno = 2;
+  string reaction = 3;
+}
+
+message CommentReactionResponse {
+  int32 likeCount = 1;
+  int32 dislikeCount = 2;
+  string reaction = 3;
 }
 
 // ===== Like =====
@@ -152,6 +173,7 @@ service ArticleService {
   rpc UpdateComment (UpdateCommentRequest) returns (ArticleComment);
   rpc DeleteComment (DeleteCommentRequest) returns (common.Empty);
   rpc ListComments (ListCommentsRequest) returns (ListCommentsResponse);
+  rpc ReactComment (ReactCommentRequest) returns (CommentReactionResponse);
 
   // Like
   rpc LikeArticle (LikeArticleRequest) returns (ArticleLike);

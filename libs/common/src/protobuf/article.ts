@@ -78,12 +78,20 @@ export interface ArticleComment {
   deletedAt: string;
   nickname: string;
   avatar: string;
+  parentId: number;
+  replies: ArticleComment[];
+  likeCount: number;
+  dislikeCount: number;
+  userReaction: string;
+  isEdited: boolean;
+  isDeleted: boolean;
 }
 
 export interface CreateCommentRequest {
   articleId: number;
   userno: number;
   content: string;
+  parentId: number;
 }
 
 export interface GetCommentRequest {
@@ -105,12 +113,25 @@ export interface ListCommentsRequest {
   articleId: number;
   page: number;
   pageSize: number;
+  userno: number;
 }
 
 export interface ListCommentsResponse {
   comments: ArticleComment[];
   hasNext: boolean;
   totalCount: number;
+}
+
+export interface ReactCommentRequest {
+  id: number;
+  userno: number;
+  reaction: string;
+}
+
+export interface CommentReactionResponse {
+  likeCount: number;
+  dislikeCount: number;
+  reaction: string;
 }
 
 export interface ArticleLike {
@@ -171,6 +192,10 @@ export interface ArticleServiceClient {
   deleteComment(request: DeleteCommentRequest): Observable<Empty>;
 
   listComments(request: ListCommentsRequest): Observable<ListCommentsResponse>;
+
+  reactComment(
+    request: ReactCommentRequest,
+  ): Observable<CommentReactionResponse>;
 
   /** Like */
 
@@ -243,6 +268,13 @@ export interface ArticleServiceController {
     | Observable<ListCommentsResponse>
     | ListCommentsResponse;
 
+  reactComment(
+    request: ReactCommentRequest,
+  ):
+    | Promise<CommentReactionResponse>
+    | Observable<CommentReactionResponse>
+    | CommentReactionResponse;
+
   /** Like */
 
   likeArticle(
@@ -270,6 +302,7 @@ export function ArticleServiceControllerMethods() {
       'updateComment',
       'deleteComment',
       'listComments',
+      'reactComment',
       'likeArticle',
       'getArticleLikeStats',
     ];

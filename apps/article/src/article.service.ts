@@ -11,6 +11,7 @@ import {
   ListCommentsRequest,
   UpdateArticleRequest,
   UpdateCommentRequest,
+  ReactCommentRequest,
 } from '@app/common/protobuf';
 import { GetArticleRequest } from 'proto/article';
 import { ArticleCrudService } from './article-crud.service';
@@ -57,6 +58,9 @@ export class ArticleService {
   }
   listComments(req: ListCommentsRequest) {
     return this.commentService.listComments(req);
+  }
+  reactComment(req: ReactCommentRequest) {
+    return this.commentService.reactComment(req);
   }
 
   // Likes

@@ -101,6 +101,7 @@ model User {
   gender           User_gender?
   Comment          Comment[]
   CommentReaction  CommentReaction[]
+  ArticleCommentReaction ArticleCommentReaction[]
   article          article[]
   articleComments  articleComments[]
   articleLikes     articleLikes[]
@@ -167,14 +168,36 @@ model articleComments {
   articleId Int
   userno    Int
   content   String    @db.Text
+  parentId  Int?
+  isEdited  Boolean   @default(false)
   createdAt DateTime  @default(now()) @db.DateTime(6)
   updatedAt DateTime  @default(now()) @db.DateTime(6)
   deletedAt DateTime? @db.DateTime(6)
   article   article   @relation(fields: [articleId], references: [id], onDelete: Cascade, map: "ArticleComments_articleId_fkey")
   User      User      @relation(fields: [userno], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "ArticleComments_userno_fkey")
+  parent    articleComments?  @relation("ArticleCommentReplies", fields: [parentId], references: [id], onDelete: Cascade)
+  replies   articleComments[] @relation("ArticleCommentReplies")
+  reactions ArticleCommentReaction[]
 
   @@index([articleId], map: "ArticleComments_articleId_fkey_idx")
   @@index([userno], map: "ArticleComments_userno_fkey_idx")
+  @@index([parentId], map: "ArticleComments_parentId_idx")
+}
+
+model ArticleCommentReaction {
+  id        Int                  @id @default(autoincrement())
+  commentId Int
+  userno    Int
+  type      CommentReaction_type
+  createdAt DateTime             @default(now()) @db.DateTime(6)
+  updatedAt DateTime             @updatedAt @db.DateTime(6)
+  Comment   articleComments      @relation(fields: [commentId], references: [id], onDelete: Cascade)
+  User      User                 @relation(fields: [userno], references: [id], onDelete: Cascade)
+
+  @@unique([commentId, userno], map: "ArticleCommentReaction_comment_user_unique")
+  @@index([commentId, type], map: "ArticleCommentReaction_comment_type_idx")
+  @@index([userno], map: "ArticleCommentReaction_user_idx")
+  @@map("article_comment_reactions")
 }
 
 model articleLikes {
