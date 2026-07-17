@@ -5,6 +5,7 @@ import {
   REPLY_PACKAGE_NAME,
   REPLY_SERVICE_NAME,
   ReplyServiceClient,
+  ReactReplyDto,
   UpdateReplyDto,
 } from '@app/common/protobuf';
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
@@ -33,5 +34,8 @@ export class ReplyService implements OnModuleInit {
   }
   getReplies(getRepliesDto: GetReplyDto) {
     return this.replyService.getReply(getRepliesDto);
+  }
+  react(reactReplyDto: ReactReplyDto) {
+    return this.replyService.reactReply(reactReplyDto);
   }
 }

@@ -4,6 +4,7 @@ import {
   GetReplyDto,
   ReplyServiceController,
   ReplyServiceControllerMethods,
+  ReactReplyDto,
   UpdateReplyDto,
 } from '@app/common/protobuf';
 import { Controller } from '@nestjs/common';
@@ -28,5 +29,9 @@ export class ReplyController implements ReplyServiceController {
 
   async getReply(getReplyDto: GetReplyDto) {
     return await this.replyService.getReplies(getReplyDto);
+  }
+
+  async reactReply(reactReplyDto: ReactReplyDto) {
+    return await this.replyService.react(reactReplyDto);
   }
 }

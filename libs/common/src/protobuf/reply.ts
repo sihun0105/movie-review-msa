@@ -16,6 +16,11 @@ export interface Reply {
   avatar: string;
   parentId?: number | undefined;
   replies: Reply[];
+  likeCount: number;
+  dislikeCount: number;
+  userReaction: string;
+  isEdited: boolean;
+  isDeleted: boolean;
 }
 
 export interface RepliesResult {
@@ -26,6 +31,19 @@ export interface RepliesResult {
 export interface GetReplyDto {
   movieId: number;
   page: number;
+  userId?: number | undefined;
+}
+
+export interface ReactReplyDto {
+  userId: number;
+  commentId: number;
+  reaction: string;
+}
+
+export interface ReplyReactionResult {
+  likeCount: number;
+  dislikeCount: number;
+  reaction: string;
 }
 
 export interface CreateReplyDto {
@@ -56,6 +74,8 @@ export interface ReplyServiceClient {
   updateReply(request: UpdateReplyDto): Observable<Empty>;
 
   deleteReply(request: DeleteReplyDto): Observable<Empty>;
+
+  reactReply(request: ReactReplyDto): Observable<ReplyReactionResult>;
 }
 
 export interface ReplyServiceController {
@@ -74,6 +94,13 @@ export interface ReplyServiceController {
   deleteReply(
     request: DeleteReplyDto,
   ): Promise<Empty> | Observable<Empty> | Empty;
+
+  reactReply(
+    request: ReactReplyDto,
+  ):
+    | Promise<ReplyReactionResult>
+    | Observable<ReplyReactionResult>
+    | ReplyReactionResult;
 }
 
 export function ReplyServiceControllerMethods() {
@@ -83,6 +110,7 @@ export function ReplyServiceControllerMethods() {
       'createReply',
       'updateReply',
       'deleteReply',
+      'reactReply',
     ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(
