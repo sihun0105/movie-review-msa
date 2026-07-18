@@ -103,6 +103,20 @@ jobs:
             echo "▶ 서비스 재시작"
             docker compose -f docker-compose.yml up -d
 
+            echo "▶ 이미지 업로드 용량 제한 적용"
+            docker exec my-nginx sh -c '
+              set -e
+              for config in /etc/nginx/conf.d/*.conf; do
+                if grep -q "client_max_body_size" "$config"; then
+                  sed -i "s/client_max_body_size[^;]*;/client_max_body_size 21m;/g" "$config"
+                else
+                  sed -i "/server_name/a\\    client_max_body_size 21m;" "$config"
+                fi
+              done
+              nginx -t
+              nginx -s reload
+            '
+
             echo "▶ 미사용 이미지 정리"
             docker image prune -f
 
