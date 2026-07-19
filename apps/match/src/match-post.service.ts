@@ -16,7 +16,7 @@ import {
   SingleMatchPostResponse,
   CommonResponse,
 } from '@app/common/protobuf';
-import { formatMatchPost } from './match.formatter';
+import { MatchPostPresenter } from './match-post.presenter';
 import {
   buildMatchPostWhere,
   isAvailablePost,
@@ -35,7 +35,10 @@ const POST_INCLUDE = {
 @Injectable()
 export class MatchPostService {
   private readonly logger = new Logger(MatchPostService.name);
-  constructor(private readonly prisma: MySQLPrismaService) {}
+  constructor(
+    private readonly prisma: MySQLPrismaService,
+    private readonly presenter: MatchPostPresenter,
+  ) {}
 
   async getMatchPosts(
     request: GetMatchPostsRequest,
@@ -57,7 +60,7 @@ export class MatchPostService {
       const pagePosts = paginate(availablePosts, skip, pageSize);
 
       return {
-        matchPosts: pagePosts.map(formatMatchPost),
+        matchPosts: await this.presenter.many(pagePosts),
         hasNext: availablePosts.length > skip + pageSize,
       };
     }
@@ -74,7 +77,7 @@ export class MatchPostService {
     if (hasNext) matchPosts.pop();
 
     return {
-      matchPosts: matchPosts.map(formatMatchPost),
+      matchPosts: await this.presenter.many(matchPosts),
       hasNext,
     };
   }
@@ -107,7 +110,7 @@ export class MatchPostService {
       include: POST_INCLUDE,
     });
 
-    return { matchPost: formatMatchPost(matchPost) };
+    return { matchPost: await this.presenter.one(matchPost) };
   }
 
   async getMatchPost(
@@ -118,7 +121,7 @@ export class MatchPostService {
       include: POST_INCLUDE,
     });
     if (!matchPost) return { matchPost: null };
-    return { matchPost: formatMatchPost(matchPost) };
+    return { matchPost: await this.presenter.one(matchPost) };
   }
 
   async updateMatchPost(
@@ -140,7 +143,7 @@ export class MatchPostService {
       include: POST_INCLUDE,
     });
 
-    return { matchPost: formatMatchPost(updatedPost) };
+    return { matchPost: await this.presenter.one(updatedPost) };
   }
 
   async deleteMatchPost(
@@ -180,7 +183,7 @@ export class MatchPostService {
     if (hasNext) matchPosts.pop();
 
     return {
-      matchPosts: matchPosts.map(formatMatchPost),
+      matchPosts: await this.presenter.many(matchPosts),
       hasNext,
     };
   }

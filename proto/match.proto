@@ -19,6 +19,7 @@ message MatchPost {
   string createdAt = 13;
   string updatedAt = 14;
   string deletedAt = 15;
+  string moviePoster = 16;
 }
 
 message MatchApplication {

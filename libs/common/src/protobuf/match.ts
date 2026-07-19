@@ -21,6 +21,7 @@ export interface MatchPost {
   createdAt: string;
   updatedAt: string;
   deletedAt: string;
+  moviePoster: string;
 }
 
 export interface MatchApplication {
