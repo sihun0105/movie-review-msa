@@ -8,6 +8,8 @@ import { MatchController } from './match.controller';
 import { MatchService } from './match.service';
 import { MatchPostService } from './match-post.service';
 import { MatchApplicationService } from './match-application.service';
+import { MatchPosterService } from './match-poster.service';
+import { MatchPostPresenter } from './match-post.presenter';
 
 @Module({
   imports: [
@@ -26,6 +28,12 @@ import { MatchApplicationService } from './match-application.service';
     ]),
   ],
   controllers: [MatchController],
-  providers: [MatchService, MatchPostService, MatchApplicationService],
+  providers: [
+    MatchService,
+    MatchPostService,
+    MatchApplicationService,
+    MatchPosterService,
+    MatchPostPresenter,
+  ],
 })
 export class MatchModule {}

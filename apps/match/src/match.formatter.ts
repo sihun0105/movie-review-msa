@@ -1,6 +1,6 @@
 import { MatchApplication, MatchPost } from '@app/common/protobuf';
 
-type PostWithUserAndCount = {
+export type PostWithUserAndCount = {
   id: string;
   title: string;
   userno: number;
@@ -17,7 +17,10 @@ type PostWithUserAndCount = {
   _count: { MatchApplication: number };
 };
 
-export function formatMatchPost(post: PostWithUserAndCount): MatchPost {
+export function formatMatchPost(
+  post: PostWithUserAndCount,
+  moviePoster = '',
+): MatchPost {
   return {
     id: post.id,
     title: post.title,
@@ -26,6 +29,7 @@ export function formatMatchPost(post: PostWithUserAndCount): MatchPost {
     authorGender: post.User.gender || '',
     content: post.content,
     movieTitle: post.movieTitle,
+    moviePoster,
     theaterName: post.theaterName,
     showTime: post.showTime,
     maxParticipants: post.maxParticipants,
