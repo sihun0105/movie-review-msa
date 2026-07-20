@@ -34,6 +34,7 @@ export class ArticleCrudService {
       likeCount: article.like_count,
       dislikeCount: article.dislike_count,
       commentCount: article.comment_count,
+      viewCount: article.view_count,
       createdAt: article.createdAt.toISOString(),
       updatedAt: article.updatedAt.toISOString(),
       deletedAt: this.utilsService.toNullableISOString(article.deletedAt),

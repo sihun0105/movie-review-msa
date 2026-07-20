@@ -25,6 +25,7 @@ export interface Article {
   updatedAt: string;
   deletedAt: string;
   author: string;
+  viewCount: number;
 }
 
 export interface CreateArticleRequest {
@@ -67,6 +68,16 @@ export interface DeleteArticleRequest {
   userno: number;
 }
 
+export interface RecordArticleViewRequest {
+  articleId: number;
+  viewerKey: string;
+}
+
+export interface RecordArticleViewResponse {
+  viewCount: number;
+  counted: boolean;
+}
+
 /** ===== Comment ===== */
 export interface ArticleComment {
   id: number;
@@ -78,7 +89,7 @@ export interface ArticleComment {
   deletedAt: string;
   nickname: string;
   avatar: string;
-  parentId: number;
+  parentId?: number | undefined;
   replies: ArticleComment[];
   likeCount: number;
   dislikeCount: number;
@@ -91,7 +102,7 @@ export interface CreateCommentRequest {
   articleId: number;
   userno: number;
   content: string;
-  parentId: number;
+  parentId?: number | undefined;
 }
 
 export interface GetCommentRequest {
@@ -113,7 +124,7 @@ export interface ListCommentsRequest {
   articleId: number;
   page: number;
   pageSize: number;
-  userno: number;
+  userno?: number | undefined;
 }
 
 export interface ListCommentsResponse {
@@ -181,6 +192,10 @@ export interface ArticleServiceClient {
 
   deleteArticle(request: DeleteArticleRequest): Observable<Empty>;
 
+  recordArticleView(
+    request: RecordArticleViewRequest,
+  ): Observable<RecordArticleViewResponse>;
+
   /** Comment */
 
   createComment(request: CreateCommentRequest): Observable<ArticleComment>;
@@ -243,6 +258,13 @@ export interface ArticleServiceController {
     request: DeleteArticleRequest,
   ): Promise<Empty> | Observable<Empty> | Empty;
 
+  recordArticleView(
+    request: RecordArticleViewRequest,
+  ):
+    | Promise<RecordArticleViewResponse>
+    | Observable<RecordArticleViewResponse>
+    | RecordArticleViewResponse;
+
   /** Comment */
 
   createComment(
@@ -297,6 +319,7 @@ export function ArticleServiceControllerMethods() {
       'listArticles',
       'updateArticle',
       'deleteArticle',
+      'recordArticleView',
       'createComment',
       'getComment',
       'updateComment',

@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ArticleService } from './article.service';
 import { ArticleController } from './article.controller';
+import { ArticleViewController } from './article-view.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { join } from 'path';
 import { ARTICLE_PACKAGE_NAME } from '@app/common/protobuf';
@@ -21,7 +22,7 @@ import { UploadModule } from '../upload/upload.module';
       },
     ]),
   ],
-  controllers: [ArticleController],
+  controllers: [ArticleController, ArticleViewController],
   providers: [ArticleService],
 })
 export class ArticleModule {}

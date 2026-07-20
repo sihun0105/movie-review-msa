@@ -21,6 +21,8 @@ import {
   UpdateArticleRequest,
   UpdateCommentRequest,
   ReactCommentRequest,
+  RecordArticleViewRequest,
+  RecordArticleViewResponse,
   CommentReactionResponse,
 } from '@app/common/protobuf';
 
@@ -57,6 +59,12 @@ export class ArticleController implements ArticleServiceController {
 
   async deleteArticle(request: DeleteArticleRequest): Promise<Empty> {
     return this.articleService.deleteArticle(request);
+  }
+
+  async recordArticleView(
+    request: RecordArticleViewRequest,
+  ): Promise<RecordArticleViewResponse> {
+    return this.articleService.recordArticleView(request);
   }
 
   async createComment(request: CreateCommentRequest): Promise<ArticleComment> {
