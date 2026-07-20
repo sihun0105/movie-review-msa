@@ -17,6 +17,7 @@ message Article {
   string updatedAt = 9;
   string deletedAt = 10;
   string author = 11;
+  int32 view_count = 12;
 }
 
 message CreateArticleRequest {
@@ -57,6 +58,16 @@ message UpdateArticleRequest {
 message DeleteArticleRequest {
   int32 id = 1;
   int32 userno = 2;
+}
+
+message RecordArticleViewRequest {
+  int32 articleId = 1;
+  string viewerKey = 2;
+}
+
+message RecordArticleViewResponse {
+  int32 viewCount = 1;
+  bool counted = 2;
 }
 
 // ===== Comment =====
@@ -166,6 +177,7 @@ service ArticleService {
   rpc ListArticles (ListArticlesRequest) returns (ListArticlesResponse);
   rpc UpdateArticle (UpdateArticleRequest) returns (CreateArticleResponse);
   rpc DeleteArticle (DeleteArticleRequest) returns (common.Empty);
+  rpc RecordArticleView (RecordArticleViewRequest) returns (RecordArticleViewResponse);
 
   // Comment
   rpc CreateComment (CreateCommentRequest) returns (ArticleComment);

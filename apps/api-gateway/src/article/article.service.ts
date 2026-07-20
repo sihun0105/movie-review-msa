@@ -14,6 +14,7 @@ import {
   UpdateArticleRequest,
   UpdateCommentRequest,
   ReactCommentRequest,
+  RecordArticleViewRequest,
 } from '@app/common/protobuf';
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { ClientGrpc } from '@nestjs/microservices';
@@ -49,6 +50,9 @@ export class ArticleService implements OnModuleInit {
 
   async deleteArticle(request: DeleteArticleRequest) {
     return this.articleService.deleteArticle(request);
+  }
+  async recordArticleView(request: RecordArticleViewRequest) {
+    return this.articleService.recordArticleView(request);
   }
   async createComment(request: CreateCommentRequest) {
     return this.articleService.createComment(request);

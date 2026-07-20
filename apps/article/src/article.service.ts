@@ -12,11 +12,13 @@ import {
   UpdateArticleRequest,
   UpdateCommentRequest,
   ReactCommentRequest,
+  RecordArticleViewRequest,
 } from '@app/common/protobuf';
 import { GetArticleRequest } from 'proto/article';
 import { ArticleCrudService } from './article-crud.service';
 import { ArticleCommentService } from './article-comment.service';
 import { ArticleLikeService } from './article-like.service';
+import { ArticleViewService } from './article-view.service';
 
 @Injectable()
 export class ArticleService {
@@ -24,6 +26,7 @@ export class ArticleService {
     private readonly crud: ArticleCrudService,
     private readonly commentService: ArticleCommentService,
     private readonly likeService: ArticleLikeService,
+    private readonly viewService: ArticleViewService,
   ) {}
 
   // Article CRUD
@@ -41,6 +44,9 @@ export class ArticleService {
   }
   deleteArticle(req: DeleteArticleRequest) {
     return this.crud.deleteArticle(req);
+  }
+  recordArticleView(req: RecordArticleViewRequest) {
+    return this.viewService.recordView(req);
   }
 
   // Comments
