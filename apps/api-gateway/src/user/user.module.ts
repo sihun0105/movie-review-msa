@@ -5,9 +5,12 @@ import { join } from 'path';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { UploadModule } from '../upload/upload.module';
+import { PrismaModule } from '@app/prisma';
+import { UserActivityService } from './user-activity.service';
 @Module({
   imports: [
     UploadModule,
+    PrismaModule,
     ClientsModule.register([
       {
         name: USER_PACKAGE_NAME,
@@ -21,6 +24,6 @@ import { UploadModule } from '../upload/upload.module';
     ]),
   ],
   controllers: [UserController],
-  providers: [UserService],
+  providers: [UserService, UserActivityService],
 })
 export class UserModule {}

@@ -25,6 +25,7 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { convertToUserEntity } from '@app/common/entity';
 import { imageMemoryMulterOptions } from '../upload/image-multer.options';
 import { UploadService } from '../upload/upload.service';
+import { UserActivityService } from './user-activity.service';
 
 @Controller('user')
 export class UserController {
@@ -32,6 +33,7 @@ export class UserController {
   constructor(
     private readonly userService: UserService,
     private readonly uploadService: UploadService,
+    private readonly userActivityService: UserActivityService,
   ) {}
   @CreateUserSpecDecorator('회원가입 API', '회원가입')
   @Post('/')
@@ -56,6 +58,12 @@ export class UserController {
       }),
     );
     return convertToUserEntity(result);
+  }
+
+  @Get('/activity-summary')
+  @UseGuards(JwtAuthGuard, RateLimitGuard)
+  getActivitySummary(@Req() req) {
+    return this.userActivityService.getSummary(req.user.userId);
   }
 
   @Get('/:id')
