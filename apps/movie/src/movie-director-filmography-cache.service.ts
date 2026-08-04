@@ -5,7 +5,7 @@ import { convertMovieDataWithCounts } from './movie.formatter';
 
 const MOVIE_INCLUDE = {
   MovieVod: true,
-  movieScores: true,
+  movieScores: { where: { deletedAt: null } },
   _count: {
     select: {
       Comment: { where: { deletedAt: null } },

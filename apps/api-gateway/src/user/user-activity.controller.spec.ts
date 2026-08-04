@@ -3,7 +3,11 @@ import { JwtAuthGuard } from '@app/common/guards/jwtauth/jwtauth.guard';
 import { UserController } from './user.controller';
 
 describe('UserController activity summary', () => {
-  const activityService = { getSummary: jest.fn() };
+  const activityService = {
+    getSummary: jest.fn(),
+    getActivity: jest.fn(),
+    deleteRating: jest.fn(),
+  };
   const controller = new UserController(
     {} as never,
     {} as never,
@@ -28,5 +32,28 @@ describe('UserController activity summary', () => {
     );
 
     expect(guards).toContain(JwtAuthGuard);
+  });
+
+  it('uses the signed-in user for a paged activity list', async () => {
+    activityService.getActivity.mockResolvedValue({ items: [] });
+
+    await controller.getActivity('comments', '2', '5', { user: { userId: 4 } });
+
+    expect(activityService.getActivity).toHaveBeenCalledWith(
+      4,
+      'comments',
+      2,
+      5,
+    );
+  });
+
+  it('uses the signed-in user when deleting a rating', async () => {
+    activityService.deleteRating.mockResolvedValue({ success: true });
+
+    await controller.deleteActivityRating('20233219', {
+      user: { userId: 4 },
+    });
+
+    expect(activityService.deleteRating).toHaveBeenCalledWith(4, 20233219);
   });
 });

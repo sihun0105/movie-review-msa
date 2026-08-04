@@ -23,7 +23,7 @@ export class MovieScoreService {
       where: {
         movieCd_Userno: { movieCd, Userno: userId },
       },
-      update: { score, updatedAt: new Date() },
+      update: { score, deletedAt: null, updatedAt: new Date() },
       create: { movieCd, Userno: userId, score },
     });
 
@@ -32,8 +32,12 @@ export class MovieScoreService {
     return {
       ...movieScore,
       userId: movieScore.Userno,
-      createdAt: this.utilsService.dateToTimestamp(movieScore.createdAt as Date),
-      updatedAt: this.utilsService.dateToTimestamp(movieScore.updatedAt as Date),
+      createdAt: this.utilsService.dateToTimestamp(
+        movieScore.createdAt as Date,
+      ),
+      updatedAt: this.utilsService.dateToTimestamp(
+        movieScore.updatedAt as Date,
+      ),
     } as MovieScore;
   }
 
@@ -44,10 +48,8 @@ export class MovieScoreService {
     movieCd: number;
     userId: number;
   }): Promise<MovieScore> {
-    const movieScore = await this.prisma.movieScore.findUnique({
-      where: {
-        movieCd_Userno: { movieCd, Userno: userId },
-      },
+    const movieScore = await this.prisma.movieScore.findFirst({
+      where: { movieCd, Userno: userId, deletedAt: null },
     });
 
     if (!movieScore) {
@@ -63,14 +65,18 @@ export class MovieScoreService {
     return {
       ...movieScore,
       userId: movieScore.Userno,
-      createdAt: this.utilsService.dateToTimestamp(movieScore.createdAt as Date),
-      updatedAt: this.utilsService.dateToTimestamp(movieScore.updatedAt as Date),
+      createdAt: this.utilsService.dateToTimestamp(
+        movieScore.createdAt as Date,
+      ),
+      updatedAt: this.utilsService.dateToTimestamp(
+        movieScore.updatedAt as Date,
+      ),
     } as MovieScore;
   }
 
   async getAverageMovieScore(movieCd: number): Promise<AverageMovieScore> {
     const aggregate = await this.prisma.movieScore.aggregate({
-      where: { movieCd },
+      where: { movieCd, deletedAt: null },
       _avg: { score: true },
     });
 
@@ -79,7 +85,7 @@ export class MovieScoreService {
     }
 
     const scoreCount = await this.prisma.movieScore.count({
-      where: { movieCd },
+      where: { movieCd, deletedAt: null },
     });
     return {
       movieCd,
