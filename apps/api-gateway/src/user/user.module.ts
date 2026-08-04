@@ -7,6 +7,7 @@ import { UserController } from './user.controller';
 import { UploadModule } from '../upload/upload.module';
 import { PrismaModule } from '@app/prisma';
 import { UserActivityService } from './user-activity.service';
+import { UserCommentActivityService } from './user-comment-activity.service';
 @Module({
   imports: [
     UploadModule,
@@ -24,6 +25,6 @@ import { UserActivityService } from './user-activity.service';
     ]),
   ],
   controllers: [UserController],
-  providers: [UserService, UserActivityService],
+  providers: [UserService, UserActivityService, UserCommentActivityService],
 })
 export class UserModule {}

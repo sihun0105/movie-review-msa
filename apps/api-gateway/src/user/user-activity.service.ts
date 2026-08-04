@@ -10,23 +10,21 @@ import {
   UserActivityPage,
   UserActivityType,
 } from './user-activity.types';
+import { UserCommentActivityService } from './user-comment-activity.service';
 
 @Injectable()
 export class UserActivityService {
-  constructor(private readonly prisma: MySQLPrismaService) {}
+  constructor(
+    private readonly prisma: MySQLPrismaService,
+    private readonly commentActivity: UserCommentActivityService,
+  ) {}
 
   async getSummary(userId: number) {
     await this.assertActiveUser(userId);
 
     const [articleCommentCount, movieRatingCount, articleCount, likes] =
       await Promise.all([
-        this.prisma.articleComments.count({
-          where: {
-            userno: userId,
-            deletedAt: null,
-            article: { deletedAt: null },
-          },
-        }),
+        this.commentActivity.getCount(userId),
         this.prisma.movieScore.count({
           where: { Userno: userId, deletedAt: null },
         }),
@@ -54,11 +52,17 @@ export class UserActivityService {
     pageSize: number,
   ): Promise<UserActivityPage> {
     await this.assertActiveUser(userId);
+    const normalizedPage = Math.max(page, 1);
+    if (normalizedPage > 200) {
+      throw new BadRequestException('조회 가능한 페이지 범위를 초과했습니다.');
+    }
     const pagination = {
-      skip: (Math.max(page, 1) - 1) * Math.min(Math.max(pageSize, 1), 20),
+      skip: (normalizedPage - 1) * Math.min(Math.max(pageSize, 1), 20),
       take: Math.min(Math.max(pageSize, 1), 20),
     };
-    if (type === 'comments') return this.getComments(userId, pagination);
+    if (type === 'comments') {
+      return this.commentActivity.getPage(userId, pagination);
+    }
     if (type === 'ratings') return this.getRatings(userId, pagination);
     if (type === 'articles' || type === 'likes') {
       return this.getArticles(userId, type, pagination);
@@ -75,41 +79,6 @@ export class UserActivityService {
     if (result.count === 0)
       throw new NotFoundException('평점을 찾지 못했습니다.');
     return { success: true };
-  }
-
-  private async getComments(
-    userId: number,
-    pagination: ActivityPagination,
-  ): Promise<UserActivityPage> {
-    const where = {
-      userno: userId,
-      deletedAt: null,
-      article: { deletedAt: null },
-    };
-    const [rows, totalCount] = await Promise.all([
-      this.prisma.articleComments.findMany({
-        where,
-        ...pagination,
-        orderBy: { createdAt: 'desc' },
-        select: {
-          id: true,
-          articleId: true,
-          content: true,
-          createdAt: true,
-          article: { select: { title: true } },
-        },
-      }),
-      this.prisma.articleComments.count({ where }),
-    ]);
-    const items = rows.map((row) => ({
-      type: 'comment' as const,
-      id: row.id,
-      articleId: row.articleId,
-      articleTitle: row.article.title,
-      content: row.content,
-      createdAt: row.createdAt,
-    }));
-    return this.toPage(items, totalCount, pagination);
   }
 
   private async getRatings(

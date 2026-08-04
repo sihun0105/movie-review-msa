@@ -10,8 +10,9 @@ export type UserActivityItem =
   | {
       type: 'comment';
       id: number;
-      articleId: number;
-      articleTitle: string;
+      targetType: 'movie' | 'article';
+      targetId: number;
+      targetTitle: string;
       content: string;
       createdAt: Date;
     }
