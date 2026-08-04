@@ -12,7 +12,7 @@ import { MovieDirectorFilmographyCacheService } from './movie-director-filmograp
 
 const MOVIE_INCLUDE = {
   MovieVod: true,
-  movieScores: true,
+  movieScores: { where: { deletedAt: null } },
   _count: {
     select: {
       Comment: { where: { deletedAt: null } },
@@ -81,7 +81,8 @@ export class MovieReadService {
       .slice(0, 10);
   }
 
-  async recommendMovies(_movieCd: number): Promise<any> {
+  async recommendMovies(movieCd: number): Promise<any> {
+    void movieCd;
     // TODO: 벡터 유사도 검색 미구현 — Milvus 또는 pgvector 연동 후 활성화
     return [];
   }

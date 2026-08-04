@@ -10,6 +10,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   Req,
   UploadedFiles,
   UseGuards,
@@ -26,6 +27,7 @@ import { convertToUserEntity } from '@app/common/entity';
 import { imageMemoryMulterOptions } from '../upload/image-multer.options';
 import { UploadService } from '../upload/upload.service';
 import { UserActivityService } from './user-activity.service';
+import { UserActivityType } from './user-activity.types';
 
 @Controller('user')
 export class UserController {
@@ -64,6 +66,31 @@ export class UserController {
   @UseGuards(JwtAuthGuard, RateLimitGuard)
   getActivitySummary(@Req() req) {
     return this.userActivityService.getSummary(req.user.userId);
+  }
+
+  @Get('/activity/:type')
+  @UseGuards(JwtAuthGuard, RateLimitGuard)
+  getActivity(
+    @Param('type') type: UserActivityType,
+    @Query('page') page = '1',
+    @Query('pageSize') pageSize = '10',
+    @Req() req,
+  ) {
+    return this.userActivityService.getActivity(
+      req.user.userId,
+      type,
+      Number(page) || 1,
+      Number(pageSize) || 10,
+    );
+  }
+
+  @Delete('/activity/ratings/:movieCd')
+  @UseGuards(JwtAuthGuard, RateLimitGuard)
+  deleteActivityRating(@Param('movieCd') movieCd: string, @Req() req) {
+    return this.userActivityService.deleteRating(
+      req.user.userId,
+      Number(movieCd),
+    );
   }
 
   @Get('/:id')
