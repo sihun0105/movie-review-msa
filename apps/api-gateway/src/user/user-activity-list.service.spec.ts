@@ -12,45 +12,26 @@ describe('UserActivityService activity lists', () => {
     },
     article: { findMany: jest.fn(), count: jest.fn() },
   };
-  const service = new UserActivityService(prisma as never);
+  const commentActivity = { getPage: jest.fn(), getCount: jest.fn() };
+  const service = new UserActivityService(
+    prisma as never,
+    commentActivity as never,
+  );
 
   beforeEach(() => {
     jest.clearAllMocks();
     prisma.user.count.mockResolvedValue(1);
   });
 
-  it('lists comments with the article they belong to', async () => {
-    prisma.articleComments.findMany.mockResolvedValue([
-      {
-        id: 9,
-        articleId: 3,
-        content: '재밌었어요',
-        createdAt: new Date('2026-08-01T00:00:00Z'),
-        article: { title: '스파이더맨 후기' },
-      },
-    ]);
-    prisma.articleComments.count.mockResolvedValue(11);
+  it('delegates comments to the combined comment activity service', async () => {
+    const page = { items: [], totalCount: 0, hasNext: false };
+    commentActivity.getPage.mockResolvedValue(page);
 
-    await expect(service.getActivity(4, 'comments', 1, 10)).resolves.toEqual({
-      items: [
-        expect.objectContaining({
-          type: 'comment',
-          id: 9,
-          articleId: 3,
-          articleTitle: '스파이더맨 후기',
-          content: '재밌었어요',
-        }),
-      ],
-      totalCount: 11,
-      hasNext: true,
+    await expect(service.getActivity(4, 'comments', 1, 10)).resolves.toBe(page);
+    expect(commentActivity.getPage).toHaveBeenCalledWith(4, {
+      skip: 0,
+      take: 10,
     });
-    expect(prisma.articleComments.findMany).toHaveBeenCalledWith(
-      expect.objectContaining({
-        where: { userno: 4, deletedAt: null, article: { deletedAt: null } },
-        skip: 0,
-        take: 10,
-      }),
-    );
   });
 
   it('lists ratings with movie metadata', async () => {
