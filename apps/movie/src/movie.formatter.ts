@@ -4,12 +4,24 @@ import { MovieData } from '@app/common/protobuf';
 
 function assertKobisMovieData(unknown: any): asserts unknown is KobisMovie {
   if (
-    !unknown.rnum || !unknown.rank || !unknown.rankInten ||
-    !unknown.rankOldAndNew || !unknown.movieCd || !unknown.movieNm ||
-    !unknown.openDt || !unknown.audiAcc || !unknown.audiChange ||
-    !unknown.audiCnt || !unknown.audiInten || !unknown.salesAcc ||
-    !unknown.salesAmt || !unknown.salesChange || !unknown.salesInten ||
-    !unknown.salesShare || !unknown.scrnCnt || !unknown.showCnt
+    !unknown.rnum ||
+    !unknown.rank ||
+    !unknown.rankInten ||
+    !unknown.rankOldAndNew ||
+    !unknown.movieCd ||
+    !unknown.movieNm ||
+    !unknown.openDt ||
+    !unknown.audiAcc ||
+    !unknown.audiChange ||
+    !unknown.audiCnt ||
+    !unknown.audiInten ||
+    !unknown.salesAcc ||
+    !unknown.salesAmt ||
+    !unknown.salesChange ||
+    !unknown.salesInten ||
+    !unknown.salesShare ||
+    !unknown.scrnCnt ||
+    !unknown.showCnt
   ) {
     throw new BadRequestException('Invalid KobisMovie data');
   }
@@ -71,5 +83,6 @@ export function convertMovieDataWithCounts(
     commentCount: movieData._count?.Comment ?? 0,
     scoreCount: scoreCount,
     averageScore: averageScore,
+    actors: movieData.actors ?? [],
   } as Omit<MovieData, 'vector'>;
 }

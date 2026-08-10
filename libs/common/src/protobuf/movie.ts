@@ -56,6 +56,15 @@ export interface MovieData {
   scoreCount: number;
   averageScore: number; // 추가된 필드
   isRanked: boolean;
+  actors: MovieActorData[];
+}
+
+export interface MovieActorData {
+  id: number;
+  name: string;
+  character: string;
+  profileUrl: string;
+  sortOrder: number;
 }
 
 export interface MovieVod {
