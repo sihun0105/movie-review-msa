@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { MovieSyncService } from './movie-sync.service';
 import { MovieReadService } from './movie-read.service';
 import { MovieScoreService } from './movie-score.service';
+import { MovieSitemapService } from './movie-sitemap.service';
 
 @Injectable()
 export class MovieService {
@@ -9,6 +10,7 @@ export class MovieService {
     private readonly syncService: MovieSyncService,
     private readonly readService: MovieReadService,
     private readonly scoreService: MovieScoreService,
+    private readonly sitemapService: MovieSitemapService,
   ) {}
 
   // Sync
@@ -19,6 +21,9 @@ export class MovieService {
   // Read
   getMovieDatas() {
     return this.readService.getMovieDatas();
+  }
+  getMovieSitemapEntries() {
+    return this.sitemapService.getEntries();
   }
   recommendMovies(movieCd: number) {
     return this.readService.recommendMovies(movieCd);

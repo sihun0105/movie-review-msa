@@ -71,6 +71,15 @@ export interface MovieDatas {
   MovieData: MovieData[];
 }
 
+export interface MovieSitemapEntry {
+  movieCd: number;
+  updatedAt: string;
+}
+
+export interface MovieSitemapEntries {
+  movies: MovieSitemapEntry[];
+}
+
 export interface AverageMovieScore {
   movieCd: number;
   averageScore: number;
@@ -92,6 +101,8 @@ export interface MovieServiceClient {
     request: DirectorFilmographyRequest,
   ): Observable<MovieDatas>;
 
+  getMovieSitemapEntries(request: Empty): Observable<MovieSitemapEntries>;
+
   upsertMovieScore(request: UpsertMovieScoreRequest): Observable<MovieScore>;
 
   getMovieScore(request: GetMovieScoreRequest): Observable<MovieScore>;
@@ -99,7 +110,6 @@ export interface MovieServiceClient {
   getAverageMovieScore(
     request: RecommendMovieRequest,
   ): Observable<AverageMovieScore>;
-
 }
 
 export interface MovieServiceController {
@@ -121,6 +131,13 @@ export interface MovieServiceController {
     request: DirectorFilmographyRequest,
   ): Promise<MovieDatas> | Observable<MovieDatas> | MovieDatas;
 
+  getMovieSitemapEntries(
+    request: Empty,
+  ):
+    | Promise<MovieSitemapEntries>
+    | Observable<MovieSitemapEntries>
+    | MovieSitemapEntries;
+
   upsertMovieScore(
     request: UpsertMovieScoreRequest,
   ): Promise<MovieScore> | Observable<MovieScore> | MovieScore;
@@ -135,7 +152,6 @@ export interface MovieServiceController {
     | Promise<AverageMovieScore>
     | Observable<AverageMovieScore>
     | AverageMovieScore;
-
 }
 
 export function MovieServiceControllerMethods() {
@@ -146,6 +162,7 @@ export function MovieServiceControllerMethods() {
       'recommendMovie',
       'getMovieDetailData',
       'getMoviesByDirector',
+      'getMovieSitemapEntries',
       'upsertMovieScore',
       'getMovieScore',
       'getAverageMovieScore',

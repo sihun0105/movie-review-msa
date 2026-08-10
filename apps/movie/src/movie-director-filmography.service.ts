@@ -58,6 +58,7 @@ export class MovieDirectorFilmographyService {
         return (await this.prisma.movie.update({
           where: { movieCd: movie.movieCd },
           data: {
+            updatedAt: new Date(),
             ...(metadata.poster && { poster: metadata.poster }),
             ...(metadata.plot && { plot: metadata.plot }),
             ...(metadata.genre && { genre: metadata.genre }),
@@ -117,6 +118,7 @@ export class MovieDirectorFilmographyService {
     return this.prisma.movie.upsert({
       where: { movieCd },
       update: {
+        updatedAt: new Date(),
         title: movie.movieNm,
         openDt: openedAt,
         director,
