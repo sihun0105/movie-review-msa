@@ -5,22 +5,42 @@ import * as path from 'path';
 
 @Injectable()
 export class MovieActorStorageService {
+  private static readonly REQUEST_TIMEOUT_MS = 3000;
   private readonly logger = new Logger(MovieActorStorageService.name);
   private readonly storageDriver = process.env.FILE_STORAGE_DRIVER ?? 'local';
   private readonly s3Bucket = process.env.AWS_S3_BUCKET;
   private readonly s3Region = process.env.AWS_REGION ?? 'ap-northeast-2';
   private readonly s3PublicUrl = process.env.AWS_S3_PUBLIC_URL;
   private readonly s3Client = new S3Client({ region: this.s3Region });
+  private readonly pendingMirrors = new Map<number, Promise<string>>();
 
   async mirrorActor(profileUrl: string, personId: number): Promise<string> {
     if (!profileUrl || !this.isS3Enabled() || this.isStoredActor(profileUrl)) {
       return profileUrl;
     }
 
+    const pending = this.pendingMirrors.get(personId);
+    if (pending) return pending;
+
+    const operation = this.uploadActor(profileUrl, personId);
+    this.pendingMirrors.set(personId, operation);
+    try {
+      return await operation;
+    } finally {
+      if (this.pendingMirrors.get(personId) === operation) {
+        this.pendingMirrors.delete(personId);
+      }
+    }
+  }
+
+  private async uploadActor(
+    profileUrl: string,
+    personId: number,
+  ): Promise<string> {
     try {
       const response = await axios.get<ArrayBuffer>(profileUrl, {
         responseType: 'arraybuffer',
-        timeout: 10000,
+        timeout: MovieActorStorageService.REQUEST_TIMEOUT_MS,
       });
       const contentType = this.getContentType(response.headers['content-type']);
       const key = `actors/${personId}${this.getExtension(
@@ -28,14 +48,24 @@ export class MovieActorStorageService {
         contentType,
       )}`;
 
-      await this.s3Client.send(
-        new PutObjectCommand({
-          Bucket: this.s3Bucket,
-          Key: key,
-          Body: Buffer.from(response.data),
-          ContentType: contentType,
-        }),
+      const controller = new AbortController();
+      const timeout = setTimeout(
+        () => controller.abort(),
+        MovieActorStorageService.REQUEST_TIMEOUT_MS,
       );
+      try {
+        await this.s3Client.send(
+          new PutObjectCommand({
+            Bucket: this.s3Bucket,
+            Key: key,
+            Body: Buffer.from(response.data),
+            ContentType: contentType,
+          }),
+          { abortSignal: controller.signal },
+        );
+      } finally {
+        clearTimeout(timeout);
+      }
 
       return `${this.getPublicBaseUrl()}/${key}`;
     } catch (error) {

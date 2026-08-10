@@ -7,6 +7,7 @@ describe('MovieActorStorageService', () => {
   const originalEnv = process.env;
 
   beforeEach(() => {
+    jest.clearAllMocks();
     process.env = {
       ...originalEnv,
       FILE_STORAGE_DRIVER: 's3',
@@ -43,6 +44,42 @@ describe('MovieActorStorageService', () => {
           ContentType: 'image/jpeg',
         }),
       }),
+      expect.objectContaining({ abortSignal: expect.anything() }),
     );
+  });
+
+  it('reuses one in-flight upload for the same actor', async () => {
+    let resolveDownload: (value: object) => void = () => undefined;
+    (axios.get as jest.Mock).mockReturnValue(
+      new Promise((resolve) => {
+        resolveDownload = resolve;
+      }),
+    );
+    const service = new MovieActorStorageService();
+    jest.spyOn((service as any).s3Client, 'send').mockResolvedValue({});
+
+    const first = service.mirrorActor('https://tmdb.test/matt.jpg', 6193);
+    const second = service.mirrorActor('https://tmdb.test/matt.jpg', 6193);
+    resolveDownload({
+      data: Buffer.from('image'),
+      headers: { 'content-type': 'image/jpeg' },
+    });
+
+    await Promise.all([first, second]);
+    expect(axios.get).toHaveBeenCalledTimes(1);
+  });
+
+  it('keeps the source URL when S3 upload fails', async () => {
+    (axios.get as jest.Mock).mockResolvedValue({
+      data: Buffer.from('image'),
+      headers: { 'content-type': 'image/jpeg' },
+    });
+    const service = new MovieActorStorageService();
+    jest
+      .spyOn((service as any).s3Client, 'send')
+      .mockRejectedValue(new Error('s3 unavailable'));
+    const sourceUrl = 'https://image.tmdb.org/t/p/w342/matt.jpg';
+
+    await expect(service.mirrorActor(sourceUrl, 6193)).resolves.toBe(sourceUrl);
   });
 });

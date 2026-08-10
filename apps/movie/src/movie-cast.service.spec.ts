@@ -37,7 +37,7 @@ describe('MovieCastService', () => {
         id: 6193,
         name: '맷 데이먼',
         character: '오디세우스',
-        profileUrl: 'https://cdn.bollae.kr/actors/6193.jpg',
+        profileUrl: cachedActor.profileUrl,
         sortOrder: 0,
       },
     ]);
@@ -51,6 +51,30 @@ describe('MovieCastService', () => {
       where: { tmdbPersonId: 6193 },
       data: { profileUrl: 'https://cdn.bollae.kr/actors/6193.jpg' },
     });
+  });
+
+  it('keeps cached actors when background migration persistence fails', async () => {
+    const service = new MovieCastService(
+      {
+        movieActor: {
+          findMany: jest.fn().mockResolvedValue([cachedActor]),
+          updateMany: jest.fn().mockRejectedValue(new Error('write failed')),
+        },
+      } as any,
+      {} as any,
+      {
+        mirrorActor: jest
+          .fn()
+          .mockResolvedValue('https://cdn.bollae.kr/actors/6193.jpg'),
+      } as any,
+    );
+
+    await expect(
+      service.getCast({ movieCd: 20250654, title: '오디세이' }),
+    ).resolves.toEqual([
+      expect.objectContaining({ profileUrl: cachedActor.profileUrl }),
+    ]);
+    await new Promise((resolve) => setImmediate(resolve));
   });
 
   it('fetches, persists, and limits valid TMDB cast on a cache miss', async () => {

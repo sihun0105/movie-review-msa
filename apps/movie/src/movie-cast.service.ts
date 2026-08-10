@@ -51,10 +51,8 @@ export class MovieCastService {
         take: CAST_LIMIT,
       });
       if (cached.length > 0) {
-        const migrated = await Promise.all(
-          cached.map((actor) => this.migrateCachedActor(actorStore, actor)),
-        );
-        return migrated.map(this.toMovieActorData);
+        void this.migrateCachedActors(actorStore, cached);
+        return cached.map(this.toMovieActorData);
       }
 
       const movie = await this.metadata.fetchTmdbData(
@@ -102,21 +100,35 @@ export class MovieCastService {
       .movieActor;
   }
 
+  private async migrateCachedActors(
+    actorStore: MovieActorStore,
+    actors: CachedActor[],
+  ): Promise<void> {
+    await Promise.allSettled(
+      actors.map((actor) => this.migrateCachedActor(actorStore, actor)),
+    );
+  }
+
   private async migrateCachedActor(
     actorStore: MovieActorStore,
     actor: CachedActor,
-  ): Promise<CachedActor> {
-    const profileUrl = await this.storage.mirrorActor(
-      actor.profileUrl,
-      actor.tmdbPersonId,
-    );
-    if (profileUrl !== actor.profileUrl) {
-      await actorStore.updateMany({
-        where: { tmdbPersonId: actor.tmdbPersonId },
-        data: { profileUrl },
-      });
+  ): Promise<void> {
+    try {
+      const profileUrl = await this.storage.mirrorActor(
+        actor.profileUrl,
+        actor.tmdbPersonId,
+      );
+      if (profileUrl !== actor.profileUrl) {
+        await actorStore.updateMany({
+          where: { tmdbPersonId: actor.tmdbPersonId },
+          data: { profileUrl },
+        });
+      }
+    } catch (error) {
+      this.logger.warn(
+        `Actor cache migration failed for ${actor.tmdbPersonId}: ${error}`,
+      );
     }
-    return { ...actor, profileUrl };
   }
 
   private hasProfile(actor: TmdbCastMember): actor is TmdbCastMember & {
