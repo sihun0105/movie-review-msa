@@ -2,6 +2,7 @@ import { MovieActorData } from '@app/common/protobuf';
 import { MySQLPrismaService } from '@app/prisma';
 import { Injectable, Logger, Optional } from '@nestjs/common';
 import { MovieMetadataClient, TmdbCastMember } from './movie-metadata.client';
+import { MovieActorStorageService } from './movie-actor-storage.service';
 
 const CAST_LIMIT = 8;
 const PROFILE_BASE_URL = 'https://image.tmdb.org/t/p/w342';
@@ -23,18 +24,22 @@ interface CachedActor {
 interface MovieActorStore {
   findMany(args: object): Promise<CachedActor[]>;
   createMany(args: object): Promise<{ count: number }>;
+  updateMany(args: object): Promise<{ count: number }>;
 }
 
 @Injectable()
 export class MovieCastService {
   private readonly logger = new Logger(MovieCastService.name);
   private readonly metadata: MovieMetadataClient;
+  private readonly storage: MovieActorStorageService;
 
   constructor(
     private readonly prisma: MySQLPrismaService,
     @Optional() metadata?: MovieMetadataClient,
+    @Optional() storage?: MovieActorStorageService,
   ) {
     this.metadata = metadata ?? new MovieMetadataClient();
+    this.storage = storage ?? new MovieActorStorageService();
   }
 
   async getCast(query: CastQuery): Promise<MovieActorData[]> {
@@ -45,7 +50,12 @@ export class MovieCastService {
         orderBy: { sortOrder: 'asc' },
         take: CAST_LIMIT,
       });
-      if (cached.length > 0) return cached.map(this.toMovieActorData);
+      if (cached.length > 0) {
+        const migrated = await Promise.all(
+          cached.map((actor) => this.migrateCachedActor(actorStore, actor)),
+        );
+        return migrated.map(this.toMovieActorData);
+      }
 
       const movie = await this.metadata.fetchTmdbData(
         query.title,
@@ -54,7 +64,7 @@ export class MovieCastService {
       if (!movie?.id) return [];
 
       const cast = await this.metadata.fetchTmdbCast(movie.id);
-      const actors = cast
+      const candidates = cast
         .filter(this.hasProfile)
         .slice(0, CAST_LIMIT)
         .map((actor, sortOrder) => ({
@@ -65,6 +75,15 @@ export class MovieCastService {
           profileUrl: `${PROFILE_BASE_URL}${actor.profile_path}`,
           sortOrder,
         }));
+      const actors = await Promise.all(
+        candidates.map(async (actor) => ({
+          ...actor,
+          profileUrl: await this.storage.mirrorActor(
+            actor.profileUrl,
+            actor.tmdbPersonId,
+          ),
+        })),
+      );
 
       if (actors.length === 0) return [];
       await actorStore.createMany({
@@ -81,6 +100,23 @@ export class MovieCastService {
   private getActorStore(): MovieActorStore {
     return (this.prisma as unknown as { movieActor: MovieActorStore })
       .movieActor;
+  }
+
+  private async migrateCachedActor(
+    actorStore: MovieActorStore,
+    actor: CachedActor,
+  ): Promise<CachedActor> {
+    const profileUrl = await this.storage.mirrorActor(
+      actor.profileUrl,
+      actor.tmdbPersonId,
+    );
+    if (profileUrl !== actor.profileUrl) {
+      await actorStore.updateMany({
+        where: { tmdbPersonId: actor.tmdbPersonId },
+        data: { profileUrl },
+      });
+    }
+    return { ...actor, profileUrl };
   }
 
   private hasProfile(actor: TmdbCastMember): actor is TmdbCastMember & {
