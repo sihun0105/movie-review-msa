@@ -33,6 +33,18 @@ export class MovieController {
       });
     }
   }
+  @Get('/sitemap')
+  async getMovieSitemapEntries() {
+    try {
+      const movies = await this.movieService.getMovieSitemapEntries();
+      return await firstValueFrom(movies);
+    } catch (error) {
+      throw new RpcException({
+        code: error.code,
+        message: error.details,
+      });
+    }
+  }
   @Get('/director')
   async getMoviesByDirector(
     @Query('name') name = '',
