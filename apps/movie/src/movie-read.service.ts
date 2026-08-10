@@ -9,6 +9,7 @@ import moment from 'moment';
 import { convertMovieDataWithCounts } from './movie.formatter';
 import { MovieDirectorFilmographyService } from './movie-director-filmography.service';
 import { MovieDirectorFilmographyCacheService } from './movie-director-filmography-cache.service';
+import { MovieCastService } from './movie-cast.service';
 
 const MOVIE_INCLUDE = {
   MovieVod: true,
@@ -26,6 +27,7 @@ export class MovieReadService {
     private readonly prisma: MySQLPrismaService,
     private readonly directorFilmography: MovieDirectorFilmographyService,
     private readonly filmographyCache: MovieDirectorFilmographyCacheService,
+    private readonly movieCast: MovieCastService,
   ) {}
 
   async getMovieDatas(): Promise<Omit<MovieDatas, 'vector'>> {
@@ -96,8 +98,15 @@ export class MovieReadService {
       throw new NotFoundException(`Movie with movieCd ${movieCd} not found`);
     }
 
+    const actors = await this.movieCast.getCast({
+      movieCd,
+      title: movie.title ?? '',
+      releaseYear: movie.openDt?.getFullYear(),
+    });
+
     return convertMovieDataWithCounts({
       ...movie,
+      actors,
       _count: {
         Comment: movie._count.Comment,
         movieScores: movie.movieScores?.length ?? 0,

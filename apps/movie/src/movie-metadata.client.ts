@@ -17,6 +17,13 @@ interface KoficMovieMetadata {
   rating: string;
 }
 
+export interface TmdbCastMember {
+  id: number;
+  name?: string;
+  character?: string;
+  profile_path?: string | null;
+}
+
 export class MovieMetadataClient {
   private readonly logger = new Logger(MovieMetadataClient.name);
   private readonly koficKey = process.env.KOFIC_API_KEY;
@@ -104,9 +111,14 @@ export class MovieMetadataClient {
     };
   }
 
-  async fetchTmdbData(title: string) {
+  async fetchTmdbData(title: string, releaseYear?: number) {
     try {
-      const url = `https://api.themoviedb.org/3/search/movie?query=${title}&language=ko-KR`;
+      const yearQuery = releaseYear
+        ? `&primary_release_year=${releaseYear}`
+        : '';
+      const url = `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(
+        title,
+      )}&language=ko-KR${yearQuery}`;
       const response = await axios.get(url, {
         headers: this.getTmdbHeaders(),
       });
@@ -114,6 +126,19 @@ export class MovieMetadataClient {
     } catch (error) {
       this.logger.warn(`fetchTmdbData failed for "${title}": ${error}`);
       return null;
+    }
+  }
+
+  async fetchTmdbCast(movieId: number): Promise<TmdbCastMember[]> {
+    try {
+      const url = `https://api.themoviedb.org/3/movie/${movieId}/credits?language=ko-KR`;
+      const response = await axios.get(url, {
+        headers: this.getTmdbHeaders(),
+      });
+      return response.data?.cast ?? [];
+    } catch (error) {
+      this.logger.warn(`fetchTmdbCast failed for "${movieId}": ${error}`);
+      return [];
     }
   }
 
