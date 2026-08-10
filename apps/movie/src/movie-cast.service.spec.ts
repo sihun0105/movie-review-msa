@@ -11,13 +11,19 @@ describe('MovieCastService', () => {
 
   it('returns ordered cached actors without calling TMDB', async () => {
     const findMany = jest.fn().mockResolvedValue([cachedActor]);
+    const updateMany = jest.fn().mockResolvedValue({ count: 1 });
     const metadata = {
       fetchTmdbData: jest.fn(),
       fetchTmdbCast: jest.fn(),
     };
     const service = new MovieCastService(
-      { movieActor: { findMany } } as any,
+      { movieActor: { findMany, updateMany } } as any,
       metadata as any,
+      {
+        mirrorActor: jest
+          .fn()
+          .mockResolvedValue('https://cdn.bollae.kr/actors/6193.jpg'),
+      } as any,
     );
 
     await expect(
@@ -41,6 +47,34 @@ describe('MovieCastService', () => {
       orderBy: { sortOrder: 'asc' },
       take: 8,
     });
+    expect(updateMany).toHaveBeenCalledWith({
+      where: { tmdbPersonId: 6193 },
+      data: { profileUrl: 'https://cdn.bollae.kr/actors/6193.jpg' },
+    });
+  });
+
+  it('keeps cached actors when background migration persistence fails', async () => {
+    const service = new MovieCastService(
+      {
+        movieActor: {
+          findMany: jest.fn().mockResolvedValue([cachedActor]),
+          updateMany: jest.fn().mockRejectedValue(new Error('write failed')),
+        },
+      } as any,
+      {} as any,
+      {
+        mirrorActor: jest
+          .fn()
+          .mockResolvedValue('https://cdn.bollae.kr/actors/6193.jpg'),
+      } as any,
+    );
+
+    await expect(
+      service.getCast({ movieCd: 20250654, title: '오디세이' }),
+    ).resolves.toEqual([
+      expect.objectContaining({ profileUrl: cachedActor.profileUrl }),
+    ]);
+    await new Promise((resolve) => setImmediate(resolve));
   });
 
   it('fetches, persists, and limits valid TMDB cast on a cache miss', async () => {
@@ -65,6 +99,11 @@ describe('MovieCastService', () => {
         },
       } as any,
       metadata as any,
+      {
+        mirrorActor: jest
+          .fn()
+          .mockResolvedValue('https://cdn.bollae.kr/actors/6193.jpg'),
+      } as any,
     );
 
     const result = await service.getCast({
@@ -74,9 +113,7 @@ describe('MovieCastService', () => {
     });
 
     expect(result).toHaveLength(1);
-    expect(result[0].profileUrl).toBe(
-      'https://image.tmdb.org/t/p/w342/matt.jpg',
-    );
+    expect(result[0].profileUrl).toBe('https://cdn.bollae.kr/actors/6193.jpg');
     expect(createMany).toHaveBeenCalledWith({
       data: [
         {
@@ -84,7 +121,7 @@ describe('MovieCastService', () => {
           tmdbPersonId: 6193,
           name: '맷 데이먼',
           character: '오디세우스',
-          profileUrl: 'https://image.tmdb.org/t/p/w342/matt.jpg',
+          profileUrl: 'https://cdn.bollae.kr/actors/6193.jpg',
           sortOrder: 0,
         },
       ],
@@ -97,6 +134,7 @@ describe('MovieCastService', () => {
       {
         movieActor: { findMany: jest.fn().mockRejectedValue(new Error('db')) },
       } as any,
+      {} as any,
       {} as any,
     );
 

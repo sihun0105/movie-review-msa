@@ -9,6 +9,7 @@ import { MovieDirectorFilmographyService } from './movie-director-filmography.se
 import { MovieDirectorFilmographyCacheService } from './movie-director-filmography-cache.service';
 import { MovieSitemapService } from './movie-sitemap.service';
 import { MovieCastService } from './movie-cast.service';
+import { MovieActorStorageService } from './movie-actor-storage.service';
 import { PrismaModule } from '@app/prisma';
 import { UtilsModule } from '@app/utils';
 
@@ -25,6 +26,7 @@ import { UtilsModule } from '@app/utils';
     MovieDirectorFilmographyCacheService,
     MovieSitemapService,
     MovieCastService,
+    MovieActorStorageService,
   ],
 })
 export class MovieModule {}
