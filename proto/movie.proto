@@ -65,6 +65,15 @@ message MovieData {
   int32 scoreCount = 18;
   double averageScore = 19; // 추가된 필드
   bool isRanked = 20;
+  repeated MovieActorData actors = 21;
+}
+
+message MovieActorData {
+  int32 id = 1;
+  string name = 2;
+  string character = 3;
+  string profileUrl = 4;
+  int32 sortOrder = 5;
 }
 
 message MovieVod {
