@@ -17,6 +17,7 @@ export class MovieSitemapService {
     }
 
     const movies = await this.prisma.movie.findMany({
+      where: { movieCd: { gt: 0 } },
       select: { movieCd: true, updatedAt: true },
       take: MAX_SITEMAP_MOVIES,
     });

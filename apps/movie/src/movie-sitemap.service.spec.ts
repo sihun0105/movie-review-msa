@@ -21,6 +21,7 @@ describe('MovieSitemapService', () => {
     await expect(service.getEntries()).resolves.toEqual(expected);
     expect(findMany).toHaveBeenCalledTimes(1);
     expect(findMany).toHaveBeenCalledWith({
+      where: { movieCd: { gt: 0 } },
       select: { movieCd: true, updatedAt: true },
       take: 50_000,
     });
