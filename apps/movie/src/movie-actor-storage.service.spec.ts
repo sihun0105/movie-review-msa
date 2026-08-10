@@ -82,4 +82,25 @@ describe('MovieActorStorageService', () => {
 
     await expect(service.mirrorActor(sourceUrl, 6193)).resolves.toBe(sourceUrl);
   });
+
+  it('keeps each source URL when a shared upload fails', async () => {
+    (axios.get as jest.Mock).mockResolvedValue({
+      data: Buffer.from('image'),
+      headers: { 'content-type': 'image/jpeg' },
+    });
+    const service = new MovieActorStorageService();
+    jest
+      .spyOn((service as any).s3Client, 'send')
+      .mockRejectedValue(new Error('s3 unavailable'));
+    const oldUrl = 'https://image.tmdb.org/t/p/w342/old.jpg';
+    const newUrl = 'https://image.tmdb.org/t/p/w342/new.jpg';
+
+    await expect(
+      Promise.all([
+        service.mirrorActor(oldUrl, 6193),
+        service.mirrorActor(newUrl, 6193),
+      ]),
+    ).resolves.toEqual([oldUrl, newUrl]);
+    expect(axios.get).toHaveBeenCalledTimes(1);
+  });
 });

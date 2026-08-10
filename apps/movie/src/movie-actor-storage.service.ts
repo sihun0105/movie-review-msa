@@ -20,7 +20,10 @@ export class MovieActorStorageService {
     }
 
     const pending = this.pendingMirrors.get(personId);
-    if (pending) return pending;
+    if (pending) {
+      const mirroredUrl = await pending;
+      return this.isStoredActor(mirroredUrl) ? mirroredUrl : profileUrl;
+    }
 
     const operation = this.uploadActor(profileUrl, personId);
     this.pendingMirrors.set(personId, operation);
