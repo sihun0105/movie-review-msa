@@ -15,4 +15,12 @@ describe('getFrontendUrl', () => {
 
     expect(getFrontendUrl()).toBe('https://www.bollae.kr');
   });
+
+  it('uses the configured local frontend URL in development', () => {
+    process.env.NODE_ENV = 'development';
+    process.env.FRONTEND_URL = 'http://localhost:3100/';
+    delete process.env.PUBLIC_APP_URL;
+
+    expect(getFrontendUrl()).toBe('http://localhost:3100');
+  });
 });
