@@ -20,9 +20,9 @@ export class EmailService {
 
   async sendVerificationCode(email: string, code: string): Promise<void> {
     await this.transporter.sendMail({
-      from: `"drunkenmovie" <${process.env.SMTP_USER}>`,
+      from: `"볼래" <${process.env.SMTP_USER}>`,
       to: email,
-      subject: '[drunkenmovie] 이메일 인증 코드',
+      subject: '[볼래] 이메일 인증 코드',
       html: `<!DOCTYPE html>
 <html>
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
@@ -34,7 +34,7 @@ export class EmailService {
         <tr>
           <td style="padding:28px 32px 20px;border-bottom:1px solid #262629;">
             <span style="font-size:18px;font-weight:700;color:#fafafa;letter-spacing:-0.5px;">
-              drunken<span style="color:#dc2626;">movie</span>
+              볼래
             </span>
           </td>
         </tr>
@@ -56,7 +56,7 @@ export class EmailService {
         <!-- Footer -->
         <tr>
           <td style="padding:16px 32px;border-top:1px solid #262629;">
-            <p style="margin:0;font-size:11px;color:#3f3f46;">drunkenmovie — 영화와 함께하는 순간</p>
+            <p style="margin:0;font-size:11px;color:#3f3f46;">볼래 — 같이 볼 사람을 찾는 영화 커뮤니티</p>
           </td>
         </tr>
       </table>
@@ -70,9 +70,9 @@ export class EmailService {
 
   async sendPasswordResetLink(email: string, resetUrl: string): Promise<void> {
     await this.transporter.sendMail({
-      from: `"drunkenmovie" <${process.env.SMTP_USER}>`,
+      from: `"볼래" <${process.env.SMTP_USER}>`,
       to: email,
-      subject: '[drunkenmovie] 비밀번호 재설정',
+      subject: '[볼래] 비밀번호 재설정',
       html: `<!DOCTYPE html>
 <html>
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
@@ -84,7 +84,7 @@ export class EmailService {
         <tr>
           <td style="padding:28px 32px 20px;border-bottom:1px solid #262629;">
             <span style="font-size:18px;font-weight:700;color:#fafafa;letter-spacing:-0.5px;">
-              drunken<span style="color:#dc2626;">movie</span>
+              볼래
             </span>
           </td>
         </tr>
@@ -104,7 +104,7 @@ export class EmailService {
                 </td>
               </tr>
             </table>
-            <!-- Fallback URL (IP 환경에서 버튼 링크가 차단될 경우 대비) -->
+            <!-- 버튼이 열리지 않을 경우 사용할 직접 링크 -->
             <div style="background:#09090b;border:1px solid #262629;border-radius:6px;padding:14px 16px;margin-bottom:28px;word-break:break-all;">
               <p style="margin:0 0 4px;font-size:10px;color:#52525b;text-transform:uppercase;letter-spacing:0.8px;">재설정 링크</p>
               <span style="font-size:12px;color:#a1a1aa;font-family:'Courier New',monospace;">${resetUrl}</span>
@@ -118,7 +118,7 @@ export class EmailService {
         <!-- Footer -->
         <tr>
           <td style="padding:16px 32px;border-top:1px solid #262629;">
-            <p style="margin:0;font-size:11px;color:#3f3f46;">drunkenmovie — 영화와 함께하는 순간</p>
+            <p style="margin:0;font-size:11px;color:#3f3f46;">볼래 — 같이 볼 사람을 찾는 영화 커뮤니티</p>
           </td>
         </tr>
       </table>

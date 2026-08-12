@@ -4,6 +4,7 @@ import { AuthCommonResponse, User, ValidationResponse } from '@app/common/protob
 import { MySQLPrismaService } from '@app/prisma';
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { randomBytes } from 'crypto';
+import { getFrontendUrl } from './frontend-url';
 import { compare, hash } from 'bcryptjs';
 import Redis from 'ioredis';
 import { EmailService } from './email.service';
@@ -132,7 +133,7 @@ export class AuthService {
     const token = randomBytes(32).toString('hex');
     await this.redis.set(`reset:${token}`, email, 'EX', RESET_TTL);
 
-    const baseUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+    const baseUrl = getFrontendUrl();
     const resetUrl = `${baseUrl}/reset-password?token=${token}`;
 
     try {
