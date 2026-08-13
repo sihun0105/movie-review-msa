@@ -2,26 +2,24 @@ import { OutOfRangeException } from '@app/common/filters/rpcexception/rpc-except
 import { DEFAULT_PROFILE_IMAGE_URL } from '@app/common/constants/profile';
 import { AuthCommonResponse, User, ValidationResponse } from '@app/common/protobuf';
 import { MySQLPrismaService } from '@app/prisma';
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { randomBytes } from 'crypto';
 import { getFrontendUrl } from './frontend-url';
 import { compare, hash } from 'bcryptjs';
-import Redis from 'ioredis';
 import { EmailService } from './email.service';
 import { PasswordResetTokenStore } from './password-reset-token';
+import { EmailVerificationCodeStore } from './email-verification-code';
 import { toAuthUser } from './auth-user.mapper';
-
-const VERIFY_TTL = 5 * 60;       // 5분 (초)
 
 @Injectable()
 export class AuthService {
   private readonly logger = new Logger(AuthService.name);
 
   constructor(
-    @Inject('REDIS') private readonly redis: Redis,
     private readonly mysqlPrismaService: MySQLPrismaService,
     private readonly emailService: EmailService,
     private readonly resetTokens: PasswordResetTokenStore,
+    private readonly verificationCodes: EmailVerificationCodeStore,
   ) {}
 
   async validateUser(email: string, password: string) {
@@ -99,26 +97,26 @@ export class AuthService {
     }
 
     const code = Math.floor(100000 + Math.random() * 900000).toString();
-    await this.redis.set(`verify:${email}`, code, 'EX', VERIFY_TTL);
+    const storedValue = await this.verificationCodes.save(email, code);
 
     try {
       await this.emailService.sendVerificationCode(email, code);
       return { success: true, message: '인증 코드를 발송했습니다.' };
     } catch (error) {
+      await this.verificationCodes.discardIfCurrent(email, storedValue);
       this.logger.error(`Failed to send verification code to ${email}`, error);
       return { success: false, message: '이메일 발송에 실패했습니다.' };
     }
   }
 
   async verifyCode(email: string, code: string): Promise<ValidationResponse> {
-    const stored = await this.redis.get(`verify:${email}`);
-    if (!stored) {
+    const result = await this.verificationCodes.consume(email, code);
+    if (result === 'expired') {
       return { isAvailable: false, message: '인증 코드가 존재하지 않거나 만료됐습니다.' };
     }
-    if (stored !== code) {
+    if (result === 'mismatch') {
       return { isAvailable: false, message: '인증 코드가 올바르지 않습니다.' };
     }
-    await this.redis.del(`verify:${email}`);
     return { isAvailable: true, message: '이메일 인증이 완료됐습니다.' };
   }
 
