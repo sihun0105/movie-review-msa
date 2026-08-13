@@ -5,6 +5,7 @@ import { EmailService } from './email.service';
 import { PrismaModule } from '@app/prisma';
 import { UtilsModule } from '@app/utils';
 import Redis from 'ioredis';
+import { PasswordResetTokenStore } from './password-reset-token';
 
 @Module({
   imports: [PrismaModule, UtilsModule],
@@ -15,6 +16,7 @@ import Redis from 'ioredis';
       useFactory: () =>
         new Redis(process.env.REDIS_URL || 'redis://localhost:6379'),
     },
+    PasswordResetTokenStore,
     AuthService,
     EmailService,
   ],

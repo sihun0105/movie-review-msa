@@ -41,6 +41,10 @@ export interface ForgotPasswordDto {
   email: string;
 }
 
+export interface ValidateResetTokenDto {
+  token: string;
+}
+
 export interface ResetPasswordDto {
   token: string;
   newPassword: string;
@@ -67,6 +71,8 @@ export interface AuthServiceClient {
   verifyCode(request: VerifyCodeDto): Observable<ValidationResponse>;
 
   forgotPassword(request: ForgotPasswordDto): Observable<AuthCommonResponse>;
+
+  validateResetToken(request: ValidateResetTokenDto): Observable<ValidationResponse>;
 
   resetPassword(request: ResetPasswordDto): Observable<AuthCommonResponse>;
 }
@@ -96,6 +102,10 @@ export interface AuthServiceController {
     request: ForgotPasswordDto,
   ): Promise<AuthCommonResponse> | Observable<AuthCommonResponse> | AuthCommonResponse;
 
+  validateResetToken(
+    request: ValidateResetTokenDto,
+  ): Promise<ValidationResponse> | Observable<ValidationResponse> | ValidationResponse;
+
   resetPassword(
     request: ResetPasswordDto,
   ): Promise<AuthCommonResponse> | Observable<AuthCommonResponse> | AuthCommonResponse;
@@ -111,6 +121,7 @@ export function AuthServiceControllerMethods() {
       'sendVerificationCode',
       'verifyCode',
       'forgotPassword',
+      'validateResetToken',
       'resetPassword',
     ];
     for (const method of grpcMethods) {
