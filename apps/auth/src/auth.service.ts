@@ -8,10 +8,10 @@ import { getFrontendUrl } from './frontend-url';
 import { compare, hash } from 'bcryptjs';
 import Redis from 'ioredis';
 import { EmailService } from './email.service';
+import { PasswordResetTokenStore } from './password-reset-token';
 import { toAuthUser } from './auth-user.mapper';
 
 const VERIFY_TTL = 5 * 60;       // 5분 (초)
-const RESET_TTL  = 60 * 60;      // 1시간 (초)
 
 @Injectable()
 export class AuthService {
@@ -21,6 +21,7 @@ export class AuthService {
     @Inject('REDIS') private readonly redis: Redis,
     private readonly mysqlPrismaService: MySQLPrismaService,
     private readonly emailService: EmailService,
+    private readonly resetTokens: PasswordResetTokenStore,
   ) {}
 
   async validateUser(email: string, password: string) {
@@ -131,7 +132,7 @@ export class AuthService {
     }
 
     const token = randomBytes(32).toString('hex');
-    await this.redis.set(`reset:${token}`, email, 'EX', RESET_TTL);
+    await this.resetTokens.save(token, email);
 
     const baseUrl = getFrontendUrl();
     const resetUrl = `${baseUrl}/reset-password?token=${token}`;
@@ -146,7 +147,7 @@ export class AuthService {
   }
 
   async resetPassword(token: string, newPassword: string): Promise<AuthCommonResponse> {
-    const email = await this.redis.get(`reset:${token}`);
+    const email = await this.resetTokens.getEmail(token);
     if (!email) {
       return { success: false, message: '유효하지 않거나 만료된 토큰입니다.' };
     }
@@ -157,8 +158,16 @@ export class AuthService {
       data: { password: hashedPassword },
     });
 
-    await this.redis.del(`reset:${token}`);
+    await this.resetTokens.delete(token);
     this.logger.log(`Password reset for ${email}`);
     return { success: true, message: '비밀번호가 변경됐습니다.' };
+  }
+
+  async validateResetToken(token: string): Promise<ValidationResponse> {
+    const isValid = await this.resetTokens.isValid(token);
+    return {
+      isAvailable: isValid,
+      message: isValid ? '유효한 토큰입니다.' : '유효하지 않거나 만료된 토큰입니다.',
+    };
   }
 }

@@ -56,6 +56,10 @@ export class AuthService implements OnModuleInit {
     return this.svc?.forgotPassword({ email });
   }
 
+  validateResetToken({ token }: { token: string }) {
+    return this.svc?.validateResetToken({ token });
+  }
+
   resetPassword({ token, newPassword }: { token: string; newPassword: string }) {
     return this.svc?.resetPassword({ token, newPassword });
   }

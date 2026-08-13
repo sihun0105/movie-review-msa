@@ -11,6 +11,7 @@ import {
   User,
   ValidateEmailDto,
   ValidateNicknameDto,
+  ValidateResetTokenDto,
   ValidationResponse,
   VerifyCodeDto,
 } from '@app/common/protobuf';
@@ -52,6 +53,10 @@ export class AuthController implements AuthServiceController {
 
   async forgotPassword(request: ForgotPasswordDto): Promise<CommonResponse> {
     return this.usersService.forgotPassword(request.email);
+  }
+
+  async validateResetToken(request: ValidateResetTokenDto): Promise<ValidationResponse> {
+    return this.usersService.validateResetToken(request.token);
   }
 
   async resetPassword(request: ResetPasswordDto): Promise<CommonResponse> {
