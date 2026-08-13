@@ -80,6 +80,15 @@ export class AuthController {
     }
   }
 
+  @Post('validate-reset-token')
+  async validateResetToken(@Body() dto: { token: string }) {
+    try {
+      return await firstValueFrom(this.authService.validateResetToken(dto));
+    } catch (error) {
+      throw new RpcException({ code: error.code, message: error.details });
+    }
+  }
+
   @Post('reset-password')
   async resetPassword(@Body() dto: { token: string; newPassword: string }) {
     try {
