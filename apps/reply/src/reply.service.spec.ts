@@ -10,6 +10,7 @@ describe('ReplyService movie comment replies', () => {
   const prisma = {
     user: { findUnique: jest.fn() },
     movie: { findUniqueOrThrow: jest.fn() },
+    movieScore: { findMany: jest.fn() },
     comment: {
       findUnique: jest.fn(),
       findMany: jest.fn(),
@@ -31,6 +32,7 @@ describe('ReplyService movie comment replies', () => {
     jest.clearAllMocks();
     prisma.user.findUnique.mockResolvedValue(user);
     prisma.movie.findUniqueOrThrow.mockResolvedValue({ movieCd: 20233219 });
+    prisma.movieScore.findMany.mockResolvedValue([{ Userno: 4, score: 4.5 }]);
   });
 
   it('toggles the same reaction off and returns updated counts', async () => {
@@ -145,8 +147,14 @@ describe('ReplyService movie comment replies', () => {
       }),
     );
     expect(result.replies[0]).toMatchObject({
+      rating: 4.5,
       avatar: user.image,
       replies: [expect.objectContaining({ parentId: 10, avatar: user.image })],
+    });
+    expect(result.replies[0].replies[0].rating).toBe(4.5);
+    expect(prisma.movieScore.findMany).toHaveBeenCalledWith({
+      where: { movieCd: 20233219, Userno: { in: [4] }, deletedAt: null },
+      select: { Userno: true, score: true },
     });
   });
 
