@@ -1,6 +1,7 @@
 # compiled output
 /dist
 /node_modules
+/prisma/generated/
 
 # generated gRPC TypeScript stubs (regenerated from /proto/*.proto via `make generate_grpc_code`)
 /proto/*.ts
@@ -46,3 +47,7 @@ lerna-debug.log*
 # Sentry Config File
 .sentryclirc
 nginx.conf
+
+# isolated agent work and verification output
+.worktrees/
+.verify/
