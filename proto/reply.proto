@@ -30,6 +30,7 @@ message Reply {
     string userReaction = 13;
     bool isEdited = 14;
     bool isDeleted = 15;
+    optional double rating = 16;
 }
 
 message RepliesResult {

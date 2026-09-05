@@ -6,7 +6,9 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import {
+  ActivityArticleRow,
   ActivityPagination,
+  ActivityRatingRow,
   UserActivityPage,
   UserActivityType,
 } from './user-activity.types';
@@ -86,7 +88,10 @@ export class UserActivityService {
     pagination: ActivityPagination,
   ): Promise<UserActivityPage> {
     const where = { Userno: userId, deletedAt: null };
-    const [rows, totalCount] = await Promise.all([
+    // Bound Prisma's recursive promise inference to the selected row shape.
+    const [rows, totalCount] = await Promise.all<
+      [Promise<ActivityRatingRow[]>, Promise<number>]
+    >([
       this.prisma.movieScore.findMany({
         where,
         ...pagination,
@@ -121,7 +126,9 @@ export class UserActivityService {
       deletedAt: null,
       ...(type === 'likes' ? { like_count: { gt: 0 } } : {}),
     };
-    const [rows, totalCount] = await Promise.all([
+    const [rows, totalCount] = await Promise.all<
+      [Promise<ActivityArticleRow[]>, Promise<number>]
+    >([
       this.prisma.article.findMany({
         where,
         ...pagination,

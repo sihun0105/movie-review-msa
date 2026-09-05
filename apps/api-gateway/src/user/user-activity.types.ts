@@ -1,3 +1,15 @@
+import type { Movie, movieScore, article } from '../../../../prisma/generated/mysql';
+
+export type ActivityRatingRow = Pick<
+  movieScore,
+  'movieCd' | 'score' | 'updatedAt'
+> & { Movie: Pick<Movie, 'title' | 'poster'> };
+
+export type ActivityArticleRow = Pick<
+  article,
+  'id' | 'title' | 'createdAt' | 'like_count' | 'comment_count'
+>;
+
 export type UserActivityType = 'comments' | 'ratings' | 'articles' | 'likes';
 
 export interface UserActivityPage {

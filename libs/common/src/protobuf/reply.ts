@@ -6,6 +6,7 @@ import { Empty } from './common';
 export const replyProtobufPackage = 'reply';
 
 export interface Reply {
+  rating?: number;
   replyId: number;
   userId: number;
   nickname: string;

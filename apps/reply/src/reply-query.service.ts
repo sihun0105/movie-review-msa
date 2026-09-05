@@ -40,9 +40,20 @@ export class ReplyQueryService {
       }),
       this.prisma.comment.count({ where }),
     ]);
+    const authorIds = [...new Set(replies.flatMap((reply) => [
+      reply.User.id, ...reply.replies.map((child) => child.User.id),
+    ]))];
+    const scores = authorIds.length ? await this.prisma.movieScore.findMany({
+      where: { movieCd: movieId, Userno: { in: authorIds }, deletedAt: null },
+      select: { Userno: true, score: true },
+    }) : [];
+    const ratings = new Map<number, number>();
+    for (const row of scores) {
+      if (row.Userno !== null && row.score !== null) ratings.set(row.Userno, row.score);
+    }
     this.logger.debug(`getReplies movieId=${movieId} count=${replies.length}`);
     return {
-      replies: replies.map((reply) => toReply(reply, userId)),
+      replies: replies.map((reply) => toReply(reply, userId, ratings)),
       hasNext: skip + take < totalCount,
     };
   }
