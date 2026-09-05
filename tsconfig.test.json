@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "incremental": false
+  },
+  "include": ["apps/**/*.spec.ts", "libs/**/*.spec.ts"],
+  "exclude": ["node_modules", "dist", ".worktrees", "prisma/generated"]
+}
