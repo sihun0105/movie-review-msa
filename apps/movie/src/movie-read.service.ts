@@ -1,8 +1,5 @@
-import {
-  Injectable,
-  NotFoundException,
-  BadRequestException,
-} from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
+import { NotFoundException } from '@app/common/filters/rpcexception/rpc-exception';
 import { MySQLPrismaService } from '@app/prisma';
 import { MovieData, MovieDatas } from '@app/common/protobuf';
 import moment from 'moment';
