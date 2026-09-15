@@ -5,14 +5,14 @@ import { User } from './user';
 
 export const authProtobufPackage = 'auth';
 
+export interface GoogleIdTokenDto { idToken: string; }
+export interface SessionTokenDto { token: string; }
+export interface SessionLoginResponse { user: User; token: string; }
+export interface SessionValidationResponse { valid: boolean; userId?: number; provider?: string; }
+
 export interface LoginUserDto {
   email: string;
   password: string;
-}
-
-export interface OauthLoginDto {
-  provider: string;
-  providerId: string;
 }
 
 export interface ValidateEmailDto {
@@ -58,10 +58,11 @@ export interface AuthCommonResponse {
 export const AUTH_PACKAGE_NAME = 'auth';
 
 export interface AuthServiceClient {
-  loginUser(request: LoginUserDto): Observable<User>;
-
-  oauthLogin(request: OauthLoginDto): Observable<User>;
-
+  loginWithSession(request: LoginUserDto): Observable<SessionLoginResponse>;
+  oauthWithSession(request: GoogleIdTokenDto): Observable<SessionLoginResponse>;
+  validateSession(request: SessionTokenDto): Observable<SessionValidationResponse>;
+  revokeSession(request: SessionTokenDto): Observable<AuthCommonResponse>;
+  revokeAllSessions(request: SessionTokenDto): Observable<AuthCommonResponse>;
   validateEmail(request: ValidateEmailDto): Observable<ValidationResponse>;
 
   validateNickname(request: ValidateNicknameDto): Observable<ValidationResponse>;
@@ -78,10 +79,11 @@ export interface AuthServiceClient {
 }
 
 export interface AuthServiceController {
-  loginUser(request: LoginUserDto): Promise<User> | Observable<User> | User;
-
-  oauthLogin(request: OauthLoginDto): Promise<User> | Observable<User> | User;
-
+  loginWithSession(request: LoginUserDto): Promise<SessionLoginResponse> | SessionLoginResponse;
+  oauthWithSession(request: GoogleIdTokenDto): Promise<SessionLoginResponse> | SessionLoginResponse;
+  validateSession(request: SessionTokenDto): Promise<SessionValidationResponse> | SessionValidationResponse;
+  revokeSession(request: SessionTokenDto): Promise<AuthCommonResponse> | AuthCommonResponse;
+  revokeAllSessions(request: SessionTokenDto): Promise<AuthCommonResponse> | AuthCommonResponse;
   validateEmail(
     request: ValidateEmailDto,
   ): Promise<ValidationResponse> | Observable<ValidationResponse> | ValidationResponse;
@@ -114,8 +116,6 @@ export interface AuthServiceController {
 export function AuthServiceControllerMethods() {
   return function (constructor: Function) {
     const grpcMethods: string[] = [
-      'loginUser',
-      'oauthLogin',
       'validateEmail',
       'validateNickname',
       'sendVerificationCode',
@@ -123,6 +123,11 @@ export function AuthServiceControllerMethods() {
       'forgotPassword',
       'validateResetToken',
       'resetPassword',
+      'loginWithSession',
+      'oauthWithSession',
+      'validateSession',
+      'revokeSession',
+      'revokeAllSessions',
     ];
     for (const method of grpcMethods) {
       const descriptor: any = Reflect.getOwnPropertyDescriptor(

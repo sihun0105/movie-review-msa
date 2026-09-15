@@ -7,8 +7,6 @@ package auth;
 option go_package = "auth";
 
 service AuthService {
-    rpc LoginUser (LoginUserDto) returns (user.User) {}
-    rpc OauthLogin (OauthLoginDto) returns (user.User) {}
     rpc ValidateEmail (ValidateEmailDto) returns (ValidationResponse) {}
     rpc ValidateNickname (ValidateNicknameDto) returns (ValidationResponse) {}
     rpc SendVerificationCode (SendVerificationCodeDto) returns (CommonResponse) {}
@@ -16,16 +14,28 @@ service AuthService {
     rpc ForgotPassword (ForgotPasswordDto) returns (CommonResponse) {}
     rpc ValidateResetToken (ValidateResetTokenDto) returns (ValidationResponse) {}
     rpc ResetPassword (ResetPasswordDto) returns (CommonResponse) {}
+    rpc LoginWithSession (LoginUserDto) returns (SessionLoginResponse) {}
+    rpc OauthWithSession (GoogleIdTokenDto) returns (SessionLoginResponse) {}
+    rpc ValidateSession (SessionTokenDto) returns (SessionValidationResponse) {}
+    rpc RevokeSession (SessionTokenDto) returns (CommonResponse) {}
+    rpc RevokeAllSessions (SessionTokenDto) returns (CommonResponse) {}
+}
+
+message GoogleIdTokenDto { string idToken = 1; }
+message SessionTokenDto { string token = 1; }
+message SessionLoginResponse {
+    user.User user = 1;
+    string token = 2;
+}
+message SessionValidationResponse {
+    bool valid = 1;
+    int32 userId = 2;
+    string provider = 3;
 }
 
 message LoginUserDto {
     string email = 1;
     string password = 2;
-}
-
-message OauthLoginDto {
-    string provider = 1;
-    string providerId = 2;
 }
 
 message ValidateEmailDto {

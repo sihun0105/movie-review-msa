@@ -1,4 +1,4 @@
-import { JwtStrategy } from '@app/common/guards/jwtauth/jwt.strategy';
+import { JwtStrategy } from './auth/jwt.strategy';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';

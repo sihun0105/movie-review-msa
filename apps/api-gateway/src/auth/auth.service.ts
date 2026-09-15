@@ -29,11 +29,24 @@ export class AuthService implements OnModuleInit {
   }
 
   login({ email, password }: { email: string; password: string }) {
-    return this.svc?.loginUser({ email, password });
+    return this.svc?.loginWithSession({ email, password });
   }
 
   oAuthLogin({ provider, accessToken }: { provider: string; accessToken: string }) {
-    return this.svc?.oauthLogin({ provider, providerId: accessToken });
+    if (provider !== 'google') throw new Error('Unsupported provider');
+    return this.svc?.oauthWithSession({ idToken: accessToken });
+  }
+
+  validateSession(token: string) {
+    return this.svc?.validateSession({ token });
+  }
+
+  revokeSession(token: string) {
+    return this.svc?.revokeSession({ token });
+  }
+
+  revokeAllSessions(token: string) {
+    return this.svc?.revokeAllSessions({ token });
   }
 
   validateEmail({ email }: { email: string }) {
