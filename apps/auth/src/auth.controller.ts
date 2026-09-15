@@ -5,7 +5,6 @@ import {
   AuthCommonResponse as CommonResponse,
   ForgotPasswordDto,
   LoginUserDto,
-  OauthLoginDto,
   ResetPasswordDto,
   SendVerificationCodeDto,
   User,
@@ -14,25 +13,57 @@ import {
   ValidateResetTokenDto,
   ValidationResponse,
   VerifyCodeDto,
+  GoogleIdTokenDto,
+  SessionTokenDto,
+  SessionLoginResponse,
+  SessionValidationResponse,
 } from '@app/common/protobuf';
 import { Controller } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { AuthSessionService } from './auth-session.service';
+import { GoogleIdentityService } from './google-identity.service';
+import { UnauthenticatedException } from '@app/common/filters/rpcexception/rpc-exception';
 
 @Controller()
 @AuthServiceControllerMethods()
 export class AuthController implements AuthServiceController {
-  constructor(private readonly usersService: AuthService) {}
+  constructor(
+    private readonly usersService: AuthService,
+    private readonly sessions: AuthSessionService,
+    private readonly google: GoogleIdentityService,
+  ) {}
 
-  async loginUser(request: LoginUserDto): Promise<User> {
+  async loginWithSession(request: LoginUserDto): Promise<SessionLoginResponse> {
     const user = await this.usersService.validateUser(request.email, request.password);
     if (!user) throw new OutOfRangeException('Invalid credentials');
-    return this.usersService.login(user);
+    return { user, token: await this.sessions.issue(user, 'credentials') };
   }
 
-  async oauthLogin(request: OauthLoginDto): Promise<User> {
-    const user = await this.usersService.oauthLogin(request);
-    if (!user) throw new OutOfRangeException('Invalid credentials');
-    return user;
+  async oauthWithSession(request: GoogleIdTokenDto): Promise<SessionLoginResponse> {
+    let email: string;
+    try {
+      email = await this.google.getEmail(request.idToken);
+    } catch {
+      throw new UnauthenticatedException('Invalid Google ID token');
+    }
+    const user = await this.usersService.oauthLogin({ providerId: email, provider: 'google' });
+    return { user, token: await this.sessions.issue(user, 'google') };
+  }
+
+  async validateSession(request: SessionTokenDto): Promise<SessionValidationResponse> {
+    return this.sessions.validate(request.token);
+  }
+
+  async revokeSession(request: SessionTokenDto): Promise<CommonResponse> {
+    await this.sessions.revoke(request.token);
+    return { success: true, message: 'Logged out' };
+  }
+
+  async revokeAllSessions(request: SessionTokenDto): Promise<CommonResponse> {
+    const session = await this.sessions.validate(request.token);
+    if (!session.valid || !session.userId) throw new UnauthenticatedException('Invalid session');
+    await this.sessions.revokeAll(session.userId);
+    return { success: true, message: 'All sessions revoked' };
   }
 
   async validateEmail(request: ValidateEmailDto): Promise<ValidationResponse> {

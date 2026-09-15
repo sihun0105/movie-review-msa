@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Headers, Post, UnauthorizedException } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { firstValueFrom } from 'rxjs';
 import { AuthService } from '@app/api-gateway/src/auth/auth.service';
@@ -14,9 +14,9 @@ export class AuthController {
   async login(@Body() loginDto: { email: string; password: string }) {
     try {
       const data = await firstValueFrom(this.authService.login(loginDto));
-      return convertToUserEntity(data);
+      return { ...convertToUserEntity(data.user), token: data.token };
     } catch (error) {
-      throw new RpcException({ code: error.code, message: error.details });
+      throw new RpcException({ code: error.code || 13, message: error.details || 'Authentication failed' });
     }
   }
 
@@ -25,10 +25,35 @@ export class AuthController {
   async oauth(@Body() loginDto: { provider: string; accessToken: string }) {
     try {
       const data = await firstValueFrom(this.authService.oAuthLogin(loginDto));
-      return convertToUserEntity(data);
+      return { ...convertToUserEntity(data.user), token: data.token };
     } catch (error) {
-      throw new RpcException({ code: error.code, message: error.details });
+      throw new RpcException({ code: error.code || 13, message: error.details || 'Authentication failed' });
     }
+  }
+
+  @Get('session')
+  async session(@Headers('authorization') authorization?: string) {
+    const token = authorization?.replace(/^Bearer\s+/i, '');
+    if (!token || token === authorization) throw new UnauthorizedException();
+    const result = await firstValueFrom(this.authService.validateSession(token));
+    if (!result?.valid) throw new UnauthorizedException();
+    return result;
+  }
+
+  @Post('logout')
+  async logout(@Headers('authorization') authorization?: string) {
+    const token = authorization?.replace(/^Bearer\s+/i, '');
+    if (!token || token === authorization) throw new UnauthorizedException();
+    const result = await firstValueFrom(this.authService.validateSession(token));
+    if (!result?.valid) throw new UnauthorizedException();
+    return firstValueFrom(this.authService.revokeSession(token));
+  }
+
+  @Post('logout-all')
+  async logoutAll(@Headers('authorization') authorization?: string) {
+    const token = authorization?.replace(/^Bearer\s+/i, '');
+    if (!token || token === authorization) throw new UnauthorizedException();
+    return firstValueFrom(this.authService.revokeAllSessions(token));
   }
 
   @Post('validate/email')
