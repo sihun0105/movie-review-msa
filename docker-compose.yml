@@ -2,8 +2,8 @@ services:
   redis:
     image: redis:7-alpine
     container_name: redis
-    ports:
-      - '6379:6379'
+    expose:
+      - '6379'
     volumes:
       - redis-data:/data
     command: redis-server --appendonly yes
@@ -41,8 +41,8 @@ services:
   auth-service:
     image: ghcr.io/sihun0105/movie-review-msa/auth:latest
     container_name: auth-service
-    ports:
-      - '50051:50051'
+    expose:
+      - '50051'
     environment:
       - NODE_ENV=production
       - REDIS_URL=redis://redis:6379

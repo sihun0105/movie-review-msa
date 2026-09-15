@@ -10,6 +10,7 @@ import { EmailService } from './email.service';
 import { PasswordResetTokenStore } from './password-reset-token';
 import { EmailVerificationCodeStore } from './email-verification-code';
 import { toAuthUser } from './auth-user.mapper';
+import { AuthSessionService } from './auth-session.service';
 
 @Injectable()
 export class AuthService {
@@ -20,6 +21,7 @@ export class AuthService {
     private readonly emailService: EmailService,
     private readonly resetTokens: PasswordResetTokenStore,
     private readonly verificationCodes: EmailVerificationCodeStore,
+    private readonly sessions: AuthSessionService,
   ) {}
 
   async validateUser(email: string, password: string) {
@@ -151,12 +153,13 @@ export class AuthService {
     }
 
     const hashedPassword = await hash(newPassword, 10);
-    await this.mysqlPrismaService.user.update({
+    const user = await this.mysqlPrismaService.user.update({
       where: { email },
       data: { password: hashedPassword },
     });
 
     await this.resetTokens.delete(token);
+    await this.sessions.revokeAll(user.id);
     this.logger.log(`Password reset for ${email}`);
     return { success: true, message: '비밀번호가 변경됐습니다.' };
   }
