@@ -1,7 +1,8 @@
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { Injectable, Logger } from '@nestjs/common';
 import axios from 'axios';
-import path from 'path';
+import * as path from 'path';
+import { createHash } from 'crypto';
 
 @Injectable()
 export class MoviePosterStorageService {
@@ -23,7 +24,11 @@ export class MoviePosterStorageService {
         timeout: 10000,
       });
       const contentType = this.getContentType(response.headers['content-type']);
-      const key = `posters/${movieCd}${this.getExtension(
+      const fingerprint = createHash('sha256')
+        .update(posterUrl)
+        .digest('hex')
+        .slice(0, 12);
+      const key = `posters/${movieCd}-${fingerprint}${this.getExtension(
         posterUrl,
         contentType,
       )}`;

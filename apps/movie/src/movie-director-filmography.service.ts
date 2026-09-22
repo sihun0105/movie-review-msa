@@ -155,8 +155,8 @@ export class MovieDirectorFilmographyService {
     try {
       const [koficMetadata, kmdbData, tmdbData] = await Promise.all([
         this.metadataClient.fetchKoficMetadata(movie.movieCd),
-        this.metadataClient.fetchKmdbData(title),
-        this.metadataClient.fetchTmdbData(title),
+        this.metadataClient.fetchKmdbData(title, Number(movie.prdtYear)),
+        this.metadataClient.fetchTmdbData(title, Number(movie.prdtYear)),
       ]);
       const poster =
         (tmdbData?.poster_path

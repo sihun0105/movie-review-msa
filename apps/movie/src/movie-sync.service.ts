@@ -24,7 +24,6 @@ export class MovieSyncService implements OnModuleInit {
   onModuleInit() {
     this.fetchMovies();
   }
-
   async fetchMovies(): Promise<void> {
     const formattedDate = moment().format('YYYY-MM-DD');
     const dateObject = new Date(formattedDate);
@@ -48,7 +47,6 @@ export class MovieSyncService implements OnModuleInit {
       this.logger.error('Failed to fetch movies', error?.stack ?? error);
     }
   }
-
   private async updateMovies(movieList: KobisMovie[]): Promise<void> {
     const upserts = movieList.map(async (movieData) => {
       try {
@@ -100,7 +98,6 @@ export class MovieSyncService implements OnModuleInit {
     });
     await Promise.allSettled(upserts);
   }
-
   private async isMovieListFresh(movieList: KobisMovie[], dateObject: Date) {
     const movieCds = movieList.map((movie) => +movie.movieCd);
     const existingMovies = await this.prisma.movie.findMany({
@@ -126,7 +123,6 @@ export class MovieSyncService implements OnModuleInit {
         this.posterStorage.isReadyPoster(movie.poster),
     );
   }
-
   private async fetchExternalMetadata(movieData: KobisMovie) {
     let plot = '';
     let poster = '';
@@ -136,7 +132,11 @@ export class MovieSyncService implements OnModuleInit {
     let fetchedData: any = null;
 
     try {
-      fetchedData = await this.metadataClient.fetchKmdbData(movieData.movieNm);
+      const releaseYear = Number(movieData.openDt?.slice(0, 4));
+      fetchedData = await this.metadataClient.fetchKmdbData(
+        movieData.movieNm,
+        releaseYear,
+      );
       if (fetchedData) {
         plot = fetchedData.plots?.plot?.[0]?.plotText ?? '';
         poster = fetchedData.posters ?? '';
@@ -154,6 +154,7 @@ export class MovieSyncService implements OnModuleInit {
 
       const tmdbData = await this.metadataClient.fetchTmdbData(
         movieData.movieNm,
+        releaseYear,
       );
       if (tmdbData?.poster_path) {
         poster = `https://image.tmdb.org/t/p/w500${tmdbData.poster_path}`;

@@ -9,21 +9,18 @@ import {
 } from '@app/common/types/movie-response';
 import { Logger } from '@nestjs/common';
 import axios from 'axios';
-import moment from 'moment';
 
 interface KoficMovieMetadata {
   director: string;
   genre: string;
   rating: string;
 }
-
 export interface TmdbCastMember {
   id: number;
   name?: string;
   character?: string;
   profile_path?: string | null;
 }
-
 export class MovieMetadataClient {
   private readonly logger = new Logger(MovieMetadataClient.name);
   private readonly koficKey = process.env.KOFIC_API_KEY;
@@ -43,7 +40,6 @@ export class MovieMetadataClient {
     const response = await axios.get<KobisResponse>(url);
     return response.data?.boxOfficeResult?.dailyBoxOfficeList ?? null;
   }
-
   async fetchKoficMetadata(movieCd: string): Promise<KoficMovieMetadata> {
     try {
       const url = `${this.koficMovieDetailUrl}?key=${this.koficKey}&movieCd=${movieCd}`;
@@ -59,7 +55,6 @@ export class MovieMetadataClient {
       return { director: '', genre: '', rating: '' };
     }
   }
-
   async fetchKoficMoviesByDirector(
     directorName: string,
     limit: number,
@@ -87,19 +82,24 @@ export class MovieMetadataClient {
       return [];
     }
   }
-
-  async fetchKmdbData(title: string): Promise<Partial<KmdbMovie>> {
-    const thisYear = moment().format('YYYY') + '0101';
-    let url = `${this.kmdbUrl}?collection=kmdb_new2&ServiceKey=${this.kmdbKey}&detail=Y&title=${title}&sort=prodYear,0&releaseDts=${thisYear}`;
+  async fetchKmdbData(
+    title: string,
+    releaseYear?: number,
+  ): Promise<Partial<KmdbMovie>> {
+    const year = releaseYear || new Date().getFullYear();
+    let url = this.buildKmdbUrl(title, year);
     let response = await axios.get<KmdbResponse>(url);
 
-    if (!response.data?.Data?.[0]?.Result?.[0]) {
-      url = `${this.kmdbUrl}?collection=kmdb_new2&ServiceKey=${this.kmdbKey}&detail=Y&title=${title}&sort=prodYear,0`;
+    if (!response.data?.Data?.[0]?.Result?.length && !releaseYear) {
+      url = this.buildKmdbUrl(title);
       response = await axios.get<KmdbResponse>(url);
-      if (!response.data?.Data?.[0]?.Result?.[0]) return null;
     }
 
-    const result = response.data.Data[0].Result[0];
+    const results = response.data?.Data?.[0]?.Result ?? [];
+    const result = releaseYear
+      ? results.find((movie) => Number(movie.prodYear) === releaseYear)
+      : results[0];
+    if (!result) return null;
     return {
       title: result.title,
       plots: result.plots,
@@ -110,7 +110,6 @@ export class MovieMetadataClient {
       rating: result.rating,
     };
   }
-
   async fetchTmdbData(title: string, releaseYear?: number) {
     try {
       const yearQuery = releaseYear
@@ -122,13 +121,18 @@ export class MovieMetadataClient {
       const response = await axios.get(url, {
         headers: this.getTmdbHeaders(),
       });
-      return response.data.results[0];
+      const results = response.data?.results ?? [];
+      if (!releaseYear) return results[0] ?? null;
+      return (
+        results.find(
+          (movie) => Number(movie.release_date?.slice(0, 4)) === releaseYear,
+        ) ?? null
+      );
     } catch (error) {
       this.logger.warn(`fetchTmdbData failed for "${title}": ${error}`);
       return null;
     }
   }
-
   async fetchTmdbCast(movieId: number): Promise<TmdbCastMember[]> {
     try {
       const url = `https://api.themoviedb.org/3/movie/${movieId}/credits?language=ko-KR`;
@@ -141,7 +145,6 @@ export class MovieMetadataClient {
       return [];
     }
   }
-
   async fetchTmdbDirector(movieId: number): Promise<string> {
     try {
       const url = `https://api.themoviedb.org/3/movie/${movieId}/credits?language=ko-KR`;
@@ -166,6 +169,15 @@ export class MovieMetadataClient {
       Authorization: `Bearer ${this.tmdbAccessToken}`,
       'Content-Type': 'application/json',
     };
+  }
+
+  private buildKmdbUrl(title: string, releaseYear?: number) {
+    const yearQuery = releaseYear
+      ? `&releaseDts=${releaseYear}0101&releaseDte=${releaseYear}1231`
+      : '';
+    return `${this.kmdbUrl}?collection=kmdb_new2&ServiceKey=${
+      this.kmdbKey
+    }&detail=Y&title=${encodeURIComponent(title)}&sort=prodYear,0${yearQuery}`;
   }
 
   private getHighResKmdbPoster(posters: string): string {
