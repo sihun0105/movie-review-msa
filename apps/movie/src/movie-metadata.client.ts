@@ -9,23 +9,20 @@ import {
 } from '@app/common/types/movie-response';
 import { Logger } from '@nestjs/common';
 import axios from 'axios';
+import { MovieTmdbClient, TmdbCastMember } from './movie-tmdb.client';
+
+export { TmdbCastMember } from './movie-tmdb.client';
 
 interface KoficMovieMetadata {
   director: string;
   genre: string;
   rating: string;
 }
-export interface TmdbCastMember {
-  id: number;
-  name?: string;
-  character?: string;
-  profile_path?: string | null;
-}
 export class MovieMetadataClient {
   private readonly logger = new Logger(MovieMetadataClient.name);
+  private readonly tmdbClient = new MovieTmdbClient();
   private readonly koficKey = process.env.KOFIC_API_KEY;
   private readonly kmdbKey = process.env.KMDB_API_KEY;
-  private readonly tmdbAccessToken = process.env.TMDB_API_ACCESS_TOKEN;
   private readonly koficBoxOfficeUrl =
     'http://www.kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json';
   private readonly koficMovieDetailUrl =
@@ -111,64 +108,13 @@ export class MovieMetadataClient {
     };
   }
   async fetchTmdbData(title: string, releaseYear?: number) {
-    try {
-      const yearQuery = releaseYear
-        ? `&primary_release_year=${releaseYear}`
-        : '';
-      const url = `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(
-        title,
-      )}&language=ko-KR${yearQuery}`;
-      const response = await axios.get(url, {
-        headers: this.getTmdbHeaders(),
-      });
-      const results = response.data?.results ?? [];
-      if (!releaseYear) return results[0] ?? null;
-      return (
-        results.find(
-          (movie) => Number(movie.release_date?.slice(0, 4)) === releaseYear,
-        ) ?? null
-      );
-    } catch (error) {
-      this.logger.warn(`fetchTmdbData failed for "${title}": ${error}`);
-      return null;
-    }
+    return this.tmdbClient.fetchData(title, releaseYear);
   }
   async fetchTmdbCast(movieId: number): Promise<TmdbCastMember[]> {
-    try {
-      const url = `https://api.themoviedb.org/3/movie/${movieId}/credits?language=ko-KR`;
-      const response = await axios.get(url, {
-        headers: this.getTmdbHeaders(),
-      });
-      return response.data?.cast ?? [];
-    } catch (error) {
-      this.logger.warn(`fetchTmdbCast failed for "${movieId}": ${error}`);
-      return [];
-    }
+    return this.tmdbClient.fetchCast(movieId);
   }
   async fetchTmdbDirector(movieId: number): Promise<string> {
-    try {
-      const url = `https://api.themoviedb.org/3/movie/${movieId}/credits?language=ko-KR`;
-      const response = await axios.get(url, {
-        headers: this.getTmdbHeaders(),
-      });
-      return (
-        response.data?.crew
-          ?.filter((person) => person.job === 'Director')
-          ?.map((person) => person.name?.trim())
-          ?.filter(Boolean)
-          ?.join(', ') ?? ''
-      );
-    } catch (error) {
-      this.logger.warn(`fetchTmdbDirector failed for "${movieId}": ${error}`);
-      return '';
-    }
-  }
-
-  private getTmdbHeaders() {
-    return {
-      Authorization: `Bearer ${this.tmdbAccessToken}`,
-      'Content-Type': 'application/json',
-    };
+    return this.tmdbClient.fetchDirector(movieId);
   }
 
   private buildKmdbUrl(title: string, releaseYear?: number) {
