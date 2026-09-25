@@ -43,6 +43,34 @@ describe('MovieMetadataClient identity matching', () => {
     await expect(client.fetchTmdbData('인턴', 2026)).resolves.toBeNull();
   });
 
+  it('finds the original release for a marked re-release title', async () => {
+    mockedAxios.get
+      .mockResolvedValueOnce({ data: { results: [] } })
+      .mockResolvedValueOnce({
+        data: {
+          results: [
+            {
+              id: 299534,
+              title: '어벤져스: 엔드게임',
+              release_date: '2019-04-24',
+              poster_path: '/endgame.jpg',
+            },
+          ],
+        },
+      });
+
+    await expect(
+      client.fetchTmdbData('어벤져스: 엔드게임 앙코르', 2026),
+    ).resolves.toMatchObject({
+      id: 299534,
+      poster_path: '/endgame.jpg',
+    });
+    expect(mockedAxios.get).toHaveBeenCalledTimes(2);
+    expect(mockedAxios.get.mock.calls[1][0]).toContain(
+      'query=%EC%96%B4%EB%B2%A4%EC%A0%B8%EC%8A%A4%3A%20%EC%97%94%EB%93%9C%EA%B2%8C%EC%9E%84',
+    );
+  });
+
   it('selects only the matching-year KMDB movie', async () => {
     mockedAxios.get.mockResolvedValue({
       data: {
