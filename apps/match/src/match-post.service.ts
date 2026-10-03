@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Injectable,
   Logger,
   NotFoundException,
@@ -22,6 +23,11 @@ import {
   isAvailablePost,
   paginate,
 } from './match-post.filters';
+import {
+  isValidGenderCondition,
+  normalizeGenderCondition,
+} from './match-gender-condition';
+import { MatchPostMineService } from './match-post-mine.service';
 
 const POST_INCLUDE = {
   User: true,
@@ -38,6 +44,7 @@ export class MatchPostService {
   constructor(
     private readonly prisma: MySQLPrismaService,
     private readonly presenter: MatchPostPresenter,
+    private readonly mine: MatchPostMineService,
   ) {}
 
   async getMatchPosts(
@@ -92,9 +99,12 @@ export class MatchPostService {
       theaterName,
       showTime,
       maxParticipants,
+      genderCondition,
       location,
       userno,
     } = request;
+
+    this.validateConfiguration(maxParticipants, genderCondition);
 
     const matchPost = await this.prisma.matchPost.create({
       data: {
@@ -104,6 +114,7 @@ export class MatchPostService {
         theaterName,
         showTime,
         maxParticipants,
+        genderCondition: normalizeGenderCondition(genderCondition),
         location,
         userno,
       },
@@ -128,6 +139,7 @@ export class MatchPostService {
     request: UpdateMatchPostRequest,
   ): Promise<SingleMatchPostResponse> {
     const { matchId, userno, ...data } = request;
+    this.validateConfiguration(data.maxParticipants, data.genderCondition);
     const existingPost = await this.prisma.matchPost.findFirst({
       where: { id: matchId, deletedAt: null },
     });
@@ -139,7 +151,11 @@ export class MatchPostService {
 
     const updatedPost = await this.prisma.matchPost.update({
       where: { id: matchId },
-      data: { ...data, updatedAt: new Date() },
+      data: {
+        ...data,
+        genderCondition: normalizeGenderCondition(data.genderCondition),
+        updatedAt: new Date(),
+      },
       include: POST_INCLUDE,
     });
 
@@ -168,23 +184,15 @@ export class MatchPostService {
   }
 
   async getMyPosts(request: GetMyPostsRequest): Promise<MatchPostResponse> {
-    const { userno, page = 1, pageSize = 10 } = request;
-    const skip = (page - 1) * pageSize;
+    return this.mine.get(request);
+  }
 
-    const matchPosts = await this.prisma.matchPost.findMany({
-      where: { userno, deletedAt: null },
-      include: POST_INCLUDE,
-      orderBy: { createdAt: 'desc' },
-      skip,
-      take: pageSize + 1,
-    });
-
-    const hasNext = matchPosts.length > pageSize;
-    if (hasNext) matchPosts.pop();
-
-    return {
-      matchPosts: await this.presenter.many(matchPosts),
-      hasNext,
-    };
+  private validateConfiguration(maxParticipants: number, gender?: string) {
+    if (maxParticipants < 2) {
+      throw new BadRequestException('A match requires at least two people');
+    }
+    if (!isValidGenderCondition(gender)) {
+      throw new BadRequestException('A gender condition must be selected');
+    }
   }
 }

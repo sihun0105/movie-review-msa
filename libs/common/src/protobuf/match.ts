@@ -22,6 +22,7 @@ export interface MatchPost {
   updatedAt: string;
   deletedAt: string;
   moviePoster: string;
+  genderCondition: string;
 }
 
 export interface MatchApplication {
@@ -55,6 +56,7 @@ export interface CreateMatchPostRequest {
   location: string;
   userno: number;
   author: string;
+  genderCondition: string;
 }
 
 export interface GetMatchPostRequest {
@@ -71,6 +73,7 @@ export interface UpdateMatchPostRequest {
   maxParticipants: number;
   location: string;
   userno: number;
+  genderCondition: string;
 }
 
 export interface DeleteMatchPostRequest {

@@ -255,6 +255,7 @@ model MatchPost {
   theaterName       String             @db.VarChar(255)
   showTime          String             @db.VarChar(100)
   maxParticipants   Int
+  genderCondition   String             @default("any") @db.VarChar(10)
   location          String             @db.VarChar(255)
   userno            Int
   createdAt         DateTime           @default(now()) @db.DateTime(6)
