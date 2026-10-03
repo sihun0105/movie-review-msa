@@ -10,6 +10,9 @@ import { MatchPostService } from './match-post.service';
 import { MatchApplicationService } from './match-application.service';
 import { MatchPosterService } from './match-poster.service';
 import { MatchPostPresenter } from './match-post.presenter';
+import { MatchChatService } from './match-chat.service';
+import { MatchPostMineService } from './match-post-mine.service';
+import { MatchApplicationQueryService } from './match-application-query.service';
 
 @Module({
   imports: [
@@ -34,6 +37,9 @@ import { MatchPostPresenter } from './match-post.presenter';
     MatchApplicationService,
     MatchPosterService,
     MatchPostPresenter,
+    MatchChatService,
+    MatchPostMineService,
+    MatchApplicationQueryService,
   ],
 })
 export class MatchModule {}

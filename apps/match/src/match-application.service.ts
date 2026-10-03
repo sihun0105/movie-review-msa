@@ -1,19 +1,14 @@
 import {
   BadRequestException,
   ForbiddenException,
-  Inject,
   Injectable,
   Logger,
   NotFoundException,
-  OnModuleInit,
 } from '@nestjs/common';
-import { ClientGrpc } from '@nestjs/microservices';
-import { firstValueFrom } from 'rxjs';
 import { MySQLPrismaService } from '@app/prisma';
 import {
   ApplicationResponse,
   ApplyToMatchRequest,
-  ChatService,
   CommonResponse,
   GetMatchApplicationsRequest,
   GetMyApplicationsRequest,
@@ -21,25 +16,26 @@ import {
   UpdateApplicationStatusRequest,
 } from '@app/common/protobuf';
 import { formatMatchApplication } from './match.formatter';
+import { hasAvailableSeat } from './match-capacity';
+import { isGenderEligible } from './match-gender-condition';
+import { MatchChatService } from './match-chat.service';
+import { MatchApplicationQueryService } from './match-application-query.service';
 
 @Injectable()
-export class MatchApplicationService implements OnModuleInit {
+export class MatchApplicationService {
   private readonly logger = new Logger(MatchApplicationService.name);
-  private chatService: ChatService;
 
   constructor(
     private readonly prisma: MySQLPrismaService,
-    @Inject('CHAT_SERVICE') private readonly chatServiceClient: ClientGrpc,
+    private readonly matchChat: MatchChatService,
+    private readonly query: MatchApplicationQueryService,
   ) {}
-
-  onModuleInit() {
-    this.chatService =
-      this.chatServiceClient.getService<ChatService>('ChatService');
-  }
 
   async applyToMatch(request: ApplyToMatchRequest): Promise<CommonResponse> {
     const { matchId, applicantUserno, applicantName, message } = request;
-    this.logger.log(`applyToMatch matchId=${matchId} applicant=${applicantUserno}`);
+    this.logger.log(
+      `applyToMatch matchId=${matchId} applicant=${applicantUserno}`,
+    );
 
     const matchPost = await this.prisma.matchPost.findFirst({
       where: { id: matchId, deletedAt: null },
@@ -54,8 +50,23 @@ export class MatchApplicationService implements OnModuleInit {
     if (matchPost.userno === applicantUserno) {
       throw new BadRequestException('You cannot apply to your own match post');
     }
-    if (matchPost._count.MatchApplication >= matchPost.maxParticipants) {
+    if (
+      !hasAvailableSeat(
+        matchPost._count.MatchApplication,
+        matchPost.maxParticipants,
+      )
+    ) {
       throw new BadRequestException('Match post is already full');
+    }
+
+    const applicant = await this.prisma.user.findUnique({
+      where: { id: applicantUserno },
+      select: { gender: true },
+    });
+    if (!isGenderEligible(matchPost.genderCondition, applicant?.gender)) {
+      throw new BadRequestException(
+        'Applicant does not meet the gender condition',
+      );
     }
 
     const existingApplication = await this.prisma.matchApplication.findFirst({
@@ -77,15 +88,17 @@ export class MatchApplicationService implements OnModuleInit {
       },
     });
 
-    await this.prisma.notification.create({
-      data: {
-        userId: matchPost.userno,
-        type: 'match_apply',
-        title: '새로운 매칭 신청',
-        body: `${applicantName}님이 "${matchPost.title}"에 신청했습니다.`,
-        targetId: matchId,
-      },
-    }).catch(() => {});
+    await this.prisma.notification
+      .create({
+        data: {
+          userId: matchPost.userno,
+          type: 'match_apply',
+          title: '새로운 매칭 신청',
+          body: `${applicantName}님이 "${matchPost.title}"에 신청했습니다.`,
+          targetId: matchId,
+        },
+      })
+      .catch(() => {});
 
     return { success: true, message: 'Application submitted successfully' };
   }
@@ -114,7 +127,9 @@ export class MatchApplicationService implements OnModuleInit {
     request: UpdateApplicationStatusRequest,
   ): Promise<ApplicationResponse> {
     const { matchId, applicationId, status, userno } = request;
-    this.logger.log(`updateApplicationStatus match=${matchId} app=${applicationId} status=${status} userId=${userno}`);
+    this.logger.log(
+      `updateApplicationStatus match=${matchId} app=${applicationId} status=${status} userId=${userno}`,
+    );
 
     const matchPost = await this.prisma.matchPost.findFirst({
       where: { id: matchId, deletedAt: null },
@@ -138,7 +153,7 @@ export class MatchApplicationService implements OnModuleInit {
       const acceptedCount = await this.prisma.matchApplication.count({
         where: { matchPostId: matchId, status: 'accepted' },
       });
-      if (acceptedCount >= matchPost.maxParticipants) {
+      if (!hasAvailableSeat(acceptedCount, matchPost.maxParticipants)) {
         throw new BadRequestException('Match post is already full');
       }
     }
@@ -151,7 +166,7 @@ export class MatchApplicationService implements OnModuleInit {
     let chatRoomId = '';
     let message = '';
     if (status === 'accepted') {
-      chatRoomId = await this.createChatRoom(
+      chatRoomId = await this.matchChat.createRoom(
         matchId,
         matchPost.userno,
         application.applicantUserno,
@@ -167,61 +182,10 @@ export class MatchApplicationService implements OnModuleInit {
   async getMyApplications(
     request: GetMyApplicationsRequest,
   ): Promise<MatchApplicationsResponse> {
-    const { userno, page = 1, pageSize = 10 } = request;
-    const skip = (page - 1) * pageSize;
-
-    const applications = await this.prisma.matchApplication.findMany({
-      where: { applicantUserno: userno },
-      include: {
-        MatchPost: { include: { User: true } },
-        User: { select: { gender: true } },
-      },
-      orderBy: { createdAt: 'desc' },
-      skip,
-      take: pageSize,
-    });
-
-    return { applications: applications.map(formatMatchApplication) };
+    return this.query.getMine(request);
   }
 
   async getMyApplicationStatus(request: { matchId: string; userno: number }) {
-    const { matchId, userno } = request;
-    const matchPost = await this.prisma.matchPost.findFirst({
-      where: { id: matchId, deletedAt: null },
-    });
-    if (!matchPost) throw new NotFoundException('Match post not found');
-
-    const application = await this.prisma.matchApplication.findFirst({
-      where: { matchPostId: matchId, applicantUserno: userno },
-      include: { User: { select: { gender: true } } },
-    });
-
-    if (!application) return { hasApplication: false };
-
-    return {
-      application: formatMatchApplication(application),
-      hasApplication: true,
-    };
-  }
-
-  private async createChatRoom(
-    matchId: string,
-    authorUserno: number,
-    applicantUserno: number,
-  ): Promise<string> {
-    try {
-      const response = await firstValueFrom(
-        this.chatService.createChatRoom({
-          memberIds: [authorUserno, applicantUserno],
-          roomName: `Match Chat - ${matchId}`,
-          type: 'direct',
-          matchPostId: matchId,
-        }),
-      );
-      return response.chatRoom.id;
-    } catch (error) {
-      this.logger.error('Failed to create chat room', error?.stack ?? error);
-      throw new BadRequestException('Failed to create chat room');
-    }
+    return this.query.getStatus(request);
   }
 }
