@@ -20,6 +20,7 @@ message MatchPost {
   string updatedAt = 14;
   string deletedAt = 15;
   string moviePoster = 16;
+  string genderCondition = 17;
 }
 
 message MatchApplication {
@@ -52,6 +53,7 @@ message CreateMatchPostRequest {
   string location = 7;
   int32 userno = 8;
   string author = 9;
+  string genderCondition = 10;
 }
 
 message GetMatchPostRequest {
@@ -68,6 +70,7 @@ message UpdateMatchPostRequest {
   int32 maxParticipants = 7;
   string location = 8;
   int32 userno = 9;
+  string genderCondition = 10;
 }
 
 message DeleteMatchPostRequest {

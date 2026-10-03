@@ -1,4 +1,6 @@
 import { MatchApplication, MatchPost } from '@app/common/protobuf';
+import { getCurrentParticipants } from './match-capacity';
+import { normalizeGenderCondition } from './match-gender-condition';
 
 export type PostWithUserAndCount = {
   id: string;
@@ -9,6 +11,7 @@ export type PostWithUserAndCount = {
   theaterName: string;
   showTime: string;
   maxParticipants: number;
+  genderCondition: string;
   location: string;
   createdAt: Date;
   updatedAt: Date | null;
@@ -33,7 +36,8 @@ export function formatMatchPost(
     theaterName: post.theaterName,
     showTime: post.showTime,
     maxParticipants: post.maxParticipants,
-    currentParticipants: post._count.MatchApplication,
+    currentParticipants: getCurrentParticipants(post._count.MatchApplication),
+    genderCondition: normalizeGenderCondition(post.genderCondition),
     location: post.location,
     createdAt: post.createdAt.toISOString(),
     updatedAt: post.updatedAt?.toISOString() || '',

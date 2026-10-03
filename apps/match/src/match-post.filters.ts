@@ -1,4 +1,5 @@
 import { GetMatchPostsRequest } from '@app/common/protobuf';
+import { hasAvailableSeat } from './match-capacity';
 
 function getWeekRange() {
   const start = new Date();
@@ -33,7 +34,7 @@ export function isAvailablePost(post: {
   maxParticipants: number;
   _count: { MatchApplication: number };
 }) {
-  return post._count.MatchApplication < post.maxParticipants;
+  return hasAvailableSeat(post._count.MatchApplication, post.maxParticipants);
 }
 
 export function paginate<T>(items: T[], skip: number, pageSize: number) {
