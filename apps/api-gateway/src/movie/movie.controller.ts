@@ -66,6 +66,28 @@ export class MovieController {
       });
     }
   }
+  @Get('/catalog')
+  async getMovieCatalog(
+    @Query('query') query = '',
+    @Query('genre') genre = '',
+    @Query('page') page = '1',
+    @Query('pageSize') pageSize = '24',
+  ) {
+    try {
+      const movies = await this.movieService.getMovieCatalog({
+        query,
+        genre,
+        page: +page || 1,
+        pageSize: +pageSize || 24,
+      });
+      return await firstValueFrom(movies);
+    } catch (error) {
+      throw new RpcException({
+        code: error.code,
+        message: error.details,
+      });
+    }
+  }
   @Get(':movieCd')
   async getMovieDetail(@Param('movieCd') movieCd: string) {
     try {

@@ -30,6 +30,24 @@ export class MovieService implements OnModuleInit {
   async getMovieDetail(movieCd: number) {
     return await this.movieService.getMovieDetailData({ movieCd });
   }
+  async getMovieCatalog({
+    query,
+    genre,
+    page,
+    pageSize,
+  }: {
+    query: string;
+    genre: string;
+    page: number;
+    pageSize: number;
+  }) {
+    return await this.movieService.getMovieCatalog({
+      query,
+      genre,
+      page,
+      pageSize,
+    });
+  }
   async getMoviesByDirector({
     name,
     excludeMovieCd,
