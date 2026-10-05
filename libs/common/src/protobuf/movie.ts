@@ -35,6 +35,21 @@ export interface DirectorFilmographyRequest {
   limit: number;
 }
 
+export interface MovieCatalogRequest {
+  query: string;
+  genre: string;
+  page: number;
+  pageSize: number;
+}
+
+export interface MovieCatalogResponse {
+  movies: MovieData[];
+  page: number;
+  pageSize: number;
+  total: number;
+  hasNext: boolean;
+}
+
 export interface MovieData {
   id: number;
   movieCd: number;
@@ -110,6 +125,8 @@ export interface MovieServiceClient {
     request: DirectorFilmographyRequest,
   ): Observable<MovieDatas>;
 
+  getMovieCatalog(request: MovieCatalogRequest): Observable<MovieCatalogResponse>;
+
   getMovieSitemapEntries(request: Empty): Observable<MovieSitemapEntries>;
 
   upsertMovieScore(request: UpsertMovieScoreRequest): Observable<MovieScore>;
@@ -139,6 +156,13 @@ export interface MovieServiceController {
   getMoviesByDirector(
     request: DirectorFilmographyRequest,
   ): Promise<MovieDatas> | Observable<MovieDatas> | MovieDatas;
+
+  getMovieCatalog(
+    request: MovieCatalogRequest,
+  ):
+    | Promise<MovieCatalogResponse>
+    | Observable<MovieCatalogResponse>
+    | MovieCatalogResponse;
 
   getMovieSitemapEntries(
     request: Empty,
@@ -171,6 +195,7 @@ export function MovieServiceControllerMethods() {
       'recommendMovie',
       'getMovieDetailData',
       'getMoviesByDirector',
+      'getMovieCatalog',
       'getMovieSitemapEntries',
       'upsertMovieScore',
       'getMovieScore',

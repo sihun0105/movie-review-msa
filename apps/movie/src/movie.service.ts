@@ -3,6 +3,7 @@ import { MovieSyncService } from './movie-sync.service';
 import { MovieReadService } from './movie-read.service';
 import { MovieScoreService } from './movie-score.service';
 import { MovieSitemapService } from './movie-sitemap.service';
+import { MovieCatalogService } from './movie-catalog.service';
 
 @Injectable()
 export class MovieService {
@@ -11,6 +12,7 @@ export class MovieService {
     private readonly readService: MovieReadService,
     private readonly scoreService: MovieScoreService,
     private readonly sitemapService: MovieSitemapService,
+    private readonly catalogService: MovieCatalogService,
   ) {}
 
   // Sync
@@ -30,6 +32,14 @@ export class MovieService {
   }
   getMovieDetail(movieCd: number) {
     return this.readService.getMovieDetail(movieCd);
+  }
+  getMovieCatalog(req: {
+    query: string;
+    genre: string;
+    page: number;
+    pageSize: number;
+  }) {
+    return this.catalogService.getCatalog(req);
   }
   getMoviesByDirector(req: {
     name: string;
