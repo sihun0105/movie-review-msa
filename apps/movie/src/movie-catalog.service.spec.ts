@@ -13,7 +13,7 @@ describe('MovieCatalogService', () => {
         movieCd: 20256308,
         title: '인턴',
         openDt: new Date('2025-09-01'),
-        _count: { Comment: 1 },
+        _count: { Comment: 1, movieScores: 1 },
         movieScores: [{ score: 5 }],
       },
     ]);
@@ -33,6 +33,14 @@ describe('MovieCatalogService', () => {
     });
     expect(prisma.movie.findMany).toHaveBeenCalledWith(
       expect.objectContaining({
+        include: expect.objectContaining({
+          _count: {
+            select: {
+              Comment: { where: { deletedAt: null } },
+              movieScores: { where: { deletedAt: null } },
+            },
+          },
+        }),
         skip: 48,
         take: 48,
         orderBy: [{ openDt: 'desc' }, { audience: 'desc' }],
@@ -43,7 +51,14 @@ describe('MovieCatalogService', () => {
       pageSize: 48,
       total: 25,
       hasNext: false,
-      movies: [{ movieCd: 20256308, title: '인턴' }],
+      movies: [
+        {
+          movieCd: 20256308,
+          title: '인턴',
+          scoreCount: 1,
+          averageScore: 5,
+        },
+      ],
     });
   });
 });
