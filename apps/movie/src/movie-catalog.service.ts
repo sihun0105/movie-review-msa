@@ -5,7 +5,12 @@ import { convertMovieDataWithCounts } from './movie.formatter';
 const CATALOG_INCLUDE = {
   MovieVod: true,
   movieScores: { where: { deletedAt: null } },
-  _count: { select: { Comment: { where: { deletedAt: null } } } },
+  _count: {
+    select: {
+      Comment: { where: { deletedAt: null } },
+      movieScores: { where: { deletedAt: null } },
+    },
+  },
 } as const;
 
 interface CatalogQuery {
