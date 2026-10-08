@@ -42,6 +42,10 @@ export interface MovieCatalogRequest {
   pageSize: number;
 }
 
+export interface TopRatedMoviesRequest {
+  limit: number;
+}
+
 export interface MovieCatalogResponse {
   movies: MovieData[];
   page: number;
@@ -69,7 +73,8 @@ export interface MovieData {
   vods: MovieVod[];
   commentCount: number;
   scoreCount: number;
-  averageScore: number; // 추가된 필드
+  /** 추가된 필드 */
+  averageScore: number;
   isRanked: boolean;
   actors: MovieActorData[];
 }
@@ -125,7 +130,11 @@ export interface MovieServiceClient {
     request: DirectorFilmographyRequest,
   ): Observable<MovieDatas>;
 
-  getMovieCatalog(request: MovieCatalogRequest): Observable<MovieCatalogResponse>;
+  getMovieCatalog(
+    request: MovieCatalogRequest,
+  ): Observable<MovieCatalogResponse>;
+
+  getTopRatedMovies(request: TopRatedMoviesRequest): Observable<MovieDatas>;
 
   getMovieSitemapEntries(request: Empty): Observable<MovieSitemapEntries>;
 
@@ -164,6 +173,10 @@ export interface MovieServiceController {
     | Observable<MovieCatalogResponse>
     | MovieCatalogResponse;
 
+  getTopRatedMovies(
+    request: TopRatedMoviesRequest,
+  ): Promise<MovieDatas> | Observable<MovieDatas> | MovieDatas;
+
   getMovieSitemapEntries(
     request: Empty,
   ):
@@ -196,6 +209,7 @@ export function MovieServiceControllerMethods() {
       'getMovieDetailData',
       'getMoviesByDirector',
       'getMovieCatalog',
+      'getTopRatedMovies',
       'getMovieSitemapEntries',
       'upsertMovieScore',
       'getMovieScore',

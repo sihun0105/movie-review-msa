@@ -48,6 +48,9 @@ export class MovieService implements OnModuleInit {
       pageSize,
     });
   }
+  async getTopRatedMovies(limit: number) {
+    return await this.movieService.getTopRatedMovies({ limit });
+  }
   async getMoviesByDirector({
     name,
     excludeMovieCd,
