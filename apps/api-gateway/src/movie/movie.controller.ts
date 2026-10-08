@@ -88,6 +88,21 @@ export class MovieController {
       });
     }
   }
+  @Get('/top-rated')
+  async getTopRatedMovies(@Query('limit') limit = '12') {
+    try {
+      const parsedLimit = Number(limit);
+      const movies = await this.movieService.getTopRatedMovies(
+        Number.isFinite(parsedLimit) ? parsedLimit : 12,
+      );
+      return await firstValueFrom(movies);
+    } catch (error) {
+      throw new RpcException({
+        code: error.code,
+        message: error.details,
+      });
+    }
+  }
   @Get(':movieCd')
   async getMovieDetail(@Param('movieCd') movieCd: string) {
     try {

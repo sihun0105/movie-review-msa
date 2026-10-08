@@ -13,6 +13,7 @@ import {
   DirectorFilmographyRequest,
   MovieCatalogRequest,
   MovieCatalogResponse,
+  TopRatedMoviesRequest,
 } from '@app/common/protobuf';
 import { Controller } from '@nestjs/common';
 import { MovieService } from './movie.service';
@@ -49,6 +50,11 @@ export class MovieController implements MovieServiceController {
     request: MovieCatalogRequest,
   ): Promise<MovieCatalogResponse> {
     return await this.movieService.getMovieCatalog(request);
+  }
+  async getTopRatedMovies(request: TopRatedMoviesRequest): Promise<MovieDatas> {
+    return {
+      MovieData: await this.movieService.getTopRatedMovies(request.limit),
+    };
   }
   async upsertMovieScore(
     request: UpsertMovieScoreRequest,
