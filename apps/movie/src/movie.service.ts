@@ -41,6 +41,9 @@ export class MovieService {
   }) {
     return this.catalogService.getCatalog(req);
   }
+  getTopRatedMovies(limit: number) {
+    return this.catalogService.getTopRated(limit);
+  }
   getMoviesByDirector(req: {
     name: string;
     excludeMovieCd: number;

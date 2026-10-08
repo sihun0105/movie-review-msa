@@ -13,6 +13,7 @@ service MovieService {
   rpc GetMovieDetailData(RecommendMovieRequest) returns (MovieData) {}
   rpc GetMoviesByDirector(DirectorFilmographyRequest) returns (MovieDatas) {}
   rpc GetMovieCatalog(MovieCatalogRequest) returns (MovieCatalogResponse) {}
+  rpc GetTopRatedMovies(TopRatedMoviesRequest) returns (MovieDatas) {}
   rpc GetMovieSitemapEntries(common.Empty) returns (MovieSitemapEntries) {}
   rpc UpsertMovieScore(UpsertMovieScoreRequest) returns (MovieScore) {}
   rpc GetMovieScore(GetMovieScoreRequest) returns (MovieScore) {}
@@ -50,6 +51,9 @@ message MovieCatalogRequest {
   string genre = 2;
   int32 page = 3;
   int32 pageSize = 4;
+}
+message TopRatedMoviesRequest {
+  int32 limit = 1;
 }
 message MovieCatalogResponse {
   repeated MovieData movies = 1;
