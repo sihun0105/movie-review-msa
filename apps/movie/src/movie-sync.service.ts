@@ -9,6 +9,8 @@ import {
 import moment from 'moment';
 import { convertKobisMovieData } from './movie.formatter';
 import { MovieMetadataClient } from './movie-metadata.client';
+import { MovieMetadataResolverService } from './movie-metadata-resolver.service';
+import { MoviePosterBackfillService } from './movie-poster-backfill.service';
 import { MoviePosterStorageService } from './movie-poster-storage.service';
 
 @Injectable()
@@ -19,10 +21,12 @@ export class MovieSyncService implements OnModuleInit {
   constructor(
     private readonly prisma: MySQLPrismaService,
     private readonly posterStorage: MoviePosterStorageService,
+    private readonly metadataResolver: MovieMetadataResolverService,
+    private readonly posterBackfill: MoviePosterBackfillService,
   ) {}
 
   onModuleInit() {
-    this.fetchMovies();
+    void this.fetchMovies();
   }
   async fetchMovies(): Promise<void> {
     const formattedDate = moment().format('YYYY-MM-DD');
@@ -38,20 +42,34 @@ export class MovieSyncService implements OnModuleInit {
       );
       if (movieList) {
         const converted = movieList.map((item) => convertKobisMovieData(item));
-        if (await this.isMovieListFresh(converted, dateObject)) return;
-        await this.updateMovies(converted);
+        if (!(await this.isMovieListFresh(converted, dateObject))) {
+          await this.updateMovies(converted);
+        }
       } else {
         this.logger.warn('No daily box office list found in the response.');
       }
     } catch (error) {
       this.logger.error('Failed to fetch movies', error?.stack ?? error);
+    } finally {
+      try {
+        await this.posterBackfill.run();
+      } catch (error) {
+        this.logger.error(
+          'Failed to backfill movie posters',
+          error?.stack ?? error,
+        );
+      }
     }
   }
   private async updateMovies(movieList: KobisMovie[]): Promise<void> {
     const upserts = movieList.map(async (movieData) => {
       try {
         const { plot, poster, director, genre, rating, fetchedData } =
-          await this.fetchExternalMetadata(movieData);
+          await this.metadataResolver.resolve({
+            movieCd: movieData.movieCd,
+            title: movieData.movieNm,
+            releaseYear: Number(movieData.openDt?.slice(0, 4)),
+          });
         const storedPoster = await this.posterStorage.mirrorPoster(
           poster,
           +movieData.movieCd,
@@ -123,57 +141,6 @@ export class MovieSyncService implements OnModuleInit {
         this.posterStorage.isReadyPoster(movie.poster),
     );
   }
-  private async fetchExternalMetadata(movieData: KobisMovie) {
-    let plot = '';
-    let poster = '';
-    let director = '';
-    let genre = '';
-    let rating = '';
-    let fetchedData: any = null;
-
-    try {
-      const releaseYear = Number(movieData.openDt?.slice(0, 4));
-      fetchedData = await this.metadataClient.fetchKmdbData(
-        movieData.movieNm,
-        releaseYear,
-      );
-      if (fetchedData) {
-        plot = fetchedData.plots?.plot?.[0]?.plotText ?? '';
-        poster = fetchedData.posters ?? '';
-        director = fetchedData.directors?.director?.[0]?.directorNm ?? '';
-        genre = fetchedData.genre ?? '';
-        rating = fetchedData.rating ?? '';
-      }
-
-      const koficMetadata = await this.metadataClient.fetchKoficMetadata(
-        movieData.movieCd,
-      );
-      if (koficMetadata.director) director = koficMetadata.director;
-      if (koficMetadata.genre) genre = koficMetadata.genre;
-      if (koficMetadata.rating) rating = koficMetadata.rating;
-
-      const tmdbData = await this.metadataClient.fetchTmdbData(
-        movieData.movieNm,
-        releaseYear,
-      );
-      if (tmdbData?.poster_path) {
-        poster = `https://image.tmdb.org/t/p/w500${tmdbData.poster_path}`;
-      } else if (!poster && fetchedData) {
-        poster = fetchedData.posters?.split('|')?.[0] ?? '';
-      }
-      if (tmdbData?.overview) plot = tmdbData.overview;
-      if (!director && tmdbData?.id) {
-        director = await this.metadataClient.fetchTmdbDirector(tmdbData.id);
-      }
-    } catch (error) {
-      this.logger.warn(
-        `fetchExternalMetadata failed for ${movieData.movieNm}: ${error}`,
-      );
-    }
-
-    return { plot, poster, director, genre, rating, fetchedData };
-  }
-
   private async upsertVods(movieCd: number, fetchedData: any) {
     if (!fetchedData?.vods?.vod?.length) return;
     for (const vod of fetchedData.vods.vod) {

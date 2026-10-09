@@ -11,6 +11,8 @@ import { MovieSitemapService } from './movie-sitemap.service';
 import { MovieCastService } from './movie-cast.service';
 import { MovieActorStorageService } from './movie-actor-storage.service';
 import { MovieCatalogService } from './movie-catalog.service';
+import { MovieMetadataResolverService } from './movie-metadata-resolver.service';
+import { MoviePosterBackfillService } from './movie-poster-backfill.service';
 import { PrismaModule } from '@app/prisma';
 import { UtilsModule } from '@app/utils';
 
@@ -29,6 +31,8 @@ import { UtilsModule } from '@app/utils';
     MovieCastService,
     MovieActorStorageService,
     MovieCatalogService,
+    MovieMetadataResolverService,
+    MoviePosterBackfillService,
   ],
 })
 export class MovieModule {}

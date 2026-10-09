@@ -151,6 +151,7 @@ export interface KobisMovieDetailResponse {
     movieInfo: {
       movieCd: string;
       movieNm: string;
+      movieNmEn?: string;
       directors: {
         peopleNm: string;
       }[];

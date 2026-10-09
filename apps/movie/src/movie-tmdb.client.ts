@@ -2,6 +2,7 @@ import { Logger } from '@nestjs/common';
 import axios from 'axios';
 import {
   getOriginalReleaseTitle,
+  getSeriesBaseTitle,
   isSameMovieTitle,
 } from './movie-title-matcher';
 
@@ -16,7 +17,11 @@ export class MovieTmdbClient {
   private readonly logger = new Logger(MovieTmdbClient.name);
   private readonly accessToken = process.env.TMDB_API_ACCESS_TOKEN;
 
-  async fetchData(title: string, releaseYear?: number) {
+  async fetchData(
+    title: string,
+    releaseYear?: number,
+    alternateTitle?: string,
+  ) {
     try {
       const yearQuery = releaseYear
         ? `&primary_release_year=${releaseYear}`
@@ -29,17 +34,45 @@ export class MovieTmdbClient {
       if (yearMatch) return yearMatch;
 
       const originalTitle = getOriginalReleaseTitle(title);
-      if (!originalTitle) return null;
-      const originals = await this.search(originalTitle);
-      return (
-        originals.find((movie) =>
+      if (originalTitle) {
+        const originals = await this.search(originalTitle);
+        const original = originals.find((movie) =>
           isSameMovieTitle(movie.title ?? '', originalTitle),
-        ) ?? null
-      );
+        );
+        if (original) return original;
+      }
+
+      return alternateTitle
+        ? await this.fetchAlternateTitle(alternateTitle)
+        : null;
     } catch (error) {
       this.logger.warn(`fetchData failed for "${title}": ${error}`);
       return null;
     }
+  }
+
+  private async fetchAlternateTitle(alternateTitle: string) {
+    const title = getSeriesBaseTitle(alternateTitle);
+    const movies = await this.search(title);
+    const movie = this.findTitleMatch(movies, title, 'title', 'original_title');
+    if (movie) return { ...movie, media_type: 'movie' };
+
+    const shows = await this.search(title, '', 'tv');
+    const show = this.findTitleMatch(shows, title, 'name', 'original_name');
+    return show ? { ...show, media_type: 'tv' } : null;
+  }
+
+  private findTitleMatch(
+    items: any[],
+    title: string,
+    localizedKey: string,
+    originalKey: string,
+  ) {
+    return items.find(
+      (item) =>
+        isSameMovieTitle(item[localizedKey] ?? '', title) ||
+        isSameMovieTitle(item[originalKey] ?? '', title),
+    );
   }
 
   async fetchCast(movieId: number): Promise<TmdbCastMember[]> {
@@ -72,8 +105,12 @@ export class MovieTmdbClient {
     }
   }
 
-  private async search(title: string, query = ''): Promise<any[]> {
-    const url = `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(
+  private async search(
+    title: string,
+    query = '',
+    type: 'movie' | 'tv' = 'movie',
+  ): Promise<any[]> {
+    const url = `https://api.themoviedb.org/3/search/${type}?query=${encodeURIComponent(
       title,
     )}&language=ko-KR${query}`;
     const response = await axios.get(url, { headers: this.headers });
