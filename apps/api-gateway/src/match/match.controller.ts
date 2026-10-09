@@ -88,6 +88,11 @@ export class MatchController {
     });
   }
 
+  @Get(':matchId/participants')
+  async getMatchParticipants(@Param('matchId') matchId: string) {
+    return this.matchService.getMatchParticipants({ matchId });
+  }
+
   @Get(':matchId')
   async getMatchPost(@Param('matchId') matchId: string) {
     return this.matchService.getMatchPost({ matchId });
@@ -154,7 +159,9 @@ export class MatchController {
     @Req() req,
   ) {
     const userNumber = req.user.userId;
-    this.logger.log(`updateApplicationStatus match=${matchId} app=${applicationId} status=${body.status} userId=${userNumber}`);
+    this.logger.log(
+      `updateApplicationStatus match=${matchId} app=${applicationId} status=${body.status} userId=${userNumber}`,
+    );
     return this.matchService.updateApplicationStatus({
       matchId,
       applicationId,

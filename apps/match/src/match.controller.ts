@@ -4,6 +4,7 @@ import {
   GetMatchPostsRequest,
   CreateMatchPostRequest,
   GetMatchPostRequest,
+  GetMatchParticipantsRequest,
   UpdateMatchPostRequest,
   DeleteMatchPostRequest,
   ApplyToMatchRequest,
@@ -14,6 +15,7 @@ import {
   MatchPostResponse,
   SingleMatchPostResponse,
   MatchApplicationsResponse,
+  MatchParticipantsResponse,
   CommonResponse,
   ApplicationResponse,
 } from '@app/common/protobuf';
@@ -42,6 +44,12 @@ export class MatchController implements MatchServiceController {
     request: GetMatchPostRequest,
   ): Promise<SingleMatchPostResponse> {
     return this.matchService.getMatchPost(request);
+  }
+
+  async getMatchParticipants(
+    request: GetMatchParticipantsRequest,
+  ): Promise<MatchParticipantsResponse> {
+    return this.matchService.getMatchParticipants(request);
   }
 
   async updateMatchPost(
