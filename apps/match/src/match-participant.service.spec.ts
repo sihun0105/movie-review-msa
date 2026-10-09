@@ -1,4 +1,3 @@
-import { NotFoundException } from '@nestjs/common';
 import { MatchParticipantService } from './match-participant.service';
 
 describe('MatchParticipantService', () => {
@@ -82,11 +81,11 @@ describe('MatchParticipantService', () => {
     });
   });
 
-  it('rejects a missing match', async () => {
+  it('returns an empty list for a missing match', async () => {
     findFirst.mockResolvedValue(null);
 
-    await expect(service.get({ matchId: 'missing' })).rejects.toBeInstanceOf(
-      NotFoundException,
-    );
+    await expect(service.get({ matchId: 'missing' })).resolves.toEqual({
+      participants: [],
+    });
   });
 });

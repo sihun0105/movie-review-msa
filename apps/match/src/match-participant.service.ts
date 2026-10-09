@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { MySQLPrismaService } from '@app/prisma';
 
 type ParticipantUser = {
@@ -34,7 +34,7 @@ export class MatchParticipantService {
       },
     });
 
-    if (!match) throw new NotFoundException('Match post not found');
+    if (!match) return { participants: [] };
 
     const participants = [];
     if (!match.User.deletedAt) {
