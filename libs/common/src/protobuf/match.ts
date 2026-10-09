@@ -37,6 +37,13 @@ export interface MatchApplication {
   gender: string;
 }
 
+export interface MatchParticipant {
+  nickname: string;
+  image: string;
+  /** host, participant */
+  role: string;
+}
+
 /** Request Messages */
 export interface GetMatchPostsRequest {
   page: number;
@@ -60,6 +67,10 @@ export interface CreateMatchPostRequest {
 }
 
 export interface GetMatchPostRequest {
+  matchId: string;
+}
+
+export interface GetMatchParticipantsRequest {
   matchId: string;
 }
 
@@ -132,6 +143,10 @@ export interface MatchApplicationsResponse {
   applications: MatchApplication[];
 }
 
+export interface MatchParticipantsResponse {
+  participants: MatchParticipant[];
+}
+
 export interface CommonResponse {
   success: boolean;
   message: string;
@@ -164,6 +179,10 @@ export interface MatchServiceClient {
   getMatchPost(
     request: GetMatchPostRequest,
   ): Observable<SingleMatchPostResponse>;
+
+  getMatchParticipants(
+    request: GetMatchParticipantsRequest,
+  ): Observable<MatchParticipantsResponse>;
 
   updateMatchPost(
     request: UpdateMatchPostRequest,
@@ -215,6 +234,13 @@ export interface MatchServiceController {
     | Promise<SingleMatchPostResponse>
     | Observable<SingleMatchPostResponse>
     | SingleMatchPostResponse;
+
+  getMatchParticipants(
+    request: GetMatchParticipantsRequest,
+  ):
+    | Promise<MatchParticipantsResponse>
+    | Observable<MatchParticipantsResponse>
+    | MatchParticipantsResponse;
 
   updateMatchPost(
     request: UpdateMatchPostRequest,
@@ -273,6 +299,7 @@ export function MatchServiceControllerMethods() {
       'getMatchPosts',
       'createMatchPost',
       'getMatchPost',
+      'getMatchParticipants',
       'updateMatchPost',
       'deleteMatchPost',
       'applyToMatch',

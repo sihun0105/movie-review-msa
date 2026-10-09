@@ -13,6 +13,7 @@ import { MatchPostPresenter } from './match-post.presenter';
 import { MatchChatService } from './match-chat.service';
 import { MatchPostMineService } from './match-post-mine.service';
 import { MatchApplicationQueryService } from './match-application-query.service';
+import { MatchParticipantService } from './match-participant.service';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { MatchApplicationQueryService } from './match-application-query.service'
     MatchChatService,
     MatchPostMineService,
     MatchApplicationQueryService,
+    MatchParticipantService,
   ],
 })
 export class MatchModule {}
