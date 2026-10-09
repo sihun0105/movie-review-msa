@@ -68,7 +68,11 @@ export class MovieCatalogService {
         include: CATALOG_INCLUDE,
         skip: (safePage - 1) * safePageSize,
         take: safePageSize,
-        orderBy: [{ openDt: 'desc' }, { audience: 'desc' }],
+        orderBy: [
+          { openDt: 'desc' },
+          { audience: 'desc' },
+          { movieCd: 'desc' },
+        ],
       }),
     ]);
 
