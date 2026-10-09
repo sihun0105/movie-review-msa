@@ -48,7 +48,11 @@ describe('MovieCatalogService', () => {
         }),
         skip: 48,
         take: 48,
-        orderBy: [{ openDt: 'desc' }, { audience: 'desc' }],
+        orderBy: [
+          { openDt: 'desc' },
+          { audience: 'desc' },
+          { movieCd: 'desc' },
+        ],
       }),
     );
     expect(result).toMatchObject({
