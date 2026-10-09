@@ -17,6 +17,7 @@ interface KoficMovieMetadata {
   director: string;
   genre: string;
   rating: string;
+  englishTitle: string;
 }
 export class MovieMetadataClient {
   private readonly logger = new Logger(MovieMetadataClient.name);
@@ -32,6 +33,14 @@ export class MovieMetadataClient {
   private readonly kmdbUrl =
     'http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp';
 
+  constructor() {
+    if (!this.kmdbKey) {
+      this.logger.warn(
+        'KMDB_API_KEY is not configured; KMDB lookup is disabled.',
+      );
+    }
+  }
+
   async fetchKoficBoxOffice(date: string): Promise<KobisMovie[] | null> {
     const url = `${this.koficBoxOfficeUrl}?key=${this.koficKey}&targetDt=${date}`;
     const response = await axios.get<KobisResponse>(url);
@@ -46,10 +55,11 @@ export class MovieMetadataClient {
         director: this.joinNames(movieInfo?.directors, 'peopleNm'),
         genre: this.joinNames(movieInfo?.genres, 'genreNm'),
         rating: this.joinNames(movieInfo?.audits, 'watchGradeNm'),
+        englishTitle: movieInfo?.movieNmEn?.trim() ?? '',
       };
     } catch (error) {
       this.logger.warn(`fetchKoficMetadata failed for "${movieCd}": ${error}`);
-      return { director: '', genre: '', rating: '' };
+      return { director: '', genre: '', rating: '', englishTitle: '' };
     }
   }
   async fetchKoficMoviesByDirector(
@@ -83,32 +93,42 @@ export class MovieMetadataClient {
     title: string,
     releaseYear?: number,
   ): Promise<Partial<KmdbMovie>> {
-    const year = releaseYear || new Date().getFullYear();
-    let url = this.buildKmdbUrl(title, year);
-    let response = await axios.get<KmdbResponse>(url);
+    if (!this.kmdbKey) return null;
+    try {
+      const year = releaseYear || new Date().getFullYear();
+      let url = this.buildKmdbUrl(title, year);
+      let response = await axios.get<KmdbResponse>(url);
 
-    if (!response.data?.Data?.[0]?.Result?.length && !releaseYear) {
-      url = this.buildKmdbUrl(title);
-      response = await axios.get<KmdbResponse>(url);
+      if (!response.data?.Data?.[0]?.Result?.length && !releaseYear) {
+        url = this.buildKmdbUrl(title);
+        response = await axios.get<KmdbResponse>(url);
+      }
+
+      const results = response.data?.Data?.[0]?.Result ?? [];
+      const result = releaseYear
+        ? results.find((movie) => Number(movie.prodYear) === releaseYear)
+        : results[0];
+      if (!result) return null;
+      return {
+        title: result.title,
+        plots: result.plots,
+        posters: this.getHighResKmdbPoster(result.posters),
+        vods: result.vods,
+        directors: result.directors,
+        genre: result.genre,
+        rating: result.rating,
+      };
+    } catch (error) {
+      this.logger.warn(`fetchKmdbData failed for "${title}": ${error}`);
+      return null;
     }
-
-    const results = response.data?.Data?.[0]?.Result ?? [];
-    const result = releaseYear
-      ? results.find((movie) => Number(movie.prodYear) === releaseYear)
-      : results[0];
-    if (!result) return null;
-    return {
-      title: result.title,
-      plots: result.plots,
-      posters: this.getHighResKmdbPoster(result.posters),
-      vods: result.vods,
-      directors: result.directors,
-      genre: result.genre,
-      rating: result.rating,
-    };
   }
-  async fetchTmdbData(title: string, releaseYear?: number) {
-    return this.tmdbClient.fetchData(title, releaseYear);
+  async fetchTmdbData(
+    title: string,
+    releaseYear?: number,
+    alternateTitle?: string,
+  ) {
+    return this.tmdbClient.fetchData(title, releaseYear, alternateTitle);
   }
   async fetchTmdbCast(movieId: number): Promise<TmdbCastMember[]> {
     return this.tmdbClient.fetchCast(movieId);

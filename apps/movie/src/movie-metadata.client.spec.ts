@@ -3,6 +3,7 @@ import { MovieMetadataClient } from './movie-metadata.client';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
+process.env.KMDB_API_KEY = 'test-kmdb-key';
 
 describe('MovieMetadataClient identity matching', () => {
   const client = new MovieMetadataClient();
@@ -41,6 +42,55 @@ describe('MovieMetadataClient identity matching', () => {
     });
 
     await expect(client.fetchTmdbData('인턴', 2026)).resolves.toBeNull();
+  });
+
+  it('uses the KOFIC English title to find a matching TV poster', async () => {
+    mockedAxios.get
+      .mockResolvedValueOnce({ data: { results: [] } })
+      .mockResolvedValueOnce({ data: { results: [] } })
+      .mockResolvedValueOnce({
+        data: {
+          results: [
+            {
+              id: 123,
+              name: '바다 탐험대 옥토넛 A&B',
+              original_name: 'Octonauts: Above & Beyond',
+              poster_path: '/octonauts.jpg',
+            },
+          ],
+        },
+      });
+
+    await expect(
+      client.fetchTmdbData(
+        '바다 탐험대 옥토넛 어보브 앤 비욘드',
+        2026,
+        'Octonauts: Above and Beyond - Season 2',
+      ),
+    ).resolves.toMatchObject({
+      id: 123,
+      media_type: 'tv',
+      poster_path: '/octonauts.jpg',
+    });
+  });
+
+  it('returns the English title from KOFIC metadata', async () => {
+    mockedAxios.get.mockResolvedValue({
+      data: {
+        movieInfoResult: {
+          movieInfo: {
+            movieNmEn: 'Octonauts: Above and Beyond - Season 2',
+            directors: [],
+            genres: [],
+            audits: [],
+          },
+        },
+      },
+    });
+
+    await expect(client.fetchKoficMetadata('20266051')).resolves.toMatchObject({
+      englishTitle: 'Octonauts: Above and Beyond - Season 2',
+    });
   });
 
   it('finds the original release for a marked re-release title', async () => {
