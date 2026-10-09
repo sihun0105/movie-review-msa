@@ -34,6 +34,12 @@ message MatchApplication {
   string gender = 8;
 }
 
+message MatchParticipant {
+  string nickname = 1;
+  string image = 2;
+  string role = 3; // host, participant
+}
+
 // Request Messages
 message GetMatchPostsRequest {
   int32 page = 1;
@@ -57,6 +63,10 @@ message CreateMatchPostRequest {
 }
 
 message GetMatchPostRequest {
+  string matchId = 1;
+}
+
+message GetMatchParticipantsRequest {
   string matchId = 1;
 }
 
@@ -128,6 +138,10 @@ message MatchApplicationsResponse {
   repeated MatchApplication applications = 1;
 }
 
+message MatchParticipantsResponse {
+  repeated MatchParticipant participants = 1;
+}
+
 message CommonResponse {
   bool success = 1;
   string message = 2;
@@ -149,6 +163,7 @@ service MatchService {
   rpc GetMatchPosts(GetMatchPostsRequest) returns (MatchPostResponse);
   rpc CreateMatchPost(CreateMatchPostRequest) returns (SingleMatchPostResponse);
   rpc GetMatchPost(GetMatchPostRequest) returns (SingleMatchPostResponse);
+  rpc GetMatchParticipants(GetMatchParticipantsRequest) returns (MatchParticipantsResponse);
   rpc UpdateMatchPost(UpdateMatchPostRequest) returns (SingleMatchPostResponse);
   rpc DeleteMatchPost(DeleteMatchPostRequest) returns (CommonResponse);
   rpc ApplyToMatch(ApplyToMatchRequest) returns (CommonResponse);

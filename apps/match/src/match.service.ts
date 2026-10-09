@@ -5,6 +5,7 @@ import {
   DeleteMatchPostRequest,
   GetMatchApplicationsRequest,
   GetMatchPostRequest,
+  GetMatchParticipantsRequest,
   GetMatchPostsRequest,
   GetMyApplicationsRequest,
   GetMyPostsRequest,
@@ -13,12 +14,14 @@ import {
 } from '@app/common/protobuf';
 import { MatchPostService } from './match-post.service';
 import { MatchApplicationService } from './match-application.service';
+import { MatchParticipantService } from './match-participant.service';
 
 @Injectable()
 export class MatchService {
   constructor(
     private readonly postService: MatchPostService,
     private readonly applicationService: MatchApplicationService,
+    private readonly participantService: MatchParticipantService,
   ) {}
 
   // Posts
@@ -30,6 +33,9 @@ export class MatchService {
   }
   getMatchPost(req: GetMatchPostRequest) {
     return this.postService.getMatchPost(req);
+  }
+  getMatchParticipants(req: GetMatchParticipantsRequest) {
+    return this.participantService.get(req);
   }
   updateMatchPost(req: UpdateMatchPostRequest) {
     return this.postService.updateMatchPost(req);

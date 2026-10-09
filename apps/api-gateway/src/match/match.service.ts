@@ -5,6 +5,7 @@ import {
   GetMatchPostsRequest,
   CreateMatchPostRequest,
   GetMatchPostRequest,
+  GetMatchParticipantsRequest,
   UpdateMatchPostRequest,
   DeleteMatchPostRequest,
   ApplyToMatchRequest,
@@ -39,6 +40,10 @@ export class MatchService implements OnModuleInit {
 
   async getMatchPost(request: GetMatchPostRequest) {
     return this.matchService.getMatchPost(request);
+  }
+
+  async getMatchParticipants(request: GetMatchParticipantsRequest) {
+    return this.matchService.getMatchParticipants(request);
   }
 
   async updateMatchPost(request: UpdateMatchPostRequest) {
